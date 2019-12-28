@@ -2,6 +2,7 @@ package com.xiaosong.validate;
 
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
+import com.xiaosong.common.compose.Result;
 
 public class LoginValidator extends Validator {
 
@@ -13,7 +14,6 @@ public class LoginValidator extends Validator {
 
     @Override
     protected void handleError(Controller c) {
-        c.keepPara("name");
-//        c.render("login.html");
+        c.renderJson(Result.unDataResult("fail","缺少参数"));
     }
 }
