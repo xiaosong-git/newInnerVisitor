@@ -1,23 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
-	
 	<groupId>com.demo</groupId>
 	<artifactId>jfinal_demo_for_maven</artifactId>
 	<version>4.8</version>
 	<packaging>jar</packaging>
-	
-	
-	<name>jfinal_demo_for_maven</name>
-	
+	<name>innerVisitor</name>
 	<url>http://jfinal.com/user/1</url>
-	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 	</properties>
-	
 	<!-- 使用阿里 maven 库 -->
 	<repositories>
 		<repository>
@@ -33,7 +26,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
 	<!-- 添加快照版本库,updatePolicy: always、daily、interval、never -->
 	<!-- repositories>
 		<repository>
@@ -65,7 +57,11 @@
 			<artifactId>jfinal-undertow</artifactId>
 			<version>2.0</version>
 		</dependency>
-
+		<dependency>
+			<groupId>io.undertow</groupId>
+			<artifactId>undertow-websockets-jsr</artifactId>
+			<version>2.0.28.Final</version>
+		</dependency>
 		<!-- junit 单元测试 -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -115,7 +111,48 @@
 			<artifactId>cos</artifactId>
 			<version>2019.8</version>
 		</dependency>
-	
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.oschina.j2cache</groupId>
+			<artifactId>j2cache-core</artifactId>
+			<version>2.1.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>kryo-shaded</artifactId>
+					<groupId>com.esotericsoftware</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>2.10.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.11</version>
+		</dependency>
 	</dependencies>
 	
 	<build>
