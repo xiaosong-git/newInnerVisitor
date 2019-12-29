@@ -23,12 +23,12 @@ public class GeneratorModel {
 	
 	public static void main(String[] args) {
 		// base model 所使用的包名
-		String baseModelPackageName = "com.demo.model.base";
+		String baseModelPackageName = "com.xiaosong.model.base";
 		// base model 文件保存路径
-		String baseModelOutputDir = PathKit.getWebRootPath() + "/src/main/java/com/demo/model/base";
+		String baseModelOutputDir = PathKit.getWebRootPath() + "/src/main/java/com/xiaosong/model/base";
 		
 		// model 所使用的包名 (MappingKit 默认使用的包名)
-		String modelPackageName = "com.demo.model";
+		String modelPackageName = "com.xiaosong.model";
 		// model 文件保存路径 (MappingKit 与 DataDictionary 文件默认保存路径)
 		String modelOutputDir = baseModelOutputDir + "/..";
 		

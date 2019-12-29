@@ -1,7 +1,9 @@
 package com.xiaosong.common.admin;
 
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.common.compose.ResultData;
 import com.xiaosong.util.RetUtil;
 
 import java.util.List;
@@ -26,6 +28,14 @@ public class DemoController extends Controller{
 	}
 	public void aa(){
 		renderText("test");
+	}
+
+	public void demo1(){
+		renderJson(srv.demo1());
+	}
+	public void demo2(){
+
+		renderJson(RetUtil.ok("user",Db.findFirst(Db.getSqlPara("demo.findUser"))));
 	}
 
 }

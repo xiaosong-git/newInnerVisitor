@@ -78,6 +78,7 @@ public class MainConfig extends JFinalConfig {
 		me.setInjectDependency(true);
 		// 配置对超类中的属性进行注入
 		me.setInjectSuperClass(true);
+
 		//slf4j
 //		me.setToSlf4jLogFactory();
 
@@ -133,8 +134,13 @@ public class MainConfig extends JFinalConfig {
 		me.add(new EhCachePlugin());
 		String cacheType = PropKit.get("cache.type").trim();
 		if("redis".equals(cacheType)){
-			RedisPlugin redisPlugin = new ESRedisPlugin().config();
-			me.add(redisPlugin);
+
+			RedisPlugin redisPlugin = new ESRedisPlugin().config();//默认配置
+			RedisPlugin code = new ESRedisPlugin().config("code",1);//库1 验证码
+			RedisPlugin db2 = new ESRedisPlugin().config("db2",2);//库2 实名认证
+//			RedisPlugin db31 = new ESRedisPlugin().config("db31",31);//库8
+//			RedisPlugin db33 = new ESRedisPlugin().config("db33",33);//库33
+			me.add(redisPlugin).add(code).add(db2);
 		}
 	}
 	

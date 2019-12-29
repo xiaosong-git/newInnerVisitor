@@ -1,5 +1,7 @@
 package com.xiaosong.common.admin;
 
+import com.xiaosong.common.compose.Result;
+import com.xiaosong.common.compose.ResultData;
 import com.xiaosong.model.VDictionaries;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -23,8 +25,11 @@ public class DemoService {
 	//Sqlpara sql = dao.getSqlPara("sys_account.admin-paginate", Model<VDictionaries> s);
 	public List<Record> findDictionaty() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("dictionariesKey", "3");
+		map.put("dictionariesKey", "1");
 		SqlPara para = Db.getSqlPara("demo.find", map);
 		return Db.find(para);
+	}
+	public Result demo1(){
+		return ResultData.dataResult("success","成功",Db.findFirst("select * from v_app_user"));
 	}
 }

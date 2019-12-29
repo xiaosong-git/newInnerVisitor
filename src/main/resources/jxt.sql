@@ -20,3 +20,6 @@
 #namespace("companyUser")
 	#include("sql/companyUser.sql")
 #end
+#namespace("vAppUser")
+	#include("sql/vAppUser.sql")
+#end

@@ -1,15 +1,13 @@
 package com.xiaosong.common.user;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
-import com.xiaosong.common.base.BaseController;
 import com.xiaosong.common.compose.Result;
+import com.xiaosong.model.VAppUser;
 import com.xiaosong.util.ConsantCode;
+import com.xiaosong.validate.login.LoginValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @program: innerVisitor
@@ -20,20 +18,21 @@ import java.util.Map;
 public class UserController  extends Controller {
     public UserService userService = UserService.me;
     Logger logger = LoggerFactory.getLogger(UserController.class);
+    @Before(LoginValidator.class)
     public void login(){
+        VAppUser appUser=getBean(VAppUser.class,"",true);
         try {
             if (get("code")!=null) {
-                renderJson(userService.loginByVerifyCode(get("userId"), get("phone"),get("code")));
-            }
+                renderJson(userService.loginByVerifyCode( appUser,get("code")));
+                return;
+            }else {
 //            renderJson( userService.login(get("userId")));
+                renderJson(Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+            }
         }catch (Exception e){
             e.printStackTrace();
             renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
         }
     }
-    public void aa(){
-        String json = getRawData();
-        System.out.println(json);
-        renderJson(json);
-    }
+
 }

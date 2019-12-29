@@ -1,10 +1,12 @@
 package com.xiaosong.routes;
 
 import com.jfinal.config.Routes;
+import com.sun.tools.javac.jvm.Code;
 import com.xiaosong.common.access.companyUser.CompanyUserController;
 //import com.xiaosong.common.access.inAndOut.InAndOutController;
 import com.xiaosong.common.access.inAndOut.InAndOutController;
 import com.xiaosong.common.admin.DemoController;
+import com.xiaosong.common.code.CodeController;
 import com.xiaosong.common.key.KeyController;
 import com.xiaosong.common.user.UserController;
 
@@ -35,6 +37,7 @@ public class GlobalRoutes extends Routes{
 		this.add("/companyUser", CompanyUserController.class);
 		this.add("/key", KeyController.class);
 		this.add("/user", UserController.class);
+		this.add("/code", CodeController.class);
 	}
 
 }
