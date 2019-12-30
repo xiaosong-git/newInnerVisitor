@@ -20,6 +20,7 @@ public class _MappingKit {
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);
 		arp.addMapping("v_app_menu", "id", VAppMenu.class);
+		arp.addMapping("v_app_notice", "id", VAppNotice.class);
 		arp.addMapping("v_app_user", "id", VAppUser.class);
 		arp.addMapping("v_app_user_account", "id", VAppUserAccount.class);
 		arp.addMapping("v_app_user_message", "id", VAppUserMessage.class);
@@ -36,7 +37,9 @@ public class _MappingKit {
 		arp.addMapping("v_dictionaries", "id", VDictionaries.class);
 		arp.addMapping("v_key", "id", VKey.class);
 		arp.addMapping("v_kq_attendrule", "id", VKqAttendrule.class);
+		arp.addMapping("v_notice", "id", VNotice.class);
 		arp.addMapping("v_params", "id", VParams.class);
+		arp.addMapping("v_user_key", "id", VUserKey.class);
 	}
 }
 

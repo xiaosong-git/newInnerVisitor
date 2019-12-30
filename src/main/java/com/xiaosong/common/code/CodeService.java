@@ -26,19 +26,15 @@ public class CodeService {
         }
         Cache dbCode = Redis.use("code");
         //默认存的是byte
-        Object obj = dbCode.get(phone);
         //从Redis中取出正确验证码
-        if (obj == null) {
-            return false;
-        }
-        String redisCode = (String)obj;
+        String redisCode = dbCode.get(phone);
         //比对
         if (code.equals(redisCode)) {
             Long del = Redis.use("code").del(phone);
             return true;
         }
         //比对错误就删除
-        Long del = Redis.use("code").del(phone);
+//        Long del = Redis.use("code").del(phone);
         return false;
     }
     //发送云片网短信
@@ -47,10 +43,11 @@ public class CodeService {
         String limit = ParamService.me.findValueByName("maxErrorInputSyspwdLimit");
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String state = YunPainSmsUtil.sendSmsCode(code, phone, type, date, limit, visitorResult, visitorBy, visitorDateTime, visitor);
+
         if ("0000".equals(state)) {
             //插入redis缓存别名为“code”库的信息
             String setex = Redis.use("code").setex(phone, 60 * 30, code);//1800s
-            return "ok".equals(setex)?Result.success():Result.fail();
+            return "OK".equals(setex)?Result.success():Result.fail();
         } else {
             return Result.unDataResult("fail", state);
         }

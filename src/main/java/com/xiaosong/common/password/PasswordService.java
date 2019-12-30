@@ -17,7 +17,7 @@ public class PasswordService  {
      * @param pwdType 密码类型
      * @return
      */
-    public boolean isErrInputOutOfLimit(String userId, String pwdType) {
+    public boolean isErrInputOutOfLimit(Long userId, String pwdType) {
         Integer limit = null;
         if(Status.PWD_TYPE_SYS.equals(pwdType)){
             limit = Integer.valueOf(ParamService.me.findValueByName("maxErrorInputSyspwdLimit"));
@@ -33,7 +33,7 @@ public class PasswordService  {
         }
         return false;
     }
-    public Long addErrInputNum(String userId, String pwdType) {
+    public Long addErrInputNum(Long userId, String pwdType) {
         /**
          * 获取限制参数
          */

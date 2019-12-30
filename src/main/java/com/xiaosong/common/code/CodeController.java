@@ -1,5 +1,6 @@
 package com.xiaosong.common.code;
 
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,8 @@ import org.slf4j.LoggerFactory;
  * @create: 2019-12-29 17:00
  **/
 public class CodeController extends Controller {
-    public CodeService codeService = CodeService.me;
+    @Inject
+    CodeService codeService ;
     Logger logger = LoggerFactory.getLogger(CodeController.class);
     //测试接口
     public void index(){

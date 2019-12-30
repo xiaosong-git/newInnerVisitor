@@ -137,7 +137,7 @@ public class MainConfig extends JFinalConfig {
 
 			RedisPlugin redisPlugin = new ESRedisPlugin().config();//默认配置
 			RedisPlugin code = new ESRedisPlugin().config("code",1);//库1 验证码
-			RedisPlugin db2 = new ESRedisPlugin().config("db2",2);//库2 实名认证
+			RedisPlugin db2 = new ESRedisPlugin().config("db2",2);//库2 实名认证 公告
 //			RedisPlugin db31 = new ESRedisPlugin().config("db31",31);//库8
 //			RedisPlugin db33 = new ESRedisPlugin().config("db33",33);//库33
 			me.add(redisPlugin).add(code).add(db2);

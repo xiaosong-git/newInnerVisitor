@@ -1,8 +1,6 @@
 package com.xiaosong.util;
 
 import com.jfinal.plugin.redis.Cache;
-import com.jfinal.plugin.redis.Redis;
-import redis.clients.jedis.Jedis;
 
 /**
  * @program: jfinal_demo_for_maven
@@ -19,7 +17,7 @@ public class RedisUtil {
      */
     public static Long incr(Cache cache,String key,Integer expire) {
         try {
-            return cache.incr(key);
+            return cache.getJedis().incr(key);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

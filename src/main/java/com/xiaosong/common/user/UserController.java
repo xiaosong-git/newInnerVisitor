@@ -1,6 +1,7 @@
 package com.xiaosong.common.user;
 
 import com.jfinal.aop.Before;
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.xiaosong.common.compose.Result;
 import com.xiaosong.model.VAppUser;
@@ -16,7 +17,8 @@ import org.slf4j.LoggerFactory;
  * @create: 2019-12-27 16:32
  **/
 public class UserController  extends Controller {
-    public UserService userService = UserService.me;
+    @Inject
+    UserService userService;
     Logger logger = LoggerFactory.getLogger(UserController.class);
     @Before(LoginValidator.class)
     public void login(){
@@ -26,8 +28,8 @@ public class UserController  extends Controller {
                 renderJson(userService.loginByVerifyCode( appUser,get("code")));
                 return;
             }else {
-//            renderJson( userService.login(get("userId")));
-                renderJson(Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+            renderJson( userService.login(appUser,get("sysPwd"),get("style")));
+
             }
         }catch (Exception e){
             e.printStackTrace();
