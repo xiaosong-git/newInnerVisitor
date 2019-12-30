@@ -23,3 +23,6 @@
 #namespace("vAppUser")
 	#include("sql/vAppUser.sql")
 #end
+#namespace("org")
+	#include("sql/org.sql")
+#end

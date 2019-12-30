@@ -15,5 +15,10 @@ public class TableList {
     public static final String USER_NOTICE = "v_app_notice ";// 用户已推送的最大公告
     public static final String NOTICE = " v_notice ";    // 公告
     public static final String COMPANY = " v_company ";    // 公司
+    public static final String ORG = " v_org ";    // 大楼
+    public static final String APP_MENU = " v_app_menu ";//app菜单
+    public static final String APP_ROLE = " v_app_role ";//app角色
+    public static final String APP_ROLE_MENU= "v_app_role_menu"; //APP角色菜单关系
+
 
 }

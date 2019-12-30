@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 public class UserController  extends Controller {
     @Inject
     UserService userService;
+    @Inject
+    UserAppRoleService userAppRoleService;
     Logger logger = LoggerFactory.getLogger(UserController.class);
     @Before(LoginValidator.class)
     public void login(){
@@ -31,6 +33,16 @@ public class UserController  extends Controller {
             renderJson( userService.login(appUser,get("sysPwd"),get("style")));
 
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+        }
+    }
+    public void getRoleMenu(){
+
+        try {
+                renderJson(userAppRoleService.getRoleMenu(getLong("userId")));
+                return;
         }catch (Exception e){
             e.printStackTrace();
             renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));

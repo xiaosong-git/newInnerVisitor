@@ -3,6 +3,7 @@ package com.xiaosong.common.user;
 import com.alibaba.fastjson.JSON;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 import com.xiaosong.common.compose.Result;
@@ -177,9 +178,13 @@ public class UserUtil {
          user.put("companyName",companyName);
          user.put("applyType",applyType);
 //                //增加获取orgCode 需要改造企业版
-//                String orgCode = BaseUtil.objToStr(orgService.findOrgCodeByUserId(userId),"无");
-//                user.put("orgCode", orgCode);
+                String orgCode =BaseUtil.objToStr(findOrgCodeByUserId(user.getId()),"无");
+                user.put("orgCode", orgCode);
          return ResultData.dataResult(ConsantCode.SUCCESS,"登录成功",result);
-
      }
+    public String findOrgCodeByUserId(Long userId) throws Exception{
+        SqlPara para = Db.getSqlPara("org.findOrgCodeByUserId", userId);//根据手机查找用户
+            Record org = Db.findFirst(para);
+        return BaseUtil.objToStr(org.get("org_code"),"无");
+    }
 }
