@@ -19,6 +19,7 @@ public class TableList {
     public static final String APP_MENU = " v_app_menu ";//app菜单
     public static final String APP_ROLE = " v_app_role ";//app角色
     public static final String APP_ROLE_MENU= "v_app_role_menu"; //APP角色菜单关系
+    public static final String USER_FRIEND= "v_user_friend"; //APP角色菜单关系
 
 
 }

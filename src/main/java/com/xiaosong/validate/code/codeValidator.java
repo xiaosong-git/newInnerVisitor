@@ -1,4 +1,4 @@
-package com.xiaosong.validate.login;
+package com.xiaosong.validate.code;
 
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;

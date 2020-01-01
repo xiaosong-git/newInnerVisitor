@@ -20,6 +20,7 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
+import com.xiaosong.filter.MyDruidFilter;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
@@ -79,7 +80,7 @@ public class MainConfig extends JFinalConfig {
 		// 配置对超类中的属性进行注入
 		me.setInjectSuperClass(true);
 
-		//slf4j
+		//slf4j 目前不知道为什么输出不了，可能是版本冲突
 //		me.setToSlf4jLogFactory();
 
 	}
@@ -90,7 +91,6 @@ public class MainConfig extends JFinalConfig {
 	public void configRoute(Routes me) {
 //		me.add("/", IndexController.class, "/index");	// 第三个参数为该Controller的视图存放路径
 //		me.add("/blog", BlogController.class);			// 第三个参数省略时默认与第一个参数值相同，在此即为 "/blog"
-
 		me.add(new GlobalRoutes());
 	}
 	
@@ -108,10 +108,12 @@ public class MainConfig extends JFinalConfig {
 		System.out.println(PropKit.get("password").trim());
 		// 配置 druid 数据库连接池插件
 		DruidPlugin druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim());
+		//输出日志带参数
+		druidPlugin.addFilter(new MyDruidFilter());
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		arp.setShowSql(true);
-		arp.setShowSql(Constant.DEV_MODE);
+		arp.setShowSql(false);
+//		arp.setShowSql(Constant.DEV_MODE);
 		arp.setDialect(new MysqlDialect());
 		//		arp.setBaseSqlTemplatePath(PathKit.getRootClassPath());//该方法会把资源目录定义到test-class目录下
 		arp.getEngine().setSourceFactory(new ClassPathSourceFactory());
@@ -132,6 +134,7 @@ public class MainConfig extends JFinalConfig {
 		me.add(druidPlugin);
 		me.add(arp);
 		me.add(new EhCachePlugin());
+
 		String cacheType = PropKit.get("cache.type").trim();
 		if("redis".equals(cacheType)){
 

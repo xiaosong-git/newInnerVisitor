@@ -42,6 +42,7 @@ public class _MappingKit {
 		arp.addMapping("v_notice", "id", VNotice.class);
 		arp.addMapping("v_org", "id", VOrg.class);
 		arp.addMapping("v_params", "id", VParams.class);
+		arp.addMapping("v_user_friend", "id", VUserFriend.class);
 		arp.addMapping("v_user_key", "id", VUserKey.class);
 	}
 }

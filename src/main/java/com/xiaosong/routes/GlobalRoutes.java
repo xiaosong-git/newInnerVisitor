@@ -9,6 +9,7 @@ import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.code.CodeController;
 import com.xiaosong.common.key.KeyController;
 import com.xiaosong.common.user.UserController;
+import com.xiaosong.common.user.userApp.UserFriendController;
 
 
 /**
@@ -30,14 +31,15 @@ public class GlobalRoutes extends Routes{
 		 */
 		
 		//this.add(controllerKey, controllerClass);
+		String prefix="/visitor";
 		//该处还可配置route级别的拦截器，对N个含有共同拦截器的控制层实现统一配置，减少代码冗余
-		
-		this.add("/demo", DemoController.class);
-		this.add("/inAndOut", InAndOutController.class);
-		this.add("/companyUser", CompanyUserController.class);
-		this.add("/key", KeyController.class);
-		this.add("/user", UserController.class);
-		this.add("/code", CodeController.class);
+		this.add(prefix+"/demo", DemoController.class);
+		this.add(prefix+"/inAndOut", InAndOutController.class);
+		this.add(prefix+"/companyUser", CompanyUserController.class);
+		this.add(prefix+"/key", KeyController.class);
+		this.add(prefix+"/user", UserController.class);
+		this.add(prefix+"/code", CodeController.class);
+		this.add(prefix+"/userFriend", UserFriendController.class);
 	}
 
 }
