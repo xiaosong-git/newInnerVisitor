@@ -1,6 +1,7 @@
 package com.xiaosong;
 
 import com.alibaba.druid.filter.logging.Log4jFilter;
+import com.jfinal.ext.handler.UrlSkipHandler;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.plugin.redis.RedisPlugin;
 import com.xiaosong.cache.DictionaryCache;
@@ -24,7 +25,7 @@ import com.xiaosong.filter.MyDruidFilter;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
-import com.xiaosong.websocket.WebSocketEndPoint;
+import com.xiaosong.common.websocket.WebSocketEndPoint;
 
 /**
  * 本 demo 仅表达最为粗浅的 jfinal 用法，更为有价值的实用的企业级用法
@@ -80,8 +81,9 @@ public class MainConfig extends JFinalConfig {
 		// 配置对超类中的属性进行注入
 		me.setInjectSuperClass(true);
 
+
 		//slf4j 目前不知道为什么输出不了，可能是版本冲突
-//		me.setToSlf4jLogFactory();
+		me.setToSlf4jLogFactory();
 
 	}
 	
@@ -170,6 +172,7 @@ public class MainConfig extends JFinalConfig {
 	 * 配置处理器
 	 */
 	public void configHandler(Handlers me) {
-		
+		//visitor/chat地址作为websocket的地址，需要配置handler否则需要在地址后.ws 变为 visitor/chat.ws
+		me.add(new UrlSkipHandler("/visitor/chat" , false));
 	}
 }

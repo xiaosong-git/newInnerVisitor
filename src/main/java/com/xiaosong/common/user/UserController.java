@@ -3,6 +3,7 @@ package com.xiaosong.common.user;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
+import com.jfinal.log.Log;
 import com.xiaosong.common.compose.Result;
 import com.xiaosong.model.VAppUser;
 import com.xiaosong.util.ConsantCode;
@@ -17,7 +18,7 @@ import org.apache.log4j.Logger;
  * @create: 2019-12-27 16:32
  **/
 public class UserController  extends Controller {
-    Logger logger = Logger.getLogger(UserController.class);
+    private Log log = Log.getLog(UserController.class);
     @Inject
     UserService userService;
 
@@ -32,7 +33,7 @@ public class UserController  extends Controller {
             renderJson( userService.login(appUser,get("sysPwd"),get("style")));
             }
         }catch (Exception e){
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
             renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
         }
     }

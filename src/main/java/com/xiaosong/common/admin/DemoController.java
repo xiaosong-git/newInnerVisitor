@@ -19,9 +19,7 @@ import java.util.List;
  */
 public class DemoController extends Controller{
 	//slf4j日志未知错误
-    Log log = Log.getLog(DemoController.class);
-//	Logger logger = LoggerFactory.getLogger(DemoController.class);
-    Logger logger = Logger.getLogger(UserController.class);
+   private Log log = Log.getLog(DemoController.class);
 	public DemoService srv = DemoService.me;
 	@Inject
 	TestCache testCache;
@@ -31,11 +29,10 @@ public class DemoController extends Controller{
 	}*/
 	
 	public void index() {
-		List<Record> list = srv.findDictionaty();
+//		List<Record> list = srv.findDictionaty();
         log.info("test/{}","haha");
-        logger.info("test1{}");
-		System.out.println(list.get(0));
-		renderJson(RetUtil.ok("Dictionaty",list));
+//		System.out.println(list.get(0));
+		renderJson(RetUtil.ok("test"));
 	}
 	public void aa(){
 		testCache.incrThenGet();

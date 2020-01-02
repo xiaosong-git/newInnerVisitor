@@ -21,8 +21,8 @@ public class Constant {
 	 * 默认下载临时文件夹 PathKit.getWebRootPath() +"/download/temp";
 	 */
 	public static final String BASE_DOWNLOAD_PATH = PathKit.getWebRootPath() +"/download/temp";
-	
-	
+
+	public static final String DATE_FORMAT_DEFAULT ="yyyy-MM-dd HH:mm:ss";
 
 	/**
 	 * 账号密码管理session 放入缓存session中
@@ -44,6 +44,10 @@ public class Constant {
 	public final static Boolean DEV_MODE = true;
 	//表示 tbl_key中的密钥的正常状态
 	public static  final  String KEY_STATUS_NORMAL = "normal";
-	
+
+
+	public static final int MSG_NOMAL=1;//普通消息
+	public static final int MSG_VISITOR=2;//访客
+	public static final int MSG_REPLY=3;//回应邀请
 
 }

@@ -1,10 +1,8 @@
 package com.xiaosong.common.user.userApp;
 
-import com.alibaba.fastjson.JSONObject;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
-import com.jfinal.plugin.activerecord.SqlPara;
-import com.jfinal.template.stat.ast.Case;
 import com.xiaosong.common.compose.Result;
 import com.xiaosong.common.compose.ResultData;
 import com.xiaosong.constant.TableList;
@@ -14,11 +12,9 @@ import com.xiaosong.model.VOrg;
 import com.xiaosong.model.VUserFriend;
 import com.xiaosong.util.BaseUtil;
 import com.xiaosong.util.ConsantCode;
-import org.apache.log4j.Logger;
+import com.xiaosong.util.phoneUtil;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: visitor
@@ -27,7 +23,7 @@ import java.util.Map;
  * @create: 2019-09-14 10:02
  **/
 public class UserFriendService {
-    org.apache.log4j.Logger logger = Logger.getLogger(UserFriendService.class);
+    private Log log = Log.getLog(UserFriendService.class);
     /**
      * 1、获取登入人公司所在大楼的app角色权限 2、获取个人所在大楼的app角色权限 3、获取个人的app角色权限
      * 4、个人角色权限需要时1、2 两个步骤合集的子集
@@ -68,7 +64,7 @@ public class UserFriendService {
             }
         }
         String order=" order by id";
-        logger.info("访客权限："+columSql+fromSql+suffix+union+order);
+        log.info("访客权限："+columSql+fromSql+suffix+union+order);
         //大楼id sql
         List<Record> records = Db.find(columSql + fromSql + suffix + union);
         return (records.isEmpty())?Result.unDataResult("success","暂无数据"): ResultData.dataResult("success","获取app权限菜单成功",records);
@@ -85,14 +81,8 @@ public class UserFriendService {
      */
     public Result findUserFriend(Long userId)  {
         //添加好友对登入人状态 2为删除
-        String columnSql = "select uf.id ufId,u.id,u.realName,u.phone,u.orgId,u.province,u.city,u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl,uf.remark,c.companyName," +
-                "(select fuf.applyType from " + TableList.USER_FRIEND + " fuf where fuf.userId=uf.friendId and fuf.friendId="+userId+") applyType";
-        String fromSql = " from " + TableList.USER_FRIEND + " uf " +
-                " left join " + TableList.APP_USER + " u on uf.friendId=u.id" +
-                " left join " + TableList.COMPANY + " c on c.id=u.companyId"+
-                " where uf.userId = '"+userId+"' and uf.applyType=1  ";
-        logger.info("查询好友:"+userId);
-        List<Record> records = Db.find(columnSql + fromSql);
+        log.info("查询好友:"+userId);
+        List<Record> records = Db.find(Db.getSql("vAppUser.findUserFriend"),userId);
         return records != null && !records.isEmpty()
                 ? ResultData.dataResult("success","获取通讯录记录成功",records)
                 : Result.unDataResult("success","暂无数据");
@@ -127,22 +117,21 @@ public class UserFriendService {
 //            //对方对我状态
             switch (applyType) {
                 case 1://我对好友状态已经是好友，判断好友对我的状态
-                    logger.info(userId + "已经是好友!" + friendId);
+                    log.info(userId + "已经是好友!" + friendId);
                     if (friend != null) {
                         Integer friendType = friend.getApplyType();
-                        logger.info(friendId + "对于" + userId + "的好友状态" + friendType);
+                        log.info(friendId + "对于" + userId + "的好友状态" + friendType);
 //                    //如果对方在申请我，直接添加好友
                         switch (friendType) {
                             case 0:
-                                if (updateFriendType(friendId, userId, null, 1) > 0) {
-                                    logger.info(userId + "重新添加好友成功!" + friendId);
+                                if ( friend.setApplyType(1).update()) {
+                                    log.info(userId + "重新添加好友成功!" + friendId);
                                     return Result.unDataResult("success", "添加好友成功");
                                 }
                                 break;
                             case 2://对方删除我，我重新申请对方
-                                logger.info("更新好友状态id：" + friendType);
-                                uf.setApplyType(0);
-                                if (uf.update()) {
+                                log.info("更新好友状态id：" + friendType);
+                                if ( uf.setApplyType(0).update()) {
                                     return Result.unDataResult("success", "重新申请好友成功!");
                                 }
                                 break;
@@ -155,27 +144,32 @@ public class UserFriendService {
                 case 2://我对好友状态为已删除，判断好友对我的状态
                     if (friend!=null){
                         Integer friendType = friend.getApplyType();
-                        logger.info(friendId+"对于"+userId+"的好友状态"+friendType);
+                        log.info(friendId+"对于"+userId+"的好友状态"+friendType);
                         //如果对方也在申请我
                         switch (friendType){
                             case 0:
-                                Integer updatemyType = updateFriendType(userId, friendId, remark, 1);
-                                Integer updateFriendType = updateFriendType(friendId, userId, null, 1);
-                                if (updateFriendType>0&&updatemyType>0){
-                                    logger.info(userId+"重新申请好友成功!"+friendId);
+                                if (remark!=null){
+                                    uf.setRemark(remark);
+                                }
+                                //事务
+                                boolean tx = Db.tx(() -> {
+                                    uf.setApplyType(1).update();
+                                    friend.setApplyType(1).update();
+                                    return true;
+                                });
+                                if (tx){
+                                    log.info(userId+"重新申请好友成功!"+friendId);
                                     return Result.unDataResult("success","重新申请好友成功");
                                 }
                                 break;
                             case 1:
-                                uf.setApplyType(1);
-                                if (uf.update()) {
+                                if (  uf.setApplyType(1).update()) {
                                     return Result.unDataResult("success", "重新申请好友成功!");
                                 }
                                 break;
                             case 2:
-                                logger.info("更新好友状态id："+friendType);
-                                uf.setApplyType(0);
-                                if (uf.update()) {
+                                log.info("更新好友状态id："+friendType);
+                                if ( uf.setApplyType(0).update()) {
                                     return Result.unDataResult("success", "重新申请好友成功!");
                                 }
                                 break;
@@ -185,16 +179,15 @@ public class UserFriendService {
                     }
                     break;
                 default://申请中
-                  logger.info(userId+"申请中的好友!"+friendId);
+                  log.info(userId+"申请中的好友!"+friendId);
                   return Result.unDataResult("fail", "申请中的好友!");
             }
         }
-//        //添加至数据库 用户id 好友id 备注 applytype为0 对方同意后改为1
-//        Integer save = addFriend(userId,friendId,remark,"0");
-//        if (save > 0){
-//            //发送websocket给好友
+        //applyType=0 申请中
+        if(userFriend.setApplyType(0).save()){
+            //发送websocket给好友
 //            for (Map.Entry<Object, WebSocketSession> entry: Constant.SESSIONS.entrySet()){
-//                logger.info("当前在线：user: "+entry.getKey()+" value: "+entry.getValue());
+//                log.info("当前在线：user: "+entry.getKey()+" value: "+entry.getValue());
 //            }
 //
 //            if (Constant.SESSIONS.containsKey((long)friendId)){
@@ -212,17 +205,97 @@ public class UserFriendService {
 //            }else {
 //                webSocketService.saveMessage((long)userId,(long)friendId,"申请好友",(long)4);
 //            }
-//            return Result.unDataResult("success","提交好友申请成功");
-
+            return Result.unDataResult("success","提交好友申请成功");
+        }
         return Result.unDataResult("fail","提交好友申请失败");
     }
-    public Integer updateFriendType(Long userId,Long friendId,String remark,Integer applyType) throws Exception {
-        String remarkSql="";
-        if(remark!=null){
-            remarkSql= ", remark ='"+remark+"'";
+
+    /**
+     * 添加好友
+     * @param userFriend
+     * @return result 成功 失败
+     */
+    public Result agreeFriend(VUserFriend userFriend) throws Exception {
+        Long userId = userFriend.getUserId();
+        Long friendId = userFriend.getFriendId();
+        String remark = userFriend.getRemark();
+        //我存在好友
+        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("vAppUser.findFriend"), userId, friendId);
+        //只有通过同意列表显示的按钮才能添加好友，所以好友必定存在我
+        VUserFriend fu = VUserFriend.dao.findFirst(Db.getSql("vAppUser.findFriend"), friendId, userId);
+        //对方没有添加我
+        if (fu==null||fu.getApplyType()==2){
+            return Result.unDataResult("fail","数据错误！请联系管理员");
         }
-        String sql = "update " + TableList.USER_FRIEND +" set applyType = '"+applyType+"'"+remarkSql+" where userId = "+userId +
-                " and friendId ="+friendId ;
-        return Db.update(sql);
+        fu.setApplyType(1);
+        //我存在好友
+        if ( uf!=null) {
+            //已通过验证
+            Integer applyType = uf.getApplyType();
+            if (applyType==1) {
+                return Result.unDataResult("fail", "你们已经是好友啦!");
+            } else { //未通过验证 已删除的好友
+                if(remark!=null){
+                    uf.setRemark(remark);
+                }
+                boolean tx = Db.tx(() -> {
+                    uf.setApplyType(1).update();
+                    fu.update();
+                    return true;
+                });
+                return tx?Result.unDataResult("success","通过好友申请成功"):Result.unDataResult("fail","操作失败");
+            }
+            //如果不存在好友记录
+        }else{
+            boolean tx = Db.tx(() -> {
+                userFriend.setApplyType(1).save();
+                fu.update();
+                return true;
+            });
+            return tx?Result.unDataResult("success","通过好友申请成功"):Result.unDataResult("fail","操作失败");
+        }
+    }
+
+    public Result newFriend(Long userId,String phoneStr){
+        String[] phones = phoneStr.split(",");
+        log.info(userId+"传入手机号为："+phoneStr);
+        StringBuffer newPhones=new StringBuffer();
+        for (String phone:phones){
+            if( phoneUtil.isPhoneLegal(phone)){
+                newPhones.append(phone).append(",");
+            }
+        }
+        if (newPhones.length()==0){
+            return Result.unDataResult("success","暂无数据");
+        }
+        newPhones.deleteCharAt(newPhones.length() - 1);
+        log.info(userId+"最终查询的手机号为："+newPhones);
+
+        String columsql="select * from ";
+        String sql = "(select u.id,u.realName,u.phone,u.orgId,u.province,u.city,u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl,'同意' applyType, null\n" +
+                " remark  from  "+ TableList.USER_FRIEND +" uf  left join "+ TableList.APP_USER +" u on uf.userId=u.id where uf.friendId = '"+userId+"' and uf.applyType=0 \n" +
+                " union " +
+                "select u.id,u.realName,u.phone,u.orgId,u.province,u.city,u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl," +
+                " case (select  applyType from "+ TableList.USER_FRIEND +" uf where uf.friendId=u.id and uf.userId="+userId+" )  when 0 then '申请中' when 1 then '已添加' else '添加' end \n" +
+                "\t applyType," +
+                "(select  remark from "+ TableList.USER_FRIEND +" uf where uf.friendId=u.id and uf.userId="+userId+" ) remark"+
+                " from "+ TableList.APP_USER +"  u where phone in ("+newPhones+") and isAuth='T' " +
+                "ORDER BY FIELD(applyType, '同意', '添加', '申请中','已添加'),convert(realName using gbk))x where id >0 and id <>"+userId;
+        List<Record> records = Db.find(columsql + sql);
+        return records != null && !records.isEmpty()
+                ? ResultData.dataResult("success","查询用户成功",records)
+                : Result.unDataResult("success","暂无数据");
+    }
+    /**
+        删除好友
+     */
+    public Result deleteUserFriend(Long userId,Long friendId) throws Exception {
+        int update = Db.update(Db.getSql("vAppUser.deleteUserFriend"), userId, friendId);
+        if(update > 0){
+            log.info(userId+"删除好友"+friendId+"成功");
+            return  Result.unDataResult("success","删除成功");
+        }else{
+            return Result.unDataResult("fail","删除失败");
+        }
     }
 }
