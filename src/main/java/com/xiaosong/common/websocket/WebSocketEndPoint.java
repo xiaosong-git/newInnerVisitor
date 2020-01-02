@@ -46,7 +46,7 @@ public class WebSocketEndPoint {
                     case Constant.MSG_REPLY:
 //                        visitorRecordService.visitReply(session,msg);
                         log.info("回应");
-                    default:
+                    default://1为聊天 4为好友申请
                         WebSocketService.me.dealChat(session,msg);
                 }
             }
@@ -117,5 +117,8 @@ public class WebSocketEndPoint {
                 log.info("重新登入成功"+userId);
             }
         }
+    }
+    public Session getSession(){
+        return this.session;
     }
 }

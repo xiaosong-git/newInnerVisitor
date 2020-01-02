@@ -37,7 +37,7 @@ public class MyDruidFilter extends FilterAdapter {
                 String lS = lO.toString();
                 lSql = lSql.replaceFirst("\\?",lS);
             }
-            logger.info("Sql = \n" + lSql);
+            logger.info(lSql);
         }
     }
 }
