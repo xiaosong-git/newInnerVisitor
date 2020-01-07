@@ -2,7 +2,7 @@ package com.xiaosong.common.code;
 
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.NumberUtil;

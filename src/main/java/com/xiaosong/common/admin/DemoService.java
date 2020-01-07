@@ -1,7 +1,7 @@
 package com.xiaosong.common.admin;
 
-import com.xiaosong.common.compose.Result;
-import com.xiaosong.common.compose.ResultData;
+import com.xiaosong.compose.Result;
+import com.xiaosong.compose.ResultData;
 import com.xiaosong.model.VDictionaries;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;

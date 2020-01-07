@@ -4,14 +4,11 @@ import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import com.xiaosong.model.VAppUser;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.validate.user.AuthValidator;
 import com.xiaosong.validate.user.PhoneValidator;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 
 /**

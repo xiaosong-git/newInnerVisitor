@@ -3,15 +3,9 @@ package com.xiaosong.common.visitorRecord;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
-import com.xiaosong.util.BaseUtil;
 import com.xiaosong.util.ConsantCode;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @program: xiaosong
@@ -22,7 +16,6 @@ import java.util.Map;
 public class VisitorRecordController extends Controller {
     private Log log = Log.getLog(VisitorRecordController.class);
     //邀约我的
-    @ActionKey("/visitor/visitorRecord/inviteMine")
     public void inviteMine(){
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
@@ -47,7 +40,6 @@ public class VisitorRecordController extends Controller {
         }
     }
     //我的访问
-    @ActionKey("/visitor/visitorRecord/myVisit")
     public void myVisit(){
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
@@ -82,7 +74,7 @@ public class VisitorRecordController extends Controller {
     }
     public void modifyCompanyFromId(){
         try {
-            renderJson(VisitorRecordService.me.modifyCompanyFromId(get("userId"),getLong("userId"),get("companyId"),get("cstatus"),get("answerContent")));
+            renderJson(VisitorRecordService.me.modifyCompanyFromId(get("id"),getLong("userId"),getLong("companyId"),get("cstatus"),get("answerContent")));
         }catch (Exception e){
             log.error("系统异常：",e);
             renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));

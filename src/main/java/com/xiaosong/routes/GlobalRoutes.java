@@ -1,17 +1,14 @@
 package com.xiaosong.routes;
 
 import com.jfinal.config.Routes;
-import com.sun.tools.javac.jvm.Code;
 import com.xiaosong.common.access.companyUser.CompanyUserController;
-//import com.xiaosong.common.access.inAndOut.InAndOutController;
-import com.xiaosong.common.access.inAndOut.InAndOutController;
 import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.code.CodeController;
+import com.xiaosong.common.imgServer.img.ImageController;
 import com.xiaosong.common.key.KeyController;
 import com.xiaosong.common.user.UserController;
 import com.xiaosong.common.user.userApp.UserFriendController;
 import com.xiaosong.common.visitorRecord.VisitorRecordController;
-import com.xiaosong.common.visitorRecord.VisitorRecordService;
 
 
 /**
@@ -33,16 +30,19 @@ public class GlobalRoutes extends Routes{
 		 */
 		
 		//this.add(controllerKey, controllerClass);
+		//api
 		String prefix="/visitor";
+		//图片服务器
+		String imgServer="/goldccm-imgServer/goldccm";
 		//该处还可配置route级别的拦截器，对N个含有共同拦截器的控制层实现统一配置，减少代码冗余
 		this.add(prefix+"/demo", DemoController.class);
-		this.add(prefix+"/inAndOut", InAndOutController.class);
 		this.add(prefix+"/companyUser", CompanyUserController.class);
 		this.add(prefix+"/key", KeyController.class);
 		this.add(prefix+"/user", UserController.class);
 		this.add(prefix+"/code", CodeController.class);
 		this.add(prefix+"/userFriend", UserFriendController.class);
 		this.add(prefix+"/visitorRecord", VisitorRecordController.class);
+		this.add(imgServer+"/image", ImageController.class);
 	}
 
 }

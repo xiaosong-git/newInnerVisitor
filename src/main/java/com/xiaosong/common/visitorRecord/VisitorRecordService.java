@@ -1,6 +1,5 @@
 package com.xiaosong.common.visitorRecord;
 
-import com.alibaba.druid.sql.dialect.db2.visitor.DB2ASTVisitor;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
@@ -8,9 +7,8 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.code.CodeService;
-import com.xiaosong.common.compose.Result;
-import com.xiaosong.common.compose.ResultData;
-import com.xiaosong.common.user.UserService;
+import com.xiaosong.compose.Result;
+import com.xiaosong.compose.ResultData;
 import com.xiaosong.common.websocket.WebSocketEndPoint;
 import com.xiaosong.common.websocket.WebSocketMapUtil;
 import com.xiaosong.constant.Constant;
@@ -25,7 +23,6 @@ import javax.websocket.Session;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -329,14 +326,17 @@ public class VisitorRecordService {
     /**
      *回应访问接口整合,改为先回应，最后再给管理员审核
      */
-    public Result modifyCompanyFromId(String id,Long userId,String companyId,String cstatus,String answerContent) throws Exception {
+    public Result modifyCompanyFromId(String id,Long userId,Long companyId,String cstatus,String answerContent) throws Exception {
         if (id == null ) {
             return Result.unDataResult("fail", "缺少参数!");
         }
         VVisitorRecord visitorRecord = VVisitorRecord.dao.findById(id);
+        if (visitorRecord==null){
+            return Result.unDataResult("fail", "无效记录!");
+        }
         Long visitorId = visitorRecord.getVisitorId();
         if (!visitorId.equals(userId)){
-            return Result.unDataResult("fail", "被访问者错误!");
+            return Result.unDataResult("fail", "被访者错误!");
         }
         Record visitorUser = Db.findById(TableList.APP_USER, userId);
         String visitorBy = visitorUser.get("realName").toString();
@@ -344,9 +344,6 @@ public class VisitorRecordService {
         if (!"applyConfirm".equals(visitorRecord.get("cstatus"))) {
             return Result.unDataResult("fail", "非申请中状态!");
         }
-        Map<String, Object> saveMap=new HashMap<>();
-        saveMap.put("id",id);
-
         int update = 0;
         //访客Id 访问者
         Integer recordUserId = BaseUtil.objToInteger(visitorRecord.get("userId"),0);
@@ -354,100 +351,70 @@ public class VisitorRecordService {
         Record userUser = Db.findById(TableList.APP_USER, recordUserId);
         String visitor = userUser.get("realName").toString();
         String wxOpenId = BaseUtil.objToStr(userUser.get("wx_open_id"), "");
-        saveMap.put("answerContent",answerContent);
         //websocket聊天信息
         JSONObject msg=new JSONObject();
         Map<String, String> wxMap = new HashMap<>();
         String visitorResult="拒绝访问";
-//        if ("applyFail".equals(cstatus)){
-//            log.info("拒绝访问");
-//            saveMap.put("cstatus",cstatus);
-//            saveMap.put("replyDate",DateUtil.getCurDate());
-//            saveMap.put("replyTime",DateUtil.getCurTime());
-//            saveMap.put("replyUserId",userId);
-//            update = Db.update(TableList.VISITOR_RECORD, saveMap);
-//            if (update>0){
-//                //websocket信息
-//                msg.put("orgName","无");
-//                msg.put("companyName","无");
-//                msg.put("addr","无");
-//                msg.put("toUserId",recordUserId);
-//                msg.put("type",Constant.MASSEGETYPE_REPLY);
-//                msg.put("fromUserId",visitorId);
-//                //微信信息
-//                wxMap.put("wxOpenId", wxOpenId);
-//                wxMap.put("visitorBy", visitorBy);
-//                wxMap.put("visitResult", visitorResult);
-//
-//                //消息推送
-//                visitPush(visitorRecord.getColumns(),userUser.getColumns(),visitorUser.getColumns(),saveMap,msg,visitorResult,wxMap);
-//                return Result.unDataResult("success",visitorResult+"成功");
-//            }else {
-//                return Result.unDataResult("fail","拒绝失败，系统错误");
-//            }
-//            //保存公司，并审核，审核失败则推送
-//        }else {
-//            log.info("同意访问");
-//            Record  orgComMap=new Record();
-//            if (companyId!=0) {
-//                  orgComMap = Db.findFirst("select org_code,org_name,accessType,companyName,c.addr,roleType from  " + TableList.ORG + " o " +
-//                        "left join " + TableList.COMPANY + " c on c.orgId=o.id left join " + TableList.DEPT_USER + " cu on cu.companyId=c.id " +
-//                        " where c.id=? and userId=? and cu.currentStatus ='normal'  and cu.status ='applySuc' ",companyId,userId);
-//            }
-//            if (orgComMap==null){
-//                return Result.unDataResult("fail", "用户不存在该公司");
-//            }
-//            String orgCode = BaseUtil.objToStr(orgComMap.get("org_code"), "无");
-//            String orgName = BaseUtil.objToStr(orgComMap.get("org_name"), "无");
-//            String companyName = BaseUtil.objToStr(orgComMap.get("companyName"), "无");
-//            String addr = BaseUtil.objToStr(orgComMap.get("addr"), "无");
-//            String companyFloor = BaseUtil.objToStr(orgComMap.get("companyFloor"), "无");
-//            String roleType = BaseUtil.objToStr(orgComMap.get("roleType"), "无");
-//            String accessType = BaseUtil.objToStr(orgComMap.get("accessType"),"0");
-//            log.info("accessType="+accessType);
-//            saveMap.put("companyId",companyId);
-//            saveMap.put("orgCode",orgCode);
-//            //有管理权限 直接审核成功
-//            if ("manage".equals(roleType)&&"applySuccess".equals(cstatus)){
-//                saveMap.put("replyDate",DateUtil.getCurDate());
-//                saveMap.put("replyTime",DateUtil.getCurTime());
-//                saveMap.put("replyUserId",userId);
-//                saveMap.put("cstatus","applySuccess");
-//                update = update(TableList.VISITOR_RECORD, saveMap);
-//                if (update > 0) {
-//                    visitorResult="接受访问";
-//                    //websocket信息
-//                    msg.put("orgName", orgName);
-//                    msg.put("companyName", companyName);
-//                    msg.put("addr", addr);
-//                    msg.put("toUserId", recordUserId);
-//                    msg.put("type", Constant.MASSEGETYPE_REPLY);
-//                    msg.put("fromUserId", visitorId);
-//                    //微信信息
-//                    wxMap.put("orgName",orgName);
-//                    wxMap.put("companyFloor",companyFloor);
-//                    wxMap.put("companyName",companyName);
-//                    wxMap.put("visitorBy", visitorBy);
-//                    wxMap.put("startDate",startDate);
-//                    wxMap.put("endDate",endDate);
-//                    wxMap.put("accessType",accessType);
-//                    String sid =Base64.encode((String.valueOf(id)).getBytes("UTF-8"));
-//                    wxMap.put("qrcodeUrl",Constant.URL+sid);
-//                    wxMap.put("visitResult",visitorResult);
-//                    wxMap.put("wxOpenId", wxOpenId);
-//                    wxMap.put("visitorBy", visitorBy);
-//                    //推送消息
-//                    visitPush(visitorRecord,userUser,visitorUser,saveMap,msg,visitorResult,wxMap);
-//                    return Result.unDataResult("success",visitorResult+"成功");
-//                }else {
-//                    return Result.unDataResult("fail",visitorResult+"失败");
-//                }
-//            }
-//        }
+        visitorRecord.setAnswerContent(answerContent).setCstatus(cstatus)
+                .setReplyDate(DateUtil.getCurDate()).setReplyTime(DateUtil.getCurTime())
+                .setReplyUserId(userId);
+        //websocket消息
+        msg.put("toUserId", recordUserId);
+        msg.put("type", Constant.MASSEGETYPE_REPLY);
+        msg.put("fromUserId", visitorId);
+        //微信消息
+        wxMap.put("wxOpenId", wxOpenId);
+        wxMap.put("visitorBy", visitorBy);
+        Record  orgComMap=new Record();
+        String orgCode ="无";
+        String companyName="无" ;
+        String addr = "无";
+        String orgName = "无";
+        //保存公司，并审核，审核失败则推送
+        if ("applySuccess".equals(cstatus)){
+            if (companyId!=null) {
+                  orgComMap = Db.findFirst("select org_code,org_name,accessType,companyName,c.addr,roleType from  " + TableList.ORG + " o " +
+                        "left join " + TableList.COMPANY + " c on c.orgId=o.id left join " + TableList.DEPT_USER + " cu on cu.companyId=c.id " +
+                        " where c.id=? and userId=? and cu.currentStatus ='normal'  and cu.status ='applySuc' ",companyId,userId);
+            }
+            if (orgComMap.getColumns().isEmpty()){
+                return Result.unDataResult("fail", "用户不存在该公司");
+            }
+            orgCode = BaseUtil.objToStr(orgComMap.get("org_code"), "无");
+            orgName = BaseUtil.objToStr(orgComMap.get("org_name"), "无");
+            addr = BaseUtil.objToStr(orgComMap.get("addr"), "无");
+            companyName = BaseUtil.objToStr(orgComMap.get("companyName"), "无");
+            String companyFloor = BaseUtil.objToStr(orgComMap.get("companyFloor"), "无");
+            String accessType = BaseUtil.objToStr(orgComMap.get("accessType"),"0");
+            visitorRecord.setCompanyId(companyId).setOrgCode(orgCode);
+            //有管理权限 直接审核成功
+            visitorResult="接受访问";
+            //微信信息
+            wxMap.put("companyFloor",companyFloor);
+            wxMap.put("startDate",visitorRecord.getStartDate());
+            wxMap.put("endDate",visitorRecord.getEndDate());
+            wxMap.put("accessType",accessType);
+            String sid =Base64.encode((id).getBytes("UTF-8"));
+            wxMap.put("qrcodeUrl",MainConfig.p.get("URL")+sid);
+            wxMap.put("visitResult",visitorResult);
+                    //推送消息
+
+        }
+        msg .put("companyName", companyName);
+        msg.put("orgName", orgName);
+        msg.put("addr", addr);
+        wxMap.put("orgName",orgName);
+        wxMap.put("visitResult", visitorResult);
+        wxMap.put("companyName",companyName);
+        if (visitorRecord.update()){
+//            visitPush(visitorRecord,userUser,visitorUser,saveMap,msg,visitorResult,wxMap);
+            return Result.unDataResult("success",visitorResult+"成功");
+        }else {
+            return Result.unDataResult("fail",visitorResult+"失败");
+        }
 //        //同意审核，权限不足，save保存了公司与大楼信息
 //        update = update(TableList.VISITOR_RECORD, saveMap);
 //        if (update > 0) {
-//
 //            //推送管理员,让管理员进行审核，用户名
 //            Result forwarding = forwarding(visitor, visitorBy, String.valueOf(companyId), startDate);
 //            if("fail".equals(forwarding.getVerify().get("sign"))){
@@ -457,7 +424,6 @@ public class VisitorRecordService {
 //        } else {
 //            return Result.unDataResult("fail", "提交公司信息失败");
 //        }
-        return null;
     }
 
     public void visitPush(Map<String, Object> visitorRecord, Map<String, Object> userUser, Map<String, Object> visitorUser, Map<String, Object> saveMap, JSONObject msg, String visitorResult, Map<String, String> wxMap) throws Exception {
@@ -512,7 +478,6 @@ public class VisitorRecordService {
             }
             //其他情况，短信推送
         }else {
-
             CodeService.me.sendMsg(phone, 3, visitorResult, visitorBy, startDate, null);
         }
     }

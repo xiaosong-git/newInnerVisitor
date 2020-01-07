@@ -1,4 +1,4 @@
-package com.xiaosong.common.compose;
+package com.xiaosong.compose;
 
 import com.alibaba.druid.support.json.JSONUtils;
 

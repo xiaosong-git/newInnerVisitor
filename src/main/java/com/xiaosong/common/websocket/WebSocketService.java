@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import com.xiaosong.common.user.UserService;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VAppUser;

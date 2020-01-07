@@ -1,7 +1,7 @@
 package com.xiaosong.common.access.companyUser;
 
-import com.xiaosong.common.compose.Result;
-import com.xiaosong.common.compose.ResultData;
+import com.xiaosong.compose.Result;
+import com.xiaosong.compose.ResultData;
 import com.xiaosong.util.Base64;
 import com.xiaosong.util.BaseUtil;
 import com.xiaosong.util.ConsantCode;

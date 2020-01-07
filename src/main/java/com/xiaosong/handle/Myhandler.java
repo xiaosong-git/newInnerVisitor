@@ -28,6 +28,7 @@ public class Myhandler extends Handler {
                     }
                 }
                 this.next.handle(strs[i], request, response, isHandled);
+                return;
             }
         }
         this.next.handle(target, request, response, isHandled);

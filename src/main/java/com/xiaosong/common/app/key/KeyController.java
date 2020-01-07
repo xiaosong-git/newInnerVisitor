@@ -1,7 +1,7 @@
 package com.xiaosong.common.app.key;
 
 import com.jfinal.core.Controller;
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import com.xiaosong.model.VKey;
 
 import java.util.List;

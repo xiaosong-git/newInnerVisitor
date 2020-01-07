@@ -1,6 +1,6 @@
 package com.xiaosong.common.key;
 
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import com.xiaosong.model.VKey;
 import com.jfinal.core.Controller;
 

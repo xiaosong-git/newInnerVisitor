@@ -2,7 +2,7 @@ package com.xiaosong.common.access.companyUser;
 
 
 import com.xiaosong.common.base.BaseController;
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

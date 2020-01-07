@@ -5,14 +5,13 @@ import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
-import com.xiaosong.common.compose.Result;
+import com.xiaosong.compose.Result;
 import com.xiaosong.model.VUserFriend;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.validate.user.FriendIdValidator;
 import com.xiaosong.validate.user.PhoneValidator;
 import com.xiaosong.validate.user.RealNameValidator;
 import com.xiaosong.validate.user.UserIdValidator;
-import org.apache.log4j.Logger;
 
 /**
  * @program: xiaosong

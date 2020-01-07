@@ -1,14 +1,13 @@
 package com.xiaosong.common.user;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
-import com.xiaosong.common.compose.Result;
-import com.xiaosong.common.compose.ResultData;
+import com.xiaosong.compose.Result;
+import com.xiaosong.compose.ResultData;
 import com.xiaosong.common.notice.NoticeUserService;
 import com.xiaosong.common.password.PasswordService;
 import com.xiaosong.constant.Constant;
@@ -23,7 +22,6 @@ import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Base64;
 
 /**
  * @program: xiaosong

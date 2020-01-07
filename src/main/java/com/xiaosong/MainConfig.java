@@ -61,6 +61,26 @@ public class MainConfig extends JFinalConfig {
 		}else{
 			p = PropKit.use("db_product.properties").append("config_product.properties");
 		}
+		System.out.println("HJ faceEngine start");
+		/**load face windows
+		 */
+//			if (Constant.DEV_MODE) {
+//				System.load(p.get("DB40Dir") + "/FreeImage.dll");
+//				System.load(p.get("DB40Dir") + "/HJFacePos.dll");
+//				System.load(p.get("DB40Dir") + "/HJFaceDetect.dll");
+//				System.load(p.get("DB40Dir") + "/HJFaceIdentify.dll");
+//				System.load(p.get("DB40Dir") + "/HJFaceEngine.dll");
+//				System.load(p.get("DB40Dir") + "/JavaJNI.dll");
+//			} else {
+//				/**load face linux
+//				 */
+//				System.load(p.get("DB40Dir") + "/libJavaJNI.so");
+//				System.load(p.get("DB40Dir") + "/libHJFacePos.so");
+//				System.load(p.get("DB40Dir") + "/libHJFaceDetect.so");
+//				System.load(p.get("DB40Dir") + "/libHJFaceIdentify.so");
+//				System.load(p.get("DB40Dir") + "/libHJFaceEngine.so");
+//			}
+		System.out.println("HJ faceEngine end");
 	}
 	
 	/**
@@ -81,9 +101,7 @@ public class MainConfig extends JFinalConfig {
 		me.setInjectDependency(true);
 		// 配置对超类中的属性进行注入
 		me.setInjectSuperClass(true);
-
-
-		//slf4j 目前不知道为什么输出不了，可能是版本冲突
+		//slf4j
 		me.setToSlf4jLogFactory();
 
 	}
@@ -102,6 +120,7 @@ public class MainConfig extends JFinalConfig {
 		me.addSharedFunction("/common/_paginate.html");
 		me.setDevMode(Constant.DEV_MODE);
 		me.addSharedObject("sk", new com.jfinal.kit.StrKit());
+
 	}
 	
 	/**
@@ -168,6 +187,7 @@ public class MainConfig extends JFinalConfig {
 	public void onStart() {
 		DictionaryCache dic = new DictionaryCache();
 		dic.intoCache();
+
 	}
 
 	/**
