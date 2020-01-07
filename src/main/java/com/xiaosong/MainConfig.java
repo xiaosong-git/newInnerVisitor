@@ -57,9 +57,9 @@ public class MainConfig extends JFinalConfig {
 //			p = PropKit.useFirstFound("db_develop.properties", "demo-config-dev.txt");
 //		}
 		if(Constant.DEV_MODE){
-			p = PropKit.use("db_develop.properties").append("config_develop.properties");
+			p = PropKit.use("db_develop.properties").append("config_develop.properties").append("imgConfig_develop.properties");
 		}else{
-			p = PropKit.use("db_product.properties").append("config_product.properties");
+			p = PropKit.use("db_product.properties").append("config_product.properties").append("imgConfig_product.properties");
 		}
 		System.out.println("HJ faceEngine start");
 		/**load face windows

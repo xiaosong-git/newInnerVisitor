@@ -20,13 +20,13 @@ public class PictureService {
      * @param filepath
 	 * @throws Exception 
      */
-      Prop p = PropKit.use("idNoConfig.properties");
+      Prop p = PropKit.use("imgConfig_develop.properties");
 
     public  String getCardData(String filepath) throws Exception {
         /*   String filepath = "E:\\self.jpg";  */
         String api_key = p.get("api_key");//"aB11SPj0CkserfQApOoA4QaBbGC6dZKk";
     	String api_secret = p.get("api_secret");//"EUavFiqRwGx96c5Dj0uburiNadruzmxU";
-        String urlStr = p.get("url");//"https://api-cn.faceplusplus.com/cardpp/v1/ocridcard";
+        String urlStr = p.get("imgurl");//"https://api-cn.faceplusplus.com/cardpp/v1/ocridcard";
         Map<String, String> textMap = new HashMap<String, String>();  
         textMap.put("name", "testname");  
         textMap.put("api_key", api_key);
