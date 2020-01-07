@@ -9,11 +9,17 @@ import com.jfinal.plugin.activerecord.IBean;
 @SuppressWarnings({"serial", "unchecked"})
 public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> implements IBean {
 
+	/**
+	 * 原company_section表
+	 */
 	public M setId(java.lang.Long id) {
 		set("id", id);
 		return (M)this;
 	}
 	
+	/**
+	 * 原company_section表
+	 */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}

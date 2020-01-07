@@ -79,6 +79,12 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
+		<!-- 实人认证-->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
+		</dependency>
 		<!--桥接器:告诉slf4j使用slf4j-simple-->
 <!--		<dependency>-->
 <!--			<groupId>org.slf4j</groupId>-->
@@ -89,6 +95,12 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
+		</dependency>
+<!--		输出数据库查询语句-->
+		<dependency>
+			<groupId>com.googlecode.log4jdbc</groupId>
+			<artifactId>log4jdbc</artifactId>
+			<version>1.2</version>
 		</dependency>
 		<!-- log4j 日志 -->
 <!--		<dependency>-->

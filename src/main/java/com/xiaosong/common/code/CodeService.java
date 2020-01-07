@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description: 验证码接口
  * @author: cwf
  * @create: 2019-12-29 12:05
@@ -24,13 +24,14 @@ public class CodeService {
         if (Constant.DEV_MODE && "222333".equals(code)) {
             return true;
         }
-        Cache dbCode = Redis.use("code");
+        //1
+        Cache dbCode = Redis.use("db1");
         //默认存的是byte
         //从Redis中取出正确验证码
         String redisCode = dbCode.get(phone);
         //比对
         if (code.equals(redisCode)) {
-            Long del = Redis.use("code").del(phone);
+            Long del = Redis.use("db1").del(phone);
             return true;
         }
         //比对错误就删除
@@ -45,8 +46,8 @@ public class CodeService {
         String state = YunPainSmsUtil.sendSmsCode(code, phone, type, date, limit, visitorResult, visitorBy, visitorDateTime, visitor);
 
         if ("0000".equals(state)) {
-            //插入redis缓存别名为“code”库的信息
-            String setex = Redis.use("code").setex(phone, 60 * 30, code);//1800s
+            //插入redis缓存别名为“db1”库的信息
+            String setex = Redis.use("db1").setex(phone, 60 * 30, code);//1800s
             return "OK".equals(setex)?Result.success():Result.fail();
         } else {
             return Result.unDataResult("fail", state);

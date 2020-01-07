@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.demo</groupId>
-	<artifactId>jfinal_demo_for_maven</artifactId>
+	<artifactId>xiaosong</artifactId>
 	<version>4.8</version>
 	
 	<name>jfinal-demo</name>

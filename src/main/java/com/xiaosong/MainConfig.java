@@ -22,6 +22,7 @@ import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import com.xiaosong.filter.MyDruidFilter;
+import com.xiaosong.handle.Myhandler;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
@@ -35,7 +36,7 @@ import com.xiaosong.common.websocket.WebSocketEndPoint;
  */
 public class MainConfig extends JFinalConfig {
 	
-	static Prop p;
+	public static Prop p;
 	
 	/**
 	 * 启动入口，运行此 main 方法可以启动项目，此 main 方法可以放置在任意的 Class 类定义中，不一定要放于此
@@ -107,11 +108,11 @@ public class MainConfig extends JFinalConfig {
 	 * 配置插件
 	 */
 	public void configPlugin(Plugins me) {
-		System.out.println(PropKit.get("password").trim());
+//		System.out.println(PropKit.get("password").trim());
 		// 配置 druid 数据库连接池插件
-		DruidPlugin druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim());
+		DruidPlugin druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim(),p.get("driverClass"));
 		//输出日志带参数
-		druidPlugin.addFilter(new MyDruidFilter());
+//		druidPlugin.addFilter(new MyDruidFilter());
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
 		arp.setShowSql(false);
@@ -141,11 +142,12 @@ public class MainConfig extends JFinalConfig {
 		if("redis".equals(cacheType)){
 
 			RedisPlugin redisPlugin = new ESRedisPlugin().config();//默认配置
-			RedisPlugin code = new ESRedisPlugin().config("code",1);//库1 验证码
-			RedisPlugin db2 = new ESRedisPlugin().config("db2",2);//库2 实名认证 公告
+			RedisPlugin db1 = new ESRedisPlugin().config(Constant.DB+1,1);//库1 验证码
+			RedisPlugin db2 = new ESRedisPlugin().config(Constant.DB+2,2);//库2 实名认证 公告
+			RedisPlugin db3 = new ESRedisPlugin().config(Constant.DB+3,3);//库2 实名认证 公告
 //			RedisPlugin db31 = new ESRedisPlugin().config("db31",31);//库8
 //			RedisPlugin db33 = new ESRedisPlugin().config("db33",33);//库33
-			me.add(redisPlugin).add(code).add(db2);
+			me.add(redisPlugin).add(db1).add(db2).add(db3);
 		}
 	}
 	
@@ -174,5 +176,6 @@ public class MainConfig extends JFinalConfig {
 	public void configHandler(Handlers me) {
 		//visitor/chat地址作为websocket的地址，需要配置handler否则需要在地址后.ws 变为 visitor/chat.ws
 		me.add(new UrlSkipHandler("/visitor/chat" , false));
+		me.add(new Myhandler());
 	}
 }

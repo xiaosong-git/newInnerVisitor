@@ -7,8 +7,11 @@ import com.jfinal.log.Log;
 import com.xiaosong.common.compose.Result;
 import com.xiaosong.model.VAppUser;
 import com.xiaosong.util.ConsantCode;
+import com.xiaosong.validate.user.AuthValidator;
 import com.xiaosong.validate.user.PhoneValidator;
-import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 
 /**
@@ -32,6 +35,16 @@ public class UserController  extends Controller {
             }else {
             renderJson( userService.login(appUser,get("sysPwd"),get("style")));
             }
+        }catch (Exception e){
+            log.error(e.getMessage());
+            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+        }
+    }
+    @Before(AuthValidator.class)
+    public void verify(){
+        VAppUser appUser=getBean(VAppUser.class,"",true);
+        try {
+                renderJson(userService.verify(appUser,get("userId")));
         }catch (Exception e){
             log.error(e.getMessage());
             renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));

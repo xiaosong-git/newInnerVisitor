@@ -10,7 +10,7 @@ import com.jfinal.plugin.activerecord.IBean;
 public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M> implements IBean {
 
 	/**
-	 * 员工管理表
+	 * 员工管理表--原company_user表
 	 */
 	public M setId(java.lang.Long id) {
 		set("id", id);
@@ -18,7 +18,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * 员工管理表
+	 * 员工管理表--原company_user表
 	 */
 	public java.lang.Long getId() {
 		return getLong("id");

@@ -1,9 +1,12 @@
 package com.xiaosong.util;
 
 import com.jfinal.plugin.redis.Cache;
+import com.jfinal.plugin.redis.Redis;
+import org.apache.commons.lang3.StringUtils;
+import redis.clients.jedis.Jedis;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description: redis
  * @author: cwf
  * @create: 2019-12-29 21:44
@@ -31,7 +34,8 @@ public class RedisUtil {
      * @Author cwf
      * @Date 2019/12/29 14:06
      */
-    public static String setStr(Cache cache,String key, String value,  Integer expire) {
+    public static String setStr(int dbNum,String key, String value,  Integer expire) {
+        Cache cache = Redis.use("db" + dbNum);
         try {
             return cache.set(key, value);
         } catch (Exception e) {
@@ -43,4 +47,23 @@ public class RedisUtil {
             }
         }
     }
+    /**
+     * 根据key获取对应的value
+     *
+     * @Author linyb
+     * @Date 2017/2/23 14:04
+     */
+    public static String getStrVal(String key, Integer dbNum) {
+        if (StringUtils.isBlank(key)) {
+            return null;
+        }
+        Cache cache = Redis.use("db" + dbNum);
+        try {
+            return cache.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

@@ -49,5 +49,9 @@ public class Constant {
 	public static final int MSG_NOMAL=1;//普通消息
 	public static final int MSG_VISITOR=2;//访客
 	public static final int MSG_REPLY=3;//回应邀请
+	public static final String DB="db";//redis库别名
+	public static final Integer VISITOR=1;//访问
+	public static final Integer INVITE=2;//邀约信息
 
+    public static final Integer MASSEGETYPE_REPLY = 3;
 }

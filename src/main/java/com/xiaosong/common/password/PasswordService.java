@@ -65,7 +65,7 @@ public class PasswordService  {
         }else{
             time = Integer.valueOf(ParamService.me.findValueByName("errorInputPaypwdWaitTime"));
         }
-        RedisUtil.setStr( Redis.use(),"ErrInputOutOfLimit_" + pwdType + "_"+userId, "0",  time*60);
+        RedisUtil.setStr( 0,"ErrInputOutOfLimit_" + pwdType + "_"+userId, "0",  time*60);
     }
 
 

@@ -20,7 +20,7 @@ public class ESRedisPlugin{
 	private int maxIdle=PropKit.getInt("redis.maxIdle");//空闲数 单位：秒
 	private int maxWait = PropKit.getInt("redis.maxWaitMillis");//等待时间 单位：秒
 	private int dataBase= PropKit.getInt("redis.database") ;//缓存库编号 单位：秒
-	private String defaultCacheName = "REDIS";//默认缓存库名称
+	private String defaultCacheName = "db0";//默认缓存库名称
 	
 	RedisPlugin redisPlugin;
 	

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description:
  * @author: cwf
  * @create: 2019-12-31 14:11

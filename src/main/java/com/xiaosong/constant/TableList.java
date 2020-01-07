@@ -1,7 +1,7 @@
 package com.xiaosong.constant;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description: 表名称
  * @author: cwf
  * @create: 2019-12-28 11:35
@@ -20,6 +20,8 @@ public class TableList {
     public static final String APP_ROLE = " v_app_role ";//app角色
     public static final String APP_ROLE_MENU= "v_app_role_menu"; //APP角色菜单关系
     public static final String USER_FRIEND= "v_user_friend"; //APP角色菜单关系
+    public static final String DEPT_USER= "v_dept_user"; //原公司员工 现部门员工
 
-
+    public static final String VISITOR_RECORD ="v_visitor_record ";//访问记录
+    public static final String LOCAL_AUTH ="v_local_auth" ;
 }

@@ -10,6 +10,8 @@ import com.xiaosong.common.code.CodeController;
 import com.xiaosong.common.key.KeyController;
 import com.xiaosong.common.user.UserController;
 import com.xiaosong.common.user.userApp.UserFriendController;
+import com.xiaosong.common.visitorRecord.VisitorRecordController;
+import com.xiaosong.common.visitorRecord.VisitorRecordService;
 
 
 /**
@@ -40,6 +42,7 @@ public class GlobalRoutes extends Routes{
 		this.add(prefix+"/user", UserController.class);
 		this.add(prefix+"/code", CodeController.class);
 		this.add(prefix+"/userFriend", UserFriendController.class);
+		this.add(prefix+"/visitorRecord", VisitorRecordController.class);
 	}
 
 }

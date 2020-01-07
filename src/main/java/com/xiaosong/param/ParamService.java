@@ -5,7 +5,7 @@ import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VParams;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description:
  * @author: cwf
  * @create: 2019-12-29 20:20

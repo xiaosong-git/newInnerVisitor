@@ -15,7 +15,7 @@ import com.xiaosong.validate.user.UserIdValidator;
 import org.apache.log4j.Logger;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description:
  * @author: cwf
  * @create: 2019-12-31 11:38

@@ -1,6 +1,7 @@
 package com.xiaosong.common.user;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
@@ -16,17 +17,16 @@ import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VAppUser;
 import com.xiaosong.model.VCompany;
 import com.xiaosong.param.ParamService;
-import com.xiaosong.util.BaseUtil;
-import com.xiaosong.util.ConsantCode;
-import com.xiaosong.util.RedisUtil;
+import com.xiaosong.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Base64;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description: user通用方法放置
  * @author: cwf
  * @create: 2019-12-29 22:28
@@ -40,11 +40,10 @@ public class UserUtil {
         }
         Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
         Integer expire = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisExpire"));//过期时间(分钟)
-        Cache cache = Redis.use("db" + apiAuthCheckRedisDbIndex);
         //token
-        RedisUtil.setStr(cache,userId+"_token", token, expire*60);
+        RedisUtil.setStr(apiAuthCheckRedisDbIndex,userId+"_token", token, expire*60);
         //是否实名
-        RedisUtil.setStr(cache,userId+"_isAuth", isAuth,  expire*60);
+        RedisUtil.setStr(apiAuthCheckRedisDbIndex,userId+"_isAuth", isAuth,  expire*60);
     }
 
     public Result updateDeviceToken(VAppUser user){
@@ -72,14 +71,13 @@ public class UserUtil {
     }
     public String findKeyByStatus(String status) throws  Exception{
         String key = null;
-        //redis修改，原dbNum=8 现在dbNum=32
+        //默认库可以不写
         Cache cache = Redis.use();
         key = cache.get("key_workKey");
         if(key == null){
             key =  findKeyFromDB(status);
             if(key != null){
-                //redis修改，原dbNum=8 现在dbNum=32
-                RedisUtil.setStr(cache,"key_workKey",key, 32);
+                RedisUtil.setStr(0,"key_workKey",key, 32);
             }
         }
         return key;
@@ -145,9 +143,8 @@ public class UserUtil {
                  noticeUser.set("maxNoticeId",maxNoticeId);
                  Db.save(TableList.USER_NOTICE,noticeUser);
                  redisValue = JSON.toJSONString(noticeUser);
-                 Cache cache = Redis.use("db" + authCheckRedisDbIndex);
 //                        //redis修改
-                 RedisUtil.setStr(cache,user.getId()+"_noticeUser",redisValue ,expire*60);
+                 RedisUtil.setStr(authCheckRedisDbIndex,user.getId()+"_noticeUser",redisValue ,expire*60);
              }
          }else{
              //查询是否有最新的公告
@@ -157,9 +154,7 @@ public class UserUtil {
                  noticeUser.set("maxNoticeId", maxNoticeId);
                  Db.save(TableList.USER_NOTICE,noticeUser);
                  redisValue = JSON.toJSONString(noticeUser);
-                 Cache cache = Redis.use("db" + authCheckRedisDbIndex);
-//                        //redis修改
-                 RedisUtil.setStr(cache,user.getId()+"_noticeUser",redisValue ,expire*60);
+                 RedisUtil.setStr(authCheckRedisDbIndex,user.getId()+"_noticeUser",redisValue ,expire*60);
              }
          }
                 Map<String,Object> result = new HashMap<String, Object>();

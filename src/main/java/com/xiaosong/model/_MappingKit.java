@@ -26,24 +26,25 @@ public class _MappingKit {
 		arp.addMapping("v_app_user", "id", VAppUser.class);
 		arp.addMapping("v_app_user_account", "id", VAppUserAccount.class);
 		arp.addMapping("v_app_user_message", "id", VAppUserMessage.class);
-		arp.addMapping("v_app_visitor_record", "id", VAppVisitorRecord.class);
 		arp.addMapping("v_app_yaoyue_record", "id", VAppYaoyueRecord.class);
 		arp.addMapping("v_business", "id", VBusiness.class);
 		arp.addMapping("v_comp_vip_user", "id", VCompVipUser.class);
 		arp.addMapping("v_company", "id", VCompany.class);
+		arp.addMapping("v_d_inout", "id", VDInout.class);
 		arp.addMapping("v_d_user", "id", VDUser.class);
-		arp.addMapping("v_d_visitor_inout", "id", VDVisitorInout.class);
 		arp.addMapping("v_dept", "id", VDept.class);
 		arp.addMapping("v_dept_user", "id", VDeptUser.class);
 		arp.addMapping("v_device", "id", VDevice.class);
 		arp.addMapping("v_dictionaries", "id", VDictionaries.class);
 		arp.addMapping("v_key", "id", VKey.class);
 		arp.addMapping("v_kq_attendrule", "id", VKqAttendrule.class);
+		arp.addMapping("v_local_auth", "id", VLocalAuth.class);
 		arp.addMapping("v_notice", "id", VNotice.class);
 		arp.addMapping("v_org", "id", VOrg.class);
 		arp.addMapping("v_params", "id", VParams.class);
 		arp.addMapping("v_user_friend", "id", VUserFriend.class);
 		arp.addMapping("v_user_key", "id", VUserKey.class);
+		arp.addMapping("v_visitor_record", "id", VVisitorRecord.class);
 	}
 }
 

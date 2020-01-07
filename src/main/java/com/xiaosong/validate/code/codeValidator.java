@@ -5,7 +5,7 @@ import com.jfinal.kit.Ret;
 import com.jfinal.validate.Validator;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description: 判断验证码
  * @author: cwf
  * @create: 2019-12-28 10:48

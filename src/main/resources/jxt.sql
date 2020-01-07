@@ -20,9 +20,12 @@
 #namespace("companyUser")
 	#include("sql/companyUser.sql")
 #end
-#namespace("vAppUser")
-	#include("sql/vAppUser.sql")
+#namespace("appUser")
+	#include("sql/appUser.sql")
 #end
 #namespace("org")
 	#include("sql/org.sql")
+#end
+#namespace("visitRecord")
+	#include("sql/visitRecord.sql")
 #end

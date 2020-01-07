@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.log.Log;
 import com.xiaosong.constant.Constant;
+import com.xiaosong.util.BaseUtil;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -19,7 +20,7 @@ public class WebSocketEndPoint {
     //获取url后面参数
     private String queryString ;
     private Log log = Log.getLog(WebSocketEndPoint.class);
-    protected static final WebSocketEndPoint me = new WebSocketEndPoint();
+    public static final WebSocketEndPoint me = new WebSocketEndPoint();
     //接收消息
     @OnMessage
     public void message(String message, Session session) {
@@ -34,24 +35,32 @@ public class WebSocketEndPoint {
             log.info("处理要发送的消息：{}",message);
             JSONObject msg = JSON.parseObject(message);
             type= msg.getInteger("type");
-            getUserId(queryString);
+            String fromUserId = getUserId(queryString);
+            String toUserId= msg.getString("toUserId");
+            //recordType 1--访问 2--邀约
+            Integer recordType= BaseUtil.objToInteger(msg.get("recordType"),0);
 //            //判断是否为好友，非好友则返回信息
 //            //是好友
             if (WebSocketService.me.isFriend(session, msg)){
                 switch (type){
                     case Constant.MSG_VISITOR:
-//                        visitorRecordService.receiveVisit(session,msg);
-                        log.info("访问");
+//                        if (recordType==1){
+                            log.info("访问");
+                            WebSocketService.me.receiveVisit(session,msg,fromUserId,toUserId,type,recordType);
+//                        }else if (recordType==2){
+//                            log.info("邀约");
+//
+//                        }
                         break;
                     case Constant.MSG_REPLY:
 //                        visitorRecordService.visitReply(session,msg);
                         log.info("回应");
                     default://1为聊天 4为好友申请
-                        WebSocketService.me.dealChat(session,msg);
+                        WebSocketService.me.dealChat(session,msg,fromUserId,toUserId,type);
                 }
             }
         }catch (Exception e){
-            log.error("发送数据报错:{}",e);
+                log.error("发送数据报错:{}",e);
             session.getAsyncRemote().sendText("发送失败");
             return;
         }

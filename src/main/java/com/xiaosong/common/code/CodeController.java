@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description: 验证码
  * @author: cwf
  * @create: 2019-12-29 17:00

@@ -4,7 +4,7 @@ import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 
 /**
- * @program: jfinal_demo_for_maven
+ * @program: xiaosong
  * @description:
  * @author: cwf
  * @create: 2019-12-30 17:06

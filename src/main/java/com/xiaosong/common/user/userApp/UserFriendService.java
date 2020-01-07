@@ -82,17 +82,17 @@ public class UserFriendService {
     public Result findUserFriend(Long userId)  {
         //添加好友对登入人状态 2为删除
         log.info("查询好友:"+userId);
-        List<Record> records = Db.find(Db.getSql("vAppUser.findUserFriend"),userId);
+        List<Record> records = Db.find(Db.getSql("appUser.findUserFriend"),userId);
         return records != null && !records.isEmpty()
                 ? ResultData.dataResult("success","获取通讯录记录成功",records)
                 : Result.unDataResult("success","暂无数据");
     }
     public Result addFriendByPhoneAndUser(String userId,String phone,String realName,String remark) throws Exception {
-        String p = Db.queryStr(Db.getSql("vAppUser.findId"),phone);//查询手机是否存在
+        String p = Db.queryStr(Db.getSql("appUser.findId"),phone);//查询手机是否存在
         if (p==null){
             return Result.unDataResult(ConsantCode.FAIL, "未找到手机号!");
         }
-        String id=Db.queryStr(Db.getSql("vAppUser.findIdName"),phone,realName);//查看手机与真实姓名是否匹配
+        String id=Db.queryStr(Db.getSql("appUser.findIdName"),phone,realName);//查看手机与真实姓名是否匹配
         if(id==null){
             return Result.unDataResult("fail","用户姓名与手机不匹配!");
         }
@@ -109,10 +109,10 @@ public class UserFriendService {
         Long userId = userFriend.getUserId();
         Long friendId = userFriend.getFriendId();
         String remark=userFriend.getRemark();
-        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("vAppUser.findFriend"), userId, friendId);
+        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), userId, friendId);
 //        Map<String,Object> newUserMap=new HashMap<>();
         if (uf!=null) {
-            VUserFriend friend = VUserFriend.dao.findFirst(Db.getSql("vAppUser.findFriend"), friendId, userId);
+            VUserFriend friend = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), friendId, userId);
             Integer applyType = uf.getApplyType();
 //            //对方对我状态
             switch (applyType) {
@@ -220,9 +220,9 @@ public class UserFriendService {
         Long friendId = userFriend.getFriendId();
         String remark = userFriend.getRemark();
         //我存在好友
-        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("vAppUser.findFriend"), userId, friendId);
+        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), userId, friendId);
         //只有通过同意列表显示的按钮才能添加好友，所以好友必定存在我
-        VUserFriend fu = VUserFriend.dao.findFirst(Db.getSql("vAppUser.findFriend"), friendId, userId);
+        VUserFriend fu = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), friendId, userId);
         //对方没有添加我
         if (fu==null||fu.getApplyType()==2){
             return Result.unDataResult("fail","数据错误！请联系管理员");
@@ -290,7 +290,7 @@ public class UserFriendService {
         删除好友
      */
     public Result deleteUserFriend(Long userId,Long friendId) throws Exception {
-        int update = Db.update(Db.getSql("vAppUser.deleteUserFriend"), userId, friendId);
+        int update = Db.update(Db.getSql("appUser.deleteUserFriend"), userId, friendId);
         if(update > 0){
             log.info(userId+"删除好友"+friendId+"成功");
             return  Result.unDataResult("success","删除成功");

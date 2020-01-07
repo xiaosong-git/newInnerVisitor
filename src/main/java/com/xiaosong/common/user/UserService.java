@@ -1,17 +1,28 @@
 package com.xiaosong.common.user;
 
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.xiaosong.common.app.key.userkey.UserKeyService;
 import com.xiaosong.common.code.CodeService;
 import com.xiaosong.common.compose.Result;
+import com.xiaosong.common.compose.ResultData;
 import com.xiaosong.common.password.PasswordService;
 import com.xiaosong.constant.Status;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VAppUser;
 import com.xiaosong.model.VAppUserAccount;
 import com.xiaosong.param.ParamService;
-import com.xiaosong.util.ConsantCode;
-import org.apache.log4j.Logger;
+import com.xiaosong.util.*;
+import org.apache.commons.lang3.StringUtils;
+
+import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: innerVisitor
@@ -21,11 +32,11 @@ import org.apache.log4j.Logger;
  **/
 public class UserService {
     public static final UserService me = new UserService();
-    Logger logger = Logger.getLogger(UserService.class);
+    Log log = Log.getLog(UserService.class);
 
     //密码登入
     public Result login(VAppUser appUser,String sysPwd,String style) throws Exception {
-        SqlPara para = Db.getSqlPara("vAppUser.findByPhone", appUser.getPhone());//根据手机查找用户
+        SqlPara para = Db.getSqlPara("appUser.findByPhone", appUser.getPhone());//根据手机查找用户
         VAppUser user = VAppUser.dao.findFirst(para);
         if(user == null){
             return  Result.unDataResult("fail","用户不存在");
@@ -58,7 +69,7 @@ public class UserService {
     }
     //验证码登入
     public Result loginByVerifyCode(VAppUser appUser, String code) throws Exception {
-        SqlPara para = Db.getSqlPara("vAppUser.findByPhone", appUser.getPhone());//根据手机查找用户
+        SqlPara para = Db.getSqlPara("appUser.findByPhone", appUser.getPhone());//根据手机查找用户
         VAppUser user = VAppUser.dao.findFirst(para);
         if (user==null){
             return Result.unDataResult(ConsantCode.FAIL,"用户不存在");
@@ -83,6 +94,107 @@ public class UserService {
             return  Result.unDataResult(ConsantCode.FAIL, handleCause);
             }
     }
+    //是否实名
+    public boolean isVerify(Object userId) {
+        Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
+        String key = userId + "_isAuth";
+        //redis修改
+        String isAuth = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
+        if(StringUtils.isBlank(isAuth)){
+            //缓存中不存在，从数据库查询
+             isAuth = Db.queryStr("select isAuth from " + TableList.APP_USER + " where id=?", userId);
+            if (isAuth == null) return false;
+            //redis修改
+            RedisUtil.setStr(apiAuthCheckRedisDbIndex,key, isAuth, null);
+        }
+        return "T".equalsIgnoreCase(isAuth);
+    }
 
+    public Result verify(VAppUser appUser, String userId) {
+        try {
+            if (isVerify(userId)) {
+                log.info("已经实名认证过");
+                return Result.unDataResult("fail", "已经实名认证过");
+            }
+            String idNO = appUser.getIdNO();
+            String realName = URLDecoder.decode(appUser.getRealName(), "UTF-8");
+            String workKey = UserKeyService.me.findKeyByStatus("normal");
+            // update by cwf  2019/10/15 10:36 Reason:暂时修改为后端加密
+//            String idNoMW = DESUtil.encode(workKey,idNO);
+            //原先为前端加密后端解密
+            String idNoMW = DESUtil.decode(workKey, idNO);
+            if (idNoMW.equals(idNO)){
+                return Result.unDataResult("fail", "传输过程中身份信息错误");
+            }
+//            String idNoMW = idNO;
+            String idHandleImgUrl = appUser.getIdHandleImgUrl();
 
+            /**
+             * 验证 身份证
+             */
+            // update by cwf  2019/10/15 10:54 Reason:改为加密后进行数据判断 原 idNO 现idNoMw
+            // update by cwf  2019/11/6 13:42 Reason:改为回前端加密 原 idNoMW 现 idNO
+            Object o = Db.queryFirst("select id from " + TableList.APP_USER + " where idNo=?", idNO);
+            if(o!=null){
+                return Result.unDataResult("fail", "该身份证已实名，无法再次进行实名认证！");
+            }
+                //实人认证  update by cwf  2019/11/25 11:30 Reason:先查询本地库是否有实名认证 如果没有 则调用CTID认证  判断实人认证是否过期，过期重新走ctid
+                String sql="select distinct * from "+TableList.LOCAL_AUTH +" where idNo='"+idNO+"' and realName='"+realName+"'";
+                VAppUser user = VAppUser.dao.findById(userId);
+                Calendar curr = Calendar.getInstance();
+                Calendar start = Calendar.getInstance();
+                //判断时间是否需要重新实名
+                if (user.getValidityDate() != null && !"".equals(user.getValidityDate())
+                        && !StringUtils.isBlank(user.getValidityDate())) {
+                    String validityDate = user.getValidityDate();
+                    start.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(validityDate));
+                }
+                Record localAuth = Db.findFirst(sql);
+                if (localAuth!=null&&!curr.after(start)){//可以改为连接外部api进行本地实人认证
+                    idHandleImgUrl=BaseUtil.objToStr(localAuth.get("idHandleImgUrl"),idHandleImgUrl);
+                    log.info("本地实人认证成功上一张成功图片为：{}",idHandleImgUrl);
+                } else {
+                    String photoResult = AuthUtil.me.auth(idNoMW, realName, idHandleImgUrl);
+                    if (!"success".equals(photoResult)){
+                        return Result.unDataResult("fail", photoResult);
+                    }
+                }
+            String address = appUser.getAddr();
+            //非空判断
+            idHandleImgUrl = URLDecoder.decode(idHandleImgUrl, "UTF-8");
+            //暂时注释
+//            String idType = URLDecoder.decode(BaseUtil.objToStr(paramMap.get("idType"), null), "UTF-8");
+
+            Date date = new Date();
+            String authDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+            String authTime = new SimpleDateFormat("HH:mm:ss").format(date);
+
+            String verifyTermOfValidity =ParamService.me.findValueByName("verifyTermOfValidity");
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.YEAR, Integer.parseInt(verifyTermOfValidity));
+            String validityDate = new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+            user.setAuthDate(authDate).setAuthTime(authTime).setIdHandleImgUrl(idHandleImgUrl)
+                    .setRealName(realName).setIsAuth("T").setIdType("01").setIdNO(idNO).setValidityDate(validityDate);
+            user.setAddr(address);
+            if(user.update()){
+                Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
+                String key = userId + "_isAuth";
+                //redis修改
+                RedisUtil.setStr(apiAuthCheckRedisDbIndex,key, "T", null);
+                Map<String, Object> resultMap = new HashMap<String, Object>();
+                resultMap.put("isAuth", "T");
+                //本地实人记录
+                int authSave = Db.update("insert into " + TableList.LOCAL_AUTH + "(userId,idNO,realName,idHandleImgUrl,authDate) " +
+                        "values('" + userId + "','" + idNO + "','" + realName + "','" + idHandleImgUrl + "',SYSDATE())");
+                log.info("插入本地实人："+authSave);
+                resultMap.put("isSetTransPwd", BaseUtil.objToStr(user.get("isSetTransPwd"),"F"));
+                resultMap.put("validityDate",validityDate);
+                return ResultData.dataResult("success", "实名认证成功", resultMap);
+            }
+            return Result.unDataResult("fail", "实名认证失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.unDataResult("fail", "异常，请稍后再试");
+        }
+    }
 }
