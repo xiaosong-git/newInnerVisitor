@@ -24,12 +24,12 @@ public class ImageService {
         int count=0;
         for (UploadFile myfile:myfiles){
             if (myfile.getFile()==null) {
-					System.out.println("文件未上传");
+					log.info("文件未上传");
 				} else {
-				System.out.println("文件长度: " + myfile.getFile().length());
-				System.out.println("文件类型: " + myfile.getContentType());
-				System.out.println("文件名称: " + myfile.getFileName());
-				System.out.println("文件原名: " + myfile.getOriginalFileName());
+				log.info("文件长度: " + myfile.getFile().length());
+				log.info("文件类型: " + myfile.getContentType());
+				log.info("文件名称: " + myfile.getFileName());
+				log.info("文件原名: " + myfile.getOriginalFileName());
 				String originalFilename = myfile.getOriginalFileName();
 				if (!originalFilename
 						.matches(".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$")) {
@@ -56,7 +56,33 @@ public class ImageService {
 
     }
 
-	public Result uploadSing(UploadFile imgSing, String userId) {
+	public Result uploadSing(UploadFile myfile, String userId) {
+		if (myfile.getFile()==null) {
+			log.info("{}文件未上传",userId);
+		} else {
+			log.info("文件长度: " + myfile.getFile().length());
+			log.info("文件类型: " + myfile.getContentType());
+			log.info("文件名称: " + myfile.getFileName());
+			log.info("文件原名: " + myfile.getOriginalFileName());
+			String originalFilename = myfile.getOriginalFileName();
+			if (!originalFilename
+					.matches(".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$")) {
+				myfile.getFile().delete();
+			}else {
+				File file = myfile.getFile();
+				try {
+					FileUtils.moveFile(file,new File(MainConfig.p.get("imageSaveDir") + File.separator + userId + File.separator + originalFilename));
+				} catch (IOException e) {
+					log.error("移动文件{}失败",myfile.getFileName(),e);
+					return Result.unDataResult("fail","提交失败");
+				}
+
+			}
+		}
     	return Result.unDataResult("success","提交成功");
+	}
+
+	public Result gainBankIcon(UploadFile myfile, String userId) {
+		return null;
 	}
 }
