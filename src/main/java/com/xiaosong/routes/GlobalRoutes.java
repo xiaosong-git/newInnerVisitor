@@ -3,7 +3,9 @@ package com.xiaosong.routes;
 import com.jfinal.config.Routes;
 import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
+import com.xiaosong.common.api.appversion.AppVersionController;
 import com.xiaosong.common.api.code.CodeController;
+import com.xiaosong.common.api.param.ParamController;
 import com.xiaosong.common.imgServer.img.ImageController;
 import com.xiaosong.common.key.KeyController;
 import com.xiaosong.common.api.user.UserController;
@@ -42,6 +44,8 @@ public class GlobalRoutes extends Routes{
 		this.add(prefix+"/code", CodeController.class);
 		this.add(prefix+"/userFriend", UserFriendController.class);
 		this.add(prefix+"/visitorRecord", VisitorRecordController.class);
+		this.add(prefix+"/p", ParamController.class);
+		this.add(prefix+"/appVersion", AppVersionController.class);
 		this.add(imgServer+"/image", ImageController.class);
 	}
 

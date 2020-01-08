@@ -24,4 +24,5 @@ public class TableList {
 
     public static final String VISITOR_RECORD ="v_visitor_record ";//访问记录
     public static final String LOCAL_AUTH ="v_local_auth" ;
+    public static final String APP_VERSION ="v_app_version" ;
 }

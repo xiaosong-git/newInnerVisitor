@@ -1,12 +1,17 @@
 package com.xiaosong.common.imgServer.img;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hj.biz.bean.RetMsg;
+import com.hj.jni.itf.FaceModuleUtil;
 import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
+import com.xiaosong.util.BaseUtil;
+import com.xiaosong.util.FilesUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,6 +89,7 @@ public class ImageService {
 			if (!originalFilename
 					.matches(".+(.JPEG|.jpeg|.JPG|.jpg|.GIF|.gif|.BMP|.bmp|.PNG|.png)$")) {
 				myfile.getFile().delete();
+				return Result.unDataResult("fail","提交失败,请确认提交图片格式");
 			}else {
 				File file = myfile.getFile();
 				String newFileName = System.currentTimeMillis() + "";
@@ -102,16 +108,43 @@ public class ImageService {
 		}
 
 	}
-
-	public Result gainDate(UploadFile file, String userId, String type, String ad) {
-		String path = "user" + File.separator + userId;
-		File files = null;
+	public Result gainDate(UploadFile file, String userId, String type, String ad) throws Exception {
+    	String path ="user" + File.separator + userId;
 		String realFileName = "";
-		ResultData upload = (ResultData)upload(file, userId, path);
-		if ("success".equals(upload.getVerify().get("sign"))){
-			Object data = upload.getData();
-
+		if(!StringUtils.isBlank(ad)){
+			path = "ad";
 		}
-		return Result.unDataResult("success","成功");
+		//真实地址
+		String realPath=MainConfig.p.get("imageSaveDir")+path;
+		//存在数据库中的地址
+		ResultData uploadResult = (ResultData)upload(file, userId, realPath);
+		if ("success".equals(uploadResult.getVerify().get("sign"))){
+			Object data = uploadResult.getData();
+			Map map = JSONObject.parseObject(JSONObject.toJSONString(data), Map.class);
+			//新文件名称
+			realFileName = BaseUtil.objToStr(map.get("imageFileName"),"无");
+		}
+		//新图片地址
+		String realFilePath=path + File.separator + realFileName;
+		if("3".equals(type)){
+			System.out.println("进入人脸图片........");
+			//获取文件路径
+			log.info("文件路径:"+MainConfig.p.get("imageSaveDir")+realFileName);
+			// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
+			String pic64_1 = FilesUtils.ImageToBase64ByLocal(MainConfig.p.get("imageSaveDir")+realFileName);
+//					logger.debug("pic64_1:\n" + pic64_1);
+			//创建人脸模型
+			RetMsg retMsg = FaceModuleUtil.buildFaceModel(pic64_1,1);
+//					logger.info("result_code:" + retMsg.getResult_code());
+			//调用人像识别，判断是否符合
+			if( retMsg.getResult_code()>0&&retMsg.getResult_code()!=500){
+				return uploadResult;
+				//失败移除文件
+			}else {
+				log.info("识别失败人像："+realFilePath);
+				return Result.unDataResult("fail","人脸识别失败，请重新提交人脸图片");
+			}
+		}
+		return uploadResult;
 	}
 }
