@@ -1,4 +1,4 @@
-package com.xiaosong.common.code;
+package com.xiaosong.common.api.code;
 
 import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;

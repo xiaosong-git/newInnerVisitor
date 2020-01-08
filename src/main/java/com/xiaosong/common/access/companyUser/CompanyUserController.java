@@ -1,11 +1,8 @@
 package com.xiaosong.common.access.companyUser;
-
-
-import com.xiaosong.common.base.BaseController;
+import com.jfinal.core.Controller;
 import com.xiaosong.compose.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -14,39 +11,40 @@ import java.util.Map;
 * @version 创建时间：2019年12月4日 上午11:16:32
 * 类说明
 */
-public class CompanyUserController extends BaseController {
+public class CompanyUserController extends Controller {
 	Logger log = LoggerFactory.getLogger(CompanyUserController.class);
 	
 	public CompanyUserService companyUserService = CompanyUserService.me;
 	
 	  /**
 	   * 确定数据
-	 * @param request
+	 * @param
 	 * @return
 	 */
-	public Result findApplySucOrg(HttpServletRequest request){
+	public void findApplySucOrg(){
 		  try {
-	            Map<String,Object> paramMap = getParamsToMap(request);
-	            return companyUserService.findApplySucByOrg(paramMap);
+			  renderText("test");
+//	            return companyUserService.findApplySucByOrg();
 	        }catch (Exception e){
 	            e.printStackTrace();
-	            return Result.unDataResult("fail", "系统异常");
+	            renderJson( Result.unDataResult("fail", "系统异常"));
 	        }
 		  
 	  }
 	
 	 /**
      * 确认大楼全部记录
-     * @param request
+     * @param
      * @return
      */
-    public Result findApplyAllSucOrg(HttpServletRequest request){
+    public void findApplyAllSucOrg(){
         try {
-            Map<String,Object> paramMap = getParamsToMap(request);
-            return companyUserService.findApplyAllSucByOrg(paramMap);
+        	renderText("test");
+//            renderJson(companyUserService.findApplyAllSucByOrg());
         }catch (Exception e){
             e.printStackTrace();
-            return Result.unDataResult("fail", "系统异常");
+			renderJson(Result.unDataResult("fail", "系统异常"));
         }
-    }
+	}
 }
+

@@ -1,4 +1,4 @@
-package com.xiaosong.common.password;
+package com.xiaosong.common.api.password;
 
 
 import com.jfinal.plugin.redis.Redis;
@@ -24,11 +24,11 @@ public class PasswordService  {
         }else{
             limit = Integer.valueOf(ParamService.me.findValueByName("maxErrorInputPaypwdLimit"));
         }
-        String num = Redis.use().getJedis().get("ErrInputOutOfLimit_" + pwdType + "_" + userId);
+        Long num = Redis.use().getCounter("ErrInputOutOfLimit_" + pwdType + "_" + userId);
         if(num == null){
             return false;
         }
-        if(Long.valueOf(num) >= limit){
+        if(num >= limit){
             return true;
         }
         return false;

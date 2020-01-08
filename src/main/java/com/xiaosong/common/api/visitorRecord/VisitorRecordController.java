@@ -1,4 +1,4 @@
-package com.xiaosong.common.visitorRecord;
+package com.xiaosong.common.api.visitorRecord;
 
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;

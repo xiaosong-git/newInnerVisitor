@@ -1,5 +1,6 @@
-package com.xiaosong.common.user;
+package com.xiaosong.common.api.user;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
@@ -21,7 +22,6 @@ public class UserController  extends Controller {
     private Log log = Log.getLog(UserController.class);
     @Inject
     UserService userService;
-
     @Before(PhoneValidator.class)
     public void login(){
         VAppUser appUser=getBean(VAppUser.class,"",true);
@@ -30,7 +30,7 @@ public class UserController  extends Controller {
                 renderJson(userService.loginByVerifyCode( appUser,get("code")));
                 return;
             }else {
-            renderJson( userService.login(appUser,get("sysPwd"),get("style")));
+            renderText(JSON.toJSONString(userService.login(appUser,get("sysPwd"),getInt("style"))) );
             }
         }catch (Exception e){
             log.error(e.getMessage());

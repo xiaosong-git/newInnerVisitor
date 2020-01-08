@@ -1,14 +1,14 @@
-package com.xiaosong.common.user;
+package com.xiaosong.common.api.user;
 
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.xiaosong.common.app.key.userkey.UserKeyService;
-import com.xiaosong.common.code.CodeService;
+import com.xiaosong.common.api.userkey.UserKeyService;
+import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
-import com.xiaosong.common.password.PasswordService;
+import com.xiaosong.common.api.password.PasswordService;
 import com.xiaosong.constant.Status;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VAppUser;
@@ -35,24 +35,25 @@ public class UserService {
     Log log = Log.getLog(UserService.class);
 
     //密码登入
-    public Result login(VAppUser appUser,String sysPwd,String style) throws Exception {
+    public Result login(VAppUser appUser,String sysPwd,Integer style) throws Exception {
         SqlPara para = Db.getSqlPara("appUser.findByPhone", appUser.getPhone());//根据手机查找用户
         VAppUser user = VAppUser.dao.findFirst(para);
         if(user == null){
             return  Result.unDataResult("fail","用户不存在");
         }
+        //jfinalredis问题暂时关闭
         //判断密码输入次数是否超出限制，超出无法登录
-        if(PasswordService.me.isErrInputOutOfLimit(user.getId(),Status.PWD_TYPE_SYS)){
-            String limitTime = ParamService.me.findValueByName("errorInputSyspwdWaitTime");
-            CodeService.me.sendMsg(user.getLoginName(), 2,null,null,null,null);
-            return  Result.unDataResult("fail","由于您多次输入错误密码，为保证您的账户与资金安全，"+limitTime+"分钟内无法登录");
-        }
+//        if(PasswordService.me.isErrInputOutOfLimit(user.getId(),Status.PWD_TYPE_SYS)){
+//            String limitTime = ParamService.me.findValueByName("errorInputSyspwdWaitTime");
+//            CodeService.me.sendMsg(user.getLoginName(), 2,null,null,null,null);
+//            return  Result.unDataResult("fail","由于您多次输入错误密码，为保证您的账户与资金安全，"+limitTime+"分钟内无法登录");
+//        }
         VAppUserAccount userAccount = VAppUserAccount.dao.findFirst("select * from " + TableList.USER_ACCOUNT + " where userId=?", user.getId());
         if(userAccount == null){
             return  Result.unDataResult(ConsantCode.FAIL,"未查询到相关账户信息");
         }
         //style为空默认选择：密码登录
-        String dbPassword = style==null?userAccount.getSysPwd():userAccount.getGesturePwd();
+        String dbPassword = style==null||style==1?userAccount.getSysPwd():userAccount.getGesturePwd();
         if(sysPwd.equals(dbPassword)) {
            //重置允许用户输入错误密码次数
             PasswordService.me.resetPwdInputNum(user.getId(), Status.PWD_TYPE_SYS);
@@ -63,8 +64,9 @@ public class UserService {
                 return  Result.unDataResult("fail",handleCause);
             }
         }else {
-            Long leftInputNum =PasswordService.me.addErrInputNum(user.getId(),Status.PWD_TYPE_SYS);
-            return  Result.unDataResult("fail","密码错误:剩余" + leftInputNum + "次输入机会");
+//            Long leftInputNum =PasswordService.me.addErrInputNum(user.getId(),Status.PWD_TYPE_SYS);
+//            return  Result.unDataResult("fail","密码错误:剩余" + leftInputNum + "次输入机会");
+            return  Result.unDataResult("fail","密码错误");
         }
     }
     //验证码登入

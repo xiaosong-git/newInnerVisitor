@@ -21,12 +21,11 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
-import com.xiaosong.filter.MyDruidFilter;
 import com.xiaosong.handle.Myhandler;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
-import com.xiaosong.common.websocket.WebSocketEndPoint;
+import com.xiaosong.common.api.websocket.WebSocketEndPoint;
 
 /**
  * 本 demo 仅表达最为粗浅的 jfinal 用法，更为有价值的实用的企业级用法

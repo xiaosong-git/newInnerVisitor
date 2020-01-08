@@ -1,4 +1,4 @@
-package com.xiaosong.common.user;
+package com.xiaosong.common.api.user;
 
 import com.alibaba.fastjson.JSON;
 import com.jfinal.plugin.activerecord.Db;
@@ -8,8 +8,8 @@ import com.jfinal.plugin.redis.Cache;
 import com.jfinal.plugin.redis.Redis;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
-import com.xiaosong.common.notice.NoticeUserService;
-import com.xiaosong.common.password.PasswordService;
+import com.xiaosong.common.api.notice.NoticeUserService;
+import com.xiaosong.common.api.password.PasswordService;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.Status;
 import com.xiaosong.constant.TableList;

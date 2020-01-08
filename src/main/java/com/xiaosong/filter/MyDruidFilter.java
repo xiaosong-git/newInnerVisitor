@@ -5,7 +5,7 @@ import com.alibaba.druid.filter.FilterChain;
 import com.alibaba.druid.proxy.jdbc.JdbcParameter;
 import com.alibaba.druid.proxy.jdbc.StatementProxy;
 import com.jfinal.kit.StrKit;
-import com.xiaosong.common.user.UserController;
+import com.xiaosong.common.api.user.UserController;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;

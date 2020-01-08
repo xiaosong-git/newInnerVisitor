@@ -1,4 +1,4 @@
-package com.xiaosong.common.notice;
+package com.xiaosong.common.api.notice;
 
 import com.alibaba.fastjson.JSON;
 import com.jfinal.plugin.activerecord.Db;

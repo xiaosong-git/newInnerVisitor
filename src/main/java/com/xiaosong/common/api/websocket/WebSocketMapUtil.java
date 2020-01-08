@@ -1,4 +1,4 @@
-package com.xiaosong.common.websocket;
+package com.xiaosong.common.api.websocket;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;

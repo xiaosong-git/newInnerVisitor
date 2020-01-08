@@ -1,4 +1,4 @@
-package com.xiaosong.common.websocket;
+package com.xiaosong.common.api.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

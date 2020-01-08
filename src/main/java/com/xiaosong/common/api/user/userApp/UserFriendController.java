@@ -1,4 +1,4 @@
-package com.xiaosong.common.user.userApp;
+package com.xiaosong.common.api.user.userApp;
 
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;

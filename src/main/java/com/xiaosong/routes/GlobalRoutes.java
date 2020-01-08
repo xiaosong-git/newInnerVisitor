@@ -3,12 +3,12 @@ package com.xiaosong.routes;
 import com.jfinal.config.Routes;
 import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
-import com.xiaosong.common.code.CodeController;
+import com.xiaosong.common.api.code.CodeController;
 import com.xiaosong.common.imgServer.img.ImageController;
 import com.xiaosong.common.key.KeyController;
-import com.xiaosong.common.user.UserController;
-import com.xiaosong.common.user.userApp.UserFriendController;
-import com.xiaosong.common.visitorRecord.VisitorRecordController;
+import com.xiaosong.common.api.user.UserController;
+import com.xiaosong.common.api.user.userApp.UserFriendController;
+import com.xiaosong.common.api.visitorRecord.VisitorRecordController;
 
 
 /**

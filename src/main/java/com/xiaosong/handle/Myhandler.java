@@ -7,15 +7,21 @@ import com.jfinal.log.Log;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 手动实现@PathVariable功能
+ */
 public class Myhandler extends Handler {
 
     private static final Log log = Log.getLog(ActionHandler.class);
     private static final String[] strs={"/visitor/visitorRecord/inviteMine/",
             "/visitor/visitorRecord/inviteRecord/","/visitor/visitorRecord/myVisit/",
             "/visitor/visitorRecord/visitRecord/"};
+    private static final String param="/param/";
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
+        if (target.contains(param)){
 
+        }
         for(int i=0;i<strs.length;i++) {
             if (target.contains(strs[i])) {//循环查找字符串数组中的每个字符串中是否包含所有查找的内容
                 String substring = target.substring(strs[i].length());

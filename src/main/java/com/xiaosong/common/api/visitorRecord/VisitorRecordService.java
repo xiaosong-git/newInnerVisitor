@@ -1,4 +1,4 @@
-package com.xiaosong.common.visitorRecord;
+package com.xiaosong.common.api.visitorRecord;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.log.Log;
@@ -6,11 +6,11 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.MainConfig;
-import com.xiaosong.common.code.CodeService;
+import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
-import com.xiaosong.common.websocket.WebSocketEndPoint;
-import com.xiaosong.common.websocket.WebSocketMapUtil;
+import com.xiaosong.common.api.websocket.WebSocketEndPoint;
+import com.xiaosong.common.api.websocket.WebSocketMapUtil;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VAppUser;

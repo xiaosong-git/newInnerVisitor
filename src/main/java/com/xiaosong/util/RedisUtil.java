@@ -14,13 +14,13 @@ import redis.clients.jedis.Jedis;
 public class RedisUtil {
     /**
      * 通过key 对value进行加值+1操作,当value不是int类型时会返回错误,当key不存在是则value为1
-     *
+     * jfinal有问题不能使用该方法 会报错
      * @param key
      * @return 加值后的结果
      */
     public static Long incr(Cache cache,String key,Integer expire) {
         try {
-            return cache.getJedis().incr(key);
+            return cache.incr(key);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

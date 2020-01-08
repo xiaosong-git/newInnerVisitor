@@ -1,4 +1,4 @@
-package com.xiaosong.common.user.userApp;
+package com.xiaosong.common.api.user.userApp;
 
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;

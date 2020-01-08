@@ -1,4 +1,4 @@
-package com.xiaosong.common.app.key.userkey;
+package com.xiaosong.common.api.userkey;
 
 
 import com.alibaba.druid.util.StringUtils;

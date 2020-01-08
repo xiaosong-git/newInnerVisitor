@@ -1,4 +1,4 @@
-package com.xiaosong.common.code;
+package com.xiaosong.common.api.code;
 
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;

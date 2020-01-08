@@ -1,4 +1,4 @@
-package com.xiaosong.common.websocket;
+package com.xiaosong.common.api.websocket;
 import javax.servlet.http.HttpSession;
 import javax.websocket.HandshakeResponse;
 import javax.websocket.server.HandshakeRequest;
