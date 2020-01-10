@@ -127,7 +127,6 @@ public class UserUtil {
           */
          Record noticeUser = NoticeUserService.me.findByUserId(user.getId());
          List<Record> notices = null;
-//                Map<String,Object> result = new HashMap<String, Object>();
          Integer authCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
          Integer expire = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisExpire"));//过期时间(分钟)
          String redisValue = null;
@@ -177,6 +176,7 @@ public class UserUtil {
     public String findOrgCodeByUserId(Long userId) throws Exception{
         SqlPara para = Db.getSqlPara("org.findOrgCodeByUserId", userId);//根据手机查找用户
             Record org = Db.findFirst(para);
+
         return BaseUtil.objToStr(org.get("org_code"),"无");
     }
 }

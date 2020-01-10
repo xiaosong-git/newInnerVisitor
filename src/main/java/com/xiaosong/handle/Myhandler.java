@@ -16,8 +16,10 @@ public class Myhandler extends Handler {
     //公众版api分页接口将参数写在uri上
     private static final String[] strs={"/visitor/visitorRecord/inviteMine/",
             "/visitor/visitorRecord/inviteRecord/","/visitor/visitorRecord/myVisit/",
-            "/visitor/visitorRecord/visitRecord/","/visitor/appVersion/updateAndroid/"};
-    private static final String param="/visitor/param/";
+            "/visitor/visitorRecord/visitRecord/","/visitor/appVersion/updateAndroid/",
+            "/visitor/notice/list/","/visitor/notice/allList/","/visitor/visitorRecord/visitMyPeople/",
+            "/visitor/visitorRecord/visitMyCompany/"};
+    private static final String param="/visitor/param/";//参数接口
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
         if (target.contains(param)){

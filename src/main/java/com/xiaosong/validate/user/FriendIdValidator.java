@@ -1,6 +1,7 @@
 package com.xiaosong.validate.user;
 import com.jfinal.core.Controller;
 import com.jfinal.validate.Validator;
+import com.xiaosong.compose.Result;
 
 public class FriendIdValidator extends Validator {
 
@@ -10,6 +11,8 @@ public class FriendIdValidator extends Validator {
     }
     @Override
     protected void handleError(Controller c) {
-        c.renderJson(getRet());
+       Result result=new Result();
+        result.setVerify(getRet());
+        c.renderJson(result);
     }
 }

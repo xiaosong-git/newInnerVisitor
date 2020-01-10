@@ -54,4 +54,5 @@ public class Constant {
 	public static final Integer INVITE=2;//邀约信息
 
     public static final Integer MASSEGETYPE_REPLY = 3;
+    public static final String DB40_PATH="D:/xiaoson/WIN_X64/DB40";
 }

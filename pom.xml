@@ -102,11 +102,6 @@
 			<artifactId>log4jdbc</artifactId>
 			<version>1.2</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>JavaJNICall</groupId>-->
-<!--			<artifactId>JavaJNICall</artifactId>-->
-<!--			<version>1.0</version>-->
-<!--		</dependency>-->
 		<!-- log4j 日志 -->
 <!--		<dependency>-->
 <!--			<groupId>log4j</groupId>-->

@@ -25,4 +25,8 @@ public class TableList {
     public static final String VISITOR_RECORD ="v_visitor_record ";//访问记录
     public static final String LOCAL_AUTH ="v_local_auth" ;
     public static final String APP_VERSION ="v_app_version" ;
+    public static final String POSP = "v_posp";
+    public static final String INOUT = "v_d_inout";
+    public static final String AD_BANNER ="v_ad_banner" ;
+    public static final String DEPT = "v_dept";
 }

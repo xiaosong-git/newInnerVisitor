@@ -23,4 +23,7 @@ public class CodeController extends Controller {
     public  void sendCode(){
         renderJson(codeService.sendMsg(get("phone"),getInt("type"),null,null,null,null));
     }
+
+
+
 }

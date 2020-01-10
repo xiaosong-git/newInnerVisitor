@@ -23,6 +23,7 @@ import javax.websocket.Session;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +41,8 @@ public class VisitorRecordService {
      */
     //id=visitorId 我的邀约 id=userId 邀约我的
     public Result invite(Long userId, Integer pageNum, Integer pageSize, Integer recordType,String id) {
+        pageNum=pageNum==null?1:pageNum;
+        pageSize=pageSize==null?10:pageSize;
         String coloumSql="SELECT vr.id,IF(u.realName IS NULL or u.realName=\"\",remarkName,u.realName) realName,u.phone,u.headImgUrl,\n" +
                 "\tvr.visitDate,vr.visitTime,vr.userId,vr.visitorId,vr.reason,vr.cstatus,vr.dateType\n" +
                 ",vr.startDate,vr.endDate,vr.answerContent,vr.orgCode,vr.companyId,vr.recordType,\n" +
@@ -52,9 +55,13 @@ public class VisitorRecordService {
         String oderBy=" ORDER BY startDate>NOW() desc,  IF(startDate > NOW(), FIELD(cstatus,'Cancle','applyFail',  'applySuccess','applyConfirm'), startDate ) desc,startDate desc,endDate";
         String totalRowSql = "select count(*) " + from;
 //        log.info(coloumSql+fromSql+union );
+        //jfinal中的分页对象
         Page<VVisitorRecord> records = VVisitorRecord.dao.paginateByFullSql(pageNum, pageSize, totalRowSql, coloumSql + from + oderBy);
+        //查看未过期记录的条数
+        String count = Db.queryStr("select count(*) num from " + TableList.VISITOR_RECORD + "  where visitorId = " + userId + " and cstatus='applyConfirm' and endDate>SYSDATE() and recordType=" + recordType + "  ");
+        //转换为api接口对象
         MyPage<VVisitorRecord> myPage= new MyPage(records.getList(),pageNum,pageSize,records.getTotalPage(),records.getTotalRow());
-        return ResultData.dataResult("success","获取成功",myPage);
+        return ResultData.dataResultCount("success","获取成功",myPage,count);
     }
     /**
      *回应邀约/访问
@@ -480,5 +487,42 @@ public class VisitorRecordService {
         }else {
             CodeService.me.sendMsg(phone, 3, visitorResult, visitorBy, startDate, null);
         }
+    }
+    public Result visitMyCompany(String userId,Integer pageNum, Integer pageSize) throws Exception {
+        VAppUser user = VAppUser.dao.findById(userId);
+        if (user.getCompanyId() == null) {
+            return Result.unDataResult("fail", "暂无公司数据!");
+        }
+        if(!"manage".equals(user.get("role"))){
+            return Result.unDataResult("fail", "非管理者无权查看!");
+        }
+        String columnSqlCompany = " select u.* ";
+        String fromSqlCompany = "  from " + TableList.APP_USER + " u " + " left join " + TableList.DEPT_USER
+                + " cu on u.companyId=cu.companyId" + " where u.companyId = '" + user.get("companyId") + "' and u.id!="
+                + userId;
+        List<Record> records = Db.find(columnSqlCompany + fromSqlCompany);
+        String userUrl = "";
+        if (records.size() < 1) {
+            return Result.unDataResult("fail", "暂无同事数据!");
+        }
+        for (int i = 0; i < records.size(); i++) {
+            userUrl = userUrl + records.get(i).get("id") + ",";
+        }
+        userUrl = userUrl.substring(0, userUrl.length() - 1);
+        String columnSql = "select vr.*,u.realName userRealName,v.realName vistorRealName,o.province province,o.city city,o.org_name org_name,c.companyName companyName";
+        String from = " from " + TableList.VISITOR_RECORD + " vr " + " left join " + TableList.APP_USER
+                + " u on vr.userId=u.id" + " left join " + TableList.APP_USER + " v on vr.visitorId=v.id" + " left join "
+                + TableList.COMPANY + " c on vr.companyId=c.id" + " left join " + TableList.ORG + " o on c.orgId=o.id"
+                + " where vr.visitorId in (" + userUrl
+                + ") and vr.cstatus='applyConfirm' and vr.orgCode is not null and vr.companyId  = '" + user.get("companyId") + "' ";
+        String oderBy="order by cstatus,visitDate desc,visitTime desc";
+        String totalRowSql = "select count(*) " + from;
+        Page<Record> paginate = Db.paginateByFullSql(pageNum, pageSize, totalRowSql, columnSql+from+oderBy);
+        //查看未过期记录的条数
+        String count = Db.queryStr("select count(*) num from " + TableList.VISITOR_RECORD + "  where visitorId in(" + userUrl + ") and cstatus='applyConfirm' and endDate>SYSDATE() and orgCode is not null and companyId  = '" + user.get("companyId") + "'");
+        MyPage<VVisitorRecord> myPage= new MyPage(paginate.getList(),pageNum,pageSize,paginate.getTotalPage(),paginate.getTotalRow());
+
+        return paginate.getList().size()>0 ? ResultData.dataResultCount("success", "获取成功", myPage,count)
+                : ResultData.dataResult("success", "暂无同事数据", myPage);
     }
 }

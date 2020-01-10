@@ -1,5 +1,6 @@
 package com.xiaosong.common.api.param;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.xiaosong.compose.Result;
@@ -17,8 +18,8 @@ public class ParamController extends Controller {
     @ActionKey("/visitor/param")
     public void getParamByName(){
         String paramName = getAttrForStr("paramName");
-        renderJson(StringUtils.isNotBlank(paramName)
+        renderText(JSON.toJSONString(StringUtils.isNotBlank(paramName)
                 ? ResultData.dataResult("success","获取成功",paramName)
-                : Result.unDataResult("fail","参数名不存在"));
+                : Result.unDataResult("fail","参数名不存在")));
     }
 }

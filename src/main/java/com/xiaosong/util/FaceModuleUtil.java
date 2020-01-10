@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
-//重载海景科技人脸识别引擎
+
 public class FaceModuleUtil {
     private static HJFaceDrive hjFaceDrive = new HJFaceDrive();
 
