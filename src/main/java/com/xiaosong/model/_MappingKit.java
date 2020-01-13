@@ -21,12 +21,12 @@ public class _MappingKit {
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);
 		arp.addMapping("v_app_menu", "id", VAppMenu.class);
-		arp.addMapping("v_app_notice", "id", VAppNotice.class);
 		arp.addMapping("v_app_role", "id", VAppRole.class);
 		arp.addMapping("v_app_role_menu", "id", VAppRoleMenu.class);
 		arp.addMapping("v_app_user", "id", VAppUser.class);
 		arp.addMapping("v_app_user_account", "id", VAppUserAccount.class);
 		arp.addMapping("v_app_user_message", "id", VAppUserMessage.class);
+		arp.addMapping("v_app_user_notice", "id", VAppUserNotice.class);
 		arp.addMapping("v_app_version", "id", VAppVersion.class);
 		arp.addMapping("v_app_yaoyue_record", "id", VAppYaoyueRecord.class);
 		arp.addMapping("v_business", "id", VBusiness.class);
@@ -42,6 +42,7 @@ public class _MappingKit {
 		arp.addMapping("v_key", "id", VKey.class);
 		arp.addMapping("v_kq_attendrule", "id", VKqAttendrule.class);
 		arp.addMapping("v_local_auth", "id", VLocalAuth.class);
+		arp.addMapping("v_news", "id", VNews.class);
 		arp.addMapping("v_notice", "id", VNotice.class);
 		arp.addMapping("v_org", "id", VOrg.class);
 		arp.addMapping("v_params", "id", VParams.class);

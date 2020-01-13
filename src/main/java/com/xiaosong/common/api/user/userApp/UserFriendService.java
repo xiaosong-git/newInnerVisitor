@@ -3,6 +3,7 @@ package com.xiaosong.common.api.user.userApp;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.TableList;
@@ -15,6 +16,7 @@ import com.xiaosong.util.ConsantCode;
 import com.xiaosong.util.phoneUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: visitor
@@ -22,7 +24,7 @@ import java.util.List;
  * @author: cwf
  * @create: 2019-09-14 10:02
  **/
-public class UserFriendService {
+public class UserFriendService  extends MyBaseService {
     private Log log = Log.getLog(UserFriendService.class);
     /**
      * 1、获取登入人公司所在大楼的app角色权限 2、获取个人所在大楼的app角色权限 3、获取个人的app角色权限
@@ -67,12 +69,14 @@ public class UserFriendService {
         log.info("访客权限："+columSql+fromSql+suffix+union+order);
         //大楼id sql
         List<Record> records = Db.find(columSql + fromSql + suffix + union);
-        return (records.isEmpty())?Result.unDataResult("success","暂无数据"): ResultData.dataResult("success","获取app权限菜单成功",records);
+        //返回转换为公众版apiList的对象
+        return records == null ||records.isEmpty()?Result.unDataResult("success","暂无数据"):
+                ResultData.dataResult("success","获取app权限菜单成功",apiList(records));
     }
     //点击退出app 修改在线状态
     public Result appQuit(Long userId)  {
         VAppUser appUser=new VAppUser();
-            appUser.setId(userId).setIsOnlineApp("F");
+        appUser.setId(userId).setIsOnlineApp("F");
         return  appUser.update()?Result.success():Result.fail();
     }
     /** 
@@ -84,8 +88,8 @@ public class UserFriendService {
         log.info("查询好友:"+userId);
         List<Record> records = Db.find(Db.getSql("appUser.findUserFriend"),userId);
         return records != null && !records.isEmpty()
-                ? ResultData.dataResult("success","获取通讯录记录成功",records)
-                : Result.unDataResult("success","暂无数据");
+                ? ResultData.dataResult("success", "获取通讯录记录成功", apiList(records))
+                : Result.unDataResult("success", "暂无数据");
     }
     public Result addFriendByPhoneAndUser(String userId,String phone,String realName,String remark) throws Exception {
         String p = Db.queryStr(Db.getSql("appUser.findId"),phone);//查询手机是否存在
@@ -283,8 +287,8 @@ public class UserFriendService {
                 "ORDER BY FIELD(applyType, '同意', '添加', '申请中','已添加'),convert(realName using gbk))x where id >0 and id <>"+userId;
         List<Record> records = Db.find(columsql + sql);
         return records != null && !records.isEmpty()
-                ? ResultData.dataResult("success","查询用户成功",records)
-                : Result.unDataResult("success","暂无数据");
+                ? ResultData.dataResult("success", "查询用户成功", apiList(records))
+                : Result.unDataResult("success", "暂无数据");
     }
     /**
         删除好友
@@ -298,4 +302,26 @@ public class UserFriendService {
             return Result.unDataResult("fail","删除失败");
         }
     }
+
+
+    public Result findFriendApplyMe(Long userId) {
+
+            String columnSql = "select * from (select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city" +
+                    ",u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl";
+            String fromSql   = " from " + TableList.USER_FRIEND + " uf " +
+                    " left join " + TableList.APP_USER + " u on uf.friendId=u.id" +
+                    " where uf.userId = '"+userId+"'";
+            String union=" union all \n" +
+                    "select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city," +
+                    "u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl\n" +
+                    "from " + TableList.USER_FRIEND + "   uf \n" +
+                    "left join " + TableList.APP_USER + " u on uf.userid=u.id \n" +
+                    "where uf.friendId = "+userId+")x group by realName,phone,companyId ";
+        List<VAppUser> vAppUsers = VAppUser.dao.find(columnSql + fromSql + union);
+        return vAppUsers != null && !vAppUsers.isEmpty()
+                    ? ResultData.dataResult("success","获取列表成功",vAppUsers)
+                    : Result.unDataResult("success","暂无数据");
+        }
+
 }
+

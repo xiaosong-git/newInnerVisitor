@@ -8,6 +8,7 @@ import com.xiaosong.constant.MyPage;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VAppUser;
 import com.xiaosong.model.VCompany;
+import com.xiaosong.model.VNews;
 import com.xiaosong.model.VNotice;
 
 /**
@@ -25,6 +26,7 @@ public class NoticeService {
         String from = "  from " + TableList.NOTICE + " where  cstatus = 'normal'  ";
         String oderBy="order by createDate desc";
         String totalRowSql = "select count(*) " + from;
+        System.out.println(coloumSql + from + oderBy);
         //jfinal模板用到ordeby时需要如此转换，具体看jfinal官网的回答
         Page<VNotice> records = VNotice.dao.paginateByFullSql(pageNum, pageSize, totalRowSql, coloumSql + from + oderBy);
         MyPage<VNotice> myPage= new MyPage(records.getList(),pageNum,pageSize,records.getTotalPage(),records.getTotalRow());
@@ -81,5 +83,16 @@ public class NoticeService {
                 "join t_org t2 ON t1._id = t2.id\n" +
                 "order BY t1.lvl desc)";
         return union;
+    }
+    //新闻接口
+    public Result findByStatus(String status, Integer pageNum, Integer pageSize) throws Exception {
+        String coloumSql="select *";
+        String from = "  from "+ TableList.NEWS + " where  newsStatus = '"+status+"' ";
+        String totalRowSql = "select count(*) " + from;
+        String orderBy="order by newsDate desc";
+        Page<VNews> records = VNews.dao.paginateByFullSql(pageNum, pageSize, totalRowSql , coloumSql+from+orderBy);
+        MyPage<VNews> myPage= new MyPage(records.getList(),pageNum,pageSize,records.getTotalPage(),records.getTotalRow());
+
+        return ResultData.dataResult("success","获取成功",myPage);
     }
 }

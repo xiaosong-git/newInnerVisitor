@@ -1,5 +1,6 @@
 package com.xiaosong.common.api.user.userApp;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
@@ -12,6 +13,9 @@ import com.xiaosong.validate.user.FriendIdValidator;
 import com.xiaosong.validate.user.PhoneValidator;
 import com.xiaosong.validate.user.RealNameValidator;
 import com.xiaosong.validate.user.UserIdValidator;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * @program: xiaosong
@@ -31,11 +35,11 @@ public class UserFriendController extends Controller {
     @Before(UserIdValidator.class)
     public void getRoleMenu(){
         try {
-            renderJson(userFriendService.getRoleMenu(getLong("userId")));
+            renderText(JSON.toJSONString(userFriendService.getRoleMenu(getLong("userId"))));
             return;
         }catch (Exception e){
             log.error(e.getMessage());
-            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
 
@@ -46,29 +50,29 @@ public class UserFriendController extends Controller {
     @Before(UserIdValidator.class)
     public void appQuit(){
         try {
-            renderJson(userFriendService.appQuit(getLong("userId")));
+            renderText(JSON.toJSONString(userFriendService.appQuit(getLong("userId"))));
         }catch (Exception e){
             log.error(e.getMessage());
-            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
 
     @Before(UserIdValidator.class)
     public void findUserFriend(){
         try {
-            renderJson(userFriendService.findUserFriend(getLong("userId")));
+            renderText(JSON.toJSONString(userFriendService.findUserFriend(getLong("userId"))));
         }catch (Exception e){
             log.error(e.getMessage());
-            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
     @Before({PhoneValidator.class,UserIdValidator.class, RealNameValidator.class})
     public void addFriendByPhoneAndUser(){
         try {
-            renderJson(userFriendService.addFriendByPhoneAndUser(get("userId"),get("phone"),get("realName"),get("remark")));
+           renderText(JSON.toJSONString(userFriendService.addFriendByPhoneAndUser(get("userId"),get("phone"),get("realName"),get("remark"))));
         }catch (Exception e){
             log.error(e.getMessage());
-            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+           renderText(JSON.toJSONString( Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
 
@@ -78,28 +82,38 @@ public class UserFriendController extends Controller {
     public void agreeFriend(){
         VUserFriend userFriend=getBean(VUserFriend.class,"",true);
         try {
-            renderJson(userFriendService.agreeFriend(userFriend));
+           renderText(JSON.toJSONString(userFriendService.agreeFriend(userFriend)));
         }catch (Exception e){
             log.error(e.getMessage());
-            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+           renderText(JSON.toJSONString( Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
     //新的朋友
     public void newFriend(){
         try {
-            renderJson(userFriendService.newFriend(getLong("userId"),get("phoneStr")));
+            renderText(JSON.toJSONString(userFriendService.newFriend(getLong("userId"), get("phoneStr"))));
         }catch (Exception e){
             log.error(e.getMessage());
-            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+           renderText(JSON.toJSONString( Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
     @Before(FriendIdValidator.class)
     public void deleteUserFriend(){
         try {
-            renderJson(userFriendService.deleteUserFriend(getLong("userId"),getLong("friendId")));
+            renderText(JSON.toJSONString(userFriendService.deleteUserFriend(getLong("userId"), getLong("friendId"))));
         }catch (Exception e){
             log.error(e.getMessage());
-            renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+           renderText(JSON.toJSONString( Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
+    public void findFriendApplyMe(){
+        try {
+            renderText(JSON.toJSONString(userFriendService.findFriendApplyMe(getLong("userId"))));
+        }catch (Exception e){
+            log.error(e.getMessage());
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
+
         }
     }
 }

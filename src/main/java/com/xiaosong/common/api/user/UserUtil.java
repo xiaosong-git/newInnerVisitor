@@ -125,7 +125,7 @@ public class UserUtil {
          /**
           * 获取用户的公告
           */
-         Record noticeUser = NoticeUserService.me.findByUserId(user.getId());
+         Record noticeUser=    NoticeUserService.me.findByUserId(user.getId());
          List<Record> notices = null;
          Integer authCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
          Integer expire = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisExpire"));//过期时间(分钟)
@@ -136,6 +136,7 @@ public class UserUtil {
              if(notices != null && !notices.isEmpty() ){
 //                        //获取最新的公告id
                  Integer maxNoticeId = Db.queryInt("select max(id) from " + TableList.NOTICE);
+                 noticeUser=new Record();
                  noticeUser.set("userId",user.getId());
                  noticeUser.set("maxNoticeId",maxNoticeId);
                  Db.save(TableList.USER_NOTICE,noticeUser);

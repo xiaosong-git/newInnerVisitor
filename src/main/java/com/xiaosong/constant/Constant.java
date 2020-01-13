@@ -52,7 +52,7 @@ public class Constant {
 	public static final String DB="db";//redis库别名
 	public static final Integer VISITOR=1;//访问
 	public static final Integer INVITE=2;//邀约信息
-
     public static final Integer MASSEGETYPE_REPLY = 3;
-    public static final String DB40_PATH="D:/xiaoson/WIN_X64/DB40";
+	public static final String DB40_PATH="D:/xiaoson/WIN_X64/DB40";
+	public static final String APPLY_STATUS_NORMAL = "normal";
 }

@@ -29,3 +29,6 @@
 #namespace("visitRecord")
 	#include("sql/visitRecord.sql")
 #end
+#namespace("foreign")
+	#include("sql/foreign.sql")
+#end

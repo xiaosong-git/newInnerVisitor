@@ -94,7 +94,7 @@ public class DeptUserController extends Controller {
      * 查询访客所拥有的公司
      */
 
-    public void findvisitApplySuc(){
+    public void findVisitComSuc(){
         try {
              renderText(JSON.toJSONString(deptUserService.findApplySuc(get("visitorId"))));
         }catch (Exception e){

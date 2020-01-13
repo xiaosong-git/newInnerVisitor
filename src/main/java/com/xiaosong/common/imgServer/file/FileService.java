@@ -41,7 +41,7 @@ public class FileService {
         }else if ("img".equals(resource)){
             prefix= MainConfig.p.get("prefixImg");
         }
-        String path= prefix+ File.separator+suffix;
+        String path= prefix+suffix;
         File file = new File(path);
         //不存在目录则创建
         if (!file.exists()) {
@@ -56,7 +56,16 @@ public class FileService {
                 log.info("文件名称: " + myfile.getFileName());
                 log.info("文件原名: " + myfile.getOriginalFileName());
                     try {
-                        FileUtils.moveFile(myfile.getFile(),new File(path+myfile.getOriginalFileName()));
+                        //查看是否存在。如果存在则删除
+                        String newPath = path + File.separator + myfile.getOriginalFileName();
+                        File originalFile = new File(newPath);
+                        if (originalFile.exists()){
+                            if (originalFile.delete()) {
+                                log.info("删除文件成功{}",newPath);
+                            }
+                        }
+                        //移动文件
+                        FileUtils.moveFile(myfile.getFile(),new File(newPath));
                     } catch (IOException e) {
                         log.error("移动文件{}失败",myfile.getFileName(),e);
                         list.add(myfile.getOriginalFileName());

@@ -226,8 +226,10 @@ public class UserService {
     }
 
     public Result getUserByUserToken(String userId, String token) {
+        //model使用了驼峰命名 导致有下划线的字段被转换为驼峰命名
         VAppUser user = VAppUser.dao.findFirst("select * from " + TableList.APP_USER + " where id=? and token=?", userId, token);
-       return user == null ?
+
+        return user == null ?
                Result.unDataResult("fail","找不到用户的信息")
                : ResultData.dataResult("success","获取成功",user);
     }

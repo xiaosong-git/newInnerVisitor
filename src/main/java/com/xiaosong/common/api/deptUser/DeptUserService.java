@@ -2,6 +2,7 @@ package com.xiaosong.common.api.deptUser;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.TableList;
@@ -12,7 +13,7 @@ import java.util.List;
  * @author: cwf
  * @create: 2020-01-10 17:39
  **/
-public class DeptUserService {
+public class DeptUserService extends MyBaseService {
 
     public Result findApplySuc(String userId) {
         String columnSql = "select cu.*,c.companyName,cs.sectionName";
@@ -25,7 +26,7 @@ public class DeptUserService {
                 " where cu.userId = '"+userId+"' and cu.status = 'applySuc' and cu.currentStatus='normal'";
         List<Record> records = Db.find((columnSql + fromSql));
         return records != null && !records.isEmpty()
-                ? ResultData.dataResult("success","获取公司成功",records)
+                ? ResultData.dataResult("success","获取公司成功",apiList(records))
                 : Result.unDataResult("success","暂无数据");
     }
 }

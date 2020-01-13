@@ -207,7 +207,7 @@ public class WebSocketService {
                 paramMap.put("orgCode",orgCode);
             }
             VVisitorRecord VisitorRecord=new VVisitorRecord();
-            VisitorRecord.set("userId",fromUserId).set("visitorId",toUserId).set("companyId",companyId)
+            VisitorRecord.set("userId",toUserId).set("visitorId",fromUserId).set("companyId",companyId)
                     .set("cstatus",cstatus).set("reason",reason).set("startDate",startDate).set("endDate",endDate)
                     .set("visitDate",DateUtil.getCurDate()).set("visitTime",DateUtil.getCurTime()).set("recordType",recordType)
                     .set("dateType","limitPeriod").set("vitype","A").set("isReceive","F");

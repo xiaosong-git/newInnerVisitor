@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
 
 /**
  * @program: innerVisitor
@@ -40,18 +41,20 @@ public class VisitorRecordService {
      * 根据 where 条件进行查询我的邀约，邀约我的，我的访问，访问我的判断
      */
     //id=visitorId 我的邀约 id=userId 邀约我的
-    public Result invite(Long userId, Integer pageNum, Integer pageSize, Integer recordType,String id) {
+    public Result invite(Long userId, Integer pageNum, Integer pageSize, Integer recordType,String condition) {
         pageNum=pageNum==null?1:pageNum;
         pageSize=pageSize==null?10:pageSize;
+        //查看的是对方的信息
+        String otherMan = "userId".equals(condition) ? "visitorId" : "userId";
         String coloumSql="SELECT vr.id,IF(u.realName IS NULL or u.realName=\"\",remarkName,u.realName) realName,u.phone,u.headImgUrl,\n" +
                 "\tvr.visitDate,vr.visitTime,vr.userId,vr.visitorId,vr.reason,vr.cstatus,vr.dateType\n" +
                 ",vr.startDate,vr.endDate,vr.answerContent,vr.orgCode,vr.companyId,vr.recordType,\n" +
                 "vr.replyDate,vr.replyTime,vr.vitype,vr.replyUserId,vr.isReceive,o.org_name,c.companyName,o.accessType";
         String from=" from "+TableList.VISITOR_RECORD+" vr\n" +
-                "left join "+TableList.APP_USER+" u on u.id=vr.visitorId\n" +
+                "left join "+TableList.APP_USER+" u on u.id=vr."+otherMan+"\n" +
                 "left join "+TableList.COMPANY+" c on vr.companyId=c.id\n" +
                 "left join  "+TableList.ORG+" o on vr.orgCode=o.org_code " +
-                "where "+id+"="+userId+" and recordType="+recordType;
+                "where "+ condition +"="+userId+" and recordType="+recordType;
         String oderBy=" ORDER BY startDate>NOW() desc,  IF(startDate > NOW(), FIELD(cstatus,'Cancle','applyFail',  'applySuccess','applyConfirm'), startDate ) desc,startDate desc,endDate";
         String totalRowSql = "select count(*) " + from;
 //        log.info(coloumSql+fromSql+union );
@@ -524,5 +527,17 @@ public class VisitorRecordService {
 
         return paginate.getList().size()>0 ? ResultData.dataResultCount("success", "获取成功", myPage,count)
                 : ResultData.dataResult("success", "暂无同事数据", myPage);
+    }
+
+    /**
+     * 通过记录id查找被访问者的公司信息以及姓名头像
+     * @param recordId 记录id
+     * @return result
+     */
+    public Result findRecordFromId(Object recordId){
+        Record first = Db.findFirst(Db.getSql("visitRecord.findRecordFromId"), recordId);
+
+        return first!=null?ResultData.dataResult("success","获取成功",first.getColumns()):
+                Result.unDataResult("fail","获取失败");
     }
 }

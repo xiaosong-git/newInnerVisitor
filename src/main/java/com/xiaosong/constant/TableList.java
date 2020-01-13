@@ -12,7 +12,7 @@ public class TableList {
     public static final String USER_ACCOUNT="v_app_user_account";//用户账户表
     public static final String PARAM="v_params";//用户账户表
     public static final String KEY = " v_user_key";    //密钥表
-    public static final String USER_NOTICE = "v_app_notice ";// 用户已推送的最大公告
+    public static final String USER_NOTICE = "v_app_user_notice ";// 用户已推送的最大公告
     public static final String NOTICE = " v_notice ";    // 公告
     public static final String COMPANY = " v_company ";    // 公司
     public static final String ORG = " v_org ";    // 大楼
@@ -29,4 +29,5 @@ public class TableList {
     public static final String INOUT = "v_d_inout";
     public static final String AD_BANNER ="v_ad_banner" ;
     public static final String DEPT = "v_dept";
+    public static final String NEWS = "v_news";//新闻
 }
