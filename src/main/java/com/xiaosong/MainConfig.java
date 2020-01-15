@@ -18,6 +18,7 @@ import com.xiaosong.cache.DictionaryCache;
 import com.xiaosong.common.api.websocket.WebSocketEndPoint;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.handle.Myhandler;
+import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
@@ -179,7 +180,7 @@ public class MainConfig extends JFinalConfig {
 	 * 配置全局拦截器
 	 */
 	public void configInterceptor(Interceptors me) {
-		
+		  me.add(new LoginInterceptor());
 	}
 	//项目启动后操作，常用场景可以加载一些定时任务JOB类可在此处加载启动
 	@Override

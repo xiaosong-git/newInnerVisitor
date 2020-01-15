@@ -18,6 +18,30 @@ public abstract class BaseVKey<M extends BaseVKey<M>> extends Model<M> implement
 		return getLong("id");
 	}
 
+	public M setSwiCode(java.lang.String swiCode) {
+		set("swi_code", swiCode);
+		return (M)this;
+	}
+	
+	public java.lang.String getSwiCode() {
+		return getStr("swi_code");
+	}
+
+	/**
+	 * license对应的设备类型
+	 */
+	public M setMac(java.lang.String mac) {
+		set("mac", mac);
+		return (M)this;
+	}
+	
+	/**
+	 * license对应的设备类型
+	 */
+	public java.lang.String getMac() {
+		return getStr("mac");
+	}
+
 	public M setPrivateKey(java.lang.String privateKey) {
 		set("private_key", privateKey);
 		return (M)this;
@@ -43,6 +67,24 @@ public abstract class BaseVKey<M extends BaseVKey<M>> extends Model<M> implement
 	
 	public java.lang.String getStatus() {
 		return getStr("status");
+	}
+
+	public M setEndtime(java.lang.String endtime) {
+		set("endtime", endtime);
+		return (M)this;
+	}
+	
+	public java.lang.String getEndtime() {
+		return getStr("endtime");
+	}
+
+	public M setBegintime(java.lang.String begintime) {
+		set("begintime", begintime);
+		return (M)this;
+	}
+	
+	public java.lang.String getBegintime() {
+		return getStr("begintime");
 	}
 
 	public M setCreatetime(java.lang.String createtime) {
@@ -79,6 +121,15 @@ public abstract class BaseVKey<M extends BaseVKey<M>> extends Model<M> implement
 	
 	public java.lang.String getExtra3() {
 		return getStr("extra3");
+	}
+
+	public M setLicense(java.lang.String license) {
+		set("license", license);
+		return (M)this;
+	}
+	
+	public java.lang.String getLicense() {
+		return getStr("license");
 	}
 
 }

@@ -102,31 +102,31 @@ public abstract class BaseVCompVipUser<M extends BaseVCompVipUser<M>> extends Mo
 	/**
 	 * 创建日期yy:MM:dd
 	 */
-	public M setCreateDate(java.lang.String createDate) {
-		set("createDate", createDate);
+	public M setCreatetime(java.lang.String createtime) {
+		set("createtime", createtime);
 		return (M)this;
 	}
 	
 	/**
 	 * 创建日期yy:MM:dd
 	 */
-	public java.lang.String getCreateDate() {
-		return getStr("createDate");
+	public java.lang.String getCreatetime() {
+		return getStr("createtime");
 	}
 
 	/**
-	 * 创建时间HH:mm:ss
+	 * 过期时间
 	 */
-	public M setCreateTime(java.lang.String createTime) {
-		set("createTime", createTime);
+	public M setEndtime(java.lang.String endtime) {
+		set("endtime", endtime);
 		return (M)this;
 	}
 	
 	/**
-	 * 创建时间HH:mm:ss
+	 * 过期时间
 	 */
-	public java.lang.String getCreateTime() {
-		return getStr("createTime");
+	public java.lang.String getEndtime() {
+		return getStr("endtime");
 	}
 
 	/**
@@ -172,6 +172,15 @@ public abstract class BaseVCompVipUser<M extends BaseVCompVipUser<M>> extends Mo
 	 */
 	public java.lang.String getCurrentStatus() {
 		return getStr("currentStatus");
+	}
+
+	public M setTel(java.lang.String tel) {
+		set("tel", tel);
+		return (M)this;
+	}
+	
+	public java.lang.String getTel() {
+		return getStr("tel");
 	}
 
 }
