@@ -12,10 +12,8 @@ import com.xiaosong.common.api.param.ParamController;
 import com.xiaosong.common.imgServer.errorLog.ErrorLogController;
 import com.xiaosong.common.imgServer.file.FileController;
 import com.xiaosong.common.imgServer.img.ImageController;
-<<<<<<< HEAD
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.dept.DeptController;
-import com.xiaosong.common.web.deptUser.DeptUserController;
 import com.xiaosong.common.web.key.KeyController;
 import com.xiaosong.common.web.login.LoginController;
 import com.xiaosong.common.web.sysAuth.SysAuthController;
@@ -23,10 +21,7 @@ import com.xiaosong.common.web.sysConfig.SysConfigController;
 import com.xiaosong.common.web.sysRole.SysRoleController;
 import com.xiaosong.common.web.sysUser.SysUserController;
 import com.xiaosong.common.web.vipUser.VipUserController;
-=======
 import com.xiaosong.common.imgServer.inAndOut.InAndOutController;
-import com.xiaosong.common.key.KeyController;
->>>>>>> b787a40daf90cb9492222692b01f470867431f7c
 import com.xiaosong.common.api.user.UserController;
 import com.xiaosong.common.api.user.userApp.UserFriendController;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordController;
@@ -58,17 +53,13 @@ public class GlobalRoutes extends Routes{
 		String imgServer="/goldccm-imgServer";
 		//该处还可配置route级别的拦截器，对N个含有共同拦截器的控制层实现统一配置，减少代码冗余
 		this.add(prefix+"/demo", DemoController.class);
-<<<<<<< HEAD
 		this.add(prefix+"/companyUser", CompanyUserController.class);
-=======
 //		this.add(prefix+"/companyUser", CompanyUserController.class);
 		this.add(prefix+"/key", KeyController.class);
->>>>>>> b787a40daf90cb9492222692b01f470867431f7c
 		this.add(prefix+"/user", UserController.class);
 		this.add(prefix+"/code", CodeController.class);
 		this.add(prefix+"/userFriend", UserFriendController.class);
 		this.add(prefix+"/visitorRecord", VisitorRecordController.class);
-<<<<<<< HEAD
 		this.add(imgServer+"/image", ImageController.class);
 		this.add(webprefix+"/login", LoginController.class);
 		this.add(webprefix+"/sysUser", SysUserController.class);
@@ -80,7 +71,6 @@ public class GlobalRoutes extends Routes{
 		this.add(webprefix+"/dept", DeptController.class);
 		this.add(webprefix+"/deptUser", DeptUserController.class);
 		this.add(webprefix+"/vipUser", VipUserController.class);
-=======
 		this.add(prefix+"/p", ParamController.class);
 		this.add(prefix+"/appVersion", AppVersionController.class);
 		this.add(prefix+"/errorLog", ErrorLogController.class);
@@ -90,7 +80,6 @@ public class GlobalRoutes extends Routes{
 		this.add(imgServer+"/goldccm/file", FileController.class);
 		this.add(imgServer+"/goldccm/image", ImageController.class);
 		this.add(imgServer+"/inAndOut", InAndOutController.class);
->>>>>>> b787a40daf90cb9492222692b01f470867431f7c
 	}
 
 }
