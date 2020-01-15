@@ -310,6 +310,21 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 
 	/**
+	 * T--userId与visitorId关联v_app_user ；F--userId或visitorId关联v_out_visitor，根据recordType进行判断visitorId关联还是userId关联
+	 */
+	public M setOriginType(java.lang.String originType) {
+		set("originType", originType);
+		return (M)this;
+	}
+	
+	/**
+	 * T--userId与visitorId关联v_app_user ；F--userId或visitorId关联v_out_visitor，根据recordType进行判断visitorId关联还是userId关联
+	 */
+	public java.lang.String getOriginType() {
+		return getStr("originType");
+	}
+
+	/**
 	 * 扩展字段1
 	 */
 	public M setExp1(java.lang.String exp1) {

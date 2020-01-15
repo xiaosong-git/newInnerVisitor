@@ -2,12 +2,11 @@ package com.xiaosong.common.api.user;
 
 import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
+import com.jfinal.aop.Clear;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
-import com.xiaosong.interceptor.apiInterceptor.AuthCheckAnnotation;
-import com.xiaosong.interceptor.apiInterceptor.AuthCheckInteceptor;
 import com.xiaosong.model.VAppUser;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.validate.user.AuthValidator;
@@ -22,6 +21,7 @@ public class UserController  extends Controller {
     private Log log = Log.getLog(UserController.class);
     @Inject
     UserService userService;
+    @Clear
     @Before(PhoneValidator.class)
     public void login(){
         VAppUser appUser=getBean(VAppUser.class,"",true);
@@ -63,7 +63,6 @@ public class UserController  extends Controller {
      * 获取用户信息（通过UserId,Token）
      * @return jsonString
      */
-
     public void getUser(){
         try {
             renderText(JSON.toJSONString((userService.getUserByUserToken(get("userId"), get("token")))));
@@ -72,8 +71,7 @@ public class UserController  extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
-    @Before(AuthCheckInteceptor.class)
-    @AuthCheckAnnotation(checkLogin=true,checkVerify = true, checkRequestLegal = true)
+
     public void index(){
         renderText(JSON.toJSONString((userService.getUserByUserToken(get("userId"), get("token")))));
     }

@@ -1,7 +1,6 @@
 package com.xiaosong.routes;
 
 import com.jfinal.config.Routes;
-import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.api.appversion.AppVersionController;
 import com.xiaosong.common.api.code.CodeController;
@@ -9,14 +8,15 @@ import com.xiaosong.common.api.deptUser.DeptUserController;
 import com.xiaosong.common.api.notice.BannerController;
 import com.xiaosong.common.api.notice.NoticeController;
 import com.xiaosong.common.api.param.ParamController;
+import com.xiaosong.common.api.user.UserController;
+import com.xiaosong.common.api.user.userApp.UserFriendController;
+import com.xiaosong.common.api.visitorRecord.VisitorRecordController;
 import com.xiaosong.common.imgServer.errorLog.ErrorLogController;
 import com.xiaosong.common.imgServer.file.FileController;
 import com.xiaosong.common.imgServer.img.ImageController;
 import com.xiaosong.common.imgServer.inAndOut.InAndOutController;
 import com.xiaosong.common.key.KeyController;
-import com.xiaosong.common.api.user.UserController;
-import com.xiaosong.common.api.user.userApp.UserFriendController;
-import com.xiaosong.common.api.visitorRecord.VisitorRecordController;
+import com.xiaosong.interceptor.apiInterceptor.AuthCheckInteceptor;
 
 
 /**
@@ -36,7 +36,8 @@ public class GlobalRoutes extends Routes{
 		 * controllerKey/method/v0-v1 YourController.method() 
 		 * controllerKey/v0-v1 YourController.index()，所带 url 参数值为：v0-v1
 		 */
-		
+		//api拦截器中只拦截com.xiaosong.common.api 中的action
+		addInterceptor(new AuthCheckInteceptor());
 		//this.add(controllerKey, controllerClass);
 		//api
 		String prefix="/visitor";
