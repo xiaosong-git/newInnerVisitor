@@ -21,12 +21,15 @@ public class _MappingKit {
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);
 		arp.addMapping("v_app_menu", "id", VAppMenu.class);
-		arp.addMapping("v_app_notice", "id", VAppNotice.class);
 		arp.addMapping("v_app_role", "id", VAppRole.class);
 		arp.addMapping("v_app_role_menu", "id", VAppRoleMenu.class);
 		arp.addMapping("v_app_user", "id", VAppUser.class);
 		arp.addMapping("v_app_user_account", "id", VAppUserAccount.class);
 		arp.addMapping("v_app_user_message", "id", VAppUserMessage.class);
+<<<<<<< HEAD
+=======
+		arp.addMapping("v_app_user_notice", "id", VAppUserNotice.class);
+>>>>>>> b787a40daf90cb9492222692b01f470867431f7c
 		arp.addMapping("v_app_version", "id", VAppVersion.class);
 		arp.addMapping("v_app_yaoyue_record", "id", VAppYaoyueRecord.class);
 		arp.addMapping("v_business", "id", VBusiness.class);
@@ -47,7 +50,10 @@ public class _MappingKit {
 		arp.addMapping("v_org", "id", VOrg.class);
 		arp.addMapping("v_params", "id", VParams.class);
 		arp.addMapping("v_posp", "id", VPosp.class);
+<<<<<<< HEAD
 		arp.addMapping("v_sys_config", "id", VSysConfig.class);
+=======
+>>>>>>> b787a40daf90cb9492222692b01f470867431f7c
 		arp.addMapping("v_sys_user", "id", VSysUser.class);
 		arp.addMapping("v_user_auth", "id", VUserAuth.class);
 		arp.addMapping("v_user_friend", "id", VUserFriend.class);

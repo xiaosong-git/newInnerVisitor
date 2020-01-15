@@ -199,4 +199,38 @@ public class UserService {
             return Result.unDataResult("fail", "异常，请稍后再试");
         }
     }
+
+    public Result forget(String code, String phone, String sysPwd) {
+        if ("".equals(sysPwd)){
+            return  Result.unDataResult("fail","新密码不能为空");
+        }
+        Long userId = Db.queryLong(Db.getSql("appUser.findId"), phone);
+        if(userId==null){
+            return Result.unDataResult("fail","手机号未注册");
+        }
+        String sql ="select ua.* from "+TableList.APP_USER+" u left join" +
+                TableList.USER_ACCOUNT+"  ua on u.id=ua.userId  where phone ='"+phone+"' ";
+        VAppUserAccount account = VAppUserAccount.dao.findFirst(sql);
+        if (account==null){
+            return Result.unDataResult("fail","系统账户缺失，请联系管理员");
+        }
+        boolean flag = CodeService.me.verifyCode(phone,code,1);
+        if(!flag){
+            return  Result.unDataResult("fail","验证码错误");
+        }
+            account.setSysPwd(sysPwd);
+            boolean update = account.update();
+
+            log.info("更新成功？{}",update);
+        return update ? Result.success() : Result.fail();
+    }
+
+    public Result getUserByUserToken(String userId, String token) {
+        //model使用了驼峰命名 导致有下划线的字段被转换为驼峰命名
+        VAppUser user = VAppUser.dao.findFirst("select * from " + TableList.APP_USER + " where id=? and token=?", userId, token);
+
+        return user == null ?
+               Result.unDataResult("fail","找不到用户的信息")
+               : ResultData.dataResult("success","获取成功",user);
+    }
 }

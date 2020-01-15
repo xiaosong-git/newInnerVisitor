@@ -31,6 +31,9 @@ public class CodeService {
         String redisCode = dbCode.get(phone);
         //比对
         if (code.equals(redisCode)) {
+            if (type==2){
+                return true;
+            }
             Long del = Redis.use("db1").del(phone);
             return true;
         }

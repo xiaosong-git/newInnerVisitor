@@ -1,5 +1,6 @@
 package com.xiaosong.common.imgServer.img;
 
+import com.hj.jni.itf.Constant;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
@@ -49,5 +50,8 @@ public class ImageController extends Controller {
 			renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
 		}
 	}
-     
+     public void index(){
+
+		 renderText(String.valueOf(Constant.TEMPLATE_ROLL_ANGL));
+	 }
 }

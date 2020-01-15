@@ -45,11 +45,11 @@ public class WebSocketEndPoint {
                 switch (type){
                     case Constant.MSG_VISITOR:
 //                        if (recordType==1){
-                            log.info("访问");
+//                            log.info("访问");
                             WebSocketService.me.receiveVisit(session,msg,fromUserId,toUserId,type,recordType);
 //                        }else if (recordType==2){
-//                            log.info("邀约");
-//
+////                            log.info("邀约");
+////
 //                        }
                         break;
                     case Constant.MSG_REPLY:

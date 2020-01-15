@@ -3,6 +3,7 @@ package com.xiaosong.validate.code;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.Ret;
 import com.jfinal.validate.Validator;
+import com.xiaosong.compose.Result;
 
 /**
  * @program: xiaosong
@@ -18,7 +19,9 @@ public class codeValidator extends Validator {
     }
     @Override
     protected void handleError(Controller c) {
-        c.renderJson(getRet());
+       Result result=new Result();
+        result.setVerify(getRet());
+        c.renderJson(result);
 //        c.renderJson(Result.unDataResult("fail","缺少手机号"));
     }
 }
