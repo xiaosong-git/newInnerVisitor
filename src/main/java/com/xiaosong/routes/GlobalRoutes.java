@@ -5,7 +5,16 @@ import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.api.code.CodeController;
 import com.xiaosong.common.imgServer.img.ImageController;
-import com.xiaosong.common.key.KeyController;
+import com.xiaosong.common.web.appMenu.AppMenuController;
+import com.xiaosong.common.web.dept.DeptController;
+import com.xiaosong.common.web.deptUser.DeptUserController;
+import com.xiaosong.common.web.key.KeyController;
+import com.xiaosong.common.web.login.LoginController;
+import com.xiaosong.common.web.sysAuth.SysAuthController;
+import com.xiaosong.common.web.sysConfig.SysConfigController;
+import com.xiaosong.common.web.sysRole.SysRoleController;
+import com.xiaosong.common.web.sysUser.SysUserController;
+import com.xiaosong.common.web.vipUser.VipUserController;
 import com.xiaosong.common.api.user.UserController;
 import com.xiaosong.common.api.user.userApp.UserFriendController;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordController;
@@ -32,17 +41,27 @@ public class GlobalRoutes extends Routes{
 		//this.add(controllerKey, controllerClass);
 		//api
 		String prefix="/visitor";
+		String webprefix="/visitor/web";
 		//图片服务器
 		String imgServer="/goldccm-imgServer/goldccm";
 		//该处还可配置route级别的拦截器，对N个含有共同拦截器的控制层实现统一配置，减少代码冗余
 		this.add(prefix+"/demo", DemoController.class);
 		this.add(prefix+"/companyUser", CompanyUserController.class);
-		this.add(prefix+"/key", KeyController.class);
 		this.add(prefix+"/user", UserController.class);
 		this.add(prefix+"/code", CodeController.class);
 		this.add(prefix+"/userFriend", UserFriendController.class);
 		this.add(prefix+"/visitorRecord", VisitorRecordController.class);
 		this.add(imgServer+"/image", ImageController.class);
+		this.add(webprefix+"/login", LoginController.class);
+		this.add(webprefix+"/sysUser", SysUserController.class);
+		this.add(webprefix+"/sysRole", SysRoleController.class);
+		this.add(webprefix+"/sysAuth", SysAuthController.class);
+		this.add(webprefix+"/vSysKey", KeyController.class);
+		this.add(webprefix+"/sysConfig", SysConfigController.class);
+		this.add(webprefix+"/appMenu", AppMenuController.class);
+		this.add(webprefix+"/dept", DeptController.class);
+		this.add(webprefix+"/deptUser", DeptUserController.class);
+		this.add(webprefix+"/vipUser", VipUserController.class);
 	}
 
 }

@@ -25,21 +25,6 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 公司id
-	 */
-	public M setCompanyId(java.lang.Long companyId) {
-		set("companyId", companyId);
-		return (M)this;
-	}
-	
-	/**
-	 * 公司id
-	 */
-	public java.lang.Long getCompanyId() {
-		return getLong("companyId");
-	}
-
-	/**
 	 * 部门id
 	 */
 	public M setSectionId(java.lang.Long sectionId) {
@@ -97,21 +82,6 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	 */
 	public java.lang.String getCreateDate() {
 		return getStr("createDate");
-	}
-
-	/**
-	 * 创建时间HH:mm:ss
-	 */
-	public M setCreateTime(java.lang.String createTime) {
-		set("createTime", createTime);
-		return (M)this;
-	}
-	
-	/**
-	 * 创建时间HH:mm:ss
-	 */
-	public java.lang.String getCreateTime() {
-		return getStr("createTime");
 	}
 
 	/**
@@ -226,6 +196,21 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	 */
 	public java.lang.String getAuthtype() {
 		return getStr("authtype");
+	}
+
+	/**
+	 * 员工电话
+	 */
+	public M setTel(java.lang.String tel) {
+		set("tel", tel);
+		return (M)this;
+	}
+	
+	/**
+	 * 员工电话
+	 */
+	public java.lang.String getTel() {
+		return getStr("tel");
 	}
 
 }

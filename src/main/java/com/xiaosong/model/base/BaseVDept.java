@@ -27,46 +27,61 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	/**
 	 * 部门编码
 	 */
-	public M setSectionCode(java.lang.String sectionCode) {
-		set("sectionCode", sectionCode);
+	public M setCode(java.lang.String Code) {
+		set("Code", Code);
 		return (M)this;
 	}
 	
 	/**
 	 * 部门编码
 	 */
-	public java.lang.String getSectionCode() {
-		return getStr("sectionCode");
+	public java.lang.String getCode() {
+		return getStr("Code");
 	}
 
 	/**
 	 * 部门名称
 	 */
-	public M setSectionName(java.lang.String sectionName) {
-		set("sectionName", sectionName);
+	public M setDeptName(java.lang.String deptName) {
+		set("dept_name", deptName);
 		return (M)this;
 	}
 	
 	/**
 	 * 部门名称
 	 */
-	public java.lang.String getSectionName() {
-		return getStr("sectionName");
+	public java.lang.String getDeptName() {
+		return getStr("dept_name");
 	}
 
 	/**
-	 * 公司Id
+	 * 楼栋号
 	 */
-	public M setCompanyId(java.lang.Long companyId) {
-		set("companyId", companyId);
+	public M setBuilding(java.lang.String building) {
+		set("building", building);
 		return (M)this;
 	}
 	
 	/**
-	 * 公司Id
+	 * 楼栋号
 	 */
-	public java.lang.Long getCompanyId() {
-		return getLong("companyId");
+	public java.lang.String getBuilding() {
+		return getStr("building");
+	}
+
+	/**
+	 * 楼层
+	 */
+	public M setFloor(java.lang.String floor) {
+		set("floor", floor);
+		return (M)this;
+	}
+	
+	/**
+	 * 楼层
+	 */
+	public java.lang.String getFloor() {
+		return getStr("floor");
 	}
 
 }
