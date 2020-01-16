@@ -1,5 +1,6 @@
 package com.xiaosong.common.api.deptUser;
 
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.common.api.base.MyBaseService;
@@ -14,17 +15,18 @@ import java.util.List;
  * @create: 2020-01-10 17:39
  **/
 public class DeptUserService extends MyBaseService {
-
+    Log log=Log.getLog(DeptUserService.class);
     public Result findApplySuc(String userId) {
-        String columnSql = "select cu.*,c.companyName,cs.sectionName";
-        String fromSql = " from " + TableList.DEPT_USER + " cu " +
-                " left join " + TableList.COMPANY + " c on cu.companyId=c.id" +
-                " left join " + TableList.DEPT + " cs on cu.sectionId=cs.id" +
-                 " left join"  + TableList.ORG +" og on c.orgid=og.id"+
-//                " left join " + TableList.DICT_ITEM + " d on d.dict_code='companyUserRoleType' and d.item_code=cu.roleType " +
-//                " left join " + TableList.DICT_ITEM + " i on i.dict_code='companyUserStatus' and i.item_code=cu.status " +
-                " where cu.userId = '"+userId+"' and cu.status = 'applySuc' and cu.currentStatus='normal'";
+        String columnSql = "select du.*,c.companyName, d.dept_name sectionName ";
+        String fromSql = " from " + TableList.DEPT_USER + " du " +
+                " left join " + TableList.COMPANY + " c on du.companyId=c.id" +
+                " left join " + TableList.DEPT + " d on du.sectionId=d.id" +
+//                 " left join"  + TableList.ORG +" og on c.orgid=og.id"+
+//                " left join " + TableList.DICT_ITEM + " d on d.dict_code='companyUserRoleType' and d.item_code=du.roleType " +
+//                " left join " + TableList.DICT_ITEM + " i on i.dict_code='companyUserStatus' and i.item_code=du.status " +
+                " where du.userId = '"+userId+"' and du.status = 'applySuc' and du.currentStatus='normal'";
         List<Record> records = Db.find((columnSql + fromSql));
+        log.info("查询邀约者信息{}",columnSql+fromSql);
         return records != null && !records.isEmpty()
                 ? ResultData.dataResult("success","获取公司成功",apiList(records))
                 : Result.unDataResult("success","暂无数据");

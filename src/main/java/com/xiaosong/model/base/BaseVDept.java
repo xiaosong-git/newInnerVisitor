@@ -25,6 +25,21 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	}
 
 	/**
+	 * 原公司id表
+	 */
+	public M setCompanyId(java.lang.Long companyId) {
+		set("companyId", companyId);
+		return (M)this;
+	}
+	
+	/**
+	 * 原公司id表
+	 */
+	public java.lang.Long getCompanyId() {
+		return getLong("companyId");
+	}
+
+	/**
 	 * 部门编码
 	 */
 	public M setCode(java.lang.String Code) {

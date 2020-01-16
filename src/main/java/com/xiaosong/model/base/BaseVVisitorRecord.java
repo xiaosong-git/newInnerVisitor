@@ -325,6 +325,21 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 
 	/**
+	 * 外部访问记录id
+	 */
+	public M setOutRecordId(java.lang.Long outRecordId) {
+		set("outRecordId", outRecordId);
+		return (M)this;
+	}
+	
+	/**
+	 * 外部访问记录id
+	 */
+	public java.lang.Long getOutRecordId() {
+		return getLong("outRecordId");
+	}
+
+	/**
 	 * 扩展字段1
 	 */
 	public M setExp1(java.lang.String exp1) {

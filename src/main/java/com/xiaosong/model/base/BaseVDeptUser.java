@@ -40,6 +40,21 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
+	 * 公司id
+	 */
+	public M setCompanyId(java.lang.Long companyId) {
+		set("companyId", companyId);
+		return (M)this;
+	}
+	
+	/**
+	 * 公司id
+	 */
+	public java.lang.Long getCompanyId() {
+		return getLong("companyId");
+	}
+
+	/**
 	 * 员工Id
 	 */
 	public M setUserId(java.lang.Long userId) {

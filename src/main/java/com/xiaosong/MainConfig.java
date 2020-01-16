@@ -88,7 +88,7 @@ public class MainConfig extends JFinalConfig {
 	 */
 	public void configConstant(Constants me) {
 		loadConfig();
-		me.setDevMode(Constant.DEV_MODE);//是否开发模式 上生产是需要改变 与JFInal框架有关
+		me.setDevMode(Constant.DEV_MODE);//是否开发模式 上生产时需要改变 与JFInal框架有关
 		me.setMaxPostSize(1024 * 1024 * 20);//默认最大上传数据大小
 		me.setLogFactory(new Log4jLogFactory());//日志配置
 		me.setBaseUploadPath(Constant.BASE_UPLOAD_PATH);//文件上传路径
@@ -101,7 +101,7 @@ public class MainConfig extends JFinalConfig {
 		me.setInjectDependency(true);
 		// 配置对超类中的属性进行注入
 		me.setInjectSuperClass(true);
-		//slf4j
+		//开启slf4j日志控制
 		me.setToSlf4jLogFactory();
 
 	}
@@ -129,7 +129,12 @@ public class MainConfig extends JFinalConfig {
 	public void configPlugin(Plugins me) {
 //		System.out.println(PropKit.get("password").trim());
 		// 配置 druid 数据库连接池插件
-		DruidPlugin druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim(),p.get("driverClass"));
+		 DruidPlugin druidPlugin;
+		if (Constant.DEV_MODE){
+			druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim(),p.get("driverClass"));
+		}else {
+		 druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim());
+		}
 		//输出日志带参数
 //		druidPlugin.addFilter(new MyDruidFilter());
 		// 配置ActiveRecord插件

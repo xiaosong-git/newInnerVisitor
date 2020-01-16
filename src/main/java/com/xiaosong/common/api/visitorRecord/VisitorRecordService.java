@@ -203,14 +203,13 @@ public class VisitorRecordService {
             Kv data = Kv.by("realName", realName).set("phone", phone).set("userCode", phone)
                     .set("userRealName", visitUser.getRealName()).set("userPhone", visitUser.getPhone())
                     .set("startDate", startDate).set("endDate", endDate).set("routerId", p.get("routerId"))
-                    .set("originId",visitorRecord.getId().toString());
+                    .set("originId", visitorRecord.getId().toString());
             String ret = HttpKit.post(url, data, null);//转化为map对象或JsonObject
             JSONObject jsonObject = JSON.parseObject(ret);
-            Map<String, Object> map = (Map<String, Object>) jsonObject.get("data");
             Result result = new Result();
             Map<String, Object> verify = (Map<String, Object>) jsonObject.get("verify");
             //如果返回值为false
-            if (map == null) {
+            if (!"success".equals(verify.get("sign"))) {
                 result.setVerify(verify);
                 //找不到用户
                 return result;
@@ -447,11 +446,17 @@ public class VisitorRecordService {
                 visitorRecord.setCstatus(cstatus).setReplyUserId(userId)
                         .setAnswerContent(answerContent)
                         .setCompanyId(companyId);
-                String url = p.get("apiUrl") + "/visitor/visitorRecord/innerVisitRequest/";
+                //innerVisitResponse
+                String url = p.get("apiUrl") + "/visitor/visitorRecord/innerVisitResponse/";//云端url
                 //jfinal中的hashMap封装类 暂时用手机号代替userCode
                 Record record = visitorRecord.toRecord();
-                Map<String, Object> columns = record.getColumns();
-                String ret = HttpKit.post(url, String.valueOf(columns), null);//转化为map对象或JsonObject
+                Map<String, String> newRecord = new HashMap<>();
+                record.getColumns().forEach((k, v) ->{
+                        if(v!=null){
+                    newRecord.put(k, String.valueOf(v));
+                }});//转为String类型
+
+                String ret = HttpKit.post(url, newRecord, null);//传出到api云端，获取返回值
                 JSONObject jsonObject = JSON.parseObject(ret);
                 Map<String, Object> map = (Map<String, Object>) jsonObject.get("data");
                 Result result = new Result();
@@ -459,7 +464,7 @@ public class VisitorRecordService {
 
             }
             //todo 获取云端图片
-
+            return Result.unDataResult("success", "进入对外网用户操作");
             //todo 保存图片到本地
 
             //todo 调用外部接口 传到外网
