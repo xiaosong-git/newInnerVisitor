@@ -15,8 +15,8 @@ import com.xiaosong.util.RetUtil;
 * @Date 创建时间：2020年1月14日 下午8:27:07 
 * 类说明 
 */
-public class DeptUserController extends Controller{
-	private Log log = Log.getLog(DeptUserController.class);
+public class DeptUsersController extends Controller{
+	private Log log = Log.getLog(DeptUsersController.class);
 	public DeptUserService srv = DeptUserService.me;
 	
 	public void findList() {

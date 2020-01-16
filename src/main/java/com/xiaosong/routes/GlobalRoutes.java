@@ -1,7 +1,6 @@
 package com.xiaosong.routes;
 
 import com.jfinal.config.Routes;
-import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.api.appversion.AppVersionController;
 import com.xiaosong.common.api.code.CodeController;
@@ -14,6 +13,7 @@ import com.xiaosong.common.imgServer.file.FileController;
 import com.xiaosong.common.imgServer.img.ImageController;
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.dept.DeptController;
+import com.xiaosong.common.web.deptUser.DeptUsersController;
 import com.xiaosong.common.web.key.KeyController;
 import com.xiaosong.common.web.login.LoginController;
 import com.xiaosong.common.web.sysAuth.SysAuthController;
@@ -53,7 +53,7 @@ public class GlobalRoutes extends Routes{
 		String imgServer="/goldccm-imgServer";
 		//该处还可配置route级别的拦截器，对N个含有共同拦截器的控制层实现统一配置，减少代码冗余
 		this.add(prefix+"/demo", DemoController.class);
-		this.add(prefix+"/companyUser", CompanyUserController.class);
+//		this.add(prefix+"/companyUser", CompanyUserController.class);
 //		this.add(prefix+"/companyUser", CompanyUserController.class);
 		this.add(prefix+"/key", KeyController.class);
 		this.add(prefix+"/user", UserController.class);
@@ -69,7 +69,7 @@ public class GlobalRoutes extends Routes{
 		this.add(webprefix+"/sysConfig", SysConfigController.class);
 		this.add(webprefix+"/appMenu", AppMenuController.class);
 		this.add(webprefix+"/dept", DeptController.class);
-		this.add(webprefix+"/deptUser", DeptUserController.class);
+		this.add(webprefix+"/deptUser", DeptUsersController.class);
 		this.add(webprefix+"/vipUser", VipUserController.class);
 		this.add(prefix+"/p", ParamController.class);
 		this.add(prefix+"/appVersion", AppVersionController.class);
