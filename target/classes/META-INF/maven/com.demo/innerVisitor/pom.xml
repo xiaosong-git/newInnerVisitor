@@ -183,6 +183,12 @@
             <artifactId>jmimemagic</artifactId>
             <version>0.1.4</version>
         </dependency>
+        
+		<dependency>
+            <groupId>JavaJNICall</groupId>
+            <artifactId>JavaJNICall</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 	
 	<build>
