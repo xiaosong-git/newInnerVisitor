@@ -1,5 +1,8 @@
 package com.xiaosong.interceptor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,22 +29,28 @@ public class LoginInterceptor implements Interceptor {
 		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		Controller con = inv.getController();
 		String s = inv.getActionKey();
+		Map<String, String> map = new HashMap<String, String>();
 		/*
 		 * if(s.contains("visitor/web/login")) { inv.invoke(); }
 		 */
 		 if(s.contains("visitor/web")) {
 			 HttpServletRequest request=con.getRequest();
 			 String token = request.getParameter("token");
-			 VSysUser user=CacheKit.get(Constant.SYS_ACCOUNT, "user");
+			 String userId = request.getParameter("userId");
+			 VSysUser user=CacheKit.get(Constant.SYS_ACCOUNT, userId);
 			 if(user!=null) {
 				 if(user.getToken().equals(token)) {
 					 inv.invoke();
 				 }else {
-					 con.redirect("127.0.0.1:8088/#/login");
+					 map.put("result", "overLogin");
+					 con.renderJson(map);
+					 //con.redirect("127.0.0.1:8088/#/login");
 					 return;
 				 }
 			 }else {
-				 con.redirect("127.0.0.1:8088/#/login");
+				 map.put("result", "loginOut");
+				 con.renderJson(map);
+				 //con.redirect("127.0.0.1:8088/#/login");
 				 return ;
 			 }
 		 }else {

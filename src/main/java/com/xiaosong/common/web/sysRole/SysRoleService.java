@@ -1,5 +1,7 @@
 package com.xiaosong.common.web.sysRole;
 
+import java.util.List;
+
 import com.jfinal.plugin.activerecord.Page;
 import com.xiaosong.model.VUserRole;
 
@@ -13,6 +15,10 @@ public class SysRoleService {
 	
 	public Page<VUserRole> findList(int currentPage,int pageSize){
 			return VUserRole.dao.paginate(currentPage, pageSize, "select *", "from v_user_role");
+	}
+	
+	public List<VUserRole> findByOption(){
+		return VUserRole.dao.find("select * from v_user_role");
 	}
 	
 	public boolean addSysRole(VUserRole user) {

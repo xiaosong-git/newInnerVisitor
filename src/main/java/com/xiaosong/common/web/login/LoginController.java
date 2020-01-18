@@ -45,8 +45,9 @@ public class LoginController extends Controller{
 			map.put("token", token);
 			map.put("result", "success");
 			map.put("username", userName);
+			map.put("userId", user.getId().toString());
 			map.put("resultMSG", "登录成功");
-			 CacheKit.put(Constant.SYS_ACCOUNT, "user", user);
+			CacheKit.put(Constant.SYS_ACCOUNT, user.getId().toString(), user);
 			renderJson(map);
 		}else {
 			map.put("resultMSG", "登录失败，用户名或者密码不正确");

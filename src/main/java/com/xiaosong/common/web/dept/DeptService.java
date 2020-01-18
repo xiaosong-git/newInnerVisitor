@@ -1,5 +1,7 @@
 package com.xiaosong.common.web.dept;
 
+import java.util.List;
+
 import com.jfinal.plugin.activerecord.Page;
 import com.xiaosong.model.VDept;
 
@@ -13,6 +15,10 @@ public class DeptService {
 	
 	public Page<VDept> findList(int currentPage,int pageSize){
 		return VDept.dao.paginate(currentPage, pageSize, "select *", "from v_dept");
+	}
+	
+	public List<VDept> findByOption(){
+		return VDept.dao.find("select * from v_dept");
 	}
 	
 	public boolean addDept(VDept config) {

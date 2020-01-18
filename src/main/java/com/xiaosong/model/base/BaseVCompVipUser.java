@@ -174,13 +174,79 @@ public abstract class BaseVCompVipUser<M extends BaseVCompVipUser<M>> extends Mo
 		return getStr("currentStatus");
 	}
 
-	public M setTel(java.lang.String tel) {
-		set("tel", tel);
+	/**
+	 * 电话
+	 */
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
 		return (M)this;
 	}
 	
-	public java.lang.String getTel() {
-		return getStr("tel");
+	/**
+	 * 电话
+	 */
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
+	/**
+	 * 性别
+	 */
+	public M setSex(java.lang.String sex) {
+		set("sex", sex);
+		return (M)this;
+	}
+	
+	/**
+	 * 性别
+	 */
+	public java.lang.String getSex() {
+		return getStr("sex");
+	}
+
+	/**
+	 * 所属公司
+	 */
+	public M setCompany(java.lang.String company) {
+		set("company", company);
+		return (M)this;
+	}
+	
+	/**
+	 * 所属公司
+	 */
+	public java.lang.String getCompany() {
+		return getStr("company");
+	}
+
+	/**
+	 * 职位
+	 */
+	public M setPosition(java.lang.String position) {
+		set("position", position);
+		return (M)this;
+	}
+	
+	/**
+	 * 职位
+	 */
+	public java.lang.String getPosition() {
+		return getStr("position");
+	}
+
+	/**
+	 * 授权原因
+	 */
+	public M setAuthorizeReason(java.lang.String authorizeReason) {
+		set("authorize_reason", authorizeReason);
+		return (M)this;
+	}
+	
+	/**
+	 * 授权原因
+	 */
+	public java.lang.String getAuthorizeReason() {
+		return getStr("authorize_reason");
 	}
 
 }

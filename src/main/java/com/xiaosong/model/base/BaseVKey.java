@@ -69,15 +69,6 @@ public abstract class BaseVKey<M extends BaseVKey<M>> extends Model<M> implement
 		return getStr("status");
 	}
 
-	public M setEndtime(java.lang.String endtime) {
-		set("endtime", endtime);
-		return (M)this;
-	}
-	
-	public java.lang.String getEndtime() {
-		return getStr("endtime");
-	}
-
 	public M setBegintime(java.lang.String begintime) {
 		set("begintime", begintime);
 		return (M)this;
@@ -85,6 +76,15 @@ public abstract class BaseVKey<M extends BaseVKey<M>> extends Model<M> implement
 	
 	public java.lang.String getBegintime() {
 		return getStr("begintime");
+	}
+
+	public M setEndtime(java.lang.String endtime) {
+		set("endtime", endtime);
+		return (M)this;
+	}
+	
+	public java.lang.String getEndtime() {
+		return getStr("endtime");
 	}
 
 	public M setCreatetime(java.lang.String createtime) {

@@ -2,7 +2,9 @@ package com.xiaosong.common.web.sysUser;
 
 import java.util.List;
 
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VSysUser;
 
 
@@ -16,12 +18,12 @@ import com.xiaosong.model.VSysUser;
 public class SysUserService {
 	public static final	SysUserService me = new SysUserService();
 	
-	public Page<VSysUser> findList(String tel,int currentPage,int pageSize){
+	public Page<Record> findList(String tel,int currentPage,int pageSize){
 		if(tel!=null) {
-			Page<VSysUser> page = VSysUser.dao.paginate(currentPage, pageSize, "select *", "from v_sys_user where tel like CONCAT(?,'%')", tel);
+			Page<Record> page = Db.paginate(currentPage, pageSize, "select *", "from (select user.*,role.role_name FROM v_sys_user user LEFT JOIN v_user_role role on user.role_id=role.id where user.tel like CONCAT(?,'%')) as a", tel);
 			return page;
 		}else {
-			return VSysUser.dao.paginate(currentPage, pageSize, "select *", "from v_sys_user");
+			return Db.paginate(currentPage, pageSize, "select *", " from (select user.*,role.role_name FROM v_sys_user user LEFT JOIN v_user_role role on user.role_id=role.id) as a");
 		}
 	}
 	

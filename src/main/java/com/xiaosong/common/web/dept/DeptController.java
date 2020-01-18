@@ -22,13 +22,16 @@ public class DeptController extends Controller{
 		renderJson(pagelist);
 	}
 	
+	public void findByOption() {
+		renderJson(srv.findByOption());
+		
+	}
+	
 	public void addDept() throws Exception {
-		String code = getPara("Code");
 		String deptName = getPara("dept_name");
 		String building = getPara("building");
 		String floor = getPara("floor");
 		VDept dept = getModel(VDept.class);
-		dept.setCode(code);
 		dept.setDeptName(deptName);
 		dept.setBuilding(building);
 		dept.setFloor(floor);
@@ -42,12 +45,10 @@ public class DeptController extends Controller{
 	
 	public void editDept() {
 		long id = getLong("id");
-		String code = getPara("Code");
 		String deptName = getPara("dept_name");
 		String building = getPara("building");
 		String floor = getPara("floor");
 		VDept dept = getModel(VDept.class);
-		dept.setCode(code);
 		dept.setDeptName(deptName);
 		dept.setBuilding(building);
 		dept.setFloor(floor);

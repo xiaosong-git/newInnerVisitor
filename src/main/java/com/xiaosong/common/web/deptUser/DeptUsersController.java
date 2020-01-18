@@ -28,16 +28,30 @@ public class DeptUsersController extends Controller{
 	}
 	
 	public void addDeptUser() throws Exception {
-		String userName = getPara("userName");
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String createtime = df.format(new Date());
+		Long id = getLong("id");
+		String realName = getPara("realName");
+		String userId = getPara("userId");
 		String sex = getPara("sex");
-		String tel = getPara("tel");
+		Long deptId = getLong("deptId");
+		String idNO = getPara("idNO");
+		String phone = getPara("phone");
+		String intime = getPara("intime");
+		String addr = getPara("addr");
+		String remark = getPara("remark");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String createDate = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setUserName(userName);
-		deptUser.setCreateDate(createtime);
+		deptUser.setRealName(realName);
+		deptUser.setUserId(userId);
 		deptUser.setSex(sex);
-		deptUser.setTel(tel);
+		deptUser.setDeptId(deptId);
+		deptUser.setIdNO(idNO);
+		deptUser.setPhone(phone);
+		deptUser.setIntime(intime);
+		deptUser.setRemark(remark);
+		deptUser.setCreateDate(createDate);
+		deptUser.setAddr(addr);
+		deptUser.setId(id);
 		boolean bool = srv.addDeptUser(deptUser);
 		if(bool) {
 			renderJson(RetUtil.ok());
@@ -48,16 +62,28 @@ public class DeptUsersController extends Controller{
 	
 	public void editDeptUser() {
 		long id = getLong("id");
-		String userName = getPara("userName");
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String createtime = df.format(new Date());
+		String realName = getPara("realName");
+		String userId = getPara("userId");
 		String sex = getPara("sex");
-		String tel = getPara("tel");
+		Long deptId = getLong("deptId");
+		String idNO = getPara("idNO");
+		String phone = getPara("phone");
+		String intime = getPara("intime");
+		String addr = getPara("addr");
+		String remark = getPara("remark");
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String createDate = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setUserName(userName);
-		deptUser.setCreateDate(createtime);
+		deptUser.setRealName(realName);
+		deptUser.setUserId(userId);
 		deptUser.setSex(sex);
-		deptUser.setTel(tel);
+		deptUser.setDeptId(deptId);
+		deptUser.setIdNO(idNO);
+		deptUser.setPhone(phone);
+		deptUser.setIntime(intime);
+		deptUser.setRemark(remark);
+		deptUser.setCreateDate(createDate);
+		deptUser.setAddr(addr);
 		deptUser.setId(id);
 		boolean bool = srv.editDeptUser(deptUser);
 		if(bool) {
