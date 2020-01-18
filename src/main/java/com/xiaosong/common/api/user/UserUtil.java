@@ -13,14 +13,13 @@ import com.xiaosong.common.api.password.PasswordService;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.Status;
 import com.xiaosong.constant.TableList;
-import com.xiaosong.model.VAppUser;
-import com.xiaosong.model.VCompany;
+import com.xiaosong.model.VDept;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -44,12 +43,12 @@ public class UserUtil {
         RedisUtil.setStr(apiAuthCheckRedisDbIndex,userId+"_isAuth", isAuth,  expire*60);
     }
 
-    public Result updateDeviceToken(VAppUser user){
+    public Result updateDeviceToken(VDeptUser user){
 //
         return null;
     }
 
-    public boolean updateDeviceToken(VAppUser user, VAppUser appUser) {
+    public boolean updateDeviceToken(VDeptUser user, VDeptUser appUser) {
         String deviceToken = appUser.getDeviceToken();
         if (deviceToken !=null&&!"".equals(deviceToken)){
             user.setDeviceToken(deviceToken);
@@ -96,23 +95,10 @@ public class UserUtil {
         return null;
     }
     //登入成功后保存数据库与缓存数据
-     Result loginSave(VAppUser user,VAppUser appUser) throws Exception {
+     Result loginSave(VDeptUser user, VDeptUser appUser) throws Exception {
          PasswordService.me.resetPwdInputNum(user.getId(), Status.PWD_TYPE_SYS);
          user.setToken(UUID.randomUUID().toString());
-//                //实名有效日期过了
-         if ("T".equals(user.getIsAuth())) {
-             if (user.getValidityDate() != null && !"".equals(user.getValidityDate())
-                     && !StringUtils.isBlank(user.getValidityDate())) {
-                 String validityDate = user.getValidityDate();
-                 Calendar curr = Calendar.getInstance();
-                 Calendar start = Calendar.getInstance();
-                 start.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(validityDate));
-                 if (curr.after(start)) {
-                     //设置实人状态为false
-                     user.setIsAuth("F").setIdNO("");
-                 }
-             }
-         }
+
          logger.info("登入人为:" + user.getId() + "，token" + appUser.getToken());
 //                user._setAttrs(appUser);//改变了modifyFlag
 //                //更新缓存中的Token,实名
@@ -158,17 +144,17 @@ public class UserUtil {
                 Map<String,Object> result = new HashMap<String, Object>();
                 result.put("notices",notices);
                 result.put("user",user);
-         String  applyType="";
-         String  companyName="";
-         if (user.getCompanyId()!=null){
-             VCompany company = VCompany.dao.findById(user.getCompanyId());
-             if (company!=null){
-                 applyType = BaseUtil.objToStr(company.getApplyType(),"");
-                 companyName = BaseUtil.objToStr(company.getCompanyName(),"");
-             }
-         }
-         user.put("companyName",companyName);
-         user.put("applyType",applyType);
+//         String  applyType="";
+//         String  companyName="";
+//         if (user.getDeptId()!=null){
+//             VDept company = VDept.dao.findById(user.getDeptId());
+//             if (company!=null){
+////                 applyType = BaseUtil.objToStr(company.getApplyType(),"");
+////                 companyName = BaseUtil.objToStr(company.getCompanyName(),"");
+//             }
+//         }
+//         user.put("companyName",companyName);
+//         user.put("applyType",applyType);
 //                //增加获取orgCode 需要改造企业版
                 String orgCode =BaseUtil.objToStr(findOrgCodeByUserId(user.getId()),"无");
                 user.put("orgCode", orgCode);

@@ -7,7 +7,7 @@ import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
-import com.xiaosong.model.VAppUser;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.validate.user.AuthValidator;
 import com.xiaosong.validate.user.PhoneValidator;
@@ -24,13 +24,13 @@ public class UserController  extends Controller {
     @Clear
     @Before(PhoneValidator.class)
     public void login(){
-        VAppUser appUser=getBean(VAppUser.class,"",true);
+        VDeptUser deptUser=getBean(VDeptUser.class,"",true);
         try {
             if (get("code")!=null) {
-                renderText(JSON.toJSONString(userService.loginByVerifyCode(appUser, get("code"))));
+                renderText(JSON.toJSONString(userService.loginByVerifyCode(deptUser, get("code"))));
                 return;
             }else {
-            renderText(JSON.toJSONString(userService.login(appUser,get("sysPwd"),getInt("style"))) );
+            renderText(JSON.toJSONString(userService.login(deptUser,get("sysPwd"),getInt("style"))) );
             }
         }catch (Exception e){
             log.error("登入异常",e);
@@ -39,7 +39,7 @@ public class UserController  extends Controller {
     }
     @Before(AuthValidator.class)
     public void verify(){
-        VAppUser appUser=getBean(VAppUser.class,"",true);
+        VDeptUser appUser=getBean(VDeptUser.class,"",true);
         try {
             renderText(JSON.toJSONString(userService.verify(appUser, get("userId"))));
         }catch (Exception e){
@@ -72,6 +72,17 @@ public class UserController  extends Controller {
         }
     }
 
+    /**
+     * 校验用户存在
+     */
+    public void checkPhone(){
+        try {
+            renderText(JSON.toJSONString((userService.checkPhone(get("phone")))));
+        }catch (Exception e){
+            e.printStackTrace();
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
     public void index(){
         renderText(JSON.toJSONString((userService.getUserByUserToken(get("userId"), get("token")))));
     }

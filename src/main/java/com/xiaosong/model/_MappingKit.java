@@ -23,15 +23,12 @@ public class _MappingKit {
 		arp.addMapping("v_app_menu", "id", VAppMenu.class);
 		arp.addMapping("v_app_role", "id", VAppRole.class);
 		arp.addMapping("v_app_role_menu", "id", VAppRoleMenu.class);
-		arp.addMapping("v_app_user", "id", VAppUser.class);
-		arp.addMapping("v_app_user_account", "id", VAppUserAccount.class);
 		arp.addMapping("v_app_user_message", "id", VAppUserMessage.class);
 		arp.addMapping("v_app_user_notice", "id", VAppUserNotice.class);
 		arp.addMapping("v_app_version", "id", VAppVersion.class);
 		arp.addMapping("v_app_yaoyue_record", "id", VAppYaoyueRecord.class);
 		arp.addMapping("v_business", "id", VBusiness.class);
 		arp.addMapping("v_comp_vip_user", "id", VCompVipUser.class);
-		arp.addMapping("v_company", "id", VCompany.class);
 		arp.addMapping("v_d_inout", "id", VDInout.class);
 		arp.addMapping("v_d_user", "id", VDUser.class);
 		arp.addMapping("v_dept", "id", VDept.class);

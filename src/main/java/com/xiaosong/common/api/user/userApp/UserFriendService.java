@@ -7,16 +7,14 @@ import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.TableList;
-import com.xiaosong.model.VAppUser;
-import com.xiaosong.model.VCompany;
+import com.xiaosong.model.VDept;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VOrg;
 import com.xiaosong.model.VUserFriend;
-import com.xiaosong.util.BaseUtil;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.util.phoneUtil;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @program: visitor
@@ -38,16 +36,16 @@ public class UserFriendService  extends MyBaseService {
         if (userId==null){
           return Result.unDataResult("fail","缺少参数");
         }
-        VAppUser user = VAppUser.dao.findById(userId);
+        VDeptUser user = VDeptUser.dao.findById(userId);
         if(user==null){
             return Result.unDataResult("fail","没有用户参数");
         }
         //查找自己的大楼id
-        String orgId = BaseUtil.objToStr(user.getOrgId(),null);
-        VCompany company = new VCompany();
+//        String orgId = BaseUtil.objToStr(user.getOrgId(),null);
+        VDept dept = new VDept();
         //查找公司的大楼id
-         if(user.getCompanyId()!=null){
-             company= VCompany.dao.findById(user.getCompanyId());
+         if(user.getDeptId()!=null){
+             dept= VDept.dao.findById(user.getDeptId());
         }
         String columSql="select DISTINCT m.id,m.menu_code,m.menu_name,m.menu_url,m.sid,sstatus ";
 //        //3、获取个人的app角色权限
@@ -59,12 +57,12 @@ public class UserFriendService  extends MyBaseService {
         " where ur.role_name='访客'";
         String union="";
         //查找orgRole
-        if (company!=null&&company.getOrgId()!=null) {
-            VOrg org = VOrg.dao.findById(company.getOrgId());
-            if (org.getApprole()!=null) {
-                    union = " union " + columSql + fromSql + " where urm.role_id=" + org.getApprole()+" and urm.isOpen='T' ";
-            }
-        }
+//        if (dept!=null&&dept.getOrgId()!=null) {
+//            VOrg org = VOrg.dao.findById(dept.getOrgId());
+//            if (org.getApprole()!=null) {
+//                    union = " union " + columSql + fromSql + " where urm.role_id=" + org.getApprole()+" and urm.isOpen='T' ";
+//            }
+//        }
         String order=" order by id";
         log.info("访客权限："+columSql+fromSql+suffix+union+order);
         //大楼id sql
@@ -75,7 +73,7 @@ public class UserFriendService  extends MyBaseService {
     }
     //点击退出app 修改在线状态
     public Result appQuit(Long userId)  {
-        VAppUser appUser=new VAppUser();
+        VDeptUser appUser=new VDeptUser();
         appUser.setId(userId).setIsOnlineApp("F");
         return  appUser.update()?Result.success():Result.fail();
     }
@@ -86,17 +84,17 @@ public class UserFriendService  extends MyBaseService {
     public Result findUserFriend(Long userId)  {
         //添加好友对登入人状态 2为删除
         log.info("查询好友:"+userId);
-        List<Record> records = Db.find(Db.getSql("appUser.findUserFriend"),userId);
+        List<Record> records = Db.find(Db.getSql("deptUser.findUserFriend"),userId,userId);
         return records != null && !records.isEmpty()
                 ? ResultData.dataResult("success", "获取通讯录记录成功", apiList(records))
                 : Result.unDataResult("success", "暂无数据");
     }
     public Result addFriendByPhoneAndUser(String userId,String phone,String realName,String remark) throws Exception {
-        String p = Db.queryStr(Db.getSql("appUser.findId"),phone);//查询手机是否存在
+        String p = Db.queryStr(Db.getSql("deptUser.findId"),phone);//查询手机是否存在
         if (p==null){
             return Result.unDataResult(ConsantCode.FAIL, "未找到手机号!");
         }
-        String id=Db.queryStr(Db.getSql("appUser.findIdName"),phone,realName);//查看手机与真实姓名是否匹配
+        String id=Db.queryStr(Db.getSql("deptUser.findIdName"),phone,realName);//查看手机与真实姓名是否匹配
         if(id==null){
             return Result.unDataResult("fail","用户姓名与手机不匹配!");
         }
@@ -113,10 +111,10 @@ public class UserFriendService  extends MyBaseService {
         Long userId = userFriend.getUserId();
         Long friendId = userFriend.getFriendId();
         String remark=userFriend.getRemark();
-        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), userId, friendId);
+        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("deptUser.findFriend"), userId, friendId);
 //        Map<String,Object> newUserMap=new HashMap<>();
         if (uf!=null) {
-            VUserFriend friend = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), friendId, userId);
+            VUserFriend friend = VUserFriend.dao.findFirst(Db.getSql("deptUser.findFriend"), friendId, userId);
             Integer applyType = uf.getApplyType();
 //            //对方对我状态
             switch (applyType) {
@@ -224,9 +222,9 @@ public class UserFriendService  extends MyBaseService {
         Long friendId = userFriend.getFriendId();
         String remark = userFriend.getRemark();
         //我存在好友
-        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), userId, friendId);
+        VUserFriend uf = VUserFriend.dao.findFirst(Db.getSql("deptUser.findFriend"), userId, friendId);
         //只有通过同意列表显示的按钮才能添加好友，所以好友必定存在我
-        VUserFriend fu = VUserFriend.dao.findFirst(Db.getSql("appUser.findFriend"), friendId, userId);
+        VUserFriend fu = VUserFriend.dao.findFirst(Db.getSql("deptUser.findFriend"), friendId, userId);
         //对方没有添加我
         if (fu==null||fu.getApplyType()==2){
             return Result.unDataResult("fail","数据错误！请联系管理员");
@@ -276,14 +274,14 @@ public class UserFriendService  extends MyBaseService {
         log.info(userId+"最终查询的手机号为："+newPhones);
 
         String columsql="select * from ";
-        String sql = "(select u.id,u.realName,u.phone,u.orgId,u.province,u.city,u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl,'同意' applyType, null\n" +
-                " remark  from  "+ TableList.USER_FRIEND +" uf  left join "+ TableList.APP_USER +" u on uf.userId=u.id where uf.friendId = '"+userId+"' and uf.applyType=0 \n" +
+        String sql = "(select u.id,u.realName,u.phone,u.addr,u.idHandleImgUrl,u.deptId companyId,u.headImgUrl,'同意' applyType, null\n" +
+                " remark  from  "+ TableList.USER_FRIEND +" uf  left join "+ TableList.DEPT_USER +" u on uf.userId=u.id where uf.friendId = '"+userId+"' and uf.applyType=0 \n" +
                 " union " +
-                "select u.id,u.realName,u.phone,u.orgId,u.province,u.city,u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl," +
+                "select u.id,u.realName,u.phone,u.addr,u.idHandleImgUrl,u.deptId companyId,u.headImgUrl," +
                 " case (select  applyType from "+ TableList.USER_FRIEND +" uf where uf.friendId=u.id and uf.userId="+userId+" )  when 0 then '申请中' when 1 then '已添加' else '添加' end \n" +
                 "\t applyType," +
                 "(select  remark from "+ TableList.USER_FRIEND +" uf where uf.friendId=u.id and uf.userId="+userId+" ) remark"+
-                " from "+ TableList.APP_USER +"  u where phone in ("+newPhones+") and isAuth='T' " +
+                " from "+ TableList.DEPT_USER +"  u where phone in ("+newPhones+") and isAuth='T' " +
                 "ORDER BY FIELD(applyType, '同意', '添加', '申请中','已添加'),convert(realName using gbk))x where id >0 and id <>"+userId;
         List<Record> records = Db.find(columsql + sql);
         return records != null && !records.isEmpty()
@@ -294,7 +292,7 @@ public class UserFriendService  extends MyBaseService {
         删除好友
      */
     public Result deleteUserFriend(Long userId,Long friendId) throws Exception {
-        int update = Db.update(Db.getSql("appUser.deleteUserFriend"), userId, friendId);
+        int update = Db.update(Db.getSql("deptUser.deleteUserFriend"), userId, friendId);
         if(update > 0){
             log.info(userId+"删除好友"+friendId+"成功");
             return  Result.unDataResult("success","删除成功");
@@ -309,17 +307,17 @@ public class UserFriendService  extends MyBaseService {
             String columnSql = "select * from (select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city" +
                     ",u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl";
             String fromSql   = " from " + TableList.USER_FRIEND + " uf " +
-                    " left join " + TableList.APP_USER + " u on uf.friendId=u.id" +
+                    " left join " + TableList.DEPT_USER + " u on uf.friendId=u.id" +
                     " where uf.userId = '"+userId+"'";
             String union=" union all \n" +
                     "select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city," +
                     "u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl\n" +
                     "from " + TableList.USER_FRIEND + "   uf \n" +
-                    "left join " + TableList.APP_USER + " u on uf.userid=u.id \n" +
+                    "left join " + TableList.DEPT_USER + " u on uf.userid=u.id \n" +
                     "where uf.friendId = "+userId+")x group by realName,phone,companyId ";
-        List<VAppUser> vAppUsers = VAppUser.dao.find(columnSql + fromSql + union);
-        return vAppUsers != null && !vAppUsers.isEmpty()
-                    ? ResultData.dataResult("success","获取列表成功",vAppUsers)
+        List<VDeptUser> VDeptUsers = VDeptUser.dao.find(columnSql + fromSql + union);
+        return VDeptUsers != null && !VDeptUsers.isEmpty()
+                    ? ResultData.dataResult("success","获取列表成功",VDeptUsers)
                     : Result.unDataResult("success","暂无数据");
         }
 

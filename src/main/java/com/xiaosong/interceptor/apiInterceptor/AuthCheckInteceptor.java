@@ -6,7 +6,8 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
-import com.xiaosong.model.VAppUser;
+import com.xiaosong.model.VDept;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.RedisUtil;
 import com.xiaosong.util.TokenUtil;
@@ -42,12 +43,12 @@ public class AuthCheckInteceptor implements Interceptor {
                     }
                     Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//缓存中的位置
                     String userToken = null;
-                    VAppUser appUser;
+                    VDeptUser deptUser;
                     userToken = RedisUtil.getStrVal(userId + "_token", apiAuthCheckRedisDbIndex);
                     if (StringUtils.isBlank(userToken)) {
                         //缓存中不存在Token，就从数据库中查询
-                        appUser = VAppUser.dao.findById(userId);
-                        userToken = appUser.getToken();
+                        deptUser = VDeptUser.dao.findById(userId);
+                        userToken = deptUser.getToken();
                     }
                     log.info("是否token正确：" + token.equals(userToken));
                     log.info("userId：" + userId);
@@ -64,8 +65,8 @@ public class AuthCheckInteceptor implements Interceptor {
                         String isAuth = RedisUtil.getStrVal(verifyKey, apiAuthCheckRedisDbIndex);
                         if (StringUtils.isBlank(isAuth)) {
                             //缓存中不存在，就从数据库中查询
-                            appUser = new VAppUser();
-                            isAuth = appUser.getIsAuth();
+                            deptUser = new VDeptUser();
+                            isAuth = deptUser.getIsAuth();
                         }
                         if (!"T".equalsIgnoreCase(isAuth)) {
                             con.renderText(JSON.toJSONString(Result.unDataResult("tokenFail", "您还未进行实名验证")));

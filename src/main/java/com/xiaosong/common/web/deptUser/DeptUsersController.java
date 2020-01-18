@@ -34,10 +34,10 @@ public class DeptUsersController extends Controller{
 		String sex = getPara("sex");
 		String tel = getPara("tel");
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setUserName(userName);
+		deptUser.setRealName(userName);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
-		deptUser.setTel(tel);
+		deptUser.setPhone(tel);
 		boolean bool = srv.addDeptUser(deptUser);
 		if(bool) {
 			renderJson(RetUtil.ok());
@@ -54,10 +54,10 @@ public class DeptUsersController extends Controller{
 		String sex = getPara("sex");
 		String tel = getPara("tel");
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setUserName(userName);
+		deptUser.setRealName(userName);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
-		deptUser.setTel(tel);
+		deptUser.setPhone(tel);
 		deptUser.setId(id);
 		boolean bool = srv.editDeptUser(deptUser);
 		if(bool) {

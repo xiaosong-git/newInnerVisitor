@@ -6,8 +6,8 @@ import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.MyPage;
 import com.xiaosong.constant.TableList;
-import com.xiaosong.model.VAppUser;
-import com.xiaosong.model.VCompany;
+import com.xiaosong.model.VDept;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VNews;
 import com.xiaosong.model.VNotice;
 
@@ -19,7 +19,7 @@ import com.xiaosong.model.VNotice;
 public class NoticeService {
     Log log = Log.getLog(NoticeService.class);
     public Result findNoticeByUser(String userId, Integer pageNum, Integer pageSize) {
-//        Record appUser = Db.findById(TableList.APP_USER, userId);
+//        Record appUser = Db.findById(TableList.DEPT_USER, userId);
         //String relationNo = BaseUtil.objToStr(user.get("relationNo"),null);
         //String sql = "  from "+TableList.NOTICE +" where relationNo like '%"+relationNo+"%' and castatus = 'normal' order by createDate desc ";
         String coloumSql="select *";
@@ -34,30 +34,30 @@ public class NoticeService {
     }
     public Result findBySidCompany(String userId, Integer pageNum, Integer pageSize) throws Exception {
         //获取用户信息
-        VAppUser user = VAppUser.dao.findById(userId);
+        VDeptUser user = VDeptUser.dao.findById(userId);
         //获取用户的公司Id
-        if (user.get("companyId")==null){
-            return ResultData.unDataResult("fail", "该员工缺少公司！");
+        if (user.getDeptId()==null){
+            return ResultData.unDataResult("fail", "该员工缺少部门！");
         }
         //获取用户companyId
-        Long companyId = user.getCompanyId();
+        Long companyId = user.getDeptId();
         //获取用户公司信息
-        VCompany company = VCompany.dao.findById(companyId);
+        VDept dept = VDept.dao.findById(companyId);
         String coloumSql = "select * ";
         String from = "from ( select a.*,'company' orgType from " + TableList.NOTICE + "a where  cstatus = 'normal' and a.companyId=" + companyId + " ";
         String union = "";
         String companyUnion = "";
         String Suffix  = ")x";
         //获取tbl_user的orgId
-        Long userOrgId = user.getOrgId();
+//        Long userOrgId = user.getOrgId();
         //用户有orgId，则添加根据orgId与sId进行搜索
-        if (userOrgId !=  null) {
-            union = union(userOrgId);
-        }
+//        if (userOrgId !=  null) {
+//            union = union(userOrgId);
+//        }
         //获取用户公司的orgId
-        if (company.getOrgId()!=null){
-            companyUnion=union(company.getOrgId());
-        }
+//        if (dept.getOrgId()!=null){
+//            companyUnion=union(dept.getOrgId());
+//        }
         log.info("查询notice:: {}",from + union+companyUnion+Suffix);
         Page<VNotice> records = VNotice.dao.paginate(pageNum, pageSize, coloumSql , from + union+companyUnion+Suffix );
         MyPage<VNotice> myPage= new MyPage(records.getList(),pageNum,pageSize,records.getTotalPage(),records.getTotalRow());

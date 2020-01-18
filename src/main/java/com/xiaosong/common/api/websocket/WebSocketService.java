@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
-import com.xiaosong.compose.Result;
 import com.xiaosong.common.api.user.UserService;
+import com.xiaosong.compose.Result;
 import com.xiaosong.constant.TableList;
-import com.xiaosong.model.VAppUser;
+import com.xiaosong.model.VAppUserNotice;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VAppUserMessage;
 import com.xiaosong.model.VVisitorRecord;
 import com.xiaosong.util.BaseUtil;
@@ -29,7 +30,6 @@ import java.util.Map;
 public class WebSocketService {
     public static final WebSocketService me = new WebSocketService();
     Log log=Log.getLog(WebSocketService.class);
-
     /**
      *  判断用户是否为好友，非好友则返回信息
      * @return  是否为好友
@@ -80,13 +80,13 @@ public class WebSocketService {
      *
      */
     public void saveJson(Long fromUserId, JSONObject obj){
-        VAppUser appUser = VAppUser.dao.findById(fromUserId);
+        VDeptUser appUser = VDeptUser.dao.findById(fromUserId);
         if (appUser!=null){
         obj.put("realName",appUser.getRealName());
-        obj.put("nickName",appUser.getNiceName());
-        obj.put("headImgUrl",appUser.getHeadImgUrl());
+//        obj.put("nickName",appUser.getNiceName());
+//        obj.put("headImgUrl",appUser.getHeadImgUrl());
         obj.put("idHandleImgUrl",appUser.getIdHandleImgUrl());
-        obj.put("orgId",appUser.getOrgId());
+//        obj.put("orgId",appUser.getOrgId());
         }
     }
 
@@ -126,16 +126,16 @@ public class WebSocketService {
                 fromUserRemote.sendText(Result.ResultCodeType("success","发送成功","200",type));
                 //用户不在线，插入数据库
             } else {
-                VAppUserMessage vAppUserMessage=new VAppUserMessage();
-                boolean save = vAppUserMessage.setFromUserId(Long.valueOf(fromUserId)).setToUserId(Long.valueOf(toUserId))
+                VAppUserMessage VDeptUserMessage=new VAppUserMessage();
+                boolean save = VDeptUserMessage.setFromUserId(Long.valueOf(fromUserId)).setToUserId(Long.valueOf(toUserId))
                         .setMessage(content).setUpdateTime(DateUtil.getSystemTime()).setType(type).save();
                 if (save){
                     fromUserRemote.sendText(Result.ResultCodeType("success","发送成功","200",type));
                     //发送推送
-                    VAppUser vAppUser=VAppUser.dao.findById(toUserId);
+                    VDeptUser deptUser=VDeptUser.dao.findById(toUserId);
                     String notification_title=type==4?"您有一条好友申请需处理！":"您有一条聊天消息需处理！";
                     //个推
-                    GTNotification.Single(vAppUser.getDeviceToken(), vAppUser.getPhone(), notification_title, content, content);
+                    GTNotification.Single(deptUser.getDeviceToken(), deptUser.getPhone(), notification_title, content, content);
                 }else {
                     fromUserRemote.sendText(Result.ResultCodeType("fail","发送失败","-1",type));
                 }
@@ -154,8 +154,8 @@ public class WebSocketService {
             //公司名称改为部门
             Integer companyId = BaseUtil.objToInteger(msg.get("companyId"),0);
             //查询登入人信息
-            VAppUser fromUser = VAppUser.dao.findById(fromUserId);
-            VAppUser toUser = VAppUser.dao.findById(toUserId);
+            VDeptUser fromUser = VDeptUser.dao.findById(fromUserId);
+            VDeptUser toUser = VDeptUser.dao.findById(toUserId);
             //登入人公司ID与大楼ID
             Integer check =null;
             String notification_title = "访问信息提醒";

@@ -8,7 +8,6 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
-import com.xiaosong.model.VAppUser;
 import com.xiaosong.model.VOutVisitor;
 import com.xiaosong.model.VVisitorRecord;
 import com.xiaosong.util.ConsantCode;
@@ -87,11 +86,7 @@ public class VisitorRecordController extends Controller {
         }catch (Exception e){
 
             log.error("系统异常：",e.getMessage());
-            if (e.getMessage().equals("1")){
-                renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "获取云端信息错误")));
-            }else {
-                renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
-            }
+                renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, e.getMessage())));
             throw e;
         }
     }
@@ -163,7 +158,13 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
-    /**
-     * 非好友邀约
-     */
+    public void innerVisitReceive(){
+        VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
+        try {
+            renderText(JSON.toJSONString(VisitorRecordService.me.innerVisitReceive(visitorRecord)));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
 }
