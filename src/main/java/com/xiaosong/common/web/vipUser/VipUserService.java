@@ -16,7 +16,7 @@ public class VipUserService {
 	public Page<VCompVipUser> findList(String tel, int currentPage, int pageSize){
 		Page<Record> page = Db.paginate(currentPage, pageSize, "select *", "from v_comp_vip_user");
 		if(tel!=null &&tel!="") {
-			return VCompVipUser.dao.paginate(currentPage, pageSize, "select *", "from v_comp_vip_user where tel like CONCAT(?,'%')",tel);
+			return VCompVipUser.dao.paginate(currentPage, pageSize, "select *", "from v_comp_vip_user where phone like CONCAT(?,'%')",tel);
 		}
 		return VCompVipUser.dao.paginate(currentPage, pageSize, "select *", "from v_comp_vip_user");
 	}

@@ -25,6 +25,10 @@ public class SysRoleController extends Controller{
 		renderJson(pagelist);
 	}
 	
+	public void findByOption() {
+		renderJson(srv.findByOption());
+	}
+	
 	public void addSysRole() throws Exception {
 		String roleName = getPara("role_name");
 		String description = getPara("description");

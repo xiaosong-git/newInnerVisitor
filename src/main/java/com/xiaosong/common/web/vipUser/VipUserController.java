@@ -25,12 +25,20 @@ public class VipUserController extends Controller{
 	
 	public void addVipUser() throws Exception {
 		String userName = getPara("userName");
-		String tel = getPara("tel");
+		String sex = getPara("sex");
+		String phone = getPara("phone");
+		String company = getPara("company");
+		String position = getPara("position");
 		String createtime = getPara("createtime");
 		String endtime = getPara("endtime");
+		String authorizeReason = getPara("authorize_reason");
 		VCompVipUser vipUser = getModel(VCompVipUser.class);
 		vipUser.setUserName(userName);
-		vipUser.setTel(tel);
+		vipUser.setPhone(phone);
+		vipUser.setSex(sex);
+		vipUser.setCompany(company);
+		vipUser.setPosition(position);
+		vipUser.setAuthorizeReason(authorizeReason);
 		vipUser.setCreatetime(createtime);
 		vipUser.setEndtime(endtime);
 		boolean bool = srv.addVipUser(vipUser);
@@ -44,12 +52,20 @@ public class VipUserController extends Controller{
 	public void editVipUser() {
 		long id = getLong("id");
 		String userName = getPara("userName");
-		String tel = getPara("tel");
+		String sex = getPara("sex");
+		String phone = getPara("phone");
+		String company = getPara("company");
+		String position = getPara("position");
 		String createtime = getPara("createtime");
 		String endtime = getPara("endtime");
+		String authorizeReason = getPara("authorize_reason");
 		VCompVipUser vipUser = getModel(VCompVipUser.class);
 		vipUser.setUserName(userName);
-		vipUser.setTel(tel);
+		vipUser.setPhone(phone);
+		vipUser.setSex(sex);
+		vipUser.setCompany(company);
+		vipUser.setPosition(position);
+		vipUser.setAuthorizeReason(authorizeReason);
 		vipUser.setCreatetime(createtime);
 		vipUser.setEndtime(endtime);
 		vipUser.setId(id);

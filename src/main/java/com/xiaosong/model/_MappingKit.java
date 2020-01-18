@@ -21,6 +21,7 @@ public class _MappingKit {
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);
 		arp.addMapping("v_app_menu", "id", VAppMenu.class);
+		arp.addMapping("v_app_notice", "id", VAppNotice.class);
 		arp.addMapping("v_app_role", "id", VAppRole.class);
 		arp.addMapping("v_app_role_menu", "id", VAppRoleMenu.class);
 		arp.addMapping("v_app_user_message", "id", VAppUserMessage.class);

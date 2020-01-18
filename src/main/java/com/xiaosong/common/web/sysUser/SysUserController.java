@@ -5,6 +5,7 @@ import java.util.Date;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VSysUser;
 import com.xiaosong.util.MD5Util;
 import com.xiaosong.util.RetUtil;
@@ -23,7 +24,7 @@ public class SysUserController extends Controller{
 		String tel = getPara("queryString");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<VSysUser> pagelist = srv.findList(tel,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(tel,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 	
@@ -32,12 +33,14 @@ public class SysUserController extends Controller{
 		String password = MD5Util.MD5(getPara("password"));
 		String tel = getPara("tel");
 		String trueName = getPara("true_name");
+		Long roleId = getLong("role_id");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VSysUser user = getModel(VSysUser.class);
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setTel(tel);
+		user.setRoleId(roleId);
 		user.setCreatetime(createtime);
 		user.setTrueName(trueName);
 		boolean bool = srv.addSysUser(user);
@@ -53,6 +56,7 @@ public class SysUserController extends Controller{
 		String username = getPara("username");
 		String password = getPara("password");
 		String tel = getPara("tel");
+		Long roleId = getLong("role_id");
 		String trueName = getPara("true_name");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
@@ -60,6 +64,7 @@ public class SysUserController extends Controller{
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setTel(tel);
+		user.setRoleId(roleId);
 		user.setCreatetime(createtime);
 		user.setTrueName(trueName);
 		user.setId(id);

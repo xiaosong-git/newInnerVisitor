@@ -4,6 +4,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VDeptUser;
+import com.xiaosong.util.DESUtil;
 
 /** 
 * @author 作者 : xiaojf
@@ -15,13 +16,16 @@ public class DeptUserService {
 	
 	public Page<Record> findList(String tel, int currentPage, int pageSize){
 		if(tel!=null &&tel!="") {
-			return Db.paginate(currentPage, pageSize, "select *", "from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.sectionId=d.id where u.tel like CONCAT(?,'%')) as a",tel);
+			return Db.paginate(currentPage, pageSize, "select *", "from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where u.tel like CONCAT(?,'%')) as a",tel);
 			//return VDeptUser.dao.paginate(currentPage, pageSize, "select *", "from v_dept_user where tel like CONCAT(?,'%')",tel);
 		}
-		return Db.paginate(currentPage, pageSize, "select *", "from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.sectionId=d.id) as a");
+		return Db.paginate(currentPage, pageSize, "select *", "from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) as a");
 	}
 	
 	public boolean addDeptUser(VDeptUser config) {
+		Record record = Db.findFirst("select * from v_user_key");
+		String idNo = DESUtil.encode(record.getStr("workKey"), config.getIdNO());
+		config.setIdNO(idNo);
 		return config.save();
 	}
 	
