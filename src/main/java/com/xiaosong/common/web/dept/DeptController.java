@@ -33,7 +33,7 @@ public class DeptController extends Controller{
 		String floor = getPara("floor");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
-		dept.setBuilding(building);
+		//dept.setBuilding(building);
 		dept.setFloor(floor);
 		boolean bool = srv.addDept(dept);
 		if(bool) {
@@ -50,7 +50,7 @@ public class DeptController extends Controller{
 		String floor = getPara("floor");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
-		dept.setBuilding(building);
+		//dept.setBuilding(building);
 		dept.setFloor(floor);
 		dept.setId(id);
 		boolean bool = srv.editDept(dept);

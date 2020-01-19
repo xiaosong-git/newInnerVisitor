@@ -78,6 +78,21 @@ public abstract class BaseVBusiness<M extends BaseVBusiness<M>> extends Model<M>
 		return get("createtime");
 	}
 
+	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("update_time", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("update_time");
+	}
+
 	public M setExtra1(java.lang.String extra1) {
 		set("extra1", extra1);
 		return (M)this;

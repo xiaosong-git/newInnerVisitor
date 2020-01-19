@@ -25,25 +25,25 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	}
 
 	/**
-	 * 原公司id表
+	 * 大楼号
 	 */
-	public M setCompanyId(java.lang.Long companyId) {
-		set("companyId", companyId);
+	public M setOrgId(java.lang.Long orgId) {
+		set("org_id", orgId);
 		return (M)this;
 	}
 	
 	/**
-	 * 原公司id表
+	 * 大楼号
 	 */
-	public java.lang.Long getCompanyId() {
-		return getLong("companyId");
+	public java.lang.Long getOrgId() {
+		return getLong("org_id");
 	}
 
 	/**
 	 * 部门编码
 	 */
-	public M setCode(java.lang.String Code) {
-		set("Code", Code);
+	public M setCode(java.lang.String code) {
+		set("code", code);
 		return (M)this;
 	}
 	
@@ -51,7 +51,7 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	 * 部门编码
 	 */
 	public java.lang.String getCode() {
-		return getStr("Code");
+		return getStr("code");
 	}
 
 	/**
@@ -70,21 +70,6 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	}
 
 	/**
-	 * 楼栋号
-	 */
-	public M setBuilding(java.lang.String building) {
-		set("building", building);
-		return (M)this;
-	}
-	
-	/**
-	 * 楼栋号
-	 */
-	public java.lang.String getBuilding() {
-		return getStr("building");
-	}
-
-	/**
 	 * 楼层
 	 */
 	public M setFloor(java.lang.String floor) {
@@ -100,7 +85,7 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	}
 
 	/**
-	 * 部门主管id
+	 * 部门主管id 去dept_user 查询
 	 */
 	public M setManageUserId(java.lang.Long manageUserId) {
 		set("manage_user_id", manageUserId);
@@ -108,7 +93,7 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	}
 	
 	/**
-	 * 部门主管id
+	 * 部门主管id 去dept_user 查询
 	 */
 	public java.lang.Long getManageUserId() {
 		return getLong("manage_user_id");

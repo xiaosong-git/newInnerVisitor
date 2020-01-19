@@ -154,6 +154,21 @@ public abstract class BaseVAppMenu<M extends BaseVAppMenu<M>> extends Model<M> i
 	}
 
 	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
+	/**
 	 * 拓展字段1
 	 */
 	public M setExt1(java.lang.String ext1) {

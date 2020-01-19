@@ -40,21 +40,6 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 公司id
-	 */
-	public M setCompanyId(java.lang.Long companyId) {
-		set("companyId", companyId);
-		return (M)this;
-	}
-	
-	/**
-	 * 公司id
-	 */
-	public java.lang.Long getCompanyId() {
-		return getLong("companyId");
-	}
-
-	/**
 	 * 工号
 	 */
 	public M setUserId(java.lang.String userId) {
@@ -100,7 +85,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 角色:(staff:普通员工,manage:管理员,front:前台)
+	 * 职位 manage 部门管理员 staff 员工 floor:大楼管理员
 	 */
 	public M setRoleType(java.lang.String roleType) {
 		set("roleType", roleType);
@@ -108,7 +93,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * 角色:(staff:普通员工,manage:管理员,front:前台)
+	 * 职位 manage 部门管理员 staff 员工 floor:大楼管理员
 	 */
 	public java.lang.String getRoleType() {
 		return getStr("roleType");
@@ -304,6 +289,36 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
+	 * 入职时间
+	 */
+	public M setIntime(java.lang.String intime) {
+		set("intime", intime);
+		return (M)this;
+	}
+	
+	/**
+	 * 入职时间
+	 */
+	public java.lang.String getIntime() {
+		return getStr("intime");
+	}
+
+	/**
+	 * 备注
+	 */
+	public M setRemark(java.lang.String remark) {
+		set("remark", remark);
+		return (M)this;
+	}
+	
+	/**
+	 * 备注
+	 */
+	public java.lang.String getRemark() {
+		return getStr("remark");
+	}
+
+	/**
 	 * token
 	 */
 	public M setToken(java.lang.String token) {
@@ -319,21 +334,6 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 个推cid
-	 */
-	public M setDeviceToken(java.lang.String deviceToken) {
-		set("deviceToken", deviceToken);
-		return (M)this;
-	}
-	
-	/**
-	 * 个推cid
-	 */
-	public java.lang.String getDeviceToken() {
-		return getStr("deviceToken");
-	}
-
-	/**
 	 * 默认密码
 	 */
 	public M setSysPwd(java.lang.String sysPwd) {
@@ -346,6 +346,21 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	 */
 	public java.lang.String getSysPwd() {
 		return getStr("sysPwd");
+	}
+
+	/**
+	 * 个推cid
+	 */
+	public M setDeviceToken(java.lang.String deviceToken) {
+		set("deviceToken", deviceToken);
+		return (M)this;
+	}
+	
+	/**
+	 * 个推cid
+	 */
+	public java.lang.String getDeviceToken() {
+		return getStr("deviceToken");
 	}
 
 	/**
@@ -379,6 +394,21 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
+	/**
 	 * 扩展字段1
 	 */
 	public M setExp1(java.lang.String exp1) {
@@ -406,36 +436,6 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	 */
 	public java.lang.String getExp2() {
 		return getStr("exp2");
-	}
-
-	/**
-	 * 入职时间
-	 */
-	public M setIntime(java.lang.String intime) {
-		set("intime", intime);
-		return (M)this;
-	}
-	
-	/**
-	 * 入职时间
-	 */
-	public java.lang.String getIntime() {
-		return getStr("intime");
-	}
-
-	/**
-	 * 备注
-	 */
-	public M setRemark(java.lang.String remark) {
-		set("remark", remark);
-		return (M)this;
-	}
-	
-	/**
-	 * 备注
-	 */
-	public java.lang.String getRemark() {
-		return getStr("remark");
 	}
 
 }
