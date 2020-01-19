@@ -80,17 +80,20 @@ public class UserService {
 
     //是否实名
     public boolean isVerify(Object userId) {
-        Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
-        String key = userId + "_isAuth";
-        //redis修改
-        String isAuth = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
-        if (StringUtils.isBlank(isAuth)) {
+        /**
+         * 企业版去除redis
+         */
+//        Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
+//        String key = userId + "_isAuth";
+//        //redis修改
+//        String isAuth = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
+//        if (StringUtils.isBlank(isAuth)) {
             //缓存中不存在，从数据库查询
-            isAuth = Db.queryStr("select isAuth from " + TableList.DEPT_USER + " where id=?", userId);
+           String isAuth = Db.queryStr("select isAuth from " + TableList.DEPT_USER + " where id=?", userId);
             if (isAuth == null) return false;
             //redis修改
-            RedisUtil.setStr(apiAuthCheckRedisDbIndex, key, isAuth, null);
-        }
+//            RedisUtil.setStr(apiAuthCheckRedisDbIndex, key, isAuth, null);
+//        }
         return "T".equalsIgnoreCase(isAuth);
     }
 
@@ -125,18 +128,21 @@ public class UserService {
             //实人认证  update by cwf  2019/11/25 11:30 Reason:先查询本地库是否有实名认证 如果没有 则调用CTID认证  判断实人认证是否过期，过期重新走ctid
             String sql = "select distinct * from " + TableList.LOCAL_AUTH + " where idNo='" + idNO + "' and realName='" + realName + "'";
             VDeptUser user = VDeptUser.dao.findById(userId);
-            Calendar curr = Calendar.getInstance();
-            Calendar start = Calendar.getInstance();
+//            Calendar curr = Calendar.getInstance();
+//            Calendar start = Calendar.getInstance();
             //判断时间是否需要重新实名
-            Record localAuth = Db.findFirst(sql);
-            if (localAuth != null && !curr.after(start)) {//可以改为连接外部api进行本地实人认证
-                idHandleImgUrl = BaseUtil.objToStr(localAuth.get("idHandleImgUrl"), idHandleImgUrl);
-                log.info("本地实人认证成功上一张成功图片为：{}", idHandleImgUrl);
-            } else {
+//            Record localAuth = Db.findFirst(sql);
+//            if (localAuth != null && !curr.after(start)) {//可以改为连接外部api进行本地实人认证
+//                idHandleImgUrl = BaseUtil.objToStr(localAuth.get("idHandleImgUrl"), idHandleImgUrl);
+//                log.info("本地实人认证成功上一张成功图片为：{}", idHandleImgUrl);
+//            } else {
+            /**
+             * 实人认证
+             */
                 String photoResult = AuthUtil.me.auth(idNoMW, realName, idHandleImgUrl);
                 if (!"success".equals(photoResult)) {
                     return Result.unDataResult("fail", photoResult);
-                }
+//                }
             }
             String address = deptUser.get("addr");
             //非空判断
@@ -147,10 +153,10 @@ public class UserService {
             user.setIdHandleImgUrl(idHandleImgUrl)
                     .setRealName(realName).setIsAuth("T").setIdNO(idNO).setAddr(address);
             if (user.update()) {
-                Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
-                String key = userId + "_isAuth";
+//                Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
+//                String key = userId + "_isAuth";
                 //redis修改
-                RedisUtil.setStr(apiAuthCheckRedisDbIndex, key, "T", null);
+//                RedisUtil.setStr(apiAuthCheckRedisDbIndex, key, "T", null);
                 Map<String, Object> resultMap = new HashMap<String, Object>();
                 resultMap.put("isAuth", "T");
                 //本地实人记录

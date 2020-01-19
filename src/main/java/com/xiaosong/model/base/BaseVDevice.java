@@ -108,6 +108,21 @@ public abstract class BaseVDevice<M extends BaseVDevice<M>> extends Model<M> imp
 		return getStr("createtime");
 	}
 
+	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
 	public M setExtra1(java.lang.String extra1) {
 		set("extra1", extra1);
 		return (M)this;

@@ -90,4 +90,19 @@ public abstract class BaseVAppVersion<M extends BaseVAppVersion<M>> extends Mode
 		return getStr("createDate");
 	}
 
+	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
 }

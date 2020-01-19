@@ -54,11 +54,18 @@ public class VisitorRecordService extends MyBaseService {
         pageNum = pageNum == null ? 1 : pageNum;
         pageSize = pageSize == null ? 10 : pageSize;
         //查看的是对方的信息
-        String otherMan = "userId".equals(condition) ? "visitorId" : "userId";
+        String otherMan =  "visitorId" ;
+        String inOutType="vr.visitorType";
+        if ("userId".equals(condition)){
+            otherMan="userId";
+            inOutType="vr.userType";
+        }
+
+
         String coloumSql = "SELECT vr.id,IF(u.realName IS NULL or u.realName=\"\",remarkName,u.realName) realName,u.phone,u.headImgUrl,\n" +
                 "\tvr.visitDate,vr.visitTime,vr.userId,vr.visitorId,vr.reason,vr.cstatus,vr.dateType\n" +
                 ",vr.startDate,vr.endDate,vr.answerContent,vr.orgCode,vr.companyId,vr.recordType,\n" +
-                "vr.replyDate,vr.replyTime,vr.vitype,vr.replyUserId,vr.isReceive,o.org_name,if(vr.originType='F',vr.exp1,c.companyName) companyName,o.accessType";
+                "vr.replyDate,vr.replyTime,vr.vitype,vr.replyUserId,vr.isReceive,o.org_name,if("+inOutType+"='out',vr.exp1,d.dept_name) companyName,o.visitor_access_type accessType ";
         String from = " from " + TableList.VISITOR_RECORD + " vr\n" +
                 "left join " + TableList.DEPT_USER + " u on u.id=vr." + otherMan + "\n" +
                 "left join " + TableList.DEPT + " d on vr.companyId=d.id\n" +

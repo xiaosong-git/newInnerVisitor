@@ -193,7 +193,7 @@ public class MainConfig extends JFinalConfig {
 		DictionaryCache dic = new DictionaryCache();
 		dic.intoCache();
 		//启动海景人脸引擎
-		FaceModuleUtil.initDetectEngine(1, 30, com.hj.jni.itf.Constant.TEMPLATE_ROLL_ANGL, 85);
+		FaceModuleUtil.initDetectEngine(1, 30, com.hj.jni.itf.Constant.TEMPLATE_ROLL_ANGL, 70);
 		FaceModuleUtil.initFeatureEngine(1);
 	}
 

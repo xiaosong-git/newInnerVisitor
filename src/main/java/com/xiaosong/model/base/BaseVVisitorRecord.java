@@ -310,7 +310,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 
 	/**
-	 * in 内网 --out 外网
+	 * in 内网 userId连dept_user id   --out 外网 userId 连out_visitor id 
 	 */
 	public M setUserType(java.lang.String userType) {
 		set("userType", userType);
@@ -318,14 +318,14 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 	
 	/**
-	 * in 内网 --out 外网
+	 * in 内网 userId连dept_user id   --out 外网 userId 连out_visitor id 
 	 */
 	public java.lang.String getUserType() {
 		return getStr("userType");
 	}
 
 	/**
-	 * in 内网 --out 外网
+	 * in 内网 visitorId连dept_user   id --out  外网 visitorId连out_visitor id 
 	 */
 	public M setVisitorType(java.lang.String visitorType) {
 		set("visitorType", visitorType);
@@ -333,7 +333,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 	
 	/**
-	 * in 内网 --out 外网
+	 * in 内网 visitorId连dept_user   id --out  外网 visitorId连out_visitor id 
 	 */
 	public java.lang.String getVisitorType() {
 		return getStr("visitorType");

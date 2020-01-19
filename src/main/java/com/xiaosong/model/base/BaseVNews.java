@@ -108,4 +108,19 @@ public abstract class BaseVNews<M extends BaseVNews<M>> extends Model<M> impleme
 		return getStr("newsStatus");
 	}
 
+	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
 }

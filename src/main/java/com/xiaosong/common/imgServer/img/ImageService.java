@@ -178,7 +178,9 @@ public class ImageService {
 				//失败移除文件
 			}else {
 				log.info("识别失败人像："+absolutePath);
-				return Result.unDataResult("fail","人脸识别失败，请重新提交人脸图片");
+				Map<String,Object> imgMap =new HashMap<>();//为了配合原图片服务器
+				imgMap.put("imageFileName","");
+				return ResultData.dataResult("fail","人脸识别失败，请重新提交人脸图片",imgMap);
 			}
 		}if("4".equals(type)){
 			log.info("进入普通图片........{}",realFilePath);

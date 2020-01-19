@@ -88,6 +88,21 @@ public abstract class BaseVAdBanner<M extends BaseVAdBanner<M>> extends Model<M>
 	}
 
 	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
+	/**
 	 * 排序，数值越高，越靠前
 	 */
 	public M setOrders(java.lang.Integer orders) {

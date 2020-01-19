@@ -48,6 +48,20 @@ public class UserController  extends Controller {
         }
     }
 
+    public void isVerify(){
+        VDeptUser appUser=getBean(VDeptUser.class,"",true);
+        try {
+            if (userService.isVerify((get("userId")))) {
+                renderText(JSON.toJSONString(Result.unDataResult("success", "已经实名验证")));
+            } else {
+                renderText(JSON.toJSONString(Result.unDataResult("fail", "还未实名验证")));
+            }
+        }catch (Exception e){
+            log.error(e.getMessage());
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
     /**
      * 忘记密码。通过短信修改密码
      */

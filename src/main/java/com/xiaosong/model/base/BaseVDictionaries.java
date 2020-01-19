@@ -45,6 +45,21 @@ public abstract class BaseVDictionaries<M extends BaseVDictionaries<M>> extends 
 		return getStr("dictionaries_value");
 	}
 
+	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
 	public M setExtra1(java.lang.String extra1) {
 		set("extra1", extra1);
 		return (M)this;
