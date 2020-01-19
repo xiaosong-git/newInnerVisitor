@@ -117,8 +117,8 @@ public class DESUtil {
         String str = "350121199306180330";
         String str1="C2BB3553446EB521E565277D8B4075CE0013D179D155D3C5";
 
-        encode(key,str);
-        System.out.println( decode(key,str1));
+        encode(key,str);//加密
+        System.out.println( decode(key,str1));//解密
         System.out.println(str);
         System.out.println( encode(key,str));
 //        System.out.println( decode(key,str));

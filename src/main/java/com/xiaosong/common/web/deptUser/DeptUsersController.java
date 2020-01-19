@@ -28,30 +28,16 @@ public class DeptUsersController extends Controller{
 	}
 	
 	public void addDeptUser() throws Exception {
-		Long id = getLong("id");
-		String realName = getPara("realName");
-		String userId = getPara("userId");
-		String sex = getPara("sex");
-		Long deptId = getLong("deptId");
-		String idNO = getPara("idNO");
-		String phone = getPara("phone");
-		String intime = getPara("intime");
-		String addr = getPara("addr");
-		String remark = getPara("remark");
+		String userName = getPara("userName");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String createDate = df.format(new Date());
+		String createtime = df.format(new Date());
+		String sex = getPara("sex");
+		String tel = getPara("tel");
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setRealName(realName);
-		deptUser.setUserId(userId);
+		deptUser.setRealName(userName);
+		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
-		deptUser.setDeptId(deptId);
-		deptUser.setIdNO(idNO);
-		deptUser.setPhone(phone);
-		deptUser.setIntime(intime);
-		deptUser.setRemark(remark);
-		deptUser.setCreateDate(createDate);
-		deptUser.setAddr(addr);
-		deptUser.setId(id);
+		deptUser.setPhone(tel);
 		boolean bool = srv.addDeptUser(deptUser);
 		if(bool) {
 			renderJson(RetUtil.ok());
@@ -62,28 +48,16 @@ public class DeptUsersController extends Controller{
 	
 	public void editDeptUser() {
 		long id = getLong("id");
-		String realName = getPara("realName");
-		String userId = getPara("userId");
-		String sex = getPara("sex");
-		Long deptId = getLong("deptId");
-		String idNO = getPara("idNO");
-		String phone = getPara("phone");
-		String intime = getPara("intime");
-		String addr = getPara("addr");
-		String remark = getPara("remark");
+		String userName = getPara("userName");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String createDate = df.format(new Date());
+		String createtime = df.format(new Date());
+		String sex = getPara("sex");
+		String tel = getPara("tel");
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setRealName(realName);
-		deptUser.setUserId(userId);
+		deptUser.setRealName(userName);
+		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
-		deptUser.setDeptId(deptId);
-		deptUser.setIdNO(idNO);
-		deptUser.setPhone(phone);
-		deptUser.setIntime(intime);
-		deptUser.setRemark(remark);
-		deptUser.setCreateDate(createDate);
-		deptUser.setAddr(addr);
+		deptUser.setPhone(tel);
 		deptUser.setId(id);
 		boolean bool = srv.editDeptUser(deptUser);
 		if(bool) {

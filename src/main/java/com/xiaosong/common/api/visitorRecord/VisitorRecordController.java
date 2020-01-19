@@ -5,8 +5,11 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.tx.Tx;
 import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
+import com.xiaosong.model.VOutVisitor;
+import com.xiaosong.model.VVisitorRecord;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.validate.user.UserIdValidator;
 
@@ -70,11 +73,32 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
-
-    public void visit(){
+    /**
+     *
+     *  非好友访问
+     */
+    @Before(Tx.class)
+    public void visit() throws Exception {
 
         try {
             renderText(JSON.toJSONString(VisitorRecordService.me.visit(getLong("userId"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"))));
+
+        }catch (Exception e){
+
+            log.error("系统异常：",e.getMessage());
+                renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, e.getMessage())));
+            throw e;
+        }
+    }
+
+    /**
+     * 接收外部访问
+     */
+    public void receiveOutVisit(){
+        VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
+        VOutVisitor vOutVisitor=getBean(VOutVisitor.class,"",true);
+        try {
+            renderText(JSON.toJSONString(VisitorRecordService.me.receiveOutVisit(visitorRecord, vOutVisitor)));
 
         }catch (Exception e){
             log.error("系统异常：",e);
@@ -129,6 +153,15 @@ public class VisitorRecordController extends Controller {
     public void visitorList(){
         try {
             renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), getInt("pageNum"), getInt("pageSize"), getInt("recordType"),get("condition"))));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+    public void innerVisitReceive(){
+        VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
+        try {
+            renderText(JSON.toJSONString(VisitorRecordService.me.innerVisitReceive(visitorRecord)));
         }catch (Exception e){
             log.error("系统异常：",e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));

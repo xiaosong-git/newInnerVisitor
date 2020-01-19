@@ -1,5 +1,6 @@
 package com.xiaosong.common.imgServer.img;
 
+import com.alibaba.fastjson.JSON;
 import com.hj.jni.itf.Constant;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
@@ -44,10 +45,10 @@ public class ImageController extends Controller {
 	 */
 	public void gainData(){
 		try {
-			renderJson(ImageService.me.gainDate(getFile(),get("userId"),get("type"),get("ad")));
+			renderText(JSON.toJSONString(ImageService.me.gainDate(getFile(), get("userId"), get("type"), get("ad"))));
 		}catch (Exception e){
 			log.error(e.getMessage());
-			renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+			renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
 		}
 	}
      public void index(){

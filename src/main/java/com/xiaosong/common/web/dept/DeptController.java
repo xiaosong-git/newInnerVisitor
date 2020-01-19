@@ -51,6 +51,7 @@ public class DeptController extends Controller{
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
 		//dept.setBuilding(building);
+
 		dept.setFloor(floor);
 		dept.setId(id);
 		boolean bool = srv.editDept(dept);

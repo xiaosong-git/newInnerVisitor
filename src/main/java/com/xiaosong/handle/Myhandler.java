@@ -27,7 +27,10 @@ public class Myhandler extends Handler {
             this.next.handle(param, request, response, isHandled);
             return;
         }
-
+        if (target.contains("/visitor/code/sendCode/")){
+            this.next.handle("/visitor/code/sendCode/", request, response, isHandled);
+            return;
+        }
         for(int i=0;i<strs.length;i++) {
             if (target.contains(strs[i])) {//循环查找字符串数组中的每个字符串中是否包含所有查找的内容
                 String substring = target.substring(strs[i].length());
@@ -36,7 +39,7 @@ public class Myhandler extends Handler {
                     if( Character.isDigit(split[0].charAt(0))&&Character.isDigit(split[1].charAt(0))){
                         request.setAttribute("pageNum", Integer.valueOf(split[0]));
                         request.setAttribute("pageSize", Integer.valueOf(split[1]));
-                    }else {
+                    }else {//版本控制
                         request.setAttribute("channel",split[0]);
                         request.setAttribute("versionNum",split[1]);
                     }

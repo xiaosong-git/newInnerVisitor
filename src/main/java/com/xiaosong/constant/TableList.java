@@ -30,4 +30,5 @@ public class TableList {
     public static final String AD_BANNER ="v_ad_banner" ;
     public static final String DEPT = "v_dept";
     public static final String NEWS = "v_news";//新闻
+    public static final String OUT_VISIT = "v_out_visitor";//新闻
 }
