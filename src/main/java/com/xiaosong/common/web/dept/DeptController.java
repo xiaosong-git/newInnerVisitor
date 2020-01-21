@@ -1,8 +1,11 @@
 package com.xiaosong.common.web.dept;
 
+import java.util.UUID;
+
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VDept;
 import com.xiaosong.util.RetUtil;
 
@@ -18,7 +21,7 @@ public class DeptController extends Controller{
 	public void findList() {
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<VDept> pagelist = srv.findList(currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(currentPage,pageSize);
 		renderJson(pagelist);
 	}
 	
@@ -27,14 +30,20 @@ public class DeptController extends Controller{
 		
 	}
 	
+	public void findByOrgOption() {
+		renderJson(srv.findByOrgOption());
+		
+	}
+	
 	public void addDept() throws Exception {
 		String deptName = getPara("dept_name");
-		String building = getPara("building");
+		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
-		//dept.setBuilding(building);
+		dept.setOrgId(orgId);
 		dept.setFloor(floor);
+		dept.setCode(UUID.randomUUID().toString());
 		boolean bool = srv.addDept(dept);
 		if(bool) {
 			renderJson(RetUtil.ok());
@@ -46,12 +55,11 @@ public class DeptController extends Controller{
 	public void editDept() {
 		long id = getLong("id");
 		String deptName = getPara("dept_name");
-		String building = getPara("building");
+		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
-		//dept.setBuilding(building);
-
+		dept.setOrgId(orgId);
 		dept.setFloor(floor);
 		dept.setId(id);
 		boolean bool = srv.editDept(dept);

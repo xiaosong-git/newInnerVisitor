@@ -33,15 +33,6 @@ public abstract class BaseVSysConfig<M extends BaseVSysConfig<M>> extends Model<
 		return getStr("function_name");
 	}
 
-	public M setTrueName(java.lang.String trueName) {
-		set("true_name", trueName);
-		return (M)this;
-	}
-	
-	public java.lang.String getTrueName() {
-		return getStr("true_name");
-	}
-
 	/**
 	 * 状态（是否启动）
 	 */
@@ -97,6 +88,15 @@ public abstract class BaseVSysConfig<M extends BaseVSysConfig<M>> extends Model<
 	
 	public java.lang.String getExtra3() {
 		return getStr("extra3");
+	}
+
+	public M setTrueName(java.lang.String trueName) {
+		set("true_name", trueName);
+		return (M)this;
+	}
+	
+	public java.lang.String getTrueName() {
+		return getStr("true_name");
 	}
 
 }

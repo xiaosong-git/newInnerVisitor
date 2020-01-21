@@ -42,21 +42,25 @@ public class MainConfig extends JFinalConfig {
 		/**load face windows
 		 */
 		if (Constant.DEV_MODE) {
-            System.load(Constant.DB40_PATH + "/FreeImage.dll");
-            System.load(Constant.DB40_PATH + "/HJFacePos.dll");
-            System.load(Constant.DB40_PATH + "/HJFaceDetect.dll");
-            System.load(Constant.DB40_PATH + "/HJFaceIdentify.dll");
-            System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
-            System.load(Constant.DB40_PATH + "/JavaJNI.dll");
+			/*
+			 * System.load(Constant.DB40_PATH + "/FreeImage.dll");
+			 * System.load(Constant.DB40_PATH + "/HJFacePos.dll");
+			 * System.load(Constant.DB40_PATH + "/HJFaceDetect.dll");
+			 * System.load(Constant.DB40_PATH + "/HJFaceIdentify.dll");
+			 * System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
+			 * System.load(Constant.DB40_PATH + "/JavaJNI.dll");
+			 */
         }
 		/**load face linux
 		 */
 		else {
-		System.load(Constant.DB40_LINUX_PATH+"/libJavaJNI.so");
-		System.load(Constant.DB40_LINUX_PATH+"/libHJFacePos.so");
-		System.load(Constant.DB40_LINUX_PATH+"/libHJFaceDetect.so");
-		System.load(Constant.DB40_LINUX_PATH+"/libHJFaceIdentify.so");
-		System.load(Constant.DB40_LINUX_PATH+"/libHJFaceEngine.so");
+			/*
+			 * System.load(Constant.DB40_LINUX_PATH+"/libJavaJNI.so");
+			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFacePos.so");
+			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFaceDetect.so");
+			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFaceIdentify.so");
+			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFaceEngine.so");
+			 */
         }
 		System.out.println("HJ faceEngine end");
 
@@ -193,8 +197,8 @@ public class MainConfig extends JFinalConfig {
 		DictionaryCache dic = new DictionaryCache();
 		dic.intoCache();
 		//启动海景人脸引擎
-		FaceModuleUtil.initDetectEngine(1, 30, com.hj.jni.itf.Constant.TEMPLATE_ROLL_ANGL, 70);
-		FaceModuleUtil.initFeatureEngine(1);
+//		FaceModuleUtil.initDetectEngine(1, 30, com.hj.jni.itf.Constant.TEMPLATE_ROLL_ANGL, 70);
+//		FaceModuleUtil.initFeatureEngine(1);
 	}
 
 	/**

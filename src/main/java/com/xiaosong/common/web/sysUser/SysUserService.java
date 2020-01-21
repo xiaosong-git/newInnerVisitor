@@ -1,7 +1,5 @@
 package com.xiaosong.common.web.sysUser;
 
-import java.util.List;
-
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;

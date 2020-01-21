@@ -42,16 +42,16 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	/**
 	 * 工号
 	 */
-	public M setUserId(java.lang.String userId) {
-		set("userId", userId);
+	public M setUserNo(java.lang.String userNo) {
+		set("userNo", userNo);
 		return (M)this;
 	}
 	
 	/**
 	 * 工号
 	 */
-	public java.lang.String getUserId() {
-		return getStr("userId");
+	public java.lang.String getUserNo() {
+		return getStr("userNo");
 	}
 
 	/**

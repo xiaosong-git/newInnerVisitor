@@ -20,24 +20,36 @@ public class DeptUsersController extends Controller{
 	public DeptUserService srv = DeptUserService.me;
 	
 	public void findList() {
-		String tel = getPara("tel");
+		String realName = getPara("realName");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(tel,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(realName,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 	
 	public void addDeptUser() throws Exception {
-		String userName = getPara("userName");
+		String realName = getPara("realName");
+		String userNo = getPara("userNo");
+		String sex = getPara("sex");
+		Long deptId = getLong("deptId");
+		String idNO = getPara("idNO");
+		String phone = getPara("phone");
+		String intime = getPara("intime");
+		String addr = getPara("addr");
+		String remark = getPara("remark");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
-		String sex = getPara("sex");
-		String tel = getPara("tel");
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setRealName(userName);
+		deptUser.setRealName(realName);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
-		deptUser.setPhone(tel);
+		deptUser.setPhone(phone);
+		deptUser.setUserNo(userNo);
+		deptUser.setDeptId(deptId);
+		deptUser.setIdNO(idNO);
+		deptUser.setIntime(intime);
+		deptUser.setAddr(addr);
+		deptUser.setRemark(remark);
 		boolean bool = srv.addDeptUser(deptUser);
 		if(bool) {
 			renderJson(RetUtil.ok());
@@ -48,16 +60,28 @@ public class DeptUsersController extends Controller{
 	
 	public void editDeptUser() {
 		long id = getLong("id");
-		String userName = getPara("userName");
+		String realName = getPara("realName");
+		String userNo = getPara("userNo");
+		String sex = getPara("sex");
+		Long deptId = getLong("deptId");
+		String idNO = getPara("idNO");
+		String phone = getPara("phone");
+		String intime = getPara("intime");
+		String addr = getPara("addr");
+		String remark = getPara("remark");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
-		String sex = getPara("sex");
-		String tel = getPara("tel");
 		VDeptUser deptUser = getModel(VDeptUser.class);
-		deptUser.setRealName(userName);
+		deptUser.setRealName(realName);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
-		deptUser.setPhone(tel);
+		deptUser.setPhone(phone);
+		deptUser.setUserNo(userNo);
+		deptUser.setDeptId(deptId);
+		deptUser.setIdNO(idNO);
+		deptUser.setIntime(intime);
+		deptUser.setAddr(addr);
+		deptUser.setRemark(remark);
 		deptUser.setId(id);
 		boolean bool = srv.editDeptUser(deptUser);
 		if(bool) {
