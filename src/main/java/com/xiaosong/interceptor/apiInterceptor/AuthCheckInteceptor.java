@@ -6,6 +6,7 @@ import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
+import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
@@ -24,7 +25,7 @@ public class AuthCheckInteceptor implements Interceptor {
     public void intercept(Invocation inv) {
 
         String className = inv.getController().getClass().getName();
-        if (!className.contains("com.xiaosong.common.api")) {//只拦截api中的action
+        if (!className.contains("com.xiaosong.common.api")|| Constant.DEV_MODE) {//只拦截api中的action
             inv.invoke();
         } else {
             //根据注解标签中的值进行登入验证

@@ -1,5 +1,5 @@
 #sql("findOrgCode")
-   select pospCode from  v_posp p left join v_org o on p.orgId=o.id where pospCode =? and orgCode = ?  and cstatus='normal'
+   select * from  v_key k left join v_org o on k.org_id=o.id where swi_code =? and org_code = ?  and status='normal'
 #end
 
 

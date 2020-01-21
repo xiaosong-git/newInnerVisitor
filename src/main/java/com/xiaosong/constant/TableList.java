@@ -8,8 +8,7 @@ package com.xiaosong.constant;
  **/
 public class TableList {
 
-    public static final String APP_USER= "v_app_user";//企业用户表
-    public static final String USER_ACCOUNT="v_app_user_account";//用户账户表
+
     public static final String PARAM="v_params";//用户账户表
     public static final String KEY = " v_user_key";    //密钥表
     public static final String USER_NOTICE = "v_app_user_notice ";// 用户已推送的最大公告
@@ -31,4 +30,5 @@ public class TableList {
     public static final String DEPT = "v_dept";
     public static final String NEWS = "v_news";//新闻
     public static final String OUT_VISIT = "v_out_visitor";//新闻
+    public static final String USER_MESSAGE = "v_app_user_message";
 }

@@ -54,23 +54,23 @@ public class VisitorRecordService extends MyBaseService {
         pageNum = pageNum == null ? 1 : pageNum;
         pageSize = pageSize == null ? 10 : pageSize;
         //查看的是对方的信息
-        String otherMan =  "visitorId" ;
-        String inOutType="vr.visitorType";
+        String otherMan =  "userId" ;
+        String inOutType="vr.userType";
         if ("userId".equals(condition)){
-            otherMan="userId";
-            inOutType="vr.userType";
+            otherMan="visitorId";
+            inOutType="vr.visitorType";
         }
 
 
         String coloumSql = "SELECT vr.id,IF(u.realName IS NULL or u.realName=\"\",remarkName,u.realName) realName,u.phone,u.headImgUrl,\n" +
                 "\tvr.visitDate,vr.visitTime,vr.userId,vr.visitorId,vr.reason,vr.cstatus,vr.dateType\n" +
-                ",vr.startDate,vr.endDate,vr.answerContent,vr.orgCode,vr.companyId,vr.recordType,\n" +
+                ",vr.startDate,vr.endDate,vr.answerContent,vr.orgCode,IF(vr.companyId is null,0,vr.companyId) companyId,vr.recordType,\n" +
                 "vr.replyDate,vr.replyTime,vr.vitype,vr.replyUserId,vr.isReceive,o.org_name,if("+inOutType+"='out',vr.exp1,d.dept_name) companyName,o.visitor_access_type accessType ";
         String from = " from " + TableList.VISITOR_RECORD + " vr\n" +
                 "left join " + TableList.DEPT_USER + " u on u.id=vr." + otherMan + "\n" +
                 "left join " + TableList.DEPT + " d on vr.companyId=d.id\n" +
                 "left join  " + TableList.ORG + " o on vr.orgCode=o.org_code " +
-                "where " + condition + "=" + userId + " and recordType=" + recordType;
+                "where vr." + condition + "=" + userId + " and recordType=" + recordType;
         String oderBy = " ORDER BY startDate>NOW() desc,  IF(startDate > NOW(), FIELD(cstatus,'Cancle','applyFail',  'applySuccess','applyConfirm'), startDate ) desc,startDate desc,endDate";
         String totalRowSql = "select count(*) " + from;
         log.info(coloumSql+from+oderBy );
@@ -85,7 +85,7 @@ public class VisitorRecordService extends MyBaseService {
     }
 
     /**
-     * 回应邀约/访问
+     * websocket回应邀约/访问
      * 回应时将isReceive 字段改为'F' 表示对方未接收
      */
     public void visitReply(Session session, JSONObject msg) throws Exception {
@@ -176,7 +176,97 @@ public class VisitorRecordService extends MyBaseService {
             return;
         }
     }
+    /**
+     * 通过接口回应邀约 1.更新访客日志表 2.发送推送给邀约人
+     * @author cwf
+     * @date 2019/12/4 18:03
+     */
+    public Result visitReply(VVisitorRecord visitorRecord) {
+        try {
+            String replyDate = DateUtil.getCurDate();
+            String replyTime = DateUtil.getCurTime();
+            Integer id = BaseUtil.objToInteger(visitorRecord.get("id"), null);
+            //登入人
+            Long userId = BaseUtil.objToLong(visitorRecord.get("userId"), null);
+            String cstatus = BaseUtil.objToStr(visitorRecord.get("cstatus"), null);
+            String answerContent = BaseUtil.objToStr(visitorRecord.get("answerContent"), "");
+            //更新邀约信息
+            if (id == null || userId == null || cstatus == null) {
+                return Result.unDataResult("fail", "缺少参数");
+            }
+            visitorRecord.remove("userId").setReplyDate(replyDate).setReplyTime(replyTime).setIsReceive("F");
+            boolean update = visitorRecord.update();
+            String apply = "同意";
+            if ("applyFail".equals(cstatus)) {
+                apply = "拒绝";
+            }
+            if (update) {
+                //返回回消息
+                Map<String, Object> visitorMap = Db.findById(TableList.VISITOR_RECORD, id).getColumns();
+                Long toUserId = BaseUtil.objToLong(visitorMap.get("visitorId"), null);
+                WebSocketEndPoint webSocketEndPoint = WebSocketMapUtil.get(String.valueOf(toUserId));
+                System.out.println("用户" + toUserId + "是否在线：" + webSocketEndPoint);
+                //发送websocket
+                if (webSocketEndPoint !=null) {
+                    JSONObject obj = new JSONObject();
+                    obj.put("orgName", "无");
+                    obj.put("companyId", "无");
+                    obj.put("fromUserId", userId);
+                    Integer companyId = BaseUtil.objToInteger(visitorMap.get("companyId"), 0);
+                    String orgCode = BaseUtil.objToStr(visitorMap.get("orgCode"), null);
+                    visitorMap.remove("companyId");
+                    visitorMap.remove("orgCode");
+                    for (Map.Entry<String, Object> entry : visitorMap.entrySet()) {
+                        if (entry.getValue() == null) {
+                            visitorMap.put(entry.getKey(), "无");
+                        }
+                        obj.put(entry.getKey(), entry.getValue());
+                    }
+                    if (companyId != 0) {
+                        Map<String, Object> comMap = Db.findById(TableList.COMPANY, companyId).getColumns();
+                        System.out.println(comMap);
+                        obj.put("companyName", comMap.get("companyName"));
+                    }
+                    if (orgCode != null) {
+                        String sql = "select org_name from " + TableList.ORG + " where org_code='" + orgCode + "'";
+                        Map<String, Object> corgMap = Db.findFirst(sql).getColumns();
+                        obj.put("orgName", corgMap.get("org_name"));
+                    }
+                    obj.put("type", Constant.MASSEGETYPE_REPLY);
+                    obj.put("fromUserId", userId);
+                    obj.put("toUserId", toUserId);
+                    System.out.println("发送给toUser的消息为+" + obj);
+                    RemoteEndpoint.Async asyncRemote = webSocketEndPoint.getSession().getAsyncRemote();
+                    asyncRemote.sendText(obj.toJSONString());
+                } else {
+                    //发送推送
+                    Map<String, Object> toUser = Db.findById(TableList.DEPT_USER, toUserId).getColumns();
+                    String notification_title = "邀约回应信息提醒";
+                    String deviceToken = BaseUtil.objToStr(toUser.get("deviceToken"), "");
+                    String msg_content = "【朋悦比邻】您好，您有一条邀约已回应，请登入app查收!";
+                    boolean single = false;
 
+//						String deviceType = BaseUtil.objToStr(toUser.get("deviceType"), "0");
+
+                    String phone = BaseUtil.objToStr(toUser.get("phone"), "0");
+                    //个推
+                    single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
+//						isYmSuc=shortMessageService.YMNotification(deviceToken,deviceType,notification_title,msg_content,isOnlineApp);
+                    log.info("发送个推 推送成功? 设备号{}", single);
+//                        if (!isYmSuc) {
+//				            codeService.sendMsg(phone, 3, visitorResult, visitorBy, visitorDateTime, null);
+//			                }
+
+                }
+                return Result.unDataResult("success", apply + "邀约成功！");
+            } else {
+                return Result.unDataResult("fail", apply + "邀约失败！");
+            }
+        } catch (Exception e) {
+            log.error("邀请回应报错！", e);
+            return Result.unDataResult("fail", "同意邀约失败！系统错误，请联系客服！");
+        }
+    }
     /**
      * 非好友访问,具体流程：
      * 1内网存在用户 ->判断是否实名 ->return;
@@ -187,7 +277,7 @@ public class VisitorRecordService extends MyBaseService {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
         }
         //被访者
-        VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,companyId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
+        VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
                 "where phone=?", phone);
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
@@ -524,12 +614,24 @@ public class VisitorRecordService extends MyBaseService {
         //保存公司，并审核，审核失败则推送
         if ("applySuccess".equals(cstatus)) {
             if (companyId != null) {
-                orgComMap = Db.findFirst("select org_code,org_name,accessType,companyName,c.addr,roleType from  " + TableList.ORG + " o " +
-                        "left join " + TableList.COMPANY + " c on c.orgId=o.id left join " + TableList.DEPT_USER + " cu on cu.companyId=c.id " +
-                        " where c.id=? and userId=? and cu.currentStatus ='normal'  and cu.status ='applySuc' ", companyId, userId);
+                orgComMap = Db.findFirst("SELECT\n" +
+                        "\torg_code,\n" +
+                        "\torg_name,\n" +
+                        "\tvisitor_access_type,\n" +
+                        "\tdept_name companyName,\n" +
+                        "\troleType \n" +
+                        "FROM\n" +
+                        "\tv_org o\n" +
+                        "\tLEFT JOIN v_dept d ON d.org_id = o.id\n" +
+                        "\tLEFT JOIN v_dept_user du ON du.deptId = d.id \n" +
+                        "WHERE\n" +
+                        "\td.id = ? \n" +
+                        "\tAND du.id = ? \n" +
+                        "\tAND du.currentStatus = 'normal' \n" +
+                        "\tAND du.STATUS = 'applySuc' ", companyId, userId);
             }
-            if (orgComMap.getColumns().isEmpty()) {
-                return Result.unDataResult("fail", "用户不存在该公司");
+            if (orgComMap==null) {
+                return Result.unDataResult("fail", "请选择您自己所在的部门地址！");
             }
             orgCode = BaseUtil.objToStr(orgComMap.get("org_code"), "无");
             orgName = BaseUtil.objToStr(orgComMap.get("org_name"), "无");
@@ -541,29 +643,19 @@ public class VisitorRecordService extends MyBaseService {
             //有管理权限 直接审核成功
             visitorResult = "接受访问";
             //微信信息
-//            wxMap.put("companyFloor", companyFloor);
-//            wxMap.put("startDate", visitorRecord.getStartDate());
-//            wxMap.put("endDate", visitorRecord.getEndDate());
-//            wxMap.put("accessType", accessType);
             String sid = Base64.encode((id).getBytes("UTF-8"));
-//            wxMap.put("qrcodeUrl", MainConfig.p.get("URL") + sid);
-//            wxMap.put("visitResult", visitorResult);
             //推送消息
 
         }
         msg.put("companyName", companyName);
         msg.put("orgName", orgName);
         msg.put("addr", addr);
-//        wxMap.put("orgName", orgName);
-//        wxMap.put("visitResult", visitorResult);
-//        wxMap.put("companyName", companyName);
         if (visitorRecord.update()) {
             return Result.unDataResult("success", visitorResult + "成功");
         } else {
             return Result.unDataResult("fail", visitorResult + "失败");
         }
     }
-
     public void visitPush(Map<String, Object> visitorRecord, Map<String, Object> userUser, Map<String, Object> visitorUser, Map<String, Object> saveMap, JSONObject msg, String visitorResult, Map<String, String> wxMap) throws Exception {
         log.info("visitPush");
         String toUserId = BaseUtil.objToStr(visitorRecord.get("userId"), "0");
@@ -684,7 +776,7 @@ public class VisitorRecordService extends MyBaseService {
     }
 
     /**
-     * 接收云端发送来的回应，如果是接收访问，则下发图片。
+     * 接收云端发送来的回应，如果是接收访问(applySuccess)，则下发图片。
      *
      * @return
      */

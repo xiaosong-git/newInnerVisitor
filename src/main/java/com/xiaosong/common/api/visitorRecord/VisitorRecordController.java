@@ -8,6 +8,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.tx.Tx;
 import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
+import com.xiaosong.interceptor.apiInterceptor.AuthCheckAnnotation;
 import com.xiaosong.model.VOutVisitor;
 import com.xiaosong.model.VVisitorRecord;
 import com.xiaosong.util.ConsantCode;
@@ -22,62 +23,61 @@ import com.xiaosong.validate.user.UserIdValidator;
  **/
 public class VisitorRecordController extends Controller {
     private Log log = Log.getLog(VisitorRecordController.class);
-    //邀约我的
-    @Before(UserIdValidator.class)
-    public void inviteMine(){
-        Integer pageNum = getAttrForInt("pageNum");
-        Integer pageSize = getAttrForInt("pageSize");
-        try {
-            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.INVITE, "userId")));
-        }catch (Exception e){
-            log.error("系统异常：",e);
-            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
-        }
-    }
+//    //邀约我的
+//    @Before(UserIdValidator.class)
+//    public void inviteMine(){
+//        Integer pageNum = getAttrForInt("pageNum");
+//        Integer pageSize = getAttrForInt("pageSize");
+//        try {
+//            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.INVITE, "userId")));
+//        }catch (Exception e){
+//            log.error("系统异常：",e);
+//            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+//        }
+//    }
     //我的邀约
-    @Before(UserIdValidator.class)
-    @ActionKey("/visitor/visitorRecord/inviteRecord")
-    public void myInvite(){
-        Integer pageNum = getAttrForInt("pageNum");
-        Integer pageSize = getAttrForInt("pageSize");
-        try {
-            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.INVITE, "visitorId")));
-        }catch (Exception e){
-            log.error("系统异常：",e);
-            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
-        }
-    }
+//    @Before(UserIdValidator.class)
+//    @ActionKey("/visitor/visitorRecord/inviteRecord")
+//    public void myInvite(){
+//        Integer pageNum = getAttrForInt("pageNum");
+//        Integer pageSize = getAttrForInt("pageSize");
+//        try {
+//            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.INVITE, "visitorId")));
+//        }catch (Exception e){
+//            log.error("系统异常：",e);
+//            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+//        }
+//    }
     //我的访问
-    @Before(UserIdValidator.class)
-    public void myVisit(){
-        Integer pageNum = getAttrForInt("pageNum");
-        Integer pageSize = getAttrForInt("pageSize");
-        try {
-            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.VISITOR, "userId")));
-        }catch (Exception e){
-            log.error("系统异常：",e);
-            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
-
-        }
-    }
-    //访问我的
-    @Before(UserIdValidator.class)
-    @ActionKey("/visitor/visitorRecord/visitRecord")
-    public void visitMine(){
-        Integer pageNum = getAttrForInt("pageNum");
-        Integer pageSize = getAttrForInt("pageSize");
-        try {
-            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.VISITOR, "visitorId")));
-        }catch (Exception e){
-            log.error("系统异常：",e);
-            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
-        }
-    }
+//    @Before(UserIdValidator.class)
+//    public void myVisit(){
+//        Integer pageNum = getAttrForInt("pageNum");
+//        Integer pageSize = getAttrForInt("pageSize");
+//        try {
+//            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.VISITOR, "userId")));
+//        }catch (Exception e){
+//            log.error("系统异常：",e);
+//            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+//
+//        }
+//    }
+//    //访问我的
+//    @Before(UserIdValidator.class)
+//    @ActionKey("/visitor/visitorRecord/visitRecord")
+//    public void visitMine(){
+//        Integer pageNum = getAttrForInt("pageNum");
+//        Integer pageSize = getAttrForInt("pageSize");
+//        try {
+//            renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), pageNum, pageSize, Constant.VISITOR, "visitorId")));
+//        }catch (Exception e){
+//            log.error("系统异常：",e);
+//            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+//        }
+//    }
     /**
-     *
      *  非好友访问
      */
-    @Before(Tx.class)
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void visit() throws Exception {
 
         try {
@@ -94,6 +94,7 @@ public class VisitorRecordController extends Controller {
     /**
      * 接收外部访问
      */
+
     public void receiveOutVisit(){
         VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
         VOutVisitor vOutVisitor=getBean(VOutVisitor.class,"",true);
@@ -106,6 +107,7 @@ public class VisitorRecordController extends Controller {
 
         }
     }
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void modifyCompanyFromId(){
         try {
             renderText(JSON.toJSONString(VisitorRecordService.me.modifyCompanyFromId(get("id"), getLong("userId"), getLong("companyId"), get("cstatus"), get("answerContent"))));
@@ -115,6 +117,7 @@ public class VisitorRecordController extends Controller {
         }
     }
     //访问我的人与visitmine一样
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     @Before(UserIdValidator.class)
     public void visitMyPeople(){
         Integer pageNum = getAttrForInt("pageNum");
@@ -127,6 +130,7 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     @Before(UserIdValidator.class)
     public void visitMyCompany(){
         Integer pageNum = getAttrForInt("pageNum");
@@ -138,6 +142,7 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void findRecordFromId(){
         try {
             renderText(JSON.toJSONString(VisitorRecordService.me.findRecordFromId(get("id"))));
@@ -150,6 +155,7 @@ public class VisitorRecordController extends Controller {
     /**
      *根据条件判断访问我的人，邀约我的人。。。。
      */
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void visitorList(){
         try {
             renderText(JSON.toJSONString(VisitorRecordService.me.invite(getLong("userId"), getInt("pageNum"), getInt("pageSize"), getInt("recordType"),get("condition"))));
@@ -158,6 +164,10 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+
+    /**
+     * 接收外部访问 需要内外网拦截器
+     */
     public void innerVisitReceive(){
         VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
         try {
@@ -167,4 +177,15 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    public void visitReply(){
+        VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
+        try {
+            renderText(JSON.toJSONString(VisitorRecordService.me.visitReply(visitorRecord)));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
 }

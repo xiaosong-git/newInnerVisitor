@@ -69,15 +69,18 @@ public class WebSocketEndPoint {
      * 连接建立后触发的方法
      */
     @OnOpen
-    public void onOpen(Session session,EndpointConfig config) throws IOException {
+    public void onOpen(Session session,EndpointConfig config) throws Exception {
         //url之后的参数
         this.queryString=session.getQueryString();
         //查询登入人数
-        System.out.println( WebSocketMapUtil.getValues());
+//        System.out.println( WebSocketMapUtil.getValues());
         //退出之前的登入
         quit();
         //保存用户
         saveUser(session);
+        WebSocketService.me.gainMessagefromDb(session,getUserId(queryString));
+        //获取当前登入人：userId的邀约消息
+        WebSocketService.me.gainVisitRcordfromDb(session,getUserId(queryString));
     }
     /**
      * 连接关闭后触发的方法

@@ -4,6 +4,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.userkey.UserKeyService;
 import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.compose.Result;
@@ -114,7 +115,8 @@ public class UserService {
                 return Result.unDataResult("fail", "传输过程中身份信息错误");
             }
 //            String idNoMW = idNO;
-            String idHandleImgUrl = deptUser.getIdHandleImgUrl();
+            //储存在本地图片地址
+            String idHandleImgUrl = MainConfig.p.get("imageSaveDir")+deptUser.getIdHandleImgUrl();
 
             /**
              * 验证 身份证
@@ -208,5 +210,41 @@ public class UserService {
             return Result.unDataResult("fail", "用户存在！");
         }
         return Result.unDataResult("success", "欢迎注册");
+    }
+
+
+    public Result updatePassword(Object userId,Object oldPassword, Object newPassword) {
+        VDeptUser user = VDeptUser.dao.findFirst("select * from " + TableList.DEPT_USER + " where id=?", userId);
+        if(oldPassword.equals(user.getSysPwd())){
+            user.setSysPwd(newPassword.toString());
+            user.update();
+            return Result.success();
+        }else{
+            return  new Result(500,"旧密码错误");
+        }
+    }
+
+    public Result updatePhone(Object userId, String code, String phone) {
+        boolean flag = CodeService.me.verifyCode(phone,code,1);
+        if(!flag){
+            return Result.unDataResult("fail","验证码错误");
+        }
+        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
+        VDeptUser user = VDeptUser.dao.findFirst(para);
+        if(user != null){
+            return Result.unDataResult("fail","手机号已被注册");
+        }
+        VDeptUser upUser = VDeptUser.dao.findById(userId);
+        upUser.setPhone(phone);
+        return upUser.update()?Result.unDataResult("success","更新手机成功"):Result.unDataResult("fail","更新手机失败");
+    }
+
+    public Result nick(Long userId, VDeptUser appUser) {
+        appUser.setId(userId);
+        if (appUser.update()) {
+           return Result.unDataResult("success","保存成功");
+        }else{
+            return Result.unDataResult("fail","保存失败");
+        }
     }
 }

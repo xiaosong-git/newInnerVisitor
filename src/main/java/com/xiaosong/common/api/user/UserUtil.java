@@ -1,6 +1,7 @@
 package com.xiaosong.common.api.user;
 
 import com.alibaba.fastjson.JSON;
+import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
@@ -143,21 +144,21 @@ public class UserUtil {
          }
                 Map<String,Object> result = new HashMap<String, Object>();
                 result.put("notices",notices);
-                result.put("user",user);
-//         String  applyType="";
-//         String  companyName="";
-//         if (user.getDeptId()!=null){
-//             VDept company = VDept.dao.findById(user.getDeptId());
-//             if (company!=null){
-////                 applyType = BaseUtil.objToStr(company.getApplyType(),"");
-////                 companyName = BaseUtil.objToStr(company.getCompanyName(),"");
-//             }
-//         }
-//         user.put("companyName",companyName);
-//         user.put("applyType",applyType);
-//                //增加获取orgCode 需要改造企业版
+         Map<String, Object> users = CPI.getAttrs(user);
+         users.put("companyId",user.getDeptId());
+         users.put("applyType",user.getRoleType());
+         users.put("role",user.getRoleType());
+         result.put("user",users);
+
+         if (user.getDeptId()!=null){
+             VDept dept = VDept.dao.findById(user.getDeptId());
+             if (dept!=null){
+//
+                 users.put("companyName",dept.getDeptName());
+             }
+         }
                 String orgCode =BaseUtil.objToStr(findOrgCodeByUserId(user.getId()),"无");
-                user.put("orgCode", orgCode);
+         users.put("orgCode", orgCode);
          return ResultData.dataResult(ConsantCode.SUCCESS,"登录成功",result);
      }
     public String findOrgCodeByUserId(Long userId) throws Exception{

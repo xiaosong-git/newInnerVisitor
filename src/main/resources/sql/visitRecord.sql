@@ -19,3 +19,17 @@ FROM
 	LEFT JOIN v_dept d ON d.id = vr.companyId
  where vr.id=?
 #end
+
+#sql("findOrgCode")
+FROM
+	v_visitor_record vr
+	LEFT JOIN v_dept_user du ON vr.visitorId = du.id
+	LEFT JOIN v_dept_user u ON vr.userId = u.id
+	LEFT JOIN v_dept d ON vr.companyId = d.id
+	LEFT JOIN v_org o ON d.org_id = o.id
+WHERE
+	vr.cstatus = 'applySuccess'
+	AND vr.orgCode = ?
+	AND vr.startDate <= date_add( now( ), INTERVAL + 30 MINUTE ) AND vr.endDate >= date_add( now( ), INTERVAL - 30 MINUTE )
+	AND vr.isFlag = 'F'
+#end

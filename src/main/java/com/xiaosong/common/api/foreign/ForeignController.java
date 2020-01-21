@@ -1,9 +1,12 @@
 package com.xiaosong.common.api.foreign;
 
 
+import com.alibaba.fastjson.JSON;
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.xiaosong.compose.Result;
+import com.xiaosong.validate.foreign.ForeginValidator;
 
 /**
  * @Author linyb
@@ -16,15 +19,18 @@ public class ForeignController extends Controller {
     private ForeignService foreignService;
 
     /**
-     * 访问我的人新接口
+     * 获取访问记录
      * @return
      */
+    @Before(ForeginValidator.class)
     public void newFindOrgCode(){
         try {
-            renderJson(foreignService.findOrgCode(get("pospCode"), get("orgCode"), getInt(" pageNum"), getInt("pageSize")));
+
+            renderText(JSON.toJSONString(foreignService.findOrgCode(get("pospCode"), get("orgCode"), getInt("pageNum"), getInt("pageSize"))));
+
         }catch (Exception e){
             e.printStackTrace();
-            renderJson(Result.unDataResult("fail", "系统异常"));
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
         }
     }
 
@@ -37,10 +43,10 @@ public class ForeignController extends Controller {
     public void newFindOrgCodeConfirm(){
 
         try {
-            renderJson(foreignService.newFindOrgCodeConfirm(get("pospCode"), get("orgCode"), get("idStr")));
+            renderText(JSON.toJSONString(foreignService.newFindOrgCodeConfirm(get("pospCode"), get("orgCode"), get("idStr"))));
         }catch (Exception e){
             e.printStackTrace();
-            renderJson(Result.unDataResult("fail", "系统异常"));
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
         }
     }
 }
