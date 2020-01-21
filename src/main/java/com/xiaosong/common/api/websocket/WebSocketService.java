@@ -321,10 +321,11 @@ public class WebSocketService extends MyBaseService {
     }
 
     public Result gainVisitRcordfromDb(Session session, String userId) {
+        log.info("进入获取离线邀约");
         //1从数据库获取离线邀约消息
         List<Record> msgList = getVisitRecordByVisitorId(userId);
         if (msgList == null||msgList.isEmpty()) {
-            System.out.println("无访问记录需要获取");
+            log.info("无访问记录需要获取");
             return Result.unDataResult("success", "无访问记录需要获取");
         }
         JSONObject obj = new JSONObject();
@@ -365,7 +366,7 @@ public class WebSocketService extends MyBaseService {
 
                 Db.update(" update  " + TableList.VISITOR_RECORD +
                         " set isReceive='T'" +
-                        " where  id = ? and SYSDATE()<endDate)", record.getLong("id"));
+                        " where  id = ? and SYSDATE()<endDate", record.getLong("id"));
             }
         }
         return Result.unDataResult("success", "访问记录获取成功");
