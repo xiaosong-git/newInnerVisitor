@@ -7,10 +7,8 @@ import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
-import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
-import com.xiaosong.util.RedisUtil;
 import com.xiaosong.util.TokenUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -43,14 +41,13 @@ public class AuthCheckInteceptor implements Interceptor {
                         return;
                     }
                     Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//缓存中的位置
-                    String userToken = null;
                     VDeptUser deptUser;
-                    userToken = RedisUtil.getStrVal(userId + "_token", apiAuthCheckRedisDbIndex);
-                    if (StringUtils.isBlank(userToken)) {
+//                    userToken = RedisUtil.getStrVal(userId + "_token", apiAuthCheckRedisDbIndex);
+//                    if (StringUtils.isBlank(userToken)) {
                         //缓存中不存在Token，就从数据库中查询
                         deptUser = VDeptUser.dao.findById(userId);
-                        userToken = deptUser.getToken();
-                    }
+                    String   userToken = deptUser.getToken();
+//                    }
                     log.info("是否token正确：" + token.equals(userToken));
                     log.info("userId：" + userId);
                     log.info("token：" + token + ", userToken" + userToken);
@@ -63,12 +60,12 @@ public class AuthCheckInteceptor implements Interceptor {
                      */
                     if (authCheck.checkVerify()) {
                         String verifyKey = userId + "_isAuth";
-                        String isAuth = RedisUtil.getStrVal(verifyKey, apiAuthCheckRedisDbIndex);
-                        if (StringUtils.isBlank(isAuth)) {
+//                        String isAuth = RedisUtil.getStrVal(verifyKey, apiAuthCheckRedisDbIndex);
+//                        if (StringUtils.isBlank(isAuth)) {
                             //缓存中不存在，就从数据库中查询
                             deptUser = new VDeptUser();
-                            isAuth = deptUser.getIsAuth();
-                        }
+                        String  isAuth = deptUser.getIsAuth();
+//                        }
                         if (!"T".equalsIgnoreCase(isAuth)) {
                             con.renderText(JSON.toJSONString(Result.unDataResult("tokenFail", "您还未进行实名验证")));
                             return;

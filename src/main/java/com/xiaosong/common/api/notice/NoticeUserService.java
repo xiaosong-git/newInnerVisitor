@@ -19,16 +19,16 @@ public class NoticeUserService  {
     public static final NoticeUserService me = new NoticeUserService();
     public Record findByUserId(Long userId) {
         Record record;
-        Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
+//        Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
         //redis修改
-        Cache cache = Redis.use("db" + apiAuthCheckRedisDbIndex);
-        String noticeUser = cache.get(userId+"_noticeUser");
-        if(StringUtils.isBlank(noticeUser)){
+//        Cache cache = Redis.use("db" + apiAuthCheckRedisDbIndex);
+//        String noticeUser = cache.get(userId+"_noticeUser");
+//        if(StringUtils.isBlank(noticeUser)){
             //缓存中不存在,从数据库查询
             record= Db.findFirst("select * from " + TableList.USER_NOTICE + " where userId = ? ", userId);
-        }else{
-            record = new Record().setColumns(JSON.parseObject(noticeUser, Map.class));
-        }
+//        }else{
+//            record = new Record().setColumns(JSON.parseObject(noticeUser, Map.class));
+//        }
         return record;
     }
 }

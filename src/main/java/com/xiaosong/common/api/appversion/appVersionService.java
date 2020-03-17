@@ -1,14 +1,11 @@
 package com.xiaosong.common.api.appversion;
 
-import com.alibaba.fastjson.JSON;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.param.ParamService;
-import com.xiaosong.util.RedisUtil;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,18 +24,19 @@ public class appVersionService {
         Map<String,Object> appVersion = null;
         String key = "appVersion_android_"+appType+"_"+channel;
         //redis修改
-        String json = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
-        if(StringUtils.isNotBlank(json)){
-            log.info("---从缓存获取版本号----："+json);
-            appVersion = JSON.parseObject(json, Map.class);
-        }else{
+//        String json = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
+//        MyCache.isEhCache()
+//        if(StringUtils.isNotBlank(json)){
+//            log.info("---从缓存获取版本号----："+json);
+//            appVersion = JSON.parseObject(json, Map.class);
+//        }else{
 
             String sql = " select * from "+ TableList.APP_VERSION+" where appType = '" + appType + "' and channel='" + channel+"'";
             appVersion = Db.findFirst(sql).getColumns();
             log.info("---从数据库获取版本号----："+appVersion);
             //redis修改
-            RedisUtil.setStr(apiAuthCheckRedisDbIndex,key, JSON.toJSONString(appVersion),null);
-        }
+//            RedisUtil.setStr(apiAuthCheckRedisDbIndex,key, JSON.toJSONString(appVersion),null);
+//        }
         return appVersion;
     }
     /**
@@ -50,17 +48,17 @@ public class appVersionService {
         // update by cwf  2019/11/19 17:44 Reason:版本信息改回为旧redis apiAuthCheckRedisDbIndex
         Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
         Map<String,Object> appVersion = null;
-        String key = "appVersion_ios_" + appType+"_"+channel;
+//        String key = "appVersion_ios_" + appType+"_"+channel;
         //redis修改
-        String json = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
-        if(StringUtils.isNotBlank(json)){
-            appVersion = JSON.parseObject(json, Map.class);
-        }else{
+//        String json = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
+//        if(StringUtils.isNotBlank(json)){
+//            appVersion = JSON.parseObject(json, Map.class);
+//        }else{
             String sql = " select * from "+ TableList.APP_VERSION+" where appType = '" + appType + "' and channel='"+channel+"'" ;
             appVersion = Db.findFirst(sql).getColumns();
             //redis修改
-            RedisUtil.setStr(apiAuthCheckRedisDbIndex,key, JSON.toJSONString(appVersion), null);
-        }
+//            RedisUtil.setStr(apiAuthCheckRedisDbIndex,key, JSON.toJSONString(appVersion), null);
+//        }
         return appVersion;
     }
     public Result updateAndroid(String appType, String channel, Integer versionNum) {
@@ -73,8 +71,7 @@ public class appVersionService {
         }else{
             //获取最新版本号
             String dbVersionNum = (String)appVersion.get("versionNum");
-            log.info("-----数据库版本号------："+dbVersionNum);
-            log.info("-----传入版本号------："+versionNum);
+            log.info("-----数据库版本号------："+dbVersionNum+"-----传入版本号------："+versionNum);
             if (Long.valueOf(dbVersionNum) > versionNum){
                 //用户的软件不是最新版
                 Map<String,Object> appVersionInfo = new HashMap<>();

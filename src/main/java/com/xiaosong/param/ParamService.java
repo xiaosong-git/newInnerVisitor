@@ -15,14 +15,14 @@ public class ParamService {
     public String findValueByName(String paramName) {
         //先从缓存中读取数据
         String value = null;
-        value = findValueByNameFromRedis(paramName);
+//        value = findValueByNameFromRedis(paramName);
         //缓存中不存在，就从数据库中取值，并把值存入缓存中
-        if (value == null){
+//        if (value == null){
             value = findValueByNameFromDB(paramName);
-            if(value != null){//默认redis库
-                Redis.use().set("params_" + paramName,value);
-            }
-        }
+//            if(value != null){//默认redis库
+//                Redis.use().set("params_" + paramName,value);
+//            }
+//        }
         return value;
     }
 

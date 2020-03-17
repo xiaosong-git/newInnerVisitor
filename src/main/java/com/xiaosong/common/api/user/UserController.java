@@ -89,7 +89,7 @@ public class UserController  extends Controller {
         try {
             renderText(JSON.toJSONString((userService.getUserByUserToken(get("userId"), get("token")))));
         }catch (Exception e){
-            e.printStackTrace();
+             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
@@ -101,7 +101,7 @@ public class UserController  extends Controller {
         try {
             renderText(JSON.toJSONString((userService.checkPhone(get("phone")))));
         }catch (Exception e){
-            e.printStackTrace();
+             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
@@ -117,7 +117,7 @@ public class UserController  extends Controller {
 
             renderText(JSON.toJSONString((userService.updatePassword(get("userId"),get("oldPassword"),get("newPassword")))));
         }catch (Exception e){
-            e.printStackTrace();
+             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
 
@@ -131,7 +131,7 @@ public class UserController  extends Controller {
         try {
             renderText(JSON.toJSONString((userService.updatePhone(get("userId"),get("code"),get("phone")))));
         }catch (Exception e){
-            e.printStackTrace();
+             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
@@ -145,7 +145,7 @@ public class UserController  extends Controller {
             VDeptUser appUser=getBean(VDeptUser.class,"",true);
             renderText(JSON.toJSONString((userService.nick(getLong("userId"),appUser))));
         }catch (Exception e){
-            e.printStackTrace();
+             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }

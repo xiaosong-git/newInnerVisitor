@@ -153,9 +153,10 @@ public class UserService {
 //            String idType = URLDecoder.decode(BaseUtil.objToStr(paramMap.get("idType"), null), "UTF-8");
 
             user.setIdHandleImgUrl(idHandleImgUrl)
-                    .setRealName(realName).setIsAuth("T").setIdNO(idNO).setAddr(address);
+                    .setRealName(realName).setIsAuth("T").setIdNO(idNO).setAddr(address)
+                    .setAuthDate(DateUtil.getCurDate());
             if (user.update()) {
-//                Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
+//                Integer apiAuthCheckReduserloginisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
 //                String key = userId + "_isAuth";
                 //redis修改
 //                RedisUtil.setStr(apiAuthCheckRedisDbIndex, key, "T", null);
@@ -183,9 +184,7 @@ public class UserService {
         if (user == null) {
             return Result.unDataResult("fail", "手机号未注册");
         }
-        String sql = "select * from " + TableList.DEPT_USER + " where phone =?";
-
-
+//        String sql = "select * from " + TableList.DEPT_USER + " where phone =?";
         boolean flag = CodeService.me.verifyCode(phone, code, 1);
         if (!flag) {
             return Result.unDataResult("fail", "验证码错误");

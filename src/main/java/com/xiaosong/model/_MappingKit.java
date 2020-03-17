@@ -49,6 +49,7 @@ public class _MappingKit {
 		arp.addMapping("v_user_role", "id", VUserRole.class);
 		arp.addMapping("v_user_role_auth", "id", VUserRoleAuth.class);
 		arp.addMapping("v_visitor_record", "id", VVisitorRecord.class);
+		arp.addMapping("wk_record", "id", WkRecord.class);
 	}
 }
 

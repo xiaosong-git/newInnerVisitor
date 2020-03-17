@@ -9,6 +9,7 @@ import com.xiaosong.common.api.foreign.ForeignController;
 import com.xiaosong.common.api.notice.BannerController;
 import com.xiaosong.common.api.notice.NoticeController;
 import com.xiaosong.common.api.param.ParamController;
+import com.xiaosong.common.api.work.WorkController;
 import com.xiaosong.common.imgServer.errorLog.ErrorLogController;
 import com.xiaosong.common.imgServer.file.FileController;
 import com.xiaosong.common.imgServer.img.ImageController;
@@ -81,6 +82,7 @@ public class GlobalRoutes extends Routes{
 		this.add(prefix+"/notice", NoticeController.class);//公告
 		this.add(prefix+"/companyUser", DeptUserController.class);//api公司员工 改名为部门员工
 		this.add(prefix+"/foreign", ForeignController.class);//上位机拉取访客
+		this.add(prefix+"/work", WorkController.class);//考勤
 		this.add(imgServer+"/goldccm/file", FileController.class);
 		this.add(imgServer+"/goldccm/image", ImageController.class);
 		this.add(imgServer+"/inAndOut", InAndOutController.class);
