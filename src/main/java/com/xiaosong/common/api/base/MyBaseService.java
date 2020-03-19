@@ -16,6 +16,11 @@ public class MyBaseService {
     public List<Map<String,Object>> apiList(List<Record> records){
         List<Map<String, Object> > apiRecords=new LinkedList<>();
         for (Record record : records) {
+            record.getColumns().forEach((s, o) ->{
+                if (o==null) {
+                        record.getColumns().put(s, "");
+                }
+            } );
             apiRecords.add(record.getColumns());
         }
         return apiRecords;

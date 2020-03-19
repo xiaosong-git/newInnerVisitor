@@ -24,7 +24,7 @@ public class ImageController extends Controller {
 	}
 	public void uploadSing(){
 		try {
-			renderJson(ImageService.me.uploadSing(getFile(),get("userId")));
+			renderJson(ImageService.me.uploadSing(getFile(),get("source")));
 		}catch (Exception e){
 			log.error(e.getMessage());
 			renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));

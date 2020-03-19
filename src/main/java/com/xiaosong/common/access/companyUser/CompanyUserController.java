@@ -1,4 +1,5 @@
 package com.xiaosong.common.access.companyUser;
+import com.alibaba.fastjson.JSON;
 import com.jfinal.core.Controller;
 import com.xiaosong.compose.Result;
 import org.slf4j.Logger;
@@ -23,11 +24,10 @@ public class CompanyUserController extends Controller {
 	 */
 	public void findApplySucOrg(){
 		  try {
-			  renderText("test");
-//	            return companyUserService.findApplySucByOrg();
+			  renderText(JSON.toJSONString(companyUserService.findApplySucByOrg(get("org_code"))));
 	        }catch (Exception e){
 	            e.printStackTrace();
-	            renderJson( Result.unDataResult("fail", "系统异常"));
+			  renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
 	        }
 		  
 	  }

@@ -29,7 +29,7 @@ public class BannerController extends Controller {
             renderText(JSON.toJSONString(adBannerService.list()));
         }catch (Exception e){
             e.printStackTrace();
-            renderJson(Result.unDataResult("fail","系统异常"));
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
         }
     }
 }

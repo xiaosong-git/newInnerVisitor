@@ -16,11 +16,11 @@ public class MyCache implements ICache {
 	private static String getCacheType() {
         return PropKit.get("cache.type", "ehcache");
     }
- 
+
     public static boolean isEhCache() {
         return "ehcache".equals(getCacheType());
     }
- 
+
     public static boolean isRedis() {
         return "redis".equals(getCacheType());
     }
@@ -57,7 +57,6 @@ public class MyCache implements ICache {
     public void removeAll(String cacheName) {
         if (isEhCache()) {
             CacheKit.removeAll(cacheName);
- 
         } else if (isRedis()) {
             Cache cache = Redis.use(cacheName);
             cache.del(cache.keys("*").toArray());

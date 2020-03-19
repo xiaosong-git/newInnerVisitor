@@ -4,13 +4,20 @@ import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
+import com.xiaosong.interceptor.apiInterceptor.AuthCheckAnnotation;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.validate.user.AuthValidator;
 import com.xiaosong.validate.user.PhoneValidator;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @program: innerVisitor
  * @description: 用户
@@ -37,6 +44,7 @@ public class UserController  extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+    @AuthCheckAnnotation(checkLogin = true,checkRequestLegal = true)
     @Before(AuthValidator.class)
     public void verify(){
         VDeptUser appUser=getBean(VDeptUser.class,"",true);
@@ -47,7 +55,7 @@ public class UserController  extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
-
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void isVerify(){
         VDeptUser appUser=getBean(VDeptUser.class,"",true);
         try {
@@ -81,7 +89,7 @@ public class UserController  extends Controller {
         try {
             renderText(JSON.toJSONString((userService.getUserByUserToken(get("userId"), get("token")))));
         }catch (Exception e){
-            e.printStackTrace();
+             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
@@ -93,11 +101,52 @@ public class UserController  extends Controller {
         try {
             renderText(JSON.toJSONString((userService.checkPhone(get("phone")))));
         }catch (Exception e){
-            e.printStackTrace();
+             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+
+    /**
+     * 修改密码
+     */
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    @ActionKey("/visitor/user/update/sysPwd")
+    public void updatePassword(){
+
+        try {
+
+            renderText(JSON.toJSONString((userService.updatePassword(get("userId"),get("oldPassword"),get("newPassword")))));
+        }catch (Exception e){
+             log.error(e.getMessage());
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+
+    }
+
+    /**
+     * 修改手机号
+     */
+    @AuthCheckAnnotation(checkLogin = true,checkRequestLegal = true)
+    public void updatePhone(){
+        try {
+            renderText(JSON.toJSONString((userService.updatePhone(get("userId"),get("code"),get("phone")))));
+        }catch (Exception e){
+             log.error(e.getMessage());
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
     public void index(){
         renderText(JSON.toJSONString((userService.getUserByUserToken(get("userId"), get("token")))));
+    }
+
+    public void nick(){
+        try {
+            VDeptUser appUser=getBean(VDeptUser.class,"",true);
+            renderText(JSON.toJSONString((userService.nick(getLong("userId"),appUser))));
+        }catch (Exception e){
+             log.error(e.getMessage());
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
     }
 }

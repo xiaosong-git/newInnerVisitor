@@ -1,6 +1,7 @@
 package com.xiaosong.common.api.user;
 
 import com.alibaba.fastjson.JSON;
+import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
@@ -38,9 +39,9 @@ public class UserUtil {
         Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
         Integer expire = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisExpire"));//过期时间(分钟)
         //token
-        RedisUtil.setStr(apiAuthCheckRedisDbIndex,userId+"_token", token, expire*60);
+//        RedisUtil.setStr(apiAuthCheckRedisDbIndex,userId+"_token", token, expire*60);
         //是否实名
-        RedisUtil.setStr(apiAuthCheckRedisDbIndex,userId+"_isAuth", isAuth,  expire*60);
+//        RedisUtil.setStr(apiAuthCheckRedisDbIndex,userId+"_isAuth", isAuth,  expire*60);
     }
 
     public Result updateDeviceToken(VDeptUser user){
@@ -69,14 +70,14 @@ public class UserUtil {
     public String findKeyByStatus(String status) throws  Exception{
         String key = null;
         //默认库可以不写
-        Cache cache = Redis.use();
-        key = cache.get("key_workKey");
-        if(key == null){
+//        Cache cache = Redis.use();
+//        key = cache.get("key_workKey");
+//        if(key == null){
             key =  findKeyFromDB(status);
-            if(key != null){
-                RedisUtil.setStr(0,"key_workKey",key, 32);
-            }
-        }
+//            if(key != null){
+//                RedisUtil.setStr(0,"key_workKey",key, 32);
+//            }
+//        }
         return key;
     }
     /**
@@ -96,13 +97,13 @@ public class UserUtil {
     }
     //登入成功后保存数据库与缓存数据
      Result loginSave(VDeptUser user, VDeptUser appUser) throws Exception {
-         PasswordService.me.resetPwdInputNum(user.getId(), Status.PWD_TYPE_SYS);
+//         PasswordService.me.resetPwdInputNum(user.getId(), Status.PWD_TYPE_SYS);
          user.setToken(UUID.randomUUID().toString());
 
          logger.info("登入人为:" + user.getId() + "，token" + appUser.getToken());
 //                user._setAttrs(appUser);//改变了modifyFlag
 //                //更新缓存中的Token,实名
-         UserUtil.me.updateRedisTokenAndAuth(user.getId(), user.getToken(), user.getIsAuth());
+//         UserUtil.me.updateRedisTokenAndAuth(user.getId(), user.getToken(), user.getIsAuth());
          String workKey =  UserUtil.me.findKeyByStatus(Constant.KEY_STATUS_NORMAL); //获取密钥
          if(workKey != null){
              user.put("workKey",workKey);
@@ -113,9 +114,9 @@ public class UserUtil {
           */
          Record noticeUser=    NoticeUserService.me.findByUserId(user.getId());
          List<Record> notices = null;
-         Integer authCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
-         Integer expire = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisExpire"));//过期时间(分钟)
-         String redisValue = null;
+//         Integer authCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
+//         Integer expire = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisExpire"));//过期时间(分钟)
+//         String redisValue = null;
          if(noticeUser == null){
 //                    //获取所有"normal"的公告
              notices  = Db.find(" select * from "+TableList.NOTICE +" where cstatus = 'normal' order by createDate desc ");
@@ -126,9 +127,9 @@ public class UserUtil {
                  noticeUser.set("userId",user.getId());
                  noticeUser.set("maxNoticeId",maxNoticeId);
                  Db.save(TableList.USER_NOTICE,noticeUser);
-                 redisValue = JSON.toJSONString(noticeUser);
+//                 redisValue = JSON.toJSONString(noticeUser);
 //                        //redis修改
-                 RedisUtil.setStr(authCheckRedisDbIndex,user.getId()+"_noticeUser",redisValue ,expire*60);
+//                 RedisUtil.setStr(authCheckRedisDbIndex,user.getId()+"_noticeUser",redisValue ,expire*60);
              }
          }else{
              //查询是否有最新的公告
@@ -137,33 +138,37 @@ public class UserUtil {
                  Integer maxNoticeId = Db.queryInt("select max(id) from " + TableList.NOTICE);
                  noticeUser.set("maxNoticeId", maxNoticeId);
                  Db.save(TableList.USER_NOTICE,noticeUser);
-                 redisValue = JSON.toJSONString(noticeUser);
-                 RedisUtil.setStr(authCheckRedisDbIndex,user.getId()+"_noticeUser",redisValue ,expire*60);
+//                 redisValue = JSON.toJSONString(noticeUser);
+//                 RedisUtil.setStr(authCheckRedisDbIndex,user.getId()+"_noticeUser",redisValue ,expire*60);
              }
          }
                 Map<String,Object> result = new HashMap<String, Object>();
                 result.put("notices",notices);
-                result.put("user",user);
-//         String  applyType="";
-//         String  companyName="";
-//         if (user.getDeptId()!=null){
-//             VDept company = VDept.dao.findById(user.getDeptId());
-//             if (company!=null){
-////                 applyType = BaseUtil.objToStr(company.getApplyType(),"");
-////                 companyName = BaseUtil.objToStr(company.getCompanyName(),"");
-//             }
-//         }
-//         user.put("companyName",companyName);
-//         user.put("applyType",applyType);
-//                //增加获取orgCode 需要改造企业版
+         Map<String, Object> users = CPI.getAttrs(user);
+         users.put("companyId",user.getDeptId());
+         users.put("applyType",user.getRoleType());
+         users.put("role",user.getRoleType());
+         result.put("user",users);
+
+         if (user.getDeptId()!=null){
+             VDept dept = VDept.dao.findById(user.getDeptId());
+             if (dept!=null){
+//
+                 users.put("companyName",dept.getDeptName());
+             }
+         }
                 String orgCode =BaseUtil.objToStr(findOrgCodeByUserId(user.getId()),"无");
-                user.put("orgCode", orgCode);
+         users.put("orgCode", orgCode);
          return ResultData.dataResult(ConsantCode.SUCCESS,"登录成功",result);
      }
     public String findOrgCodeByUserId(Long userId) throws Exception{
-        SqlPara para = Db.getSqlPara("org.findOrgCodeByUserId", userId);//根据手机查找用户
+        SqlPara para = Db.getSqlPara("org.findOrgCodeByUserId", userId);//查询大楼
             Record org = Db.findFirst(para);
-
-        return BaseUtil.objToStr(org.get("org_code"),"无");
+        if (org==null){
+            return "无";
+        }
+        logger.info("登入人大楼不为空！");
+        String str = BaseUtil.objToStr(org.get("org_code"), "无");
+        return str;
     }
 }

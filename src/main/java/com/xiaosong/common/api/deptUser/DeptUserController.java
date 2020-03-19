@@ -2,8 +2,10 @@ package com.xiaosong.common.api.deptUser;
 
 import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.xiaosong.common.access.companyUser.CompanyUserService;
 import com.xiaosong.compose.Result;
 
 /**
@@ -15,37 +17,6 @@ public class DeptUserController extends Controller {
         Log log =Log.getLog(DeptUserController.class);
     @Inject
     private DeptUserService deptUserService;
-
-    /**
-     * 未确认记录
-     * @param
-     * @return renderText(JSON.toJSONString(
-     */
-//    public void findApplying(){
-//        try {
-//            Map<String,Object> paramMap = getParamsToMap(request);
-//             deptUserService.findApplying(paramMap);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//             Result.unDataResult("fail", "系统异常");
-//        }
-//    }
-
-    /**
-     * 修改状态
-     * @param 
-     * @return renderText(JSON.toJSONString(
-     */
-    
-//    public void updateStatus(){
-//        try {
-//
-//            renderText(JSON.toJSONString(deptUserService.updateStatus(paramMap)));
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
-//        }
-//    }
 
     /**
      * 全部初始化数据
@@ -60,36 +31,6 @@ public class DeptUserController extends Controller {
         }
     }
 
-//    /**
-//     * 确认记录
-//     * @param request
-//     * @return renderText(JSON.toJSONString(
-//     */
-//
-//    public void findApplySucByOrg(){
-//        try {
-//            Map<String,Object> paramMap = getParamsToMap(request);
-//            return renderText(JSON.toJSONString( deptUserService.findApplySucByOrg(paramMap);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return renderText(JSON.toJSONString( Result.unDataResult("fail", "系统异常");
-//        }
-//    }
-//    /**
-//     * 确认大楼全部记录
-//     * @param request
-//     * @return renderText(JSON.toJSONString(
-//     */
-//
-//    public Result findApplyAllSucByOrg(){
-//        try {
-//            Map<String,Object> paramMap = getParamsToMap(request);
-//            return renderText(JSON.toJSONString( deptUserService.findApplyAllSucByOrg(paramMap);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return renderText(JSON.toJSONString( Result.unDataResult("fail", "系统异常");
-//        }
-//    }
     /**
      * 查询访客所拥有的公司
      */
@@ -100,6 +41,36 @@ public class DeptUserController extends Controller {
         }catch (Exception e){
             e.printStackTrace();
              renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
+        }
+    }
+    /**
+     * 确定数据
+     * @param
+     * @return
+     */
+    @ActionKey("/visitor/companyUser/findApplySucOrg")
+    public void findApplySucOrg(){
+        try {
+            renderText(JSON.toJSONString(CompanyUserService.me.findApplySucByOrg(get("org_code"))));
+        }catch (Exception e){
+            e.printStackTrace();
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
+        }
+
+    }
+
+    /**
+     * 确认大楼全部记录
+     * @param
+     * @return
+     */
+    public void findApplyAllSucOrg(){
+        try {
+            renderText("test");
+//            renderJson(companyUserService.findApplyAllSucByOrg());
+        }catch (Exception e){
+            e.printStackTrace();
+            renderJson(Result.unDataResult("fail", "系统异常"));
         }
     }
 }

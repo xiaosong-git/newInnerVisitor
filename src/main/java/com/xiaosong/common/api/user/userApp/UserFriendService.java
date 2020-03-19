@@ -40,13 +40,8 @@ public class UserFriendService  extends MyBaseService {
         if(user==null){
             return Result.unDataResult("fail","没有用户参数");
         }
+
         //查找自己的大楼id
-//        String orgId = BaseUtil.objToStr(user.getOrgId(),null);
-        VDept dept = new VDept();
-        //查找公司的大楼id
-         if(user.getDeptId()!=null){
-             dept= VDept.dao.findById(user.getDeptId());
-        }
         String columSql="select DISTINCT m.id,m.menu_code,m.menu_name,m.menu_url,m.sid,sstatus ";
 //        //3、获取个人的app角色权限
 //        //获取基础用户权限
@@ -55,7 +50,7 @@ public class UserFriendService  extends MyBaseService {
                 TableList.APP_ROLE_MENU+" urm on m.id=urm.menu_id ";
         String suffix=" left join " +TableList.APP_ROLE +" ur on ur.id=urm.role_id and urm.isOpen='T'"+
         " where ur.role_name='访客'";
-        String union="";
+        StringBuilder union=new StringBuilder(" union "+columSql+fromSql).append("where urm.role_id=9");
         //查找orgRole
 //        if (dept!=null&&dept.getOrgId()!=null) {
 //            VOrg org = VOrg.dao.findById(dept.getOrgId());
@@ -304,20 +299,21 @@ public class UserFriendService  extends MyBaseService {
 
     public Result findFriendApplyMe(Long userId) {
 
-            String columnSql = "select * from (select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city" +
-                    ",u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl";
-            String fromSql   = " from " + TableList.USER_FRIEND + " uf " +
-                    " left join " + TableList.DEPT_USER + " u on uf.friendId=u.id" +
-                    " where uf.userId = '"+userId+"'";
-            String union=" union all \n" +
-                    "select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city," +
-                    "u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl\n" +
-                    "from " + TableList.USER_FRIEND + "   uf \n" +
-                    "left join " + TableList.DEPT_USER + " u on uf.userid=u.id \n" +
-                    "where uf.friendId = "+userId+")x group by realName,phone,companyId ";
-        List<VDeptUser> VDeptUsers = VDeptUser.dao.find(columnSql + fromSql + union);
-        return VDeptUsers != null && !VDeptUsers.isEmpty()
-                    ? ResultData.dataResult("success","获取列表成功",VDeptUsers)
+//            String columnSql = "select * from (select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city" +
+//                    ",u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl";
+//            String fromSql   = " from " + TableList.USER_FRIEND + " uf " +
+//                    " left join " + TableList.DEPT_USER + " u on uf.friendId=u.id" +
+//                    " where uf.userId = '"+userId+"'";
+//            String union=" union all \n" +
+//                    "select uf.userId,uf.friendId,uf.applyType,u.realName,u.phone,u.orgId,u.province,u.city," +
+//                    "u.area,u.addr,u.idHandleImgUrl,u.companyId,u.niceName,u.headImgUrl\n" +
+//                    "from " + TableList.USER_FRIEND + "   uf \n" +
+//                    "left join " + TableList.DEPT_USER + " u on uf.userid=u.id \n" +
+//                    "where uf.friendId = "+userId+")x group by realName,phone,companyId ";
+
+        List<Record> records = Db.find( Db.getSql("deptUser.findFriendApplyMe"),userId,userId);
+        return records != null && !records.isEmpty()
+                    ? ResultData.dataResult("success","获取列表成功",apiList(records))
                     : Result.unDataResult("success","暂无数据");
         }
 

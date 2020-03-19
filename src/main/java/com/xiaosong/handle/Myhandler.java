@@ -14,11 +14,11 @@ public class Myhandler extends Handler {
 
     private static final Log log = Log.getLog(ActionHandler.class);
     //公众版api分页接口将参数写在uri上
-    private static final String[] strs={"/visitor/visitorRecord/inviteMine/",
-            "/visitor/visitorRecord/inviteRecord/","/visitor/visitorRecord/myVisit/",
-            "/visitor/visitorRecord/visitRecord/","/visitor/appVersion/updateAndroid/",
+    private static final String[] strs={
+            "/visitor/appVersion/updateAndroid/",
             "/visitor/news/list/","/visitor/notice/list/","/visitor/notice/allList/","/visitor/visitorRecord/visitMyPeople/",
-            "/visitor/visitorRecord/visitMyCompany/"};
+            "/visitor/visitorRecord/visitMyCompany/",
+            };
     private static final String param="/visitor/param/";//参数接口
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
 
@@ -28,6 +28,11 @@ public class Myhandler extends Handler {
             return;
         }
         if (target.contains("/visitor/code/sendCode/")){
+            String substring = target.substring("/visitor/code/sendCode/".length());
+            String[] split = substring.split("/");
+            request.setAttribute("phone",(split[0]));
+            Integer integer = Integer.valueOf(split[1]);
+            request.setAttribute("type", (integer));
             this.next.handle("/visitor/code/sendCode/", request, response, isHandled);
             return;
         }
@@ -37,6 +42,7 @@ public class Myhandler extends Handler {
                 String[] split = substring.split("/");
                 if (split.length==2) {
                     if( Character.isDigit(split[0].charAt(0))&&Character.isDigit(split[1].charAt(0))){
+
                         request.setAttribute("pageNum", Integer.valueOf(split[0]));
                         request.setAttribute("pageSize", Integer.valueOf(split[1]));
                     }else {//版本控制

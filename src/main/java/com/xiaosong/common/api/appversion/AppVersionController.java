@@ -1,5 +1,6 @@
 package com.xiaosong.common.api.appversion;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.compose.Result;
@@ -20,10 +21,10 @@ public class AppVersionController extends Controller {
         try {
             String channel = getAttrForStr("channel");
             String versionNum = getAttrForStr("versionNum");
-            renderJson(appVersionService.me.updateAndroid("android", channel, new Integer(versionNum)));
+            renderText(JSON.toJSONString(appVersionService.me.updateAndroid("android", channel, new Integer(versionNum))));
         }catch (Exception e){
             log.error("更新接口错误",e);
-            renderJson(Result.unDataResult("fail","更新系统错误"));
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "更新系统错误")));
         }
     }
 
@@ -35,9 +36,10 @@ public class AppVersionController extends Controller {
 
     public void updateIOS(){
         try {
-            renderJson(appVersionService.me.updateIos("ios",get("channel")));
+            renderText(JSON.toJSONString(appVersionService.me.updateIos("ios", get("channel"))));
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("更新接口错误",e);
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "更新系统错误")));
         }
     }
 
