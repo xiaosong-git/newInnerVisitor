@@ -91,12 +91,12 @@ public abstract class BaseVSysConfig<M extends BaseVSysConfig<M>> extends Model<
 	}
 
 	public M setTrueName(java.lang.String trueName) {
-		set("true_name", trueName);
+		set("trueName", trueName);
 		return (M)this;
 	}
 	
 	public java.lang.String getTrueName() {
-		return getStr("true_name");
+		return getStr("trueName");
 	}
 
 }

@@ -16,6 +16,7 @@ import com.xiaosong.common.web.dept.DeptController;
 import com.xiaosong.common.web.deptUser.DeptUsersController;
 import com.xiaosong.common.web.key.KeyController;
 import com.xiaosong.common.web.login.LoginController;
+import com.xiaosong.common.web.news.NewsController;
 import com.xiaosong.common.web.org.OrgController;
 import com.xiaosong.common.web.sysAuth.SysAuthController;
 import com.xiaosong.common.web.sysConfig.SysConfigController;
@@ -75,6 +76,8 @@ public class GlobalRoutes extends Routes{
 		this.add(webprefix+"/vipUser", VipUserController.class);
 		this.add(webprefix+"/org", OrgController.class);
 		this.add(webprefix+"/visitor", VisitorsController.class);
+		this.add(webprefix+"/notice", com.xiaosong.common.web.notice.NoticeController.class);
+		this.add(webprefix+"/news", NewsController.class);
 		this.add(prefix+"/p", ParamController.class);
 		this.add(prefix+"/appVersion", AppVersionController.class);
 		this.add(prefix+"/errorLog", ErrorLogController.class);

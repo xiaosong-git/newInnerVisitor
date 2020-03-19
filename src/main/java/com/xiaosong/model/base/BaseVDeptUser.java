@@ -409,6 +409,21 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
+	 * 实人日期
+	 */
+	public M setAuthDate(java.lang.String authDate) {
+		set("authDate", authDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 实人日期
+	 */
+	public java.lang.String getAuthDate() {
+		return getStr("authDate");
+	}
+
+	/**
 	 * 扩展字段1
 	 */
 	public M setExp1(java.lang.String exp1) {
