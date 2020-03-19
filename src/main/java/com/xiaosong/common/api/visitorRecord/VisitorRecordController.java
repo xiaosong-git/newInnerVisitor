@@ -99,6 +99,17 @@ public class VisitorRecordController extends Controller {
         }
     }
     @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    @Before(UserIdValidator.class)
+    public void inviteStranger(){
+
+        try {
+            renderText(JSON.toJSONString(visitorRecordService.inviteStranger(getInt("userId"), get("phone"),get("realName"),get("startDate"),get("endDate"),get("reason"),getInt("companyId"))));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void findRecordFromId(){
         try {
             renderText(JSON.toJSONString(visitorRecordService.findRecordFromId(get("id"))));

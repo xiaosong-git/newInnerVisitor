@@ -32,7 +32,6 @@ public class CodeController extends Controller {
         if (type==null){
             type= getAttrForInt("type");
         }
-        renderJson();
         renderText(JSON.toJSONString(codeService.sendMsg(phone,type,null,null,null,null), SerializerFeature.WriteNullStringAsEmpty));
     }
 

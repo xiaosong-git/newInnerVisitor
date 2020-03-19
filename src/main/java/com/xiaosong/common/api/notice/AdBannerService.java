@@ -1,16 +1,11 @@
 package com.xiaosong.common.api.notice;
 
-import com.alibaba.fastjson.JSON;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.TableList;
-import com.xiaosong.model.VAdBanner;
-import com.xiaosong.param.ParamService;
-import com.xiaosong.util.RedisUtil;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
