@@ -1,5 +1,6 @@
 package com.xiaosong.common.access.companyUser;
 
+import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.util.Base64;
@@ -22,12 +23,11 @@ import java.util.*;
 * @version 创建时间：2019年12月4日 上午11:17:34
 * 类说明
 */
-public class CompanyUserService {
+public class CompanyUserService extends MyBaseService {
 	public static final	CompanyUserService me = new CompanyUserService();
 	
-	 public Result findApplySucByOrg(Map<String, Object> paramMap) throws Exception {
-		 Map<String, Object> paramlist = new HashMap<String, Object>();
-		 String org_code = BaseUtil.objToStr(paramMap.get("org_code"), null);
+	 public Result findApplySucByOrg(String org_code) throws Exception {
+		 Map<String, Object> paramlist = new HashMap<>();
 	     String create_date =new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 	     paramlist.put("org_code", org_code);
 	     paramlist.put("create_date", create_date);
@@ -50,7 +50,7 @@ public class CompanyUserService {
 	        	 li.add(list.get(i).getColumns());
 	        	}
 	     }
-	     return list != null && !list.isEmpty()
+	     return list.isEmpty()
 	                ? ResultData.dataResult("success","获取大楼员工信息成功",list)
 	                : Result.unDataResult("success","暂无数据");
 	 }

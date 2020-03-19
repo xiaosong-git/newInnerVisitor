@@ -32,7 +32,7 @@
 	u.headImgUrl,
 	uf.remark,
 	d.dept_name companyName,
-	( SELECT fuf.applyType FROM v_user_friend fuf WHERE fuf.userId = uf.friendId AND fuf.friendId = ? ) applyType
+	( SELECT fuf.applyType FROM v_user_friend fuf WHERE fuf.userId = uf.friendId AND fuf.friendId = ? limit 1) applyType
 FROM
 	v_user_friend uf
 	LEFT JOIN v_dept_user u ON uf.friendId = u.id
@@ -40,6 +40,50 @@ FROM
 WHERE
 	uf.userId = ?
 	AND uf.applyType =1
+#end
+
+#sql("findFriendApplyMe")
+SELECT
+	*
+FROM
+	(
+SELECT
+	uf.userId,
+	uf.friendId,
+	uf.applyType,
+	u.realName,
+	u.phone,
+	d.org_id orgId,
+	u.idHandleImgUrl,
+	u.deptId companyId,
+	u.headImgUrl
+FROM
+	v_user_friend uf
+	LEFT JOIN v_dept_user u ON uf.friendId = u.id
+	LEFT JOIN v_dept d on d.id=u.deptId
+WHERE
+	uf.userId = ? UNION ALL
+SELECT
+	uf.userId,
+	uf.friendId,
+	uf.applyType,
+	u.realName,
+	u.phone,
+	d.org_id orgId,
+	u.idHandleImgUrl,
+	u.deptId companyId,
+	u.headImgUrl
+FROM
+	v_user_friend uf
+	LEFT JOIN v_dept_user u ON uf.userid = u.id
+	LEFT JOIN v_dept d on d.id=u.deptId
+WHERE
+	uf.friendId = ?
+	) x
+GROUP BY
+	realName,
+	phone,
+	companyId
 #end
 
 

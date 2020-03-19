@@ -1,5 +1,7 @@
 package com.xiaosong.common.api.code;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import org.slf4j.Logger;
@@ -21,7 +23,16 @@ public class CodeController extends Controller {
         renderText("haha");
     }
     public  void sendCode(){
-        renderJson(codeService.sendMsg(get("phone"),getInt("type"),null,null,null,null));
+
+        String phone = get("phone");
+        Integer type = getInt("type");
+        if (phone==null){
+             phone= getAttrForStr("phone");
+         }
+        if (type==null){
+            type= getAttrForInt("type");
+        }
+        renderText(JSON.toJSONString(codeService.sendMsg(phone,type,null,null,null,null), SerializerFeature.WriteNullStringAsEmpty));
     }
 
 

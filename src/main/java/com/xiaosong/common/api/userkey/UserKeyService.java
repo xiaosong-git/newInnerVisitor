@@ -17,14 +17,14 @@ public class UserKeyService  {
     public String findKeyByStatus(String cstatus) throws  Exception{
         String key = null;
         //redis修改，原dbNum=8 现在dbNum=32
-        key = RedisUtil.getStrVal("key_workKey",3);
-        if(key == null){
+//        key = RedisUtil.getStrVal("key_workKey",3);
+//        if(key == null){
             key =  findKeyFromDB(cstatus);
-            if(key != null){
-                //redis修改，原dbNum=8 现在dbNum=32
-                RedisUtil.setStr(3,"key_workKey",key,null);
-            }
-        }
+//            if(key != null){
+//                //redis修改，原dbNum=8 现在dbNum=32
+//                RedisUtil.setStr(3,"key_workKey",key,null);
+//            }
+//        }
         return key;
     }
 

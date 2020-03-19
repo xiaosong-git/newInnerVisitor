@@ -63,9 +63,10 @@ public class ImageService {
 		}
 
     }
-	public Result uploadSing(UploadFile myfile, String userId) {
-    	String newPath=MainConfig.p.get("imageSaveDir") + File.separator + userId + File.separator;
-		return uploadImg(myfile, userId, newPath);
+	public Result uploadSing(UploadFile myfile, String source) {
+    	String newPath=MainConfig.p.get("imageSaveDir") + File.separator + source + File.separator;
+
+		return uploadImg(myfile, source, newPath);
 
 	}
 
@@ -81,6 +82,9 @@ public class ImageService {
 	public Result uploadTxt(UploadFile myfile, String userId,String newPath ){
 		return upload(myfile, userId, newPath,".txt");
 	}
+	//上传
+	///usr/java/img/ad
+	///usr/java/img/news
 	public Result upload(UploadFile myfile, String userId,String newPath,String matches ){
 		String realFileName = "";
 		Map<String,Object> map=new HashMap<>();
@@ -183,6 +187,7 @@ public class ImageService {
 				return ResultData.dataResult("fail","人脸识别失败，请重新提交人脸图片",imgMap);
 			}
 		}if("4".equals(type)){
+
 			log.info("进入普通图片........{}",realFilePath);
 		}
 		return uploadResult;
