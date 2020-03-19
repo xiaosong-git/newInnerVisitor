@@ -2,11 +2,11 @@ package com.xiaosong.common.web.news;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.MainConfig;
 import com.xiaosong.model.VNews;
 import com.xiaosong.util.RetUtil;
 
@@ -18,7 +18,13 @@ public class NewsController extends Controller{
 		String notice = getPara("queryString");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
+		String imageSaveDir =  MainConfig.p.get("imageSaveDir")+"";
 		Page<Record> pagelist = srv.findList(notice,currentPage,pageSize);
+		if(pagelist.getList()!=null) {
+			for(Record record:pagelist.getList()) {
+				record.set("newsImageUrl", imageSaveDir+record.getObject("newsImageUrl"));
+			}
+		}
 		renderJson(pagelist);
 	}
 	
