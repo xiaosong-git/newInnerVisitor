@@ -102,31 +102,31 @@ public abstract class BaseVCompVipUser<M extends BaseVCompVipUser<M>> extends Mo
 	/**
 	 * 创建日期yy:MM:dd
 	 */
-	public M setCreateDate(java.lang.String createDate) {
-		set("createDate", createDate);
+	public M setCreatetime(java.lang.String createtime) {
+		set("createtime", createtime);
 		return (M)this;
 	}
 	
 	/**
 	 * 创建日期yy:MM:dd
 	 */
-	public java.lang.String getCreateDate() {
-		return getStr("createDate");
+	public java.lang.String getCreatetime() {
+		return getStr("createtime");
 	}
 
 	/**
-	 * 创建时间HH:mm:ss
+	 * 过期时间
 	 */
-	public M setCreateTime(java.lang.String createTime) {
-		set("createTime", createTime);
+	public M setEndtime(java.lang.String endtime) {
+		set("endtime", endtime);
 		return (M)this;
 	}
 	
 	/**
-	 * 创建时间HH:mm:ss
+	 * 过期时间
 	 */
-	public java.lang.String getCreateTime() {
-		return getStr("createTime");
+	public java.lang.String getEndtime() {
+		return getStr("endtime");
 	}
 
 	/**
@@ -172,6 +172,81 @@ public abstract class BaseVCompVipUser<M extends BaseVCompVipUser<M>> extends Mo
 	 */
 	public java.lang.String getCurrentStatus() {
 		return getStr("currentStatus");
+	}
+
+	/**
+	 * 电话
+	 */
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
+		return (M)this;
+	}
+	
+	/**
+	 * 电话
+	 */
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
+	/**
+	 * 性别
+	 */
+	public M setSex(java.lang.String sex) {
+		set("sex", sex);
+		return (M)this;
+	}
+	
+	/**
+	 * 性别
+	 */
+	public java.lang.String getSex() {
+		return getStr("sex");
+	}
+
+	/**
+	 * 所属公司
+	 */
+	public M setCompany(java.lang.String company) {
+		set("company", company);
+		return (M)this;
+	}
+	
+	/**
+	 * 所属公司
+	 */
+	public java.lang.String getCompany() {
+		return getStr("company");
+	}
+
+	/**
+	 * 职位
+	 */
+	public M setPosition(java.lang.String position) {
+		set("position", position);
+		return (M)this;
+	}
+	
+	/**
+	 * 职位
+	 */
+	public java.lang.String getPosition() {
+		return getStr("position");
+	}
+
+	/**
+	 * 授权原因
+	 */
+	public M setAuthorizeReason(java.lang.String authorizeReason) {
+		set("authorize_reason", authorizeReason);
+		return (M)this;
+	}
+	
+	/**
+	 * 授权原因
+	 */
+	public java.lang.String getAuthorizeReason() {
+		return getStr("authorize_reason");
 	}
 
 }

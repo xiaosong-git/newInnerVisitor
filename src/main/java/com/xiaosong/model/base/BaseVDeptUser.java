@@ -25,63 +25,48 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 公司id
-	 */
-	public M setCompanyId(java.lang.Long companyId) {
-		set("companyId", companyId);
-		return (M)this;
-	}
-	
-	/**
-	 * 公司id
-	 */
-	public java.lang.Long getCompanyId() {
-		return getLong("companyId");
-	}
-
-	/**
 	 * 部门id
 	 */
-	public M setSectionId(java.lang.Long sectionId) {
-		set("sectionId", sectionId);
+	public M setDeptId(java.lang.Long deptId) {
+		set("deptId", deptId);
 		return (M)this;
 	}
 	
 	/**
 	 * 部门id
 	 */
-	public java.lang.Long getSectionId() {
-		return getLong("sectionId");
+	public java.lang.Long getDeptId() {
+		return getLong("deptId");
 	}
 
 	/**
-	 * 员工Id
+	 * 工号
 	 */
-	public M setUserId(java.lang.Long userId) {
-		set("userId", userId);
+	public M setUserNo(java.lang.String userNo) {
+		set("userNo", userNo);
 		return (M)this;
 	}
 	
 	/**
-	 * 员工Id
+	 * 工号
 	 */
-	public java.lang.Long getUserId() {
-		return getLong("userId");
+	public java.lang.String getUserNo() {
+		return getStr("userNo");
 	}
 
 	/**
 	 * 员工姓名
 	 */
-	public M setUserName(java.lang.String userName) {
-		set("userName", userName);
+	public M setRealName(java.lang.String realName) {
+		set("realName", realName);
 		return (M)this;
 	}
 	
 	/**
 	 * 员工姓名
 	 */
-	public java.lang.String getUserName() {
-		return getStr("userName");
+	public java.lang.String getRealName() {
+		return getStr("realName");
 	}
 
 	/**
@@ -100,22 +85,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 创建时间HH:mm:ss
-	 */
-	public M setCreateTime(java.lang.String createTime) {
-		set("createTime", createTime);
-		return (M)this;
-	}
-	
-	/**
-	 * 创建时间HH:mm:ss
-	 */
-	public java.lang.String getCreateTime() {
-		return getStr("createTime");
-	}
-
-	/**
-	 * 角色:(staff:普通员工,manage:管理员,front:前台)
+	 * 职位 manage 部门管理员 staff 员工 floor:大楼管理员
 	 */
 	public M setRoleType(java.lang.String roleType) {
 		set("roleType", roleType);
@@ -123,7 +93,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * 角色:(staff:普通员工,manage:管理员,front:前台)
+	 * 职位 manage 部门管理员 staff 员工 floor:大楼管理员
 	 */
 	public java.lang.String getRoleType() {
 		return getStr("roleType");
@@ -226,6 +196,261 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	 */
 	public java.lang.String getAuthtype() {
 		return getStr("authtype");
+	}
+
+	/**
+	 * 员工电话
+	 */
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
+		return (M)this;
+	}
+	
+	/**
+	 * 员工电话
+	 */
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
+	/**
+	 * 证件号 用密钥加密，取出来再解密
+	 */
+	public M setIdNO(java.lang.String idNO) {
+		set("idNO", idNO);
+		return (M)this;
+	}
+	
+	/**
+	 * 证件号 用密钥加密，取出来再解密
+	 */
+	public java.lang.String getIdNO() {
+		return getStr("idNO");
+	}
+
+	/**
+	 * 是否实名 F:未实名 T：实名;N:审核中
+	 */
+	public M setIsAuth(java.lang.String isAuth) {
+		set("isAuth", isAuth);
+		return (M)this;
+	}
+	
+	/**
+	 * 是否实名 F:未实名 T：实名;N:审核中
+	 */
+	public java.lang.String getIsAuth() {
+		return getStr("isAuth");
+	}
+
+	/**
+	 * 手持证件照
+	 */
+	public M setIdHandleImgUrl(java.lang.String idHandleImgUrl) {
+		set("idHandleImgUrl", idHandleImgUrl);
+		return (M)this;
+	}
+	
+	/**
+	 * 手持证件照
+	 */
+	public java.lang.String getIdHandleImgUrl() {
+		return getStr("idHandleImgUrl");
+	}
+
+	/**
+	 * 头像照片位置
+	 */
+	public M setHeadImgUrl(java.lang.String headImgUrl) {
+		set("headImgUrl", headImgUrl);
+		return (M)this;
+	}
+	
+	/**
+	 * 头像照片位置
+	 */
+	public java.lang.String getHeadImgUrl() {
+		return getStr("headImgUrl");
+	}
+
+	/**
+	 * 地址
+	 */
+	public M setAddr(java.lang.String addr) {
+		set("addr", addr);
+		return (M)this;
+	}
+	
+	/**
+	 * 地址
+	 */
+	public java.lang.String getAddr() {
+		return getStr("addr");
+	}
+
+	/**
+	 * 入职时间
+	 */
+	public M setIntime(java.lang.String intime) {
+		set("intime", intime);
+		return (M)this;
+	}
+	
+	/**
+	 * 入职时间
+	 */
+	public java.lang.String getIntime() {
+		return getStr("intime");
+	}
+
+	/**
+	 * 备注
+	 */
+	public M setRemark(java.lang.String remark) {
+		set("remark", remark);
+		return (M)this;
+	}
+	
+	/**
+	 * 备注
+	 */
+	public java.lang.String getRemark() {
+		return getStr("remark");
+	}
+
+	/**
+	 * token
+	 */
+	public M setToken(java.lang.String token) {
+		set("token", token);
+		return (M)this;
+	}
+	
+	/**
+	 * token
+	 */
+	public java.lang.String getToken() {
+		return getStr("token");
+	}
+
+	/**
+	 * 默认密码
+	 */
+	public M setSysPwd(java.lang.String sysPwd) {
+		set("sysPwd", sysPwd);
+		return (M)this;
+	}
+	
+	/**
+	 * 默认密码
+	 */
+	public java.lang.String getSysPwd() {
+		return getStr("sysPwd");
+	}
+
+	/**
+	 * 个推cid
+	 */
+	public M setDeviceToken(java.lang.String deviceToken) {
+		set("deviceToken", deviceToken);
+		return (M)this;
+	}
+	
+	/**
+	 * 个推cid
+	 */
+	public java.lang.String getDeviceToken() {
+		return getStr("deviceToken");
+	}
+
+	/**
+	 * APP在线情况
+	 */
+	public M setIsOnlineApp(java.lang.String isOnlineApp) {
+		set("isOnlineApp", isOnlineApp);
+		return (M)this;
+	}
+	
+	/**
+	 * APP在线情况
+	 */
+	public java.lang.String getIsOnlineApp() {
+		return getStr("isOnlineApp");
+	}
+
+	/**
+	 * 1--ios 2--andriod
+	 */
+	public M setDeviceType(java.lang.String deviceType) {
+		set("deviceType", deviceType);
+		return (M)this;
+	}
+	
+	/**
+	 * 1--ios 2--andriod
+	 */
+	public java.lang.String getDeviceType() {
+		return getStr("deviceType");
+	}
+
+	/**
+	 * 修改时间
+	 */
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 修改时间
+	 */
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
+	/**
+	 * 实人日期
+	 */
+	public M setAuthDate(java.lang.String authDate) {
+		set("authDate", authDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 实人日期
+	 */
+	public java.lang.String getAuthDate() {
+		return getStr("authDate");
+	}
+
+	/**
+	 * 扩展字段1
+	 */
+	public M setExp1(java.lang.String exp1) {
+		set("exp1", exp1);
+		return (M)this;
+	}
+	
+	/**
+	 * 扩展字段1
+	 */
+	public java.lang.String getExp1() {
+		return getStr("exp1");
+	}
+
+	/**
+	 * 扩展字段2
+	 */
+	public M setExp2(java.lang.String exp2) {
+		set("exp2", exp2);
+		return (M)this;
+	}
+	
+	/**
+	 * 扩展字段2
+	 */
+	public java.lang.String getExp2() {
+		return getStr("exp2");
 	}
 
 }

@@ -55,141 +55,6 @@ public abstract class BaseVOrg<M extends BaseVOrg<M>> extends Model<M> implement
 	}
 
 	/**
-	 * 关系
-	 */
-	public M setSid(java.lang.Long sid) {
-		set("sid", sid);
-		return (M)this;
-	}
-	
-	/**
-	 * 关系
-	 */
-	public java.lang.Long getSid() {
-		return getLong("sid");
-	}
-
-	/**
-	 * 置顶
-	 */
-	public M setIstop(java.lang.String istop) {
-		set("istop", istop);
-		return (M)this;
-	}
-	
-	/**
-	 * 置顶
-	 */
-	public java.lang.String getIstop() {
-		return getStr("istop");
-	}
-
-	/**
-	 * 大楼图标
-	 */
-	public M setOrgIcon(java.lang.String orgIcon) {
-		set("org_icon", orgIcon);
-		return (M)this;
-	}
-	
-	/**
-	 * 大楼图标
-	 */
-	public java.lang.String getOrgIcon() {
-		return getStr("org_icon");
-	}
-
-	/**
-	 * 关系
-	 */
-	public M setRelationNo(java.lang.String relationNo) {
-		set("relation_no", relationNo);
-		return (M)this;
-	}
-	
-	/**
-	 * 关系
-	 */
-	public java.lang.String getRelationNo() {
-		return getStr("relation_no");
-	}
-
-	/**
-	 * 0:正常；1:禁止
-	 */
-	public M setSstatus(java.lang.String sstatus) {
-		set("sstatus", sstatus);
-		return (M)this;
-	}
-	
-	/**
-	 * 0:正常；1:禁止
-	 */
-	public java.lang.String getSstatus() {
-		return getStr("sstatus");
-	}
-
-	/**
-	 * 大楼:floor,物业:property，运营商:business;0:超级管理员
-	 */
-	public M setOrgType(java.lang.String orgType) {
-		set("orgType", orgType);
-		return (M)this;
-	}
-	
-	/**
-	 * 大楼:floor,物业:property，运营商:business;0:超级管理员
-	 */
-	public java.lang.String getOrgType() {
-		return getStr("orgType");
-	}
-
-	/**
-	 * 创建人姓名
-	 */
-	public M setRealName(java.lang.String realName) {
-		set("realName", realName);
-		return (M)this;
-	}
-	
-	/**
-	 * 创建人姓名
-	 */
-	public java.lang.String getRealName() {
-		return getStr("realName");
-	}
-
-	/**
-	 * 手机
-	 */
-	public M setPhone(java.lang.String phone) {
-		set("phone", phone);
-		return (M)this;
-	}
-	
-	/**
-	 * 手机
-	 */
-	public java.lang.String getPhone() {
-		return getStr("phone");
-	}
-
-	/**
-	 * 地址
-	 */
-	public M setAddr(java.lang.String addr) {
-		set("addr", addr);
-		return (M)this;
-	}
-	
-	/**
-	 * 地址
-	 */
-	public java.lang.String getAddr() {
-		return getStr("addr");
-	}
-
-	/**
 	 * 创建时间
 	 */
 	public M setCreateDate(java.lang.String createDate) {
@@ -205,78 +70,96 @@ public abstract class BaseVOrg<M extends BaseVOrg<M>> extends Model<M> implement
 	}
 
 	/**
-	 * 省
+	 * 员工通行方式 0：人脸识别1：二维码 2：人脸or二维码
 	 */
-	public M setProvince(java.lang.String province) {
-		set("province", province);
+	public M setStaffAccessType(java.lang.String staffAccessType) {
+		set("staff_access_type", staffAccessType);
 		return (M)this;
 	}
 	
 	/**
-	 * 省
+	 * 员工通行方式 0：人脸识别1：二维码 2：人脸or二维码
 	 */
-	public java.lang.String getProvince() {
-		return getStr("province");
+	public java.lang.String getStaffAccessType() {
+		return getStr("staff_access_type");
 	}
 
 	/**
-	 * 市区
+	 * 访客通行方式 0：人脸识别1：二维码 2：人脸or二维码
 	 */
-	public M setCity(java.lang.String city) {
-		set("city", city);
+	public M setVisitorAccessType(java.lang.String visitorAccessType) {
+		set("visitor_access_type", visitorAccessType);
 		return (M)this;
 	}
 	
 	/**
-	 * 市区
+	 * 访客通行方式 0：人脸识别1：二维码 2：人脸or二维码
 	 */
-	public java.lang.String getCity() {
-		return getStr("city");
+	public java.lang.String getVisitorAccessType() {
+		return getStr("visitor_access_type");
 	}
 
 	/**
-	 * 县
+	 * 共享通行方式 0：人脸识别1：二维码 2：人脸or二维码
 	 */
-	public M setArea(java.lang.String area) {
-		set("area", area);
+	public M setShareAccessType(java.lang.String shareAccessType) {
+		set("share_access_type", shareAccessType);
 		return (M)this;
 	}
 	
 	/**
-	 * 县
+	 * 共享通行方式 0：人脸识别1：二维码 2：人脸or二维码
 	 */
-	public java.lang.String getArea() {
-		return getStr("area");
+	public java.lang.String getShareAccessType() {
+		return getStr("share_access_type");
 	}
 
 	/**
-	 * 访问类型0：人脸识别1：二维码
+	 * 修改时间
 	 */
-	public M setAccessType(java.lang.String accessType) {
-		set("accessType", accessType);
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("update_time", updateTime);
 		return (M)this;
 	}
 	
 	/**
-	 * 访问类型0：人脸识别1：二维码
+	 * 修改时间
 	 */
-	public java.lang.String getAccessType() {
-		return getStr("accessType");
+	public java.lang.String getUpdateTime() {
+		return getStr("update_time");
 	}
 
 	/**
-	 * app角色
+	 * 大楼主管id 去dept_user 查询
 	 */
-	public M setApprole(java.lang.String approle) {
-		set("approle", approle);
+	public M setManageUserId(java.lang.Long manageUserId) {
+		set("manage_user_id", manageUserId);
 		return (M)this;
 	}
 	
 	/**
-	 * app角色
+	 * 大楼主管id 去dept_user 查询
 	 */
-	public java.lang.String getApprole() {
-		return getStr("approle");
+	public java.lang.Long getManageUserId() {
+		return getLong("manage_user_id");
+	}
+
+	public M setExt1(java.lang.String ext1) {
+		set("ext1", ext1);
+		return (M)this;
+	}
+	
+	public java.lang.String getExt1() {
+		return getStr("ext1");
+	}
+
+	public M setExt2(java.lang.String ext2) {
+		set("ext2", ext2);
+		return (M)this;
+	}
+	
+	public java.lang.String getExt2() {
+		return getStr("ext2");
 	}
 
 }

@@ -13,7 +13,7 @@ public class MainTest {
         
         String filepath="D:/publicprivatekey/";  
    
-        RSAEncrypt.genKeyPair(filepath);
+        RSAEncrypt.genKeyPair();
   
         System.out.println("--------------公钥加密私钥解密过程-------------------");  
         String plainText="ihep_公钥加密私钥解密";  

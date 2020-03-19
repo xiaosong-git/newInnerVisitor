@@ -1,0 +1,1051 @@
+2020-01-11 16:27:36  [ main:0 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 16:27:37  [ main:1232 ] - [ INFO ]  select 1 
+ {executed in 1 msec}
+2020-01-11 16:27:37  [ main:1258 ] - [ INFO ]  {dataSource-1} inited
+2020-01-11 16:27:37  [ main:1286 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 21 msec}
+2020-01-11 16:27:37  [ main:1295 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:37  [ main:1300 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:27:37  [ main:1303 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:27:37  [ main:1305 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:37  [ main:1308 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:37  [ main:1310 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:37  [ main:1314 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:27:37  [ main:1317 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:37  [ main:1320 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:37  [ main:1322 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:37  [ main:1325 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:37  [ main:1328 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1338 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 6 msec}
+2020-01-11 16:27:38  [ main:1342 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:27:38  [ main:1345 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1349 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:27:38  [ main:1351 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1354 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1357 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1359 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1361 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1364 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1367 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1370 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1372 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1374 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1376 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1379 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1381 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1383 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:27:38  [ main:1386 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1389 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:38  [ main:1391 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:27:42  [ main:6088 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 20 msec}
+2020-01-11 16:27:42  [ main:6220 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 16:27:42  [ main:6245 ] - [ INFO ]  XNIO version 3.3.8.Final
+2020-01-11 16:27:42  [ main:6287 ] - [ INFO ]  XNIO NIO Implementation Version 3.3.8.Final
+2020-01-11 16:27:56  [ XNIO-1 task-1:19674 ] - [ INFO ]  select * from v_sys_user where username='null' and tel='null' 
+ {executed in 6 msec}
+2020-01-11 16:28:02  [ XNIO-1 task-2:25422 ] - [ INFO ]  select * from v_sys_user where username='null' and tel='null' 
+ {executed in 2 msec}
+2020-01-11 16:28:41  [ XNIO-1 task-3:64806 ] - [ INFO ]  select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+2020-01-11 16:28:41  [ XNIO-1 task-3:64849 ] - [ INFO ]  update `v_sys_user` set `token` = '4f32a2f7-917e-4f5d-b490-07cce5a0ab4f' where `id` = 1 
+ {executed in 33 msec}
+2020-01-11 16:30:07  [ XNIO-1 task-4:151168 ] - [ INFO ]  select 1 
+ {executed in 2 msec}
+2020-01-11 16:30:07  [ XNIO-1 task-4:151183 ] - [ INFO ]  select * from v_sys_user where username='null' and tel='null' 
+ {executed in 5 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256382 ] - [ INFO ]  {dataSource-1} closed
+2020-01-11 16:31:53  [ HotSwapWatcher:256390 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 16:31:53  [ HotSwapWatcher:256414 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 16:31:53  [ HotSwapWatcher:256642 ] - [ INFO ]  select 1 
+ {executed in 0 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256659 ] - [ INFO ]  {dataSource-2} inited
+2020-01-11 16:31:53  [ HotSwapWatcher:256666 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 6 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256670 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256672 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256676 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256679 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256682 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256684 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256687 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256690 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256692 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256696 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256699 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256703 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256706 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256710 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256712 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256716 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256718 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256721 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256725 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256727 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256729 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256732 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256734 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256737 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256739 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256741 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256743 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256744 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256749 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256751 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256756 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256758 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:31:53  [ HotSwapWatcher:256761 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:31:55  [ HotSwapWatcher:258829 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 0 msec}
+2020-01-11 16:31:55  [ HotSwapWatcher:258833 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 16:32:36  [ HotSwapWatcher:300246 ] - [ INFO ]  {dataSource-2} closed
+2020-01-11 16:32:36  [ HotSwapWatcher:300247 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 16:32:36  [ HotSwapWatcher:300274 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 16:46:58  [ main:0 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 16:46:59  [ main:760 ] - [ INFO ]  select 1 
+ {executed in 1 msec}
+2020-01-11 16:46:59  [ main:784 ] - [ INFO ]  {dataSource-1} inited
+2020-01-11 16:46:59  [ main:797 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 5 msec}
+2020-01-11 16:46:59  [ main:810 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 8 msec}
+2020-01-11 16:46:59  [ main:815 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 16:46:59  [ main:820 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 16:46:59  [ main:826 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:46:59  [ main:832 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:46:59  [ main:834 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:837 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:46:59  [ main:841 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:848 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:46:59  [ main:851 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:856 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:861 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:872 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 6 msec}
+2020-01-11 16:46:59  [ main:874 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:877 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:880 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:883 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:887 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 16:46:59  [ main:889 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:46:59  [ main:892 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:895 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:46:59  [ main:898 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:901 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:903 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:905 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:46:59  [ main:909 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:46:59  [ main:911 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:913 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:46:59  [ main:915 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:46:59  [ main:918 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:920 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:46:59  [ main:922 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:46:59  [ main:924 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:47:02  [ main:4054 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 1 msec}
+2020-01-11 16:47:02  [ main:4083 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 16:47:02  [ main:4095 ] - [ INFO ]  XNIO version 3.3.8.Final
+2020-01-11 16:47:02  [ main:4112 ] - [ INFO ]  XNIO NIO Implementation Version 3.3.8.Final
+2020-01-11 16:47:09  [ XNIO-1 task-1:10914 ] - [ INFO ]  select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+2020-01-11 16:47:09  [ XNIO-1 task-1:10921 ] - [ INFO ]  update `v_sys_user` set `token` = '0db783a7-a631-433f-b782-db91abbd5f67' where `id` = 1 
+ {executed in 3 msec}
+2020-01-11 16:47:29  [ XNIO-1 task-2:30603 ] - [ ERROR ]  com.xiaosong.common.web.sysUser.SysUserController.findList() : /visitor/web/sysUser/findList?currentPage=1&pageSize=10
+java.lang.NullPointerException
+	at com.xiaosong.interceptor.LoginInterceptor.intercept(LoginInterceptor.java:31)
+	at com.jfinal.aop.Invocation.invoke(Invocation.java:91)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:89)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2020-01-11 16:48:52  [ HotSwapWatcher:114375 ] - [ INFO ]  {dataSource-1} closed
+2020-01-11 16:48:52  [ HotSwapWatcher:114383 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 16:48:52  [ HotSwapWatcher:114418 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 16:48:53  [ HotSwapWatcher:114686 ] - [ INFO ]  select 1 
+ {executed in 0 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114690 ] - [ INFO ]  {dataSource-2} inited
+2020-01-11 16:48:53  [ HotSwapWatcher:114706 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 15 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114713 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 6 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114715 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114720 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114724 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114728 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114731 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114733 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114736 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114739 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114748 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 9 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114770 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 22 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114779 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 7 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114782 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114785 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114787 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114789 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114791 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114795 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114797 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114799 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114800 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114802 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114805 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114807 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114810 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114812 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114814 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114817 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114819 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114821 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114823 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114825 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 16:48:53  [ HotSwapWatcher:114827 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 16:48:56  [ HotSwapWatcher:118187 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 1 msec}
+2020-01-11 16:48:56  [ HotSwapWatcher:118189 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 16:56:35  [ XNIO-2 task-1:577345 ] - [ INFO ]  select 1 
+ {executed in 6 msec}
+2020-01-11 16:56:35  [ XNIO-2 task-1:577347 ] - [ INFO ]  select * from v_sys_user where username='null' and tel='null' 
+ {executed in 1 msec}
+2020-01-11 17:06:04  [ XNIO-2 task-2:1145677 ] - [ INFO ]  select 1 
+ {executed in 1 msec}
+2020-01-11 17:06:04  [ XNIO-2 task-2:1145679 ] - [ INFO ]  select * from v_sys_user where username='null' and tel='null' 
+ {executed in 1 msec}
+2020-01-11 17:07:29  [ XNIO-2 task-3:1231125 ] - [ INFO ]  select 1 
+ {executed in 2 msec}
+2020-01-11 17:07:29  [ XNIO-2 task-3:1231140 ] - [ INFO ]  select * from v_sys_user where username='null' and tel='null' 
+ {executed in 4 msec}
+2020-01-11 17:08:05  [ HotSwapWatcher:1267257 ] - [ INFO ]  {dataSource-2} closed
+2020-01-11 17:08:05  [ HotSwapWatcher:1267259 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 17:08:05  [ HotSwapWatcher:1267284 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 17:08:05  [ HotSwapWatcher:1267487 ] - [ INFO ]  select 1 
+ {executed in 0 msec}
+2020-01-11 17:08:05  [ HotSwapWatcher:1267488 ] - [ INFO ]  {dataSource-3} inited
+2020-01-11 17:08:05  [ HotSwapWatcher:1267493 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:08:05  [ HotSwapWatcher:1267498 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:08:05  [ HotSwapWatcher:1267500 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267512 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 11 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267515 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267519 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267520 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267523 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267525 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267528 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267530 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267534 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267537 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267539 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267541 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267543 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267545 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267547 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267550 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267557 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 6 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267559 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267561 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267563 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267566 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267569 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267575 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 5 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267578 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267581 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267584 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267587 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267589 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267591 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267593 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:08:06  [ HotSwapWatcher:1267595 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:08:08  [ HotSwapWatcher:1270002 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 0 msec}
+2020-01-11 17:08:08  [ HotSwapWatcher:1270004 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 17:10:23  [ XNIO-3 task-2:1404741 ] - [ INFO ]  select 1 
+ {executed in 1 msec}
+2020-01-11 17:10:23  [ XNIO-3 task-2:1404742 ] - [ INFO ]  select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+2020-01-11 17:10:23  [ XNIO-3 task-2:1404747 ] - [ INFO ]  update `v_sys_user` set `token` = '9a740f36-61ad-43e8-83e9-c4843f72850a' where `id` = 1 
+ {executed in 4 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893531 ] - [ INFO ]  {dataSource-3} closed
+2020-01-11 17:18:32  [ HotSwapWatcher:1893532 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 17:18:32  [ HotSwapWatcher:1893558 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 17:18:32  [ HotSwapWatcher:1893753 ] - [ INFO ]  select 1 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893754 ] - [ INFO ]  {dataSource-4} inited
+2020-01-11 17:18:32  [ HotSwapWatcher:1893759 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893762 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893765 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893768 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893771 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893773 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893775 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893777 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893782 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893785 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893795 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 9 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893802 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893804 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893806 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893808 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893810 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893811 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893813 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893815 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893817 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893820 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893821 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893823 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893825 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893827 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893831 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893835 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893839 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893841 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893845 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893846 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893848 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893851 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:18:32  [ HotSwapWatcher:1893852 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:24:01  [ main:0 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 17:24:02  [ main:836 ] - [ INFO ]  select 1 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:861 ] - [ INFO ]  {dataSource-1} inited
+2020-01-11 17:24:02  [ main:875 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 5 msec}
+2020-01-11 17:24:02  [ main:885 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:889 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:893 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:898 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:24:02  [ main:906 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:915 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:927 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 11 msec}
+2020-01-11 17:24:02  [ main:935 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:940 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:944 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:947 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:951 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:961 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:972 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 10 msec}
+2020-01-11 17:24:02  [ main:975 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:24:02  [ main:977 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:980 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:982 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:988 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 6 msec}
+2020-01-11 17:24:02  [ main:992 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:996 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:998 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:24:02  [ main:1002 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:1007 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:24:02  [ main:1011 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:1015 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:24:02  [ main:1018 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:1021 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:1023 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:24:02  [ main:1027 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:1032 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:02  [ main:1034 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:24:02  [ main:1038 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:24:05  [ main:4303 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 0 msec}
+2020-01-11 17:24:05  [ main:4327 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 17:24:05  [ main:4339 ] - [ INFO ]  XNIO version 3.3.8.Final
+2020-01-11 17:24:05  [ main:4353 ] - [ INFO ]  XNIO NIO Implementation Version 3.3.8.Final
+2020-01-11 17:24:09  [ XNIO-1 task-1:7520 ] - [ INFO ]  select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+2020-01-11 17:24:09  [ XNIO-1 task-1:7527 ] - [ INFO ]  update `v_sys_user` set `token` = '8c388864-a393-425a-84d7-4901b7f30812' where `id` = 1 
+ {executed in 3 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898062 ] - [ INFO ]  {dataSource-1} closed
+2020-01-11 17:38:59  [ HotSwapWatcher:898068 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 17:38:59  [ HotSwapWatcher:898091 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 17:38:59  [ HotSwapWatcher:898368 ] - [ INFO ]  select 1 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898370 ] - [ INFO ]  {dataSource-2} inited
+2020-01-11 17:38:59  [ HotSwapWatcher:898375 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898378 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898381 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898384 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898386 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898388 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898394 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 5 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898396 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898401 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898403 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898406 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898409 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898411 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898413 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898416 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898418 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898420 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898422 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898424 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898425 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898428 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898429 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898431 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898433 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898434 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898436 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898438 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898440 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898442 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898443 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898445 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898446 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898448 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:38:59  [ HotSwapWatcher:898449 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:02  [ HotSwapWatcher:900538 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 0 msec}
+2020-01-11 17:39:02  [ HotSwapWatcher:900541 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 17:39:50  [ HotSwapWatcher:948651 ] - [ INFO ]  {dataSource-2} closed
+2020-01-11 17:39:50  [ HotSwapWatcher:948652 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 17:39:50  [ HotSwapWatcher:948676 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 17:39:50  [ HotSwapWatcher:948885 ] - [ INFO ]  select 1 
+ {executed in 0 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948887 ] - [ INFO ]  {dataSource-3} inited
+2020-01-11 17:39:50  [ HotSwapWatcher:948890 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948894 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948898 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948900 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948903 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948905 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948908 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948910 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948913 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948916 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948918 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948921 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948923 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948925 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948927 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948929 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948932 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948934 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948935 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948937 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948938 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948940 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948942 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948944 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948946 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948948 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948950 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948952 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948953 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948955 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948957 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948958 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948960 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:50  [ HotSwapWatcher:948961 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:39:52  [ HotSwapWatcher:950694 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 0 msec}
+2020-01-11 17:39:52  [ HotSwapWatcher:950697 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 17:40:13  [ XNIO-3 task-1:972484 ] - [ ERROR ]  com.xiaosong.common.web.sysUser.SysUserController.findList() : /visitor/web/sysUser/findList?currentPage=1&pageSize=10&token=8c388864-a393-425a-84d7-4901b7f30812
+java.lang.NullPointerException
+	at com.xiaosong.interceptor.LoginInterceptor.intercept(LoginInterceptor.java:36)
+	at com.jfinal.aop.Invocation.invoke(Invocation.java:91)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:89)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2020-01-11 17:41:45  [ HotSwapWatcher:1063774 ] - [ INFO ]  {dataSource-3} closed
+2020-01-11 17:41:45  [ HotSwapWatcher:1063780 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 17:41:45  [ HotSwapWatcher:1063804 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 17:41:45  [ HotSwapWatcher:1064064 ] - [ INFO ]  select 1 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064067 ] - [ INFO ]  {dataSource-4} inited
+2020-01-11 17:41:45  [ HotSwapWatcher:1064071 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064073 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064076 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064078 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064080 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064084 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064087 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064089 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064091 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064094 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064097 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064100 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064102 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064104 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064107 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064109 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064112 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064113 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064116 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064119 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064121 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064122 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064124 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064127 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064128 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064134 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 5 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064137 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064139 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064142 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064145 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064148 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064153 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 4 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064154 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:41:45  [ HotSwapWatcher:1064156 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:43:31  [ HotSwapWatcher:1170159 ] - [ INFO ]  select 1 
+ {executed in 0 msec}
+2020-01-11 17:43:31  [ HotSwapWatcher:1170160 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 0 msec}
+2020-01-11 17:43:31  [ HotSwapWatcher:1170162 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-11 17:53:33  [ HotSwapWatcher:1772084 ] - [ INFO ]  {dataSource-4} closed
+2020-01-11 17:53:33  [ HotSwapWatcher:1772084 ] - [ INFO ]  stopping server: Undertow - 2.0.28.Final
+2020-01-11 17:57:03  [ XNIO-4 task-1:1981753 ] - [ ERROR ]  com.xiaosong.common.web.sysUser.SysUserController.findList() : /visitor/web/sysUser/findList?currentPage=1&pageSize=10&token=8c388864-a393-425a-84d7-4901b7f30812
+java.lang.IllegalStateException: UT010019: Response already commited
+	at io.undertow.servlet.spec.HttpServletResponseImpl.sendRedirect(HttpServletResponseImpl.java:227)
+	at com.jfinal.render.RedirectRender.render(RedirectRender.java:100)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:114)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2020-01-11 17:57:03  [ XNIO-4 task-1:1981756 ] - [ ERROR ]  /visitor/web/sysUser/findList?currentPage=1&pageSize=10&token=8c388864-a393-425a-84d7-4901b7f30812
+com.jfinal.render.RenderException: java.io.IOException: UT010029: Stream is closed
+	at com.jfinal.render.ErrorRender.render(ErrorRender.java:60)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:132)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.io.IOException: UT010029: Stream is closed
+	at io.undertow.servlet.spec.ServletOutputStreamImpl.write(ServletOutputStreamImpl.java:137)
+	at io.undertow.servlet.spec.ServletOutputStreamImpl.write(ServletOutputStreamImpl.java:129)
+	at com.jfinal.render.ErrorRender.render(ErrorRender.java:58)
+	... 36 more
+2020-01-11 17:57:03  [ HotSwapWatcher:1981789 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-11 17:57:03  [ HotSwapWatcher:1981945 ] - [ INFO ]  select 1 
+ {executed in 0 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981946 ] - [ INFO ]  {dataSource-5} inited
+2020-01-11 17:57:03  [ HotSwapWatcher:1981949 ] - [ INFO ]  select * from `v_access_config` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981952 ] - [ INFO ]  select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981953 ] - [ INFO ]  select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981955 ] - [ INFO ]  select * from `v_app_menu` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981957 ] - [ INFO ]  select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981958 ] - [ INFO ]  select * from `v_app_role` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981960 ] - [ INFO ]  select * from `v_app_role_menu` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981961 ] - [ INFO ]  select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981963 ] - [ INFO ]  select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981965 ] - [ INFO ]  select * from `v_app_user_message` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981967 ] - [ INFO ]  select * from `v_app_version` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981969 ] - [ INFO ]  select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981971 ] - [ INFO ]  select * from `v_business` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981973 ] - [ INFO ]  select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981975 ] - [ INFO ]  select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981977 ] - [ INFO ]  select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981980 ] - [ INFO ]  select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981982 ] - [ INFO ]  select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981984 ] - [ INFO ]  select * from `v_dept_user` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981986 ] - [ INFO ]  select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981987 ] - [ INFO ]  select * from `v_dictionaries` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981989 ] - [ INFO ]  select * from `v_key` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981990 ] - [ INFO ]  select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981992 ] - [ INFO ]  select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981994 ] - [ INFO ]  select * from `v_notice` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981996 ] - [ INFO ]  select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981997 ] - [ INFO ]  select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1981999 ] - [ INFO ]  select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1982000 ] - [ INFO ]  select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1982002 ] - [ INFO ]  select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1982003 ] - [ INFO ]  select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1982006 ] - [ INFO ]  select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1982007 ] - [ INFO ]  select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:03  [ HotSwapWatcher:1982008 ] - [ INFO ]  select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+2020-01-11 17:57:05  [ HotSwapWatcher:1983877 ] - [ INFO ]  select * from v_dictionaries 
+ {executed in 1 msec}
+2020-01-11 17:57:05  [ HotSwapWatcher:1983880 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final

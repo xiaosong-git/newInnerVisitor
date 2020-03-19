@@ -4,13 +4,9 @@ import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Record;
-import com.xiaosong.common.user.UserController;
+import com.xiaosong.common.api.user.UserController;
 import com.xiaosong.test.TestCache;
 import com.xiaosong.util.RetUtil;
-import org.apache.log4j.Logger;
-
-import java.util.List;
 
 /**
  * 测试控制器

@@ -138,4 +138,13 @@ public abstract class BaseVNotice<M extends BaseVNotice<M>> extends Model<M> imp
 		return getLong("companyId");
 	}
 
+	public M setUpdateTime(java.lang.String updateTime) {
+		set("updateTime", updateTime);
+		return (M)this;
+	}
+	
+	public java.lang.String getUpdateTime() {
+		return getStr("updateTime");
+	}
+
 }

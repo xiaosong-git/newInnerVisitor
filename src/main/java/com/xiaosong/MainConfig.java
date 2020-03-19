@@ -1,32 +1,28 @@
 package com.xiaosong;
 
 import com.alibaba.druid.filter.logging.Log4jFilter;
+import com.jfinal.config.*;
 import com.jfinal.ext.handler.UrlSkipHandler;
-import com.jfinal.plugin.ehcache.EhCachePlugin;
-import com.jfinal.plugin.redis.RedisPlugin;
-import com.xiaosong.cache.DictionaryCache;
-import com.xiaosong.constant.Constant;
-import com.jfinal.config.Constants;
-import com.jfinal.config.Handlers;
-import com.jfinal.config.Interceptors;
-import com.jfinal.config.JFinalConfig;
-import com.jfinal.config.Plugins;
-import com.jfinal.config.Routes;
 import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log4jLogFactory;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.ehcache.EhCachePlugin;
+import com.jfinal.plugin.redis.RedisPlugin;
 import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
-import com.xiaosong.filter.MyDruidFilter;
+import com.xiaosong.cache.DictionaryCache;
+import com.xiaosong.common.api.websocket.WebSocketEndPoint;
+import com.xiaosong.constant.Constant;
 import com.xiaosong.handle.Myhandler;
+import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
-import com.xiaosong.common.websocket.WebSocketEndPoint;
+import com.xiaosong.util.FaceModuleUtil;
 
 /**
  * 本 demo 仅表达最为粗浅的 jfinal 用法，更为有价值的实用的企业级用法
@@ -42,6 +38,32 @@ public class MainConfig extends JFinalConfig {
 	 * 启动入口，运行此 main 方法可以启动项目，此 main 方法可以放置在任意的 Class 类定义中，不一定要放于此
 	 */
 	public static void main(String[] args) {
+		System.out.println("HJ faceEngine start");
+		/**load face windows
+		 */
+		if (Constant.DEV_MODE) {
+
+			System.load(Constant.DB40_PATH + "/FreeImage.dll");
+			System.load(Constant.DB40_PATH + "/HJFacePos.dll");
+			System.load(Constant.DB40_PATH + "/HJFaceDetect.dll");
+			System.load(Constant.DB40_PATH + "/HJFaceIdentify.dll");
+			System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
+			System.load(Constant.DB40_PATH + "/JavaJNI.dll");
+
+        }
+		/**load face linux
+		 */
+		else {
+
+			System.load(Constant.DB40_LINUX_PATH+"/libJavaJNI.so");
+			System.load(Constant.DB40_LINUX_PATH+"/libHJFacePos.so");
+			System.load(Constant.DB40_LINUX_PATH+"/libHJFaceDetect.so");
+			System.load(Constant.DB40_LINUX_PATH+"/libHJFaceIdentify.so");
+			System.load(Constant.DB40_LINUX_PATH+"/libHJFaceEngine.so");
+
+        }
+		System.out.println("HJ faceEngine end");
+
 		UndertowServer.create(MainConfig.class).configWeb(builder -> {
 			builder.addWebSocketEndpoint(WebSocketEndPoint.class);
 		}).start();
@@ -57,30 +79,12 @@ public class MainConfig extends JFinalConfig {
 //			p = PropKit.useFirstFound("db_develop.properties", "demo-config-dev.txt");
 //		}
 		if(Constant.DEV_MODE){
-			p = PropKit.use("db_develop.properties").append("config_develop.properties");
+			p = PropKit.use("db_develop.properties").append("config_develop.properties").append("imgConfig_develop.properties");
 		}else{
-			p = PropKit.use("db_product.properties").append("config_product.properties");
+			p = PropKit.use("db_product.properties").append("config_product.properties").append("imgConfig_product.properties");
 		}
-		System.out.println("HJ faceEngine start");
-		/**load face windows
-		 */
-//			if (Constant.DEV_MODE) {
-//				System.load(p.get("DB40Dir") + "/FreeImage.dll");
-//				System.load(p.get("DB40Dir") + "/HJFacePos.dll");
-//				System.load(p.get("DB40Dir") + "/HJFaceDetect.dll");
-//				System.load(p.get("DB40Dir") + "/HJFaceIdentify.dll");
-//				System.load(p.get("DB40Dir") + "/HJFaceEngine.dll");
-//				System.load(p.get("DB40Dir") + "/JavaJNI.dll");
-//			} else {
-//				/**load face linux
-//				 */
-//				System.load(p.get("DB40Dir") + "/libJavaJNI.so");
-//				System.load(p.get("DB40Dir") + "/libHJFacePos.so");
-//				System.load(p.get("DB40Dir") + "/libHJFaceDetect.so");
-//				System.load(p.get("DB40Dir") + "/libHJFaceIdentify.so");
-//				System.load(p.get("DB40Dir") + "/libHJFaceEngine.so");
-//			}
-		System.out.println("HJ faceEngine end");
+		//todo 人像比对 未知错误暂时取消
+//
 	}
 	
 	/**
@@ -88,7 +92,7 @@ public class MainConfig extends JFinalConfig {
 	 */
 	public void configConstant(Constants me) {
 		loadConfig();
-		me.setDevMode(Constant.DEV_MODE);//是否开发模式 上生产是需要改变 与JFInal框架有关
+		me.setDevMode(Constant.DEV_MODE);//是否开发模式 上生产时需要改变 与JFInal框架有关
 		me.setMaxPostSize(1024 * 1024 * 20);//默认最大上传数据大小
 		me.setLogFactory(new Log4jLogFactory());//日志配置
 		me.setBaseUploadPath(Constant.BASE_UPLOAD_PATH);//文件上传路径
@@ -101,7 +105,7 @@ public class MainConfig extends JFinalConfig {
 		me.setInjectDependency(true);
 		// 配置对超类中的属性进行注入
 		me.setInjectSuperClass(true);
-		//slf4j
+		//开启slf4j日志控制
 		me.setToSlf4jLogFactory();
 
 	}
@@ -129,7 +133,12 @@ public class MainConfig extends JFinalConfig {
 	public void configPlugin(Plugins me) {
 //		System.out.println(PropKit.get("password").trim());
 		// 配置 druid 数据库连接池插件
-		DruidPlugin druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim(),p.get("driverClass"));
+		 DruidPlugin druidPlugin;
+		if (Constant.DEV_MODE){
+			druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim(),p.get("driverClass"));
+		}else {
+		 druidPlugin = new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim());
+		}
 		//输出日志带参数
 //		druidPlugin.addFilter(new MyDruidFilter());
 		// 配置ActiveRecord插件
@@ -180,14 +189,16 @@ public class MainConfig extends JFinalConfig {
 	 * 配置全局拦截器
 	 */
 	public void configInterceptor(Interceptors me) {
-		
+		  me.add(new LoginInterceptor());
 	}
 	//项目启动后操作，常用场景可以加载一些定时任务JOB类可在此处加载启动
 	@Override
 	public void onStart() {
 		DictionaryCache dic = new DictionaryCache();
 		dic.intoCache();
-
+		//启动海景人脸引擎
+//		FaceModuleUtil.initDetectEngine(1, 30, com.hj.jni.itf.Constant.TEMPLATE_ROLL_ANGL, 70);
+//		FaceModuleUtil.initFeatureEngine(1);
 	}
 
 	/**

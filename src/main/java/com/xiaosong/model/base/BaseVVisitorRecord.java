@@ -310,6 +310,68 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 
 	/**
+	 * in 内网 userId连dept_user id   --out 外网 userId 连out_visitor id 
+	 */
+	public M setUserType(java.lang.String userType) {
+		set("userType", userType);
+		return (M)this;
+	}
+	
+	/**
+	 * in 内网 userId连dept_user id   --out 外网 userId 连out_visitor id 
+	 */
+	public java.lang.String getUserType() {
+		return getStr("userType");
+	}
+
+	/**
+	 * in 内网 visitorId连dept_user   id --out  外网 visitorId连out_visitor id 
+	 */
+	public M setVisitorType(java.lang.String visitorType) {
+		set("visitorType", visitorType);
+		return (M)this;
+	}
+	
+	/**
+	 * in 内网 visitorId连dept_user   id --out  外网 visitorId连out_visitor id 
+	 */
+	public java.lang.String getVisitorType() {
+		return getStr("visitorType");
+	}
+
+	/**
+	 * 外部访问记录id
+	 */
+	public M setOutRecordId(java.lang.Long outRecordId) {
+		set("outRecordId", outRecordId);
+		return (M)this;
+	}
+	
+	/**
+	 * 外部访问记录id
+	 */
+	public java.lang.Long getOutRecordId() {
+		return getLong("outRecordId");
+	}
+
+	/**
+	 * 是否下发上位机
+T--是 F--否
+	 */
+	public M setIsFlag(java.lang.String isFlag) {
+		set("isFlag", isFlag);
+		return (M)this;
+	}
+	
+	/**
+	 * 是否下发上位机
+T--是 F--否
+	 */
+	public java.lang.String getIsFlag() {
+		return getStr("isFlag");
+	}
+
+	/**
 	 * 扩展字段1
 	 */
 	public M setExp1(java.lang.String exp1) {

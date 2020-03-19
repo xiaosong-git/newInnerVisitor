@@ -1,0 +1,1528 @@
+2020-01-11 16:27:36  [ main:0 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 16:27:37  [ main:1232 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 1 msec}
+ 2020-01-11 16:27:37  [ main:1258 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-1} inited
+ 2020-01-11 16:27:37  [ main:1286 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 21 msec}
+ 2020-01-11 16:27:37  [ main:1295 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:37  [ main:1300 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:27:37  [ main:1303 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:27:37  [ main:1305 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:37  [ main:1308 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:37  [ main:1310 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:37  [ main:1314 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:27:37  [ main:1317 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:37  [ main:1320 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:37  [ main:1322 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:37  [ main:1325 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:37  [ main:1328 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1338 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 6 msec}
+ 2020-01-11 16:27:38  [ main:1342 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:27:38  [ main:1345 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1349 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:27:38  [ main:1351 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1354 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1357 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1359 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1361 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1364 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1367 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1370 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1372 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1374 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1376 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1379 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1381 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1383 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:27:38  [ main:1386 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1389 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:38  [ main:1391 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:27:42  [ main:6088 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 20 msec}
+ 2020-01-11 16:27:42  [ main:6220 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 16:27:42  [ main:6245 ] - [ INFO ] method:org.xnio.Xnio.<clinit>(Xnio.java:104)
+XNIO version 3.3.8.Final
+ 2020-01-11 16:27:42  [ main:6287 ] - [ INFO ] method:org.xnio.nio.NioXnio.<clinit>(NioXnio.java:55)
+XNIO NIO Implementation Version 3.3.8.Final
+ 2020-01-11 16:27:56  [ XNIO-1 task-1:19674 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='null' and tel='null' 
+ {executed in 6 msec}
+ 2020-01-11 16:28:02  [ XNIO-1 task-2:25422 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='null' and tel='null' 
+ {executed in 2 msec}
+ 2020-01-11 16:28:41  [ XNIO-1 task-3:64806 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+ 2020-01-11 16:28:41  [ XNIO-1 task-3:64849 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+update `v_sys_user` set `token` = '4f32a2f7-917e-4f5d-b490-07cce5a0ab4f' where `id` = 1 
+ {executed in 33 msec}
+ 2020-01-11 16:30:07  [ XNIO-1 task-4:151168 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 2 msec}
+ 2020-01-11 16:30:07  [ XNIO-1 task-4:151183 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='null' and tel='null' 
+ {executed in 5 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256382 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-1} closed
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256390 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256414 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256642 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 0 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256659 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-2} inited
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256666 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 6 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256670 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256672 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256676 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256679 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256682 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256684 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256687 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256690 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256692 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256696 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256699 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256703 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256706 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256710 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256712 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256716 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256718 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256721 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256725 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256727 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256729 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256732 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256734 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256737 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256739 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256741 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256743 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256744 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256749 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256751 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256756 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256758 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:31:53  [ HotSwapWatcher:256761 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:31:55  [ HotSwapWatcher:258829 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 0 msec}
+ 2020-01-11 16:31:55  [ HotSwapWatcher:258833 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 16:32:36  [ HotSwapWatcher:300246 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-2} closed
+ 2020-01-11 16:32:36  [ HotSwapWatcher:300247 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 16:32:36  [ HotSwapWatcher:300274 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 16:46:58  [ main:0 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 16:46:59  [ main:760 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 1 msec}
+ 2020-01-11 16:46:59  [ main:784 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-1} inited
+ 2020-01-11 16:46:59  [ main:797 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 5 msec}
+ 2020-01-11 16:46:59  [ main:810 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 8 msec}
+ 2020-01-11 16:46:59  [ main:815 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 16:46:59  [ main:820 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 16:46:59  [ main:826 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:46:59  [ main:832 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:46:59  [ main:834 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:837 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:46:59  [ main:841 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:848 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:46:59  [ main:851 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:856 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:861 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:872 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 6 msec}
+ 2020-01-11 16:46:59  [ main:874 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:877 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:880 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:883 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:887 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 16:46:59  [ main:889 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:46:59  [ main:892 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:895 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:46:59  [ main:898 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:901 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:903 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:905 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:46:59  [ main:909 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:46:59  [ main:911 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:913 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:46:59  [ main:915 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:46:59  [ main:918 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:920 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:46:59  [ main:922 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:46:59  [ main:924 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:47:02  [ main:4054 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 1 msec}
+ 2020-01-11 16:47:02  [ main:4083 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 16:47:02  [ main:4095 ] - [ INFO ] method:org.xnio.Xnio.<clinit>(Xnio.java:104)
+XNIO version 3.3.8.Final
+ 2020-01-11 16:47:02  [ main:4112 ] - [ INFO ] method:org.xnio.nio.NioXnio.<clinit>(NioXnio.java:55)
+XNIO NIO Implementation Version 3.3.8.Final
+ 2020-01-11 16:47:09  [ XNIO-1 task-1:10914 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+ 2020-01-11 16:47:09  [ XNIO-1 task-1:10921 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+update `v_sys_user` set `token` = '0db783a7-a631-433f-b782-db91abbd5f67' where `id` = 1 
+ {executed in 3 msec}
+ 2020-01-11 16:47:29  [ XNIO-1 task-2:30603 ] - [ ERROR ] method:com.jfinal.core.ActionHandler.handle(ActionHandler.java:130)
+com.xiaosong.common.web.sysUser.SysUserController.findList() : /visitor/web/sysUser/findList?currentPage=1&pageSize=10
+ java.lang.NullPointerException
+	at com.xiaosong.interceptor.LoginInterceptor.intercept(LoginInterceptor.java:31)
+	at com.jfinal.aop.Invocation.invoke(Invocation.java:91)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:89)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2020-01-11 16:48:52  [ HotSwapWatcher:114375 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-1} closed
+ 2020-01-11 16:48:52  [ HotSwapWatcher:114383 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 16:48:52  [ HotSwapWatcher:114418 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114686 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 0 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114690 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-2} inited
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114706 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 15 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114713 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 6 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114715 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114720 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114724 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114728 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114731 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114733 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114736 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114739 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114748 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 9 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114770 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 22 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114779 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 7 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114782 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114785 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114787 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114789 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114791 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114795 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114797 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114799 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114800 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114802 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114805 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114807 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114810 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114812 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114814 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114817 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114819 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114821 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114823 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114825 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 16:48:53  [ HotSwapWatcher:114827 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 16:48:56  [ HotSwapWatcher:118187 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 1 msec}
+ 2020-01-11 16:48:56  [ HotSwapWatcher:118189 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 16:56:35  [ XNIO-2 task-1:577345 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 6 msec}
+ 2020-01-11 16:56:35  [ XNIO-2 task-1:577347 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='null' and tel='null' 
+ {executed in 1 msec}
+ 2020-01-11 17:06:04  [ XNIO-2 task-2:1145677 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 1 msec}
+ 2020-01-11 17:06:04  [ XNIO-2 task-2:1145679 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='null' and tel='null' 
+ {executed in 1 msec}
+ 2020-01-11 17:07:29  [ XNIO-2 task-3:1231125 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 2 msec}
+ 2020-01-11 17:07:29  [ XNIO-2 task-3:1231140 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='null' and tel='null' 
+ {executed in 4 msec}
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267257 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-2} closed
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267259 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267284 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267487 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 0 msec}
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267488 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-3} inited
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267493 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267498 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:08:05  [ HotSwapWatcher:1267500 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267512 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 11 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267515 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267519 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267520 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267523 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267525 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267528 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267530 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267534 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267537 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267539 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267541 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267543 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267545 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267547 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267550 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267557 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 6 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267559 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267561 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267563 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267566 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267569 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267575 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 5 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267578 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267581 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267584 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267587 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267589 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267591 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267593 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:08:06  [ HotSwapWatcher:1267595 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:08:08  [ HotSwapWatcher:1270002 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 0 msec}
+ 2020-01-11 17:08:08  [ HotSwapWatcher:1270004 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 17:10:23  [ XNIO-3 task-2:1404741 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 1 msec}
+ 2020-01-11 17:10:23  [ XNIO-3 task-2:1404742 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+ 2020-01-11 17:10:23  [ XNIO-3 task-2:1404747 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+update `v_sys_user` set `token` = '9a740f36-61ad-43e8-83e9-c4843f72850a' where `id` = 1 
+ {executed in 4 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893531 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-3} closed
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893532 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893558 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893753 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893754 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-4} inited
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893759 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893762 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893765 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893768 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893771 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893773 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893775 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893777 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893782 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893785 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893795 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 9 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893802 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893804 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893806 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893808 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893810 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893811 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893813 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893815 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893817 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893820 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893821 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893823 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893825 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893827 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893831 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893835 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893839 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893841 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893845 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893846 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893848 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893851 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:18:32  [ HotSwapWatcher:1893852 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:24:01  [ main:0 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 17:24:02  [ main:836 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:861 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-1} inited
+ 2020-01-11 17:24:02  [ main:875 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 5 msec}
+ 2020-01-11 17:24:02  [ main:885 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:889 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:893 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:898 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:24:02  [ main:906 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:915 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:927 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 11 msec}
+ 2020-01-11 17:24:02  [ main:935 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:940 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:944 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:947 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:951 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:961 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:972 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 10 msec}
+ 2020-01-11 17:24:02  [ main:975 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:24:02  [ main:977 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:980 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:982 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:988 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 6 msec}
+ 2020-01-11 17:24:02  [ main:992 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:996 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:998 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:24:02  [ main:1002 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:1007 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:24:02  [ main:1011 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:1015 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:24:02  [ main:1018 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:1021 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:1023 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:24:02  [ main:1027 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:1032 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:02  [ main:1034 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:24:02  [ main:1038 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:24:05  [ main:4303 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 0 msec}
+ 2020-01-11 17:24:05  [ main:4327 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 17:24:05  [ main:4339 ] - [ INFO ] method:org.xnio.Xnio.<clinit>(Xnio.java:104)
+XNIO version 3.3.8.Final
+ 2020-01-11 17:24:05  [ main:4353 ] - [ INFO ] method:org.xnio.nio.NioXnio.<clinit>(NioXnio.java:55)
+XNIO NIO Implementation Version 3.3.8.Final
+ 2020-01-11 17:24:09  [ XNIO-1 task-1:7520 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+ {executed in 1 msec}
+ 2020-01-11 17:24:09  [ XNIO-1 task-1:7527 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+update `v_sys_user` set `token` = '8c388864-a393-425a-84d7-4901b7f30812' where `id` = 1 
+ {executed in 3 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898062 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-1} closed
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898068 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898091 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898368 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898370 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-2} inited
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898375 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898378 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898381 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898384 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898386 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898388 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898394 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 5 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898396 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898401 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898403 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898406 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898409 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898411 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898413 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898416 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898418 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898420 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898422 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898424 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898425 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898428 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898429 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898431 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898433 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898434 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898436 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898438 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898440 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898442 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898443 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898445 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898446 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898448 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:38:59  [ HotSwapWatcher:898449 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:02  [ HotSwapWatcher:900538 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 0 msec}
+ 2020-01-11 17:39:02  [ HotSwapWatcher:900541 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948651 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-2} closed
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948652 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948676 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948885 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 0 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948887 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-3} inited
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948890 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948894 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948898 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948900 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948903 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948905 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948908 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948910 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948913 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948916 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948918 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948921 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948923 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948925 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948927 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948929 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948932 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948934 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948935 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948937 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948938 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948940 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948942 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948944 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948946 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948948 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948950 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948952 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948953 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948955 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948957 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948958 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948960 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:50  [ HotSwapWatcher:948961 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:39:52  [ HotSwapWatcher:950694 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 0 msec}
+ 2020-01-11 17:39:52  [ HotSwapWatcher:950697 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 17:40:13  [ XNIO-3 task-1:972484 ] - [ ERROR ] method:com.jfinal.core.ActionHandler.handle(ActionHandler.java:130)
+com.xiaosong.common.web.sysUser.SysUserController.findList() : /visitor/web/sysUser/findList?currentPage=1&pageSize=10&token=8c388864-a393-425a-84d7-4901b7f30812
+ java.lang.NullPointerException
+	at com.xiaosong.interceptor.LoginInterceptor.intercept(LoginInterceptor.java:36)
+	at com.jfinal.aop.Invocation.invoke(Invocation.java:91)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:89)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2020-01-11 17:41:45  [ HotSwapWatcher:1063774 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-3} closed
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1063780 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1063804 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064064 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064067 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-4} inited
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064071 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064073 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064076 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064078 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064080 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064084 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064087 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064089 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064091 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064094 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064097 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064100 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064102 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064104 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064107 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064109 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064112 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064113 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064116 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064119 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064121 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064122 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064124 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064127 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064128 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064134 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 5 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064137 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064139 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064142 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064145 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064148 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064153 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 4 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064154 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:41:45  [ HotSwapWatcher:1064156 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:43:31  [ HotSwapWatcher:1170159 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 0 msec}
+ 2020-01-11 17:43:31  [ HotSwapWatcher:1170160 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 0 msec}
+ 2020-01-11 17:43:31  [ HotSwapWatcher:1170162 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 2020-01-11 17:53:33  [ HotSwapWatcher:1772084 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.close(DruidDataSource.java:1534)
+{dataSource-4} closed
+ 2020-01-11 17:53:33  [ HotSwapWatcher:1772084 ] - [ INFO ] method:io.undertow.Undertow.stop(Undertow.java:252)
+stopping server: Undertow - 2.0.28.Final
+ 2020-01-11 17:57:03  [ XNIO-4 task-1:1981753 ] - [ ERROR ] method:com.jfinal.core.ActionHandler.handle(ActionHandler.java:130)
+com.xiaosong.common.web.sysUser.SysUserController.findList() : /visitor/web/sysUser/findList?currentPage=1&pageSize=10&token=8c388864-a393-425a-84d7-4901b7f30812
+ java.lang.IllegalStateException: UT010019: Response already commited
+	at io.undertow.servlet.spec.HttpServletResponseImpl.sendRedirect(HttpServletResponseImpl.java:227)
+	at com.jfinal.render.RedirectRender.render(RedirectRender.java:100)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:114)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+2020-01-11 17:57:03  [ XNIO-4 task-1:1981756 ] - [ ERROR ] method:com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:95)
+/visitor/web/sysUser/findList?currentPage=1&pageSize=10&token=8c388864-a393-425a-84d7-4901b7f30812
+ com.jfinal.render.RenderException: java.io.IOException: UT010029: Stream is closed
+	at com.jfinal.render.ErrorRender.render(ErrorRender.java:60)
+	at com.jfinal.core.ActionHandler.handle(ActionHandler.java:132)
+	at com.xiaosong.handle.Myhandler.handle(Myhandler.java:40)
+	at com.jfinal.ext.handler.UrlSkipHandler.handle(UrlSkipHandler.java:46)
+	at com.jfinal.core.JFinalFilter.doFilter(JFinalFilter.java:90)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:132)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SessionRestoringHandler.handleRequest(SessionRestoringHandler.java:119)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:269)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:133)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:130)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:249)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:78)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:99)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:376)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:830)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.io.IOException: UT010029: Stream is closed
+	at io.undertow.servlet.spec.ServletOutputStreamImpl.write(ServletOutputStreamImpl.java:137)
+	at io.undertow.servlet.spec.ServletOutputStreamImpl.write(ServletOutputStreamImpl.java:129)
+	at com.jfinal.render.ErrorRender.render(ErrorRender.java:58)
+	... 36 more
+2020-01-11 17:57:03  [ HotSwapWatcher:1981789 ] - [ INFO ] method:io.undertow.websockets.jsr.ServerWebSocketContainer.addEndpointInternal(ServerWebSocketContainer.java:633)
+UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981945 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select 1 
+ {executed in 0 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981946 ] - [ INFO ] method:com.alibaba.druid.pool.DruidDataSource.init(DruidDataSource.java:785)
+{dataSource-5} inited
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981949 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_access_config` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981952 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkindate` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981953 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_checkintime` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981955 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_menu` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981957 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981958 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981960 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_role_menu` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981961 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981963 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_account` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981965 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_user_message` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981967 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_version` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981969 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_app_yaoyue_record` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981971 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_business` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981973 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_comp_vip_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981975 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_company` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981977 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_inout` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981980 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_d_user` where 1 = 2 
+ {executed in 3 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981982 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981984 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dept_user` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981986 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_device` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981987 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_dictionaries` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981989 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_key` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981990 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_kq_attendrule` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981992 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_local_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981994 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_notice` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981996 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_org` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981997 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_params` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1981999 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_sys_user` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1982000 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1982002 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_friend` where 1 = 2 
+ {executed in 2 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1982003 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_key` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1982006 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1982007 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_user_role_auth` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:03  [ HotSwapWatcher:1982008 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from `v_visitor_record` where 1 = 2 
+ {executed in 1 msec}
+ 2020-01-11 17:57:05  [ HotSwapWatcher:1983877 ] - [ INFO ] method:net.sf.log4jdbc.Slf4jSpyLogDelegator.sqlTimingOccured(Slf4jSpyLogDelegator.java:370)
+select * from v_dictionaries 
+ {executed in 1 msec}
+ 2020-01-11 17:57:05  [ HotSwapWatcher:1983880 ] - [ INFO ] method:io.undertow.Undertow.start(Undertow.java:117)
+starting server: Undertow - 2.0.28.Final
+ 

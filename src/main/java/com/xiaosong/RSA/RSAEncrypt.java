@@ -33,7 +33,7 @@ public class RSAEncrypt {
     /** 
      * 随机生成密钥对 
      */  
-    public static void genKeyPair(String filePath) {  
+    public static VKey genKeyPair() {  
         // KeyPairGenerator类用于生成公钥和私钥对，基于RSA算法生成对象  
         KeyPairGenerator keyPairGen = null; 
         VKey key = new VKey();
@@ -58,7 +58,7 @@ public class RSAEncrypt {
             // 得到私钥字符串  
             String privateKeyString = Base64.encodeBase64String(privateKey.getEncoded());  
             key.setPrivateKey(privateKeyString);
-            keyservice.insertKey(key);
+            return key;
             // 将密钥对写入到文件  
            /* FileWriter pubfw = new FileWriter(filePath + "/publicKey.keystore");  
             FileWriter prifw = new FileWriter(filePath + "/privateKey.keystore");  
@@ -74,7 +74,8 @@ public class RSAEncrypt {
             prifw.close();  */
         } catch (Exception e) {  
             e.printStackTrace();  
-        }  
+        }
+		return key;  
     }  
   
     /** 

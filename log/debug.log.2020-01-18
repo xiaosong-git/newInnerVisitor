@@ -1,0 +1,372 @@
+2020-01-18 10:07:38  [ main:0 ] - [ INFO ]  UT026003: Adding annotated server endpoint class com.xiaosong.common.api.websocket.WebSocketEndPoint for path /visitor/chat
+2020-01-18 10:07:40  [ main:1414 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select 1 
+
+2020-01-18 10:07:40  [ main:1475 ] - [ INFO ]  {dataSource-1} inited
+2020-01-18 10:07:40  [ main:1479 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_access_config` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1493 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_ad_banner` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1497 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_checkindate` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1500 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_checkintime` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1504 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_menu` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1533 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_notice` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1540 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_role` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1544 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_role_menu` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1548 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_user` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1551 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_user_account` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1555 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_user_message` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1565 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_user_notice` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1575 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_version` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1611 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_app_yaoyue_record` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1628 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_business` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1633 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_comp_vip_user` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1646 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_company` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1654 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_d_inout` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1674 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_d_user` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1681 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_dept` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1687 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_dept_user` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1700 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_device` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1706 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_dictionaries` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1711 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_error_log` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1714 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_key` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1723 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_kq_attendrule` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1727 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_local_auth` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1731 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_news` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1737 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_notice` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1743 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_org` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1750 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_out_visitor` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1757 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_params` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1763 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_posp` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1768 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_sys_config` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1778 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_sys_user` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1782 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_user_auth` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1787 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_user_friend` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1791 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_user_key` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1794 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_user_role` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1798 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_user_role_auth` where 1 = 2 
+
+2020-01-18 10:07:40  [ main:1802 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+1. select * from `v_visitor_record` where 1 = 2 
+
+2020-01-18 10:07:41  [ main:3098 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_dictionaries 
+
+2020-01-18 10:07:41  [ main:3163 ] - [ INFO ]  starting server: Undertow - 2.0.28.Final
+2020-01-18 10:07:41  [ main:3177 ] - [ INFO ]  XNIO version 3.3.8.Final
+2020-01-18 10:07:41  [ main:3220 ] - [ INFO ]  XNIO NIO Implementation Version 3.3.8.Final
+2020-01-18 10:08:15  [ XNIO-1 task-1:36625 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_sys_user where username='admin' and password='e10adc3949ba59abbe56e057f20f883e' 
+
+2020-01-18 10:08:15  [ XNIO-1 task-1:36631 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeUpdate(FilterChainImpl.java:2723)
+1. update `v_sys_user` set `token` = '51344ed9-6228-4d70-ab0e-9e24ba872739' where `id` = 1 
+
+2020-01-18 10:08:21  [ XNIO-1 task-2:42872 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select count(*) from v_dept 
+
+2020-01-18 10:08:21  [ XNIO-1 task-2:42876 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_dept limit 0, 10 
+
+2020-01-18 10:08:24  [ XNIO-1 task-3:45928 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select count(*) from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) 
+as a 
+
+2020-01-18 10:08:24  [ XNIO-1 task-3:45931 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) 
+as a limit 0, 10 
+
+2020-01-18 10:08:24  [ XNIO-1 task-4:45934 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_dept 
+
+2020-01-18 10:08:24  [ Druid-ConnectionPool-Create-96406857:45946 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.statement_executeQuery(FilterChainImpl.java:2363)
+2. select 1 
+
+2020-01-18 10:08:41  [ XNIO-1 task-1:63320 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_comp_vip_user 
+
+2020-01-18 10:08:41  [ XNIO-1 task-1:63324 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from v_comp_vip_user limit 0, 10 
+
+2020-01-18 10:08:41  [ XNIO-1 task-1:63327 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_comp_vip_user 
+
+2020-01-18 10:08:41  [ XNIO-1 task-1:63328 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from v_comp_vip_user limit 0, 10 
+
+2020-01-18 10:08:47  [ XNIO-1 task-2:69042 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_comp_vip_user 
+
+2020-01-18 10:08:47  [ XNIO-1 task-2:69044 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from v_comp_vip_user limit 0, 10 
+
+2020-01-18 10:08:47  [ XNIO-1 task-2:69046 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_comp_vip_user 
+
+2020-01-18 10:08:47  [ XNIO-1 task-2:69048 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from v_comp_vip_user limit 0, 10 
+
+2020-01-18 10:08:50  [ XNIO-1 task-4:71784 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_key 
+
+2020-01-18 10:08:59  [ XNIO-1 task-3:80468 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_app_menu 
+
+2020-01-18 10:08:59  [ XNIO-1 task-3:80471 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from v_app_menu limit 0, 10 
+
+2020-01-18 10:08:59  [ XNIO-1 task-1:81305 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_sys_config 
+
+2020-01-18 10:08:59  [ XNIO-1 task-1:81308 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from v_sys_config limit 0, 10 
+
+2020-01-18 10:09:01  [ XNIO-1 task-2:82476 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_user_auth 
+
+2020-01-18 10:09:02  [ XNIO-1 task-4:83628 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from v_key 
+
+2020-01-18 10:09:17  [ XNIO-1 task-3:99022 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select count(*) from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) 
+as a 
+
+2020-01-18 10:09:17  [ XNIO-1 task-1:99025 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_dept 
+
+2020-01-18 10:09:17  [ XNIO-1 task-3:99026 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) 
+as a limit 0, 10 
+
+2020-01-18 10:09:18  [ XNIO-1 task-2:99858 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select count(*) from v_comp_vip_user 
+
+2020-01-18 10:09:18  [ XNIO-1 task-2:99859 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_comp_vip_user limit 0, 10 
+
+2020-01-18 10:09:18  [ XNIO-1 task-2:99861 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select count(*) from v_comp_vip_user 
+
+2020-01-18 10:09:18  [ XNIO-1 task-2:99862 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_comp_vip_user limit 0, 10 
+
+2020-01-18 10:09:24  [ XNIO-1 task-4:105523 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select count(*) from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) 
+as a 
+
+2020-01-18 10:09:24  [ XNIO-1 task-3:105523 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+2. select * from v_dept 
+
+2020-01-18 10:09:24  [ XNIO-1 task-4:105524 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) 
+as a limit 0, 10 
+
+2020-01-18 10:09:39  [ XNIO-1 task-1:121198 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select count(*) from v_dept 
+
+2020-01-18 10:09:39  [ XNIO-1 task-1:121199 ] - [ DEBUG ]   com.alibaba.druid.filter.FilterChainImpl.preparedStatement_executeQuery(FilterChainImpl.java:2714)
+1. select * from v_dept limit 0, 10 
+
+2020-01-18 10:31:12  [ main:0 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidAbstractDataSource.validateConnection(DruidAbstractDataSource.java:1312)
+1. select 1 
+
+2020-01-18 10:31:12  [ main:15 ] - [ INFO ]  {dataSource-1} inited
+2020-01-18 10:31:12  [ main:36 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_access_config` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:49 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_ad_banner` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:55 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_checkindate` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:60 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_checkintime` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:66 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_menu` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:72 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_notice` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:78 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_role` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:83 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_role_menu` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:88 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_user` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:95 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_user_account` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:100 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_user_message` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:106 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_user_notice` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:111 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_version` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:116 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_app_yaoyue_record` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:122 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_business` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:127 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_comp_vip_user` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:133 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_company` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:138 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_d_inout` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:143 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_d_user` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:148 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_dept` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:154 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_dept_user` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:160 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_device` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:167 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_dictionaries` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:171 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_error_log` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:176 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_key` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:181 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_kq_attendrule` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:186 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_local_auth` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:190 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_news` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:195 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_notice` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:201 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_org` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:206 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_out_visitor` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:210 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_params` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:213 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_posp` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:217 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_sys_config` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:221 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_sys_user` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:226 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_user_auth` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:230 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_user_friend` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:234 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_user_key` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:237 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_user_role` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:241 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_user_role_auth` where 1 = 2 
+
+2020-01-18 10:31:12  [ main:245 ] - [ DEBUG ]   com.alibaba.druid.pool.DruidPooledStatement.executeQuery(DruidPooledStatement.java:140)
+1. select * from `v_visitor_record` where 1 = 2 
+

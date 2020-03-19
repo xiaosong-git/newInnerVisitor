@@ -1,6 +1,7 @@
 package com.xiaosong.util;
 
 import org.apache.commons.lang3.StringUtils;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.stream.FileImageInputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -197,5 +198,32 @@ public class FilesUtils {
 				out.flush();
 			}
 		}
+	}
+	public static String ImageToBase64ByLocal(String imgFile) throws Exception {
+		InputStream in = null;
+		byte[] data = null;
+
+		try {
+			in = new FileInputStream(imgFile);
+			data = new byte[in.available()];
+			in.read(data);
+
+		} catch (IOException var4) {
+			var4.printStackTrace();
+		}finally {
+			try {
+				if (in!=null){
+
+					in.close();
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+
+
+		}
+
+		BASE64Encoder encoder = new BASE64Encoder();
+		return encoder.encode(data);
 	}
 }

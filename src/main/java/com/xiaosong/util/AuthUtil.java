@@ -52,7 +52,7 @@ public class AuthUtil implements Runnable {
         itemJSONObj.put("certNo", certNo);
         itemJSONObj.put("imgData", Configuration.GetImageStrFromPath(idHandleImgUrl,30));
         HttpClient httpClient = new SSLClient();
-        HttpPost postMethod = new HttpPost("http://yzb.free-http.svipss.top/wisdom-new/entrance/pub");
+        HttpPost postMethod = new HttpPost("http://t.pyblkj.cn:8082/wisdom/entrance/pub");
         StringEntity entityStr= new StringEntity(JSON.toJSONString(itemJSONObj), HTTP.UTF_8);
         entityStr.setContentType("application/json");
         postMethod.setEntity(entityStr);
