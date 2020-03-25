@@ -78,13 +78,13 @@ public abstract class BaseVAdBanner<M extends BaseVAdBanner<M>> extends Model<M>
 		return getInt("status");
 	}
 
-	public M setCreateTime(java.util.Date createTime) {
+	public M setCreateTime(java.lang.String createTime) {
 		set("createTime", createTime);
 		return (M)this;
 	}
 	
-	public java.util.Date getCreateTime() {
-		return get("createTime");
+	public java.lang.String getCreateTime() {
+		return getStr("createTime");
 	}
 
 	/**

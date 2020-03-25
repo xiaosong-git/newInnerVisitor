@@ -13,12 +13,12 @@ import com.xiaosong.model.VUserRole;
 public class SysRoleService {
 	public static final	SysRoleService me = new SysRoleService();
 	
-	public Page<VUserRole> findList(int currentPage,int pageSize){
-			return VUserRole.dao.paginate(currentPage, pageSize, "select *", "from v_user_role");
+	public Page<VUserRole> findList(Long userRole,int currentPage,int pageSize){
+			return VUserRole.dao.paginate(currentPage, pageSize, "select *", "from v_user_role where parent_id=?",userRole);
 	}
 	
-	public List<VUserRole> findByOption(){
-		return VUserRole.dao.find("select * from v_user_role");
+	public List<VUserRole> findByOption(Long userRole){
+		return VUserRole.dao.find("select * from v_user_role where parent_id=?",userRole);
 	}
 	
 	public boolean addSysRole(VUserRole user) {

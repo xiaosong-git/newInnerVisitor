@@ -78,4 +78,13 @@ public abstract class BaseVUserAuth<M extends BaseVUserAuth<M>> extends Model<M>
 		return getStr("description");
 	}
 
+	public M setMenuUrl(java.lang.String menuUrl) {
+		set("menu_url", menuUrl);
+		return (M)this;
+	}
+	
+	public java.lang.String getMenuUrl() {
+		return getStr("menu_url");
+	}
+
 }

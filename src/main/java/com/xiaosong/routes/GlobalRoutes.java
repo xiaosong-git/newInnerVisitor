@@ -13,6 +13,7 @@ import com.xiaosong.common.api.work.WorkController;
 import com.xiaosong.common.imgServer.errorLog.ErrorLogController;
 import com.xiaosong.common.imgServer.file.FileController;
 import com.xiaosong.common.imgServer.img.ImageController;
+import com.xiaosong.common.web.Ad.AdController;
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.dept.DeptController;
 import com.xiaosong.common.web.deptUser.DeptUsersController;
@@ -78,6 +79,7 @@ public class GlobalRoutes extends Routes{
 		this.add(webprefix+"/visitor", VisitorsController.class);
 		this.add(webprefix+"/notice", com.xiaosong.common.web.notice.NoticeController.class);
 		this.add(webprefix+"/news", NewsController.class);
+		this.add(webprefix+"/ad", AdController.class);
 		this.add(prefix+"/p", ParamController.class);
 		this.add(prefix+"/appVersion", AppVersionController.class);
 		this.add(prefix+"/errorLog", ErrorLogController.class);

@@ -22,13 +22,15 @@ public class SysUserController extends Controller{
 	
 	public void findList() {
 		String tel = getPara("queryString");
+		Long userId = getLong("userId");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(tel,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(tel,userId,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 	
 	public void addSysUser() throws Exception {
+		Long userId = getLong("userId");
 		String username = getPara("username");
 		String password = MD5Util.MD5(getPara("password"));
 		String tel = getPara("tel");
@@ -43,12 +45,18 @@ public class SysUserController extends Controller{
 		user.setRoleId(roleId);
 		user.setCreatetime(createtime);
 		user.setTrueName(trueName);
-		boolean bool = srv.addSysUser(user);
-		if(bool) {
-			renderJson(RetUtil.ok());
+		user.setParentId(userId);
+		if(srv.findUser(username)) {
+			boolean bool = srv.addSysUser(user);
+			if(bool) {
+				renderJson(RetUtil.ok());
+			}else {
+				renderJson(RetUtil.fail());
+			}
 		}else {
 			renderJson(RetUtil.fail());
 		}
+		
 	}
 	
 	public void editSysUser() {

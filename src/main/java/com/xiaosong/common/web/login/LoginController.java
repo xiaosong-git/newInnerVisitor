@@ -33,7 +33,7 @@ public class LoginController extends Controller{
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");//有些会把token放到header里,加在这里
 		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		String token = UUID.randomUUID().toString();
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		//getResponse().addHeader("Access-Control-Allow-Origin", "*");
 		String userName = getPara("username");
 		String passWord = getPara("password");
@@ -45,6 +45,7 @@ public class LoginController extends Controller{
 			map.put("token", token);
 			map.put("result", "success");
 			map.put("username", userName);
+			map.put("userRole", user.getRoleId());
 			map.put("userId", user.getId().toString());
 			map.put("resultMSG", "登录成功");
 			CacheKit.put(Constant.SYS_ACCOUNT, user.getId().toString(), user);

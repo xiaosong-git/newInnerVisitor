@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.MainConfig;
@@ -22,14 +23,16 @@ public class NewsController extends Controller{
 		Page<Record> pagelist = srv.findList(notice,currentPage,pageSize);
 		if(pagelist.getList()!=null) {
 			for(Record record:pagelist.getList()) {
-				record.set("newsImageUrl", imageSaveDir+record.getObject("newsImageUrl"));
+				if(record.getObject("newsImageUrl")!=null&&!record.getObject("newsImageUrl").equals("")) {
+					record.set("newsImageUrl", imageSaveDir+record.getObject("newsImageUrl"));
+				}
 			}
 		}
 		renderJson(pagelist);
 	}
 	
 	public void addNews() throws Exception {
-		String newsTitle = getPara("newsTitle");
+		String newsTitle = getPara("newsName");
 		String newsDetail = getPara("newsDetail");
 		String newsImageUrl = getPara("newsImageUrl");
 		String newsUrl = getPara("newsUrl");
@@ -41,15 +44,14 @@ public class NewsController extends Controller{
 		VNews news = getModel(VNews.class);
 		news.setNewsName(newsTitle);
 		news.setNewsDetail(newsDetail);
-		news.setNewsImageUrl(newsImageUrl);
+		news.setNewsImageUrl("news/"+newsImageUrl);
 		news.setNewsUrl(newsUrl);
 		news.setNewsStatus(newsStatus);
 		news.setHeadline(headline);
 		news.setNewsDate(newsDate);
 		if(headline.equals("T")) {
-			VNews news1 = new VNews();
-			news1.setHeadline("F");
-			srv.editNews(news1);
+			Db.update("update v_news set headline='F'");
+			//srv.editNews(news1);
 		}
 		boolean bool = srv.addNews(news);
 		if(bool) {
@@ -61,7 +63,7 @@ public class NewsController extends Controller{
 	
 	public void editNews() {
 		long id = getLong("id");
-		String newsTitle = getPara("newsTitle");
+		String newsTitle = getPara("newsName");
 		String newsDetail = getPara("newsDetail");
 		String newsImageUrl = getPara("newsImageUrl");
 		String newsUrl = getPara("newsUrl");
@@ -72,15 +74,14 @@ public class NewsController extends Controller{
 		VNews news = getModel(VNews.class);
 		news.setNewsName(newsTitle);
 		news.setNewsDetail(newsDetail);
-		news.setNewsImageUrl(newsImageUrl);
+		news.setNewsImageUrl("news/"+newsImageUrl);
 		news.setNewsUrl(newsUrl);
 		news.setHeadline(headline);
 		news.setUpdateTime(updateTime);
 		news.setId(id);
 		if(headline.equals("T")) {
-			VNews news1 = new VNews();
-			news1.setHeadline("F");
-			srv.editNews(news1);
+			Db.update("update v_news set headline='F'");
+			//srv.editNews(news1);
 		}
 		boolean bool = srv.editNews(news);
 		if(bool) {

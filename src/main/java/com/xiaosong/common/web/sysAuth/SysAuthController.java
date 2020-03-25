@@ -1,11 +1,15 @@
 package com.xiaosong.common.web.sysAuth;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VUserAuth;
 import com.xiaosong.util.RetUtil;
 
@@ -69,5 +73,43 @@ public class SysAuthController extends Controller{
 		}else {
 			renderJson(RetUtil.fail());
 		}
+	}
+	/*
+	 * 查询所有菜单
+	 * *
+	 */
+	public void findMenu() {
+		Long roleId = getLong("userRole");
+		List<Record> pagelist = srv.MenusTree(roleId);
+		renderJson(pagelist);
+	}
+	/**
+	 * 查询某个角色下的菜单id
+	 */
+	public void checkMenu() {
+		Long roleId = getLong("roleId");
+		List<Object> list = new ArrayList<Object>();
+		List<Record> recordList = srv.checkList(roleId);
+		for(Record rec:recordList) {
+			list.add(rec.get("id"));
+		}
+		renderJson(list);
+	}
+	/**
+	 * 角色配置有拥有的菜单
+	 */
+	public void addRoleAuth() {
+		Long id = getLong("id");
+		String authIds = getPara("authIds");
+		srv.addRoleAuth(id, authIds);
+		renderJson(RetUtil.ok());
+	}
+	/**
+	 * 用户登录后获取菜单列表
+	 */
+	public void loginMenu() {
+		Long id = getLong("userRole");
+		List<Record> pagelist = srv.getUserAuth(id);
+		renderJson(pagelist);
 	}
 }

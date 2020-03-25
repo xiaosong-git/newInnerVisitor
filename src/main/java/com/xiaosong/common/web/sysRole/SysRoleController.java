@@ -19,17 +19,20 @@ public class SysRoleController extends Controller{
 	public SysRoleService srv = SysRoleService.me;
 	
 	public void findList() {
+		Long userRole = getLong("userRole");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<VUserRole> pagelist = srv.findList(currentPage,pageSize);
+		Page<VUserRole> pagelist = srv.findList(userRole,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 	
 	public void findByOption() {
-		renderJson(srv.findByOption());
+		Long userRole = getLong("userRole");
+		renderJson(srv.findByOption(userRole));
 	}
 	
 	public void addSysRole() throws Exception {
+		Long userRole = getLong("userRole");
 		String roleName = getPara("role_name");
 		String description = getPara("description");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -38,6 +41,7 @@ public class SysRoleController extends Controller{
 		role.setRoleName(roleName);
 		role.setCreatetime(createtime);
 		role.setDescription(description);
+		role.setParentId(userRole);
 		boolean bool = srv.addSysRole(role);
 		if(bool) {
 			renderJson(RetUtil.ok());
