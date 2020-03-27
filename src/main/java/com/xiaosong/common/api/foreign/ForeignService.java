@@ -3,6 +3,7 @@ package com.xiaosong.common.api.foreign;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.common.access.companyUser.CompanyUserService;
 import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: jfinal_demo_for_maven
@@ -23,6 +25,7 @@ import java.util.List;
  * @create: 2020-01-11 15:46
  **/
 public class ForeignService extends MyBaseService {
+    public static final ForeignService me = new ForeignService();
     Logger log = LoggerFactory.getLogger(ForeignService.class);
     public Result newFindOrgCodeConfirm(String pospCode, String orgCode, String idStr) {
         String posp = Db.queryStr(Db.getSql("foreign.findOrgCode"), pospCode, orgCode);
@@ -36,7 +39,7 @@ public class ForeignService extends MyBaseService {
         return Result.fail();
     }
 
-    public Result findOrgCode(String pospCode, String orgCode, Integer pageNum, Integer pageSize) {
+    public Result findOrgCode( String orgCode, Integer pageNum, Integer pageSize) {
         pageNum=pageNum==null?1:pageNum;
         pageSize=pageSize==null?10:pageSize;
 
@@ -48,17 +51,19 @@ public class ForeignService extends MyBaseService {
         Page<Record> recordPage = Db.paginateByFullSql(pageNum, pageSize, count, columnSql + fromsql + orderBy,orgCode);
         //有数据 获取图片并插入
         List<Record> rows = recordPage.getList();
+
         MyRecordPage myPage = new MyRecordPage(apiList(rows), pageNum, pageSize, recordPage.getTotalPage(), recordPage.getTotalRow());
-       return insertUserPhoto(rows);
+       return insertUserPhoto(myPage);
     }
 
-    public Result insertUserPhoto(List<Record> rows) {
+    public Result insertUserPhoto(MyRecordPage myPage) {
         String photo = null;
         StringBuilder errorId = new StringBuilder();
         String idHandleImgUrl;
         String  imageServerUrl = ParamService.me.findValueByName("imageServerUrl");
-        for (Record row : rows) {
-            idHandleImgUrl = row.get("idHandleImgUrl");
+        List<Map<String, Object>> rows = myPage.getRows();
+        for (Map<String, Object> row : rows) {
+            idHandleImgUrl = String.valueOf(row.get("idHandleImgUrl"));
             if (idHandleImgUrl != null && idHandleImgUrl.length() != 0) {
 //             //生产图片地址
                 try {
@@ -66,19 +71,19 @@ public class ForeignService extends MyBaseService {
                 } catch (Exception e) {
                     errorId.append(row.get("userId") + ",");
                 }
-                row.set("photo", photo);
+                row.put("photo", photo);
             }else {
-                row.set("photo", "");
+                row.put("photo", "");
             }
         }
         log.error("错误照片的用户id:{}", errorId);
         if ("".contentEquals(errorId)) {
             return !rows.isEmpty()
-                    ? ResultData.dataResult("success", "获取大楼员工信息成功", apiList(rows))
+                    ? ResultData.dataResult("success", "获取大楼员工信息成功", myPage)
                     : Result.unDataResult("success", "暂无数据");
         }
         return !rows.isEmpty()
-                ? ResultData.dataResult("success", "获取大楼员工信息成功" + ",错误照片的用户id:" + errorId, apiList(rows))
+                ? ResultData.dataResult("success", "获取大楼员工信息成功" + ",错误照片的用户id:" + errorId, myPage)
                 : Result.unDataResult("success", ",错误照片的用户id:" + errorId);
     }
 }

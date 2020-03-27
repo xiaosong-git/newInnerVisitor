@@ -58,14 +58,23 @@
            overflowToDisk="false"
            diskPersistent="true"
     />
-    <!-- 验证码缓存 -->
+    <!-- 秘钥缓存 -->
     <cache name="KEY"
            maxEntriesLocalHeap="500"
            eternal="false"
            timeToIdleSeconds="1800"
            timeToLiveSeconds="0"
            overflowToDisk="false"
-           diskPersistent="true"
+           diskPersistent="false"
+    />
+    <!-- 秘钥缓存 -->
+    <cache name="PARAM"
+           maxEntriesLocalHeap="500"
+           eternal="false"
+           timeToIdleSeconds="1800"
+           timeToLiveSeconds="0"
+           overflowToDisk="false"
+           diskPersistent="false"
     />
 <!--
 	name：Cache的名称，必须是唯一的(ehcache会把这个cache放到HashMap里)。

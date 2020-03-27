@@ -1,6 +1,7 @@
 package com.xiaosong.routes;
 
 import com.jfinal.config.Routes;
+import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.api.appversion.AppVersionController;
 import com.xiaosong.common.api.code.CodeController;
@@ -85,7 +86,7 @@ public class GlobalRoutes extends Routes{
 		this.add(prefix+"/errorLog", ErrorLogController.class);
 		this.add(prefix+"/b", BannerController.class);//广告
 		this.add(prefix+"/notice", NoticeController.class);//公告
-		this.add(prefix+"/companyUser", DeptUserController.class);//api公司员工 改名为部门员工
+		this.add(prefix+"/companyUser", CompanyUserController.class);//api公司员工 改名为部门员工
 		this.add(prefix+"/foreign", ForeignController.class);//上位机拉取访客
 		this.add(prefix+"/work", WorkController.class);//考勤
 		this.add(imgServer+"/goldccm/file", FileController.class);

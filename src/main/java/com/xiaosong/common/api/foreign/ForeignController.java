@@ -4,13 +4,9 @@ package com.xiaosong.common.api.foreign;
 import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
-import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.xiaosong.compose.Result;
 import com.xiaosong.validate.foreign.ForeginValidator;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * @Author linyb
@@ -30,7 +26,7 @@ public class ForeignController extends Controller {
     public void newFindOrgCode(){
         try {
 
-            renderText(JSON.toJSONString(foreignService.findOrgCode(get("pospCode"), get("orgCode"), getInt("pageNum"), getInt("pageSize"))));
+            renderText(JSON.toJSONString(foreignService.findOrgCode(get("orgCode"), getInt("pageNum"), getInt("pageSize"))));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -53,19 +49,7 @@ public class ForeignController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
         }
     }
-    /**
-     * 确认大楼全部记录
-     * @return
-     */
-   @ActionKey("/visitor/companyUser/newFindApplyAllSucOrg")
-    public void newFindApplyAllSucByOrg(){
-       try {
-           renderText(JSON.toJSONString(foreignService.newFindOrgCodeConfirm(get("pospCode"), get("orgCode"), get("idStr"))));
-       }catch (Exception e){
-           e.printStackTrace();
-           renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
-       }
-    }
+
 
 
 }
