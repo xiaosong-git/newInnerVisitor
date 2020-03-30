@@ -1,11 +1,10 @@
 package com.xiaosong.common.web.login;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletResponse;
-
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
@@ -14,6 +13,7 @@ import com.xiaosong.constant.Constant;
 import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model.VSysUser;
 import com.xiaosong.util.MD5Util;
+import com.xiaosong.util.RetUtil;
 
 /** 
 * @author 作者 : xiaojf
@@ -55,6 +55,29 @@ public class LoginController extends Controller{
 			renderJson(map);
 		}
 		
+		
+	}
+
+	public void editPwd() throws Exception {
+		HttpServletResponse response = getResponse();
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");//有些会把token放到header里,加在这里
+		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+		Long id = getLong("userId");
+		String oldPwd = getPara("oldPwd");
+		String newPwd = getPara("newPwd");
+		oldPwd = MD5Util.MD5(oldPwd);
+		newPwd = MD5Util.MD5(newPwd);
+		List<VSysUser> sysuser = srv.checkPwd(id, oldPwd);
+		if(sysuser!=null&&sysuser.size()>0) {
+			if(srv.editPwd(id, newPwd)) {
+				renderJson(RetUtil.ok());
+			}else {
+				renderJson(RetUtil.fail());
+			}
+		}else {
+			renderJson(RetUtil.fail());
+		}
 		
 	}
 }

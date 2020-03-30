@@ -1,8 +1,13 @@
 package com.xiaosong.common.web.deptUser;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.upload.UploadFile;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
 
@@ -35,5 +40,17 @@ public class DeptUserService {
 	
 	public boolean deleteDeptUser(Long id) {
 		return VDeptUser.dao.deleteById(id);
+	}
+	
+	public boolean uploadDeptUser(UploadFile uploadfile) {
+		File file =  uploadfile.getFile();
+		try {
+			FileInputStream in = new FileInputStream(file);
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return false;
 	}
 }

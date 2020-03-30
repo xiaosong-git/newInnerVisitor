@@ -1,5 +1,6 @@
 package com.xiaosong.common.web.deptUser;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,6 +8,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.upload.UploadFile;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.RetUtil;
 
@@ -94,6 +96,15 @@ public class DeptUsersController extends Controller{
 	public void delDeptUser() {
 		Long id = getLong("id");
 		boolean bool = srv.deleteDeptUser(id);
+		if(bool) {
+			renderJson(RetUtil.ok());
+		}else {
+			renderJson(RetUtil.fail());
+		}
+	}
+	
+	public void uploadUser() {
+		boolean bool = srv.uploadDeptUser(getFile("file"));
 		if(bool) {
 			renderJson(RetUtil.ok());
 		}else {
