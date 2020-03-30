@@ -30,6 +30,6 @@ FROM
 WHERE
 	vr.cstatus = 'applySuccess'
 	AND vr.orgCode = ?
-	AND vr.startDate <= date_add( now( ), INTERVAL + 30 MINUTE ) AND vr.endDate >= date_add( now( ), INTERVAL - 30 MINUTE )
+	AND vr.startDate <= date_add( now( ), INTERVAL + 60 MINUTE ) AND vr.endDate >= date_add( now( ), INTERVAL - 60 MINUTE )
 	AND vr.isFlag = 'F'
 #end

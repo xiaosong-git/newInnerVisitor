@@ -12,8 +12,8 @@ import com.jfinal.plugin.redis.Redis;
 * 类说明
 */
 public class MyCache implements ICache {
-
-	private static String getCacheType() {
+    public static final MyCache cache = new MyCache();
+    private static String getCacheType() {
         return PropKit.get("cache.type", "ehcache");
     }
 

@@ -1,11 +1,15 @@
 package com.xiaosong.common.api.appversion;
 
+import com.alibaba.fastjson.JSON;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaosong.cache.MyCache;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.param.ParamService;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,12 +24,12 @@ public class appVersionService {
     //获取版本
     private Map<String,Object> getVersion(String appType, String channel){
         // update by cwf  2019/11/19 17:44 Reason:版本信息改回为旧redis apiAuthCheckRedisDbIndex
-        Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置35
+//        Integer apiAuthCheckRedisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置35
         Map<String,Object> appVersion = null;
         String key = "appVersion_android_"+appType+"_"+channel;
         //redis修改
-//        String json = RedisUtil.getStrVal(key, apiAuthCheckRedisDbIndex);
-//        MyCache.isEhCache()
+        String json = CacheKit.get("PARAM",key);
+//        System.out.println(json);
 //        if(StringUtils.isNotBlank(json)){
 //            log.info("---从缓存获取版本号----："+json);
 //            appVersion = JSON.parseObject(json, Map.class);
@@ -33,9 +37,9 @@ public class appVersionService {
 
             String sql = " select * from "+ TableList.APP_VERSION+" where appType = '" + appType + "' and channel='" + channel+"'";
             appVersion = Db.findFirst(sql).getColumns();
-            log.info("---从数据库获取版本号----："+appVersion);
-            //redis修改
-//            RedisUtil.setStr(apiAuthCheckRedisDbIndex,key, JSON.toJSONString(appVersion),null);
+//            log.info("---从数据库获取版本号----："+appVersion);
+//            //redis修改
+//            MyCache.cache.put("PARAM",key, JSON.toJSONString(appVersion));
 //        }
         return appVersion;
     }
@@ -111,9 +115,9 @@ public class appVersionService {
             appVersionInfo.put("isImmediatelyUpdate",appVersion.get("isImmediatelyUpdate"));//立即更新？
             appVersionInfo.put("updateUrl",appVersion.get("uploadFile"));//更新地址
             appVersionInfo.put("memo",appVersion.get("memo"));//版本说明
-            return ResultData.dataResult("success", "", appVersionInfo);
+            return ResultData.dataResult("success", "不是最新版本", appVersionInfo);
         }
-        return ResultData.unDataResult("fail","系统异常");
+        return ResultData.unDataResult("fail","已经是最新版本了");
     }
 
 }
