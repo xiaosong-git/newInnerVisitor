@@ -39,22 +39,22 @@ public class MainConfig extends JFinalConfig {
 	 */
 	public static void main(String[] args) {
 		System.out.println("HJ faceEngine start");
-		/**load face windows
-		 */
-		if (Constant.DEV_MODE) {
-
-			/*
-			 * System.load(Constant.DB40_PATH + "/FreeImage.dll");
-			 * System.load(Constant.DB40_PATH + "/HJFacePos.dll");
-			 * System.load(Constant.DB40_PATH + "/HJFaceDetect.dll");
-			 * System.load(Constant.DB40_PATH + "/HJFaceIdentify.dll");
-			 * System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
-			 * System.load(Constant.DB40_PATH + "/JavaJNI.dll");
-			 */
-        }
-		/**load face linux
-		 */
-		else {
+//		/**load face windows
+//		 */
+//		if (Constant.DEV_MODE) {
+//
+//			/*
+//			 * System.load(Constant.DB40_PATH + "/FreeImage.dll");
+//			 * System.load(Constant.DB40_PATH + "/HJFacePos.dll");
+//			 * System.load(Constant.DB40_PATH + "/HJFaceDetect.dll");
+//			 * System.load(Constant.DB40_PATH + "/HJFaceIdentify.dll");
+//			 * System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
+//			 * System.load(Constant.DB40_PATH + "/JavaJNI.dll");
+//			 */
+//        }
+//		/**load face linux
+//		 */
+//		else {
 
 			/*
 			 * System.load(Constant.DB40_LINUX_PATH+"/libJavaJNI.so");
@@ -64,7 +64,7 @@ public class MainConfig extends JFinalConfig {
 			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFaceEngine.so");
 			 */
 
-        }
+//        }
 		System.out.println("HJ faceEngine end");
 
 		UndertowServer.create(MainConfig.class).configWeb(builder -> {
@@ -123,6 +123,8 @@ public class MainConfig extends JFinalConfig {
 	}
 	
 	public void configEngine(Engine me) {
+		me.setBaseTemplatePath("webapp");
+		me.setToClassPathSourceFactory();
 		me.addSharedFunction("/common/_layout.html");
 		me.addSharedFunction("/common/_paginate.html");
 		me.setDevMode(Constant.DEV_MODE);
