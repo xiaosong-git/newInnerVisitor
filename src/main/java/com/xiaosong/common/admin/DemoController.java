@@ -4,7 +4,6 @@ import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import com.xiaosong.common.api.user.UserController;
 import com.xiaosong.test.TestCache;
 import com.xiaosong.util.RetUtil;
 

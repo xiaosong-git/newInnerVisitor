@@ -98,6 +98,10 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+
+    /**
+     * 非好友访问
+     */
     @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     @Before(UserIdValidator.class)
     public void inviteStranger(){
