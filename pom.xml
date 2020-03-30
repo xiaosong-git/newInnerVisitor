@@ -221,17 +221,50 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.1.2</version>
 				<configuration>
+
 					<excludes>
 						<!-- **/* 前缀用法，可以匹配所有路径，例如：**/*.txt -->
-						<exclude>*.txt</exclude>
-						<exclude>*.xml</exclude>
-						<exclude>*.properties</exclude>
+						<exclude>/*.txt</exclude>
+						<exclude>/*_product.properties</exclude>
 					</excludes>
+<!--					<includes>-->
+<!--						<include>/log4j.properties</include>-->
+<!--					</includes>-->
 				</configuration>
 			</plugin>
-			
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>copy-webapp</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<outputDirectory>${basedir}/target/config/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/resources</directory>
+									<excludes>
+										<exclude>**/web.xml</exclude>
+									</excludes>
+									<includes>
+										 <include>**/*.xml</include>
+										 <include>**/*.txt</include>
+										 <include>**/*.properties</include>
+									</includes>
+
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- 
 				使用 mvn clean package 打包 
 				更多配置可参考官司方文档：http://maven.apache.org/plugins/maven-assembly-plugin/single-mojo.html
@@ -276,7 +309,7 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<finalName>jfinal-demo</finalName>
+							<finalName>innerVisitor-1.0</finalName>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.xiaosong.MainConfig</mainClass>

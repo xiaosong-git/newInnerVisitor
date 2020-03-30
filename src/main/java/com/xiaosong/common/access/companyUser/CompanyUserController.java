@@ -2,7 +2,9 @@ package com.xiaosong.common.access.companyUser;
 
 import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
+import com.xiaosong.common.api.deptUser.DeptUserService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.validate.foreign.ForeginValidator;
 import org.slf4j.Logger;
@@ -17,7 +19,8 @@ public class CompanyUserController extends Controller {
 	Logger log = LoggerFactory.getLogger(CompanyUserController.class);
 	
 	public CompanyUserService companyUserService = CompanyUserService.me;
-
+	@Inject
+	private DeptUserService deptUserService;
 	/**
 	 * 确认大楼全部记录
 	 * @param
@@ -63,6 +66,34 @@ public class CompanyUserController extends Controller {
             e.printStackTrace();
 			renderJson(Result.unDataResult("fail", "系统异常"));
         }
+	}
+
+
+
+	/**
+	 * 全部初始化数据
+	 */
+	public void findApplySuc(){
+		try {
+			renderText(JSON.toJSONString(deptUserService.findApplySuc(get("userId"))));
+		}catch (Exception e){
+			e.printStackTrace();
+			renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
+
+		}
+	}
+
+	/**
+	 * 查询访客所拥有的公司
+	 */
+
+	public void findVisitComSuc(){
+		try {
+			renderText(JSON.toJSONString(deptUserService.findApplySuc(get("visitorId"))));
+		}catch (Exception e){
+			e.printStackTrace();
+			renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
+		}
 	}
 }
 
