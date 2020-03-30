@@ -228,6 +228,7 @@
 						<!-- **/* 前缀用法，可以匹配所有路径，例如：**/*.txt -->
 						<exclude>/*.txt</exclude>
 						<exclude>/*_product.properties</exclude>
+						<exclude>/*_develop.properties</exclude>
 					</excludes>
 <!--					<includes>-->
 <!--						<include>/log4j.properties</include>-->
