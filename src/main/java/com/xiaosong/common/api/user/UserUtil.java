@@ -1,27 +1,26 @@
 package com.xiaosong.common.api.user;
 
-import com.alibaba.fastjson.JSON;
 import com.jfinal.plugin.activerecord.CPI;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.jfinal.plugin.redis.Cache;
-import com.jfinal.plugin.redis.Redis;
+import com.xiaosong.common.api.notice.NoticeUserService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
-import com.xiaosong.common.api.notice.NoticeUserService;
-import com.xiaosong.common.api.password.PasswordService;
 import com.xiaosong.constant.Constant;
-import com.xiaosong.constant.Status;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
-import com.xiaosong.util.*;
+import com.xiaosong.util.BaseUtil;
+import com.xiaosong.util.ConsantCode;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @program: xiaosong

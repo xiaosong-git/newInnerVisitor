@@ -22,7 +22,6 @@ import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
-import com.xiaosong.util.FaceModuleUtil;
 
 /**
  * 本 demo 仅表达最为粗浅的 jfinal 用法，更为有价值的实用的企业级用法
