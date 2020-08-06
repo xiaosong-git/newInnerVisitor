@@ -221,44 +221,131 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.1.2</version>
 				<configuration>
+
 					<excludes>
 						<!-- **/* 前缀用法，可以匹配所有路径，例如：**/*.txt -->
-			
+						<exclude>/*.txt</exclude>
+						<exclude>/*_product.properties</exclude>
+						<exclude>/*_develop.properties</exclude>
 					</excludes>
+<!--					<includes>-->
+<!--						<include>/log4j.properties</include>-->
+<!--					</includes>-->
 				</configuration>
 			</plugin>
-			
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>copy-webapp</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<outputDirectory>${basedir}/target/config/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/resources</directory>
+									<excludes>
+										<exclude>**/web.xml</exclude>
+									</excludes>
+									<includes>
+										 <include>**/*.xml</include>
+										 <include>**/*.txt</include>
+										 <include>**/*.properties</include>
+									</includes>
+
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- 
 				使用 mvn clean package 打包 
 				更多配置可参考官司方文档：http://maven.apache.org/plugins/maven-assembly-plugin/single-mojo.html
 	 		-->
-	 		<plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-assembly-plugin</artifactId>-->
+<!--				<version>3.1.0</version>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>make-assembly</id>-->
+<!--						<phase>package</phase>-->
+<!--						<goals>-->
+<!--							<goal>single</goal>-->
+<!--						</goals>-->
+<!--						-->
+<!--						<configuration>-->
+<!--							&lt;!&ndash; 打包生成的文件名 &ndash;&gt;-->
+<!--							<finalName>${project.artifactId}</finalName>-->
+<!--							&lt;!&ndash; jar 等压缩文件在被打包进入 zip、tar.gz 时是否压缩，设置为 false 可加快打包速度 &ndash;&gt;-->
+<!--							<recompressZippedFiles>false</recompressZippedFiles>-->
+<!--							&lt;!&ndash; 打包生成的文件是否要追加 package.xml 中定义的 id 值 &ndash;&gt;-->
+<!--							<appendAssemblyId>true</appendAssemblyId>-->
+<!--							&lt;!&ndash; 指向打包描述文件 package.xml &ndash;&gt;-->
+<!--							<descriptors>-->
+<!--								<descriptor>package.xml</descriptor>-->
+<!--							</descriptors>-->
+<!--							&lt;!&ndash; 打包结果输出的基础目录 &ndash;&gt;-->
+<!--							<outputDirectory>${project.build.directory}/</outputDirectory>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.1.0</version>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>shade</goal>
 						</goals>
-						
 						<configuration>
-							<!-- 打包生成的文件名 -->
-							<finalName>${project.artifactId}</finalName>
-							<!-- jar 等压缩文件在被打包进入 zip、tar.gz 时是否压缩，设置为 false 可加快打包速度 -->
-							<recompressZippedFiles>false</recompressZippedFiles>
-							<!-- 打包生成的文件是否要追加 package.xml 中定义的 id 值 -->
-							<appendAssemblyId>true</appendAssemblyId>
-							<!-- 指向打包描述文件 package.xml -->
-							<descriptors>
-								<descriptor>package.xml</descriptor>
-							</descriptors>
-							<!-- 打包结果输出的基础目录 -->
-							<outputDirectory>${project.build.directory}/</outputDirectory>
+							<finalName>innerVisitor-1.0</finalName>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.xiaosong.MainConfig</mainClass>
+								</transformer>
+
+								<!--
+									下面的配置支持排除指定文件打包到 jar 之中，可以用于排除需要修改的配置文件以便于在外部的 config 目录下的
+									同名配置文件生效，建议使用 Prop.appendIfExists(xxx_pro.txt) 在外部放一个非同名配置来覆盖开发环境的配置
+									则可以不用使用下面的配置，文档参考:
+										http://maven.apache.org/plugins/maven-shade-plugin/examples/resource-transformers.html#DontIncludeResourceTransformer
+								-->
+								<transformer implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+									<resources>
+										<!-- <resource>demo-config-dev.txt</resource> -->
+										<!-- <resource>.PDF</resource> -->
+										<!-- <resource>READ.md</resource> -->
+									</resources>
+								</transformer>
+							</transformers>
+
+							<!--
+								解决 fatjar 的 "java.lang.SecurityException: Invalid signature file digest
+								for Manifest main attributes" 问题
+							-->
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+
 						</configuration>
 					</execution>
 				</executions>

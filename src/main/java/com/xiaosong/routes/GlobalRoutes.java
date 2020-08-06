@@ -5,15 +5,18 @@ import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.api.appversion.AppVersionController;
 import com.xiaosong.common.api.code.CodeController;
-import com.xiaosong.common.api.deptUser.DeptUserController;
 import com.xiaosong.common.api.foreign.ForeignController;
 import com.xiaosong.common.api.notice.BannerController;
 import com.xiaosong.common.api.notice.NoticeController;
 import com.xiaosong.common.api.param.ParamController;
+import com.xiaosong.common.api.user.UserController;
+import com.xiaosong.common.api.user.userApp.UserFriendController;
+import com.xiaosong.common.api.visitorRecord.VisitorRecordController;
 import com.xiaosong.common.api.work.WorkController;
 import com.xiaosong.common.imgServer.errorLog.ErrorLogController;
 import com.xiaosong.common.imgServer.file.FileController;
 import com.xiaosong.common.imgServer.img.ImageController;
+import com.xiaosong.common.imgServer.inAndOut.InAndOutController;
 import com.xiaosong.common.web.Ad.AdController;
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.dept.DeptController;
@@ -28,10 +31,6 @@ import com.xiaosong.common.web.sysRole.SysRoleController;
 import com.xiaosong.common.web.sysUser.SysUserController;
 import com.xiaosong.common.web.vipUser.VipUserController;
 import com.xiaosong.common.web.visitor.VisitorsController;
-import com.xiaosong.common.imgServer.inAndOut.InAndOutController;
-import com.xiaosong.common.api.user.UserController;
-import com.xiaosong.common.api.user.userApp.UserFriendController;
-import com.xiaosong.common.api.visitorRecord.VisitorRecordController;
 
 
 /**
