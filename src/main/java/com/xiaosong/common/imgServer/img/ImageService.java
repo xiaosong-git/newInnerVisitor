@@ -175,9 +175,10 @@ public class ImageService {
 			// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
 			String pic64_1 = FilesUtils.ImageToBase64ByLocal(absolutePath);
 			//创建人脸模型
-			RetMsg retMsg = FaceModuleUtil.buildFaceModel(pic64_1,1);
+//			RetMsg retMsg = FaceModuleUtil.buildFaceModel(pic64_1,1);
 			//调用人像识别，判断是否符合
-			if( retMsg.getResult_code()>0&&retMsg.getResult_code()!=500){
+//			if( retMsg.getResult_code()>0&&retMsg.getResult_code()!=500){
+			if( true){
 				return uploadResult;
 				//失败移除文件
 			}else {

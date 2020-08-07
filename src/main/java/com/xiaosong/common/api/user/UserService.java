@@ -1,5 +1,6 @@
 package com.xiaosong.common.api.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
@@ -117,7 +118,7 @@ public class UserService {
 //            String idNoMW = idNO;
             //储存在本地图片地址
             String idHandleImgUrl = MainConfig.p.get("imageSaveDir")+deptUser.getIdHandleImgUrl();
-
+            String photo = Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(idHandleImgUrl), 40960L));
             /**
              * 验证 身份证
              */
@@ -141,9 +142,9 @@ public class UserService {
             /**
              * 实人认证
              */
-                String photoResult = AuthUtil.me.auth(idNoMW, realName, idHandleImgUrl);
+                JSONObject photoResult = AuthUtil.auth(idNoMW, realName, photo);
                 if (!"success".equals(photoResult)) {
-                    return Result.unDataResult("fail", photoResult);
+                    return Result.unDataResult("fail", "test");
 //                }
             }
             String address = deptUser.get("addr");

@@ -41,7 +41,7 @@ public class Constant {
 	/**
 	 * 是否开发模式-生产是自动加载改为false即可，自动加载生产配置文件
 	 */
-	public final static Boolean DEV_MODE = false;
+	public final static Boolean DEV_MODE = true;
 	//表示 tbl_key中的密钥的正常状态
 	public static  final  String KEY_STATUS_NORMAL = "normal";
 
