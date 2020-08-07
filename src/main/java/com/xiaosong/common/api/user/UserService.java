@@ -143,8 +143,8 @@ public class UserService {
              * 实人认证
              */
                 JSONObject photoResult = AuthUtil.auth(idNoMW, realName, photo);
-                if (!"success".equals(photoResult)) {
-                    return Result.unDataResult("fail", "test");
+                if (!"00000".equals(photoResult.getString("return_code"))) {
+                    return Result.unDataResult("fail", photoResult.getString("ret_explain"));
 //                }
             }
             String address = deptUser.get("addr");
