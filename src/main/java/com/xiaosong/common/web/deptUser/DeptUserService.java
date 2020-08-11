@@ -3,6 +3,8 @@ package com.xiaosong.common.web.deptUser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -19,12 +21,22 @@ import com.xiaosong.util.DESUtil;
 public class DeptUserService {
 	public static final	DeptUserService me = new DeptUserService();
 	
-	public Page<Record> findList(String realName, int currentPage, int pageSize){
-		if(realName!=null &&realName!="") {
-			return Db.paginate(currentPage, pageSize, "select *", "from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where u.realName like CONCAT('%',?,'%')) as a",realName);
-			//return VDeptUser.dao.paginate(currentPage, pageSize, "select *", "from v_dept_user where tel like CONCAT(?,'%')",tel);
+	public Page<Record> findList(String realName,String dept , int currentPage, int pageSize){
+
+		StringBuilder sql = new StringBuilder();
+		List<Object> objects = new LinkedList<>();
+		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 ");
+
+		if(realName!=null){
+			sql.append(" and u.realName like CONCAT('%',?,'%') ");
+			objects.add(realName);
 		}
-		return Db.paginate(currentPage, pageSize, "select *", "from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id) as a");
+		if(dept!=null){
+			sql.append(" and u.deptId = ? ");
+			objects.add(dept);
+		}
+		sql.append(") as a ");
+		return Db.paginate(currentPage, pageSize, "select *", sql.toString(),objects.toArray());
 	}
 	
 	public boolean addDeptUser(VDeptUser config) {
