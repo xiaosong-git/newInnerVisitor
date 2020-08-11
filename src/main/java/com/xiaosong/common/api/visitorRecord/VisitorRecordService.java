@@ -2,6 +2,7 @@ package com.xiaosong.common.api.visitorRecord;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.kit.Kv;
 import com.jfinal.kit.Prop;
@@ -13,6 +14,7 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.common.api.code.CodeService;
+import com.xiaosong.common.api.websocket.WebSocketVisitor;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.common.api.websocket.WebSocketEndPoint;
@@ -30,6 +32,7 @@ import com.xiaosong.util.*;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -345,6 +348,10 @@ public class VisitorRecordService extends MyBaseService {
             String notification_title = "访客-审核通知";
             String msg_content = "【朋悦比邻】您好，您有一条预约访客需审核，访问者:" + userName + "，被访者:" + visitorByName + ",访问时间:"
                     + startDate;
+
+            //发送到 websocket
+            WebSocketVisitor.me.sendReceiveVisitMsg(visitUser.getIdNO(),visitUser.getRealName(),startDate,endDate,"applyConfirm");
+
             if ("F".equals(isOnlineApp)) {
                 CodeService.me.sendMsg(phone, 5, null, null, startDate, userName);
                 log.info(visitorByName + "：发送短信推送成功");
@@ -467,7 +474,7 @@ public class VisitorRecordService extends MyBaseService {
 //        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
 ////        //如果用户不存在
 //        VDeptUser user = VDeptUser.dao.findFirst(para);
-        String sql = "select id,deptId companyId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
+        String sql = "select id,deptId companyId,realName,idNO,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
                 "where phone='" + phone + "'";
 //        //被邀者==访问者
         Record invitor = Db.findFirst(sql);
@@ -476,6 +483,7 @@ public class VisitorRecordService extends MyBaseService {
             return Result.unDataResult("fail", "用户不存在");
         } else {
             String invitorName = BaseUtil.objToStr(invitor.get("realName"), "");
+            String invitorIdNO = BaseUtil.objToStr(invitor.get("idNO"), "");
 //        //被邀者==访问者id
             Integer userId = BaseUtil.objToInteger(invitor.get("id"), 0);
             if (userId.equals(visitorId)) {
@@ -525,6 +533,9 @@ public class VisitorRecordService extends MyBaseService {
             //记录访问记录
             boolean save = Db.save(TableList.VISITOR_RECORD, visitRecord);
             if (save) {
+                //发送到 websocket
+                WebSocketVisitor.me.sendReceiveVisitMsg(invitorIdNO,invitorName,startDate,endDate,"applySuccess");
+
                 String encode = Base64.encode(BaseUtil.objToStr(visitRecord.get("id"),"").getBytes("UTF-8"));
                 String url = p.get("URL") + encode;
                 YunPainSmsUtil.sendSmsCode(url, phone, 6, addr, orgName, endDate, realName, startDate, visitorName);
@@ -665,6 +676,7 @@ public class VisitorRecordService extends MyBaseService {
         msg.put("orgName", orgName);
         msg.put("addr", addr);
         if (visitorRecord.update()) {
+            WebSocketVisitor.me.visitReply(id,cstatus);
             return Result.unDataResult("success", visitorResult + "成功");
         } else {
             return Result.unDataResult("fail", visitorResult + "失败");
@@ -915,4 +927,26 @@ public class VisitorRecordService extends MyBaseService {
 
         return ResultData.dataResult("success", "获取成功", myPage);
     }
+
+
+
+    public   List<Record>  findTopRecordByNum(Integer pageSize) {
+
+        String coloumSql = "select a.id,idNO,realName,startDate,endDate,cStatus from( select * from v_visitor_record where visitDate = DATE_SUB(curdate(),INTERVAL 0 DAY) order by replyDate desc, replyTime desc, visitDate desc,visitTime desc   limit ?) a\n" +
+                "left join v_dept_user b on a.userId = b.id ";
+        List<Record> list = Db.find(coloumSql,pageSize);
+        return list;
+    }
+
+
+
+    public Record findRecordById(Object id) {
+        String coloumSql = "select a.id,idNO,realName,startDate,endDate,cStatus from( select * from v_visitor_record where id = ? ) a\n" +
+                "left join v_dept_user b on a.userId = b.id ";
+        Record record = Db.findFirst(coloumSql,id);
+        return record;
+    }
+
+
+
 }

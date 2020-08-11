@@ -238,6 +238,8 @@ public class WebSocketService extends MyBaseService {
             System.out.println("储存数据成功");
             //送还登入者 type=2
             toUserRemote.sendText(obj.toJSONString());
+            //推送websocket数据
+            WebSocketVisitor.me.sendReceiveVisitMsg(fromUser.getIdNO(),fromUser.getRealName(),startDate,endDate,cstatus);
         }
         //用户在线，调用发送接口
         WebSocketEndPoint webSocketEndPoint = WebSocketMapUtil.get(toUserId);

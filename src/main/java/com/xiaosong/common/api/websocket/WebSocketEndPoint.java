@@ -43,9 +43,11 @@ public class WebSocketEndPoint {
             switch (type) {
                 case Constant.MSG_VISITOR:
                     WebSocketService.me.receiveVisit(session, msg, fromUserId, toUserId, recordType);
+                   // WebSocketVisitor.me.sendMessageToAll(message);
                     break;
                 case Constant.MSG_REPLY:
                     VisitorRecordService.me.visitReply(session, msg);
+                    WebSocketVisitor.me.visitReply(msg);
                     log.info("回应");
                     break;
                 default://1为聊天 4为好友申请

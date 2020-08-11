@@ -16,6 +16,7 @@ import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import com.xiaosong.cache.DictionaryCache;
 import com.xiaosong.common.api.websocket.WebSocketEndPoint;
+import com.xiaosong.common.api.websocket.WebSocketVisitor;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.handle.Myhandler;
 import com.xiaosong.interceptor.LoginInterceptor;
@@ -38,10 +39,10 @@ public class MainConfig extends JFinalConfig {
 	 */
 	public static void main(String[] args) {
 		System.out.println("HJ faceEngine start");
-//		/**load face windows
-//		 */
-//		if (Constant.DEV_MODE) {
-//
+		/**load face windows
+		 */
+		if (Constant.DEV_MODE) {
+
 
 			 System.load(Constant.DB40_PATH + "/FreeImage.dll");
 			 System.load(Constant.DB40_PATH + "/HJFacePos.dll");
@@ -50,25 +51,23 @@ public class MainConfig extends JFinalConfig {
 			 System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
 			 System.load(Constant.DB40_PATH + "/JavaJNI.dll");
 
-//        }
-//		/**load face linux
-//		 */
-//		else {
-
-			/*
-			 * System.load(Constant.DB40_LINUX_PATH+"/libJavaJNI.so");
-			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFacePos.so");
-			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFaceDetect.so");
-			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFaceIdentify.so");
-			 * System.load(Constant.DB40_LINUX_PATH+"/libHJFaceEngine.so");
-			 */
-
-//        }
+        }
+		/**load face linux
+		 */
+		else {
+			System.load(Constant.DB40_LINUX_PATH + "/libJavaJNI.so");
+			System.load(Constant.DB40_LINUX_PATH + "/libHJFacePos.so");
+			System.load(Constant.DB40_LINUX_PATH + "/libHJFaceDetect.so");
+			System.load(Constant.DB40_LINUX_PATH + "/libHJFaceIdentify.so");
+			System.load(Constant.DB40_LINUX_PATH + "/libHJFaceEngine.so");
+		}
 		System.out.println("HJ faceEngine end");
 
 		UndertowServer.create(MainConfig.class).configWeb(builder -> {
 			builder.addWebSocketEndpoint(WebSocketEndPoint.class);
+			builder.addWebSocketEndpoint(WebSocketVisitor.class);
 		}).start();
+
 //		UndertowServer.start(DemoConfig.class);
 	}
 	
@@ -211,6 +210,7 @@ public class MainConfig extends JFinalConfig {
 	public void configHandler(Handlers me) {
 		//visitor/chat地址作为websocket的地址，需要配置handler否则需要在地址后.ws 变为 visitor/chat.ws
 		me.add(new UrlSkipHandler("/visitor/chat" , false));
+		me.add(new UrlSkipHandler("/visitor/bigScreen" , false));
 		me.add(new Myhandler());
 	}
 }
