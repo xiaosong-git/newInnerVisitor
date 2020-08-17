@@ -1,16 +1,26 @@
 package com.xiaosong.common.web.deptUser;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.RetUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /** 
 * @author 作者 : xiaojf
@@ -111,5 +121,121 @@ public class DeptUsersController extends Controller{
 		}else {
 			renderJson(RetUtil.fail());
 		}
+	}
+
+
+	/**
+	 * 批量导入
+	 *
+	 * @throws Exception
+	 */
+	public void imports() throws Exception {
+			List errList = new ArrayList();
+			UploadFile uploadFile = getFile();
+			File file = uploadFile.getFile();
+			int total_count = 0;
+			int succ_count = 0;
+			int err_count = 0;
+			Map resultMap = new HashMap<>();
+			if (!file.exists()) {
+				renderJson(RetUtil.fail("文件接收失败"));
+			} else {
+				Workbook book = null;
+				if (file.getName().endsWith(".xls")) {
+					book = new HSSFWorkbook(new FileInputStream(file));
+				} else if (file.getName().endsWith(".xlsx")) {
+					book = new XSSFWorkbook(new FileInputStream(file));
+				}
+				Sheet sheet = book.getSheetAt(0);
+				// 里面有多少行
+				int rows = sheet.getPhysicalNumberOfRows();
+				total_count = rows - 1;
+				for (int i = 1; i <= rows - 1; i++) {// 从1开始是去除首行-头
+					Map errMap = new HashMap<>();
+					try {
+						Row row = sheet.getRow(i);// 行数
+						StringBuffer errRow = new StringBuffer();
+						String realName = getCellValue(row, 0);
+						String userNo = getCellValue(row, 1);
+						String idNo = getCellValue(row, 2);
+						String sex = getCellValue(row, 3);
+						String inTime = getCellValue(row, 4);
+						String phone = getCellValue(row, 5);
+						String addr = getCellValue(row, 6);
+						String remark = getCellValue(row, 7);
+						String deptName =  getCellValue(row, 8);
+						Long deptId = null;
+
+						// 姓名、身份证号、工号不能为空
+						if (realName.isEmpty() || idNo.isEmpty() || userNo.isEmpty()) {
+							throw new Exception("姓名、身份证号或者工号存在空值");
+						} else {
+							//如果填写了手机号，判断手机号是否已存在
+							if(!phone.isEmpty())
+							{
+								VDeptUser user = VDeptUser.dao.findFirst("select * from v_dept_user where phone = ?",phone);
+								if(user!=null)
+								{
+									throw new Exception(phone+"该手机号码已存在");
+								}
+							}
+							if(!deptName.isEmpty())
+							{
+								VDept dept = VDept.dao.findFirst("select * from v_dept where dept_name =?",deptName);
+								if(dept!=null)
+								{
+									deptId = dept.getId();
+								}
+							}
+
+							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+							String createtime = df.format(new Date());
+							VDeptUser deptUser = getModel(VDeptUser.class);
+							deptUser.setRealName(realName);
+							deptUser.setCreateDate(createtime);
+							deptUser.setSex("男".equals(sex)?"1":"2");
+							deptUser.setPhone(phone);
+							deptUser.setUserNo(userNo);
+							deptUser.setDeptId(deptId);
+							deptUser.setIdNO(idNo);
+							deptUser.setIntime(inTime);
+							deptUser.setAddr(addr);
+							deptUser.setRemark(remark);
+							boolean bool = srv.addDeptUser(deptUser);
+							if (bool) {
+								succ_count++;
+							} else {
+								throw new Exception("保存失败");
+							}
+						}
+					}
+					catch (Exception e)
+					{
+						err_count++;
+						errMap.put("errNum", i);
+						errMap.put("errormsg", e.getMessage());
+						errList.add(errMap);
+					}
+				}
+				resultMap.put("total_count", total_count);
+				resultMap.put("succ_count", succ_count);
+				resultMap.put("err_count", err_count);
+				resultMap.put("errmgs", errList);
+				renderJson(resultMap);
+			}
+	}
+
+
+	private String getCellValue(Row row,int index)
+	{
+		String result ="";
+		if (row.getCell(index) != null) {
+			Cell cell = row.getCell(index);
+			if(cell != null){
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+			}
+			result = cell.getStringCellValue();
+		}
+		return result;
 	}
 }

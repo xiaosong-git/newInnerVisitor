@@ -48,10 +48,11 @@ public class LoginInterceptor implements Interceptor {
 					 return;
 				 }
 			 }else {
+				 inv.invoke();
 				 map.put("result", "loginOut");
-				 con.renderJson(map);
+/*				 con.renderJson(map);
 				 //con.redirect("127.0.0.1:8088/#/login");
-				 return ;
+				 return ;*/
 			 }
 		 }else {
 			 inv.invoke();
