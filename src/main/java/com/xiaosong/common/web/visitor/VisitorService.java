@@ -37,7 +37,6 @@ public static final	VisitorService me = new VisitorService();
 				") as b \n" ;
 
 				if(realName!=null &&realName!="") {
-					//params.add(realName);
 					params.add(realName);
 					strWhere.append(" and b.userName like CONCAT('%',?,'%') ");
 				}
