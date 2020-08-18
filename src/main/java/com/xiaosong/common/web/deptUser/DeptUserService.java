@@ -47,6 +47,9 @@ public class DeptUserService {
 	}
 	
 	public boolean editDeptUser(VDeptUser config) {
+		Record record = Db.findFirst("select * from v_user_key");
+		String idNo = DESUtil.encode(record.getStr("workKey"), config.getIdNO());
+		config.setIdNO(idNo);
 		return config.update();
 	}
 	

@@ -13,6 +13,7 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
+import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -37,6 +38,14 @@ public class DeptUsersController extends Controller{
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
 		Page<Record> pagelist = srv.findList(realName,dept,currentPage,pageSize);
+		List<Record> recordList = pagelist.getList();
+		Record user_key = Db.findFirst("select * from v_user_key");
+		for(Record record : recordList)
+		{
+			String idNo =record.get("idNO");
+			idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+			record.set("idNO",idNo);
+		}
 		renderJson(pagelist);
 	}
 	

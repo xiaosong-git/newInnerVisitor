@@ -17,10 +17,11 @@ public class VisitorsController extends Controller{
 	public VisitorService srv = VisitorService.me;
 	public AppMenuService menuservice = AppMenuService.me;
 	public void findList() {
-		String realName = getPara("queryString");
+		String realName = getPara("realName");
+		String visitDate = getPara("visitDate");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(realName,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(realName,visitDate,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 }

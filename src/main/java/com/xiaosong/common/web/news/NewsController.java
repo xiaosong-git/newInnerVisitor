@@ -24,7 +24,7 @@ public class NewsController extends Controller{
 		if(pagelist.getList()!=null) {
 			for(Record record:pagelist.getList()) {
 				if(record.getObject("newsImageUrl")!=null&&!record.getObject("newsImageUrl").equals("")) {
-					record.set("newsImageUrl", imageSaveDir+record.getObject("newsImageUrl"));
+					record.set("newsImageUrl", record.getObject("newsImageUrl"));
 				}
 			}
 		}

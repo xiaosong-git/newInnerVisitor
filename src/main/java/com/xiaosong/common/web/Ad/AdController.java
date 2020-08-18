@@ -40,7 +40,7 @@ public class AdController extends Controller{
 		String createTime = dateformat.format(date);
 		VAdBanner ad = getModel(VAdBanner.class);
 		ad.setTitle(title);
-		ad.setImgUrl("ad"+imgUrl);
+		ad.setImgUrl("ad/"+imgUrl);
 		ad.setHrefUrl(hrefUrl);
 		ad.setStatus(status);
 		ad.setCreateTime(createTime);
@@ -67,7 +67,7 @@ public class AdController extends Controller{
 		String updateTime = dateformat.format(date);
 		VAdBanner ad = getModel(VAdBanner.class);
 		ad.setTitle(title);
-		ad.setImgUrl("ad"+imgUrl);
+		ad.setImgUrl("ad/"+imgUrl);
 		ad.setHrefUrl(hrefUrl);
 		ad.setStatus(status);
 		ad.setUpdateTime(updateTime);
