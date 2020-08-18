@@ -17,10 +17,7 @@ import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /** 
@@ -241,7 +238,7 @@ public class DeptUsersController extends Controller{
 		if (row.getCell(index) != null) {
 			Cell cell = row.getCell(index);
 			if(cell != null){
-				cell.setCellType(Cell.CELL_TYPE_STRING);
+				cell.setCellType(CellType.STRING);
 			}
 			result = cell.getStringCellValue();
 		}

@@ -80,7 +80,7 @@ public class InOutController extends Controller {
             row.add("staff".equals(pagelist.get(i).get("userType")) ? "员工" : "访客");
             row.add("FACE".equals(pagelist.get(i).get("deviceType")) ? "人脸设备" : "二维码设备");
             row.add(null == pagelist.get(i).get("deviceIp") ? "" : pagelist.get(i).get("deviceIp"));
-            row.add("in".equals(pagelist.get(i).get("turnOver")) ? "进" : "出");
+            row.add("in".equals(pagelist.get(i).get("inOrOut")) ? "进" : "出");
             content.add(row);
             i++;
         }
