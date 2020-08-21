@@ -5,17 +5,20 @@ import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+import com.xiaosong.MainConfig;
+import com.xiaosong.compose.Result;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
-import com.xiaosong.util.DESUtil;
-import com.xiaosong.util.RetUtil;
+import com.xiaosong.util.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -56,6 +59,7 @@ public class DeptUsersController extends Controller{
 		String intime = getPara("intime");
 		String addr = getPara("addr");
 		String remark = getPara("remark");
+		String imgName = getPara("idHandleImgUrl");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
@@ -69,15 +73,37 @@ public class DeptUsersController extends Controller{
 		deptUser.setIntime(intime);
 		deptUser.setAddr(addr);
 		deptUser.setRemark(remark);
+		deptUser.setIdHandleImgUrl(imgName);
+
+		String cahceImgUrl = MainConfig.p.get("imageSaveDir")+"user/cache/"+imgName;
+		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(cahceImgUrl), 40960L));
+		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
+		if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
+			deptUser.setIsAuth("T");
+		}
 		boolean bool = srv.addDeptUser(deptUser);
-		if(bool) {
+		if (bool) {
+			String imgPath = MainConfig.p.get("imageSaveDir")+"user"+File.separator+deptUser.getId();
+			File file = new File(cahceImgUrl);
+			if(file.exists())
+			{
+				File fileDir = new File(imgPath);
+				if(!fileDir.exists())
+				{
+					fileDir.mkdirs();
+				}
+				String idHandleImgUrl  = imgPath+File.separator+imgName;
+				file.renameTo(new File(idHandleImgUrl));
+				deptUser.setIdHandleImgUrl(idHandleImgUrl);
+				deptUser.update();
+			}
 			renderJson(RetUtil.ok());
-		}else {
+		} else {
 			renderJson(RetUtil.fail());
 		}
 	}
 	
-	public void editDeptUser() {
+	public void editDeptUser() throws Exception{
 		long id = getLong("id");
 		String realName = getPara("realName");
 		String userNo = getPara("userNo");
@@ -88,6 +114,9 @@ public class DeptUsersController extends Controller{
 		String intime = getPara("intime");
 		String addr = getPara("addr");
 		String remark = getPara("remark");
+		String imgName = getPara("idHandleImgUrl");
+		String imgPath = MainConfig.p.get("imageSaveDir")+"user"+File.separator+id;
+		String idHandleImgUrl  = imgPath+File.separator+imgName;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
@@ -102,12 +131,30 @@ public class DeptUsersController extends Controller{
 		deptUser.setAddr(addr);
 		deptUser.setRemark(remark);
 		deptUser.setId(id);
+		deptUser.setIdHandleImgUrl(idHandleImgUrl);
+		String cahceImgUrl = MainConfig.p.get("imageSaveDir")+"user"+File.separator+"cache"+File.separator+imgName;
+		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(cahceImgUrl), 40960L));
+		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
+		if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
+			deptUser.setIsAuth("T");
+		}
 		boolean bool = srv.editDeptUser(deptUser);
-		if(bool) {
+		if (bool) {
+			File file = new File(cahceImgUrl);
+			if(file.exists())
+			{
+				File fileDir = new File(imgPath);
+				if(!fileDir.exists())
+				{
+					fileDir.mkdirs();
+				}
+				file.renameTo(new File((idHandleImgUrl)));
+			}
 			renderJson(RetUtil.ok());
-		}else {
+		} else {
 			renderJson(RetUtil.fail());
 		}
+
 	}
 	
 	public void delDeptUser() {
@@ -238,7 +285,7 @@ public class DeptUsersController extends Controller{
 		if (row.getCell(index) != null) {
 			Cell cell = row.getCell(index);
 			if(cell != null){
-				cell.setCellType(CellType.STRING);
+				cell.setCellType(Cell.CELL_TYPE_STRING);
 			}
 			result = cell.getStringCellValue();
 		}

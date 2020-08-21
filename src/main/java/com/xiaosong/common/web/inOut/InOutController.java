@@ -4,11 +4,16 @@ import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.bean.InOutBean;
+import com.xiaosong.bean.VisitorsBean;
+import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.ErrorCodeDef;
+import com.xiaosong.util.ExcelUtil;
 import com.xiaosong.util.RetUtil;
-import com.xiaosong.util.XLSFileKit;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,72 +36,59 @@ public class InOutController extends Controller {
         renderJson(pagelist);
     }
 
+
+
     public void downReport() {
+
         String userName = getPara("userName");
         String userType = getPara("userType");
         String inOrOut = getPara("inOrOut");
         String startDate = getPara("startDate");
         String endDate = getPara("endDate");
-        List<Record> pagelist = srv.downReport(userName,userType,inOrOut,startDate,endDate);
+        List<Record> recordList = srv.downReport(userName,userType,inOrOut,startDate,endDate);
 
-        // 导出`Excel`名称
-        String fileName = "通行人员报表_" + getDate() + ".xls";
-
-        // excel`保存路径
-        String filePath = getRequest().getRealPath("/") + "/file/export/";
-        System.out.println(filePath);
-        File file = new File(filePath);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        filePath += fileName;
-        XLSFileKit xlsFileKit = new XLSFileKit(filePath);
-        List<List<Object>> content = new ArrayList<List<Object>>();
-        List<String> title = new ArrayList<String>();
-        // 添加`title`,对应的从数据库检索出`datas`的`title`
-        title.add("序号");
-        title.add("通行日期");
-        title.add("通行时间");
-        title.add("姓名");
-        title.add("人员类型");
-        title.add("设备类型");
-        title.add("设备IP");
-        title.add("进出类型");
-        int i = 0;
-
-        OK:
-        while (true) {
-            if (pagelist.size() < (i + 1)) {
-                break OK;
+        List outputList = new ArrayList<>();
+        if (recordList != null && recordList.size() > 0) {
+            // 生成文件并返回
+            for (int i = 0; i < recordList.size(); i++) {
+                Record record = recordList.get(i);
+                InOutBean sd = new InOutBean();
+                sd.setId((long)i+1);
+                sd.setDeviceIp(record.getStr("deviceIp"));
+                sd.setScanDate(record.getStr("scanDate"));
+                sd.setScanTime(record.getStr("scanTime"));
+                sd.setUserName(record.getStr("userName"));
+                sd.setUserType("staff".equals(record.getStr("userType")) ? "员工" : "访客");
+                sd.setDeviceType("FACE".equals(record.getStr("deviceType"))? "人脸设备" : "二维码设备");
+                sd.setInOrOut("in".equals(record.getStr("inOrOut")) ? "进" : "出");
+                outputList.add(sd);
             }
-            // 判断单元格是否为空，不为空添加数据
-            int index = i + 1;
-            List<Object> row = new ArrayList<Object>();
-            row.add(index + "");
-            //row.add(null == tbStatements.get(i).getId() ? "" : tbStatements.get(i).getId());
-            row.add(null == pagelist.get(i).get("scanDate") ? "" : pagelist.get(i).get("scanDate"));
-            row.add(null == pagelist.get(i).get("scanTime") ? "" : pagelist.get(i).get("scanTime"));
-            row.add(null == pagelist.get(i).get("userName") ? "" : pagelist.get(i).get("userName"));
-            row.add("staff".equals(pagelist.get(i).get("userType")) ? "员工" : "访客");
-            row.add("FACE".equals(pagelist.get(i).get("deviceType")) ? "人脸设备" : "二维码设备");
-            row.add(null == pagelist.get(i).get("deviceIp") ? "" : pagelist.get(i).get("deviceIp"));
-            row.add("in".equals(pagelist.get(i).get("inOrOut")) ? "进" : "出");
-            content.add(row);
-            i++;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String date = format.format(new Date());
+        String exportName = date + "_通行人员报表.xls";
+        String exportPath = Constant.BASE_DOWNLOAD_PATH;
+        File exportFile = new File(exportPath + "/" + exportName);
+        if(exportFile.exists()){
+            exportFile.delete();
+            try {
+                exportFile.createNewFile();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
 
-        xlsFileKit.addSheet(content, "通行人员报表", title);
-        boolean save = xlsFileKit.save();
-        if (save) {
-            log.info("报表导出成功~");
-            renderJson(RetUtil.ok(ErrorCodeDef.CODE_NORMAL, "报表导出成功~"));
-            File file1 = new File(getRequest().getRealPath("/") + "/file/export/" + "通行人员报表_" + getDate() + ".xls");
-            renderFile(file1);
-        } else {
-            log.error("报表导出失败~");
-            renderJson(RetUtil.fail(ErrorCodeDef.CODE_ERROR, "报表导出失败~"));
+        String[] title = {  "序号", "通行日期", "通行时间","姓名","人员类型","设备类型","设备IP","进出类型"};
+        byte[] data = ExcelUtil.export("通行人员报表", title, outputList);
+        try {
+            FileUtils.writeByteArrayToFile(exportFile, data, true);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        renderFile(exportFile);
     }
+
 
     /**
      * 获取当前系统时间 年-月-日

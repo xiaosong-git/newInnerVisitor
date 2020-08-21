@@ -44,7 +44,7 @@ public class AuthUtil {
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build();
         Response response = null;
-        JSONObject returnObject = null;
+        JSONObject returnObject = new JSONObject();
         try {
             response = client.newCall(request).execute();
              string = response.body().string();
