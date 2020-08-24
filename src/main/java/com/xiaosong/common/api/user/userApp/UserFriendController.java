@@ -17,6 +17,8 @@ import com.xiaosong.validate.user.RealNameValidator;
 import com.xiaosong.validate.user.UserIdValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -68,6 +70,11 @@ public class UserFriendController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+
+
+
+
+
     @AuthCheckAnnotation(checkLogin = true,checkVerify = true, checkRequestLegal = true)
     @Before({PhoneValidator.class,UserIdValidator.class, RealNameValidator.class})
     public void addFriendByPhoneAndUser(){
@@ -121,6 +128,41 @@ public class UserFriendController extends Controller {
             log.error(e.getMessage());
             renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
 
+        }
+    }
+
+    /**
+     *
+     *
+     */
+    public Map<String, Object> getParamsToMap(HttpServletRequest request) {
+
+        Map<String,Object>  res = new HashMap<String,Object>();
+        Map<String,String[]>  parameter = request.getParameterMap();
+        Iterator<String> it = parameter.keySet().iterator();
+        StringBuffer str=new StringBuffer();
+        while(it.hasNext()){
+            String key = it.next();
+            String[]  val = parameter.get(key);
+            if(val!=null&&val.length>0){
+                if(val[0]!=null&&!"".equals(val[0])){
+                    res.put(key, val[0].trim());
+                    str.append(key+"="+ val[0].trim()+"\n");
+                }
+            }
+        }
+        log.info(str.toString());
+        return res;
+    }
+
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = true, checkRequestLegal = true)
+    public Result findIsUserByPhone(HttpServletRequest request){
+        try {
+            Map<String,Object> paramMap = getParamsToMap(request);
+            return userFriendService.findIsUserByPhone(paramMap);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.unDataResult("fail", "系统异常");
         }
     }
 }
