@@ -11,10 +11,12 @@ import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VOrg;
 import com.xiaosong.model.VUserFriend;
+import com.xiaosong.util.BaseUtil;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.util.phoneUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: visitor
@@ -316,6 +318,33 @@ public class UserFriendService  extends MyBaseService {
                     ? ResultData.dataResult("success","获取列表成功",apiList(records))
                     : Result.unDataResult("success","暂无数据");
         }
+
+    public Result findIsUserByPhone(Map<String, Object> paramMap)  throws Exception{
+        String phoneStr = BaseUtil.objToStr(paramMap.get("phoneStr"),",");
+        String userId=BaseUtil.objToStr(paramMap.get("userId"),"0");
+        String[] phones = phoneStr.split(",");
+        log.info("传入手机号为：{}",phoneStr);
+        StringBuffer newPhones=new StringBuffer();
+        for (String phone:phones){
+            if( phoneUtil.isPhoneLegal(phone)){
+                newPhones.append(phone).append(",");
+            }
+        }
+        if (newPhones.length()==0){
+            return Result.unDataResult("success","暂无数据");
+        }
+        newPhones.deleteCharAt(newPhones.length() - 1);
+        log.info("最终查询的手机号为：{}",newPhones);
+        // update by cwf  2019/11/8 15:44 Reason:查询是否存在用户，并显示是否为好友
+        String columsql="select *,(select  applyType from "+ TableList.USER_FRIEND +" uf where uf.friendId=u.id and uf.userId="+userId+" ) applyType," +
+                "(select  remark from "+ TableList.USER_FRIEND +" uf where uf.friendId=u.id and uf.userId="+userId+" ) remark";
+            String sql = " from "+ TableList.DEPT_USER +"  u where phone in ("+newPhones+") and isAuth='T'";
+        log.info(columsql+sql);
+        List <Map<String, Object>> list=Db.query(columsql+" "+sql);
+        return list != null && !list.isEmpty()
+                ? ResultData.dataResult("success","查询用户成功",list)
+                : Result.unDataResult("success","暂无数据");
+    }
 
 }
 
