@@ -156,13 +156,15 @@ public class UserFriendController extends Controller {
     }
 
     @AuthCheckAnnotation(checkLogin = true,checkVerify = true, checkRequestLegal = true)
-    public Result findIsUserByPhone(HttpServletRequest request){
+    public void findIsUserByPhone(){
         try {
-            Map<String,Object> paramMap = getParamsToMap(request);
-            return userFriendService.findIsUserByPhone(paramMap);
+            Map<String,Object> paramMap =new HashMap<>();
+            paramMap.put("phoneStr",getPara("phoneStr"));
+            paramMap.put("userId",getPara("userId"));
+            renderJson(userFriendService.findIsUserByPhone(paramMap));
         }catch (Exception e){
             e.printStackTrace();
-            return Result.unDataResult("fail", "系统异常");
+            renderJson(Result.unDataResult("fail", "系统异常"));
         }
     }
 }
