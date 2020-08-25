@@ -132,39 +132,35 @@ public class UserFriendController extends Controller {
     }
 
     /**
-     *
+     *  通讯录添加好友
      *
      */
-    public Map<String, Object> getParamsToMap(HttpServletRequest request) {
-
-        Map<String,Object>  res = new HashMap<String,Object>();
-        Map<String,String[]>  parameter = request.getParameterMap();
-        Iterator<String> it = parameter.keySet().iterator();
-        StringBuffer str=new StringBuffer();
-        while(it.hasNext()){
-            String key = it.next();
-            String[]  val = parameter.get(key);
-            if(val!=null&&val.length>0){
-                if(val[0]!=null&&!"".equals(val[0])){
-                    res.put(key, val[0].trim());
-                    str.append(key+"="+ val[0].trim()+"\n");
-                }
-            }
-        }
-        log.info(str.toString());
-        return res;
-    }
-
     @AuthCheckAnnotation(checkLogin = true,checkVerify = true, checkRequestLegal = true)
     public void findIsUserByPhone(){
         try {
             Map<String,Object> paramMap =new HashMap<>();
             paramMap.put("phoneStr",getPara("phoneStr"));
             paramMap.put("userId",getPara("userId"));
-            renderJson(userFriendService.findIsUserByPhone(paramMap));
+            //renderText(JSON.toJSONString(userFriendService.findIsUserByPhone(paramMap),SerializerFeature.WriteNullStringAsEmpty));
+            renderText(JSON.toJSONString(userFriendService.findIsUserByPhone(paramMap),SerializerFeature.WriteNullStringAsEmpty));
         }catch (Exception e){
             e.printStackTrace();
-            renderJson(Result.unDataResult("fail", "系统异常"));
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
         }
+    }
+
+    /**
+     *
+     *  修改好友备注
+     */
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = true, checkRequestLegal = true)
+    public void updateFriendRemark(){
+        Map<String,Object> paramMap =new HashMap<>();
+        paramMap.put("userId",getPara("userId"));
+        paramMap.put("friendId",getPara("friendId"));
+        paramMap.put("remark",getPara("remark"));
+        paramMap.put("detail",getPara("detail"));
+        Result result = userFriendService.updateFriendRemark(paramMap);
+        renderText(JSON.toJSONString(result));
     }
 }

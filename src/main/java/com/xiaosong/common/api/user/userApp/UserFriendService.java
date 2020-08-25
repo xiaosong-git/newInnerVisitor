@@ -15,6 +15,7 @@ import com.xiaosong.util.BaseUtil;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.util.phoneUtil;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -345,6 +346,37 @@ public class UserFriendService  extends MyBaseService {
                 ? ResultData.dataResult("success","查询用户成功",list)
                 : Result.unDataResult("success","暂无数据");
     }
+    public Result updateFriendRemark(Map<String, Object> paramMap) {
+        String userId=BaseUtil.objToStr(paramMap.get("userId"),null);
+        String friendId=BaseUtil.objToStr(paramMap.get("friendId"),null);
+        String remark=BaseUtil.objToStr(paramMap.get("remark"),null);
+        String detail=BaseUtil.objToStr(paramMap.get("detail"),null);
+        if (userId==null||friendId==null){
+            return Result.unDataResult("fail","缺少参数！");
+        }
+        if (remark==null&&detail==null){
+            return Result.unDataResult("fail","缺少参数！");
+        }
+        Map<String, Object> updateMap=new HashMap<>();
+        updateMap.put("userId",userId);
+        updateMap.put("friendId",friendId);
+        updateMap.put("remark",remark);
+        updateMap.put("detail",detail);
+        StringBuffer sql=new StringBuffer("update "+TableList.USER_FRIEND+" set ");
+        if (remark!=null){
+            sql.append("remark='"+remark+"' ");
+        }
+        /*if (detail!=null){
+            sql.append(" , detail='"+detail+"' ");
+        }*/
+        sql.append(" where userId="+userId+" and friendId="+friendId);
 
+        int update = Db.update(sql.toString());
+        if (update>0){
+
+            return Result.unDataResult("success","修改成功！");
+        }
+        return Result.unDataResult("fail","修改失败");
+    }
 }
 
