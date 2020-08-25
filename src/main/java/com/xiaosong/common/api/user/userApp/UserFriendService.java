@@ -358,6 +358,9 @@ public class UserFriendService  extends MyBaseService {
                 ? ResultData.dataResult("success", "查询用户成功",apiList(list))
                 : Result.unDataResult("success", "暂无数据");
     }
+
+
+
     public Result updateFriendRemark(Map<String, Object> paramMap) {
         String userId=BaseUtil.objToStr(paramMap.get("userId"),null);
         String friendId=BaseUtil.objToStr(paramMap.get("friendId"),null);
@@ -382,6 +385,14 @@ public class UserFriendService  extends MyBaseService {
             sql.append(" , detail='"+detail+"' ");
         }*/
         sql.append(" where userId="+userId+" and friendId="+friendId);
+
+        int update = Db.update(sql.toString());
+        if (update>0){
+
+            return Result.unDataResult("success","修改成功！");
+        }
+        return Result.unDataResult("fail","修改失败");
+    }
 
 
     public Result findPhone(String phone) throws Exception {
@@ -557,13 +568,5 @@ public class UserFriendService  extends MyBaseService {
         return Db.save(TableList.USER_FRIEND,userFriend);
     }
 
-
-        int update = Db.update(sql.toString());
-        if (update>0){
-
-            return Result.unDataResult("success","修改成功！");
-        }
-        return Result.unDataResult("fail","修改失败");
-    }
 }
 
