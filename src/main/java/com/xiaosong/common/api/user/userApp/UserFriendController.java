@@ -15,6 +15,7 @@ import com.xiaosong.validate.user.FriendIdValidator;
 import com.xiaosong.validate.user.PhoneValidator;
 import com.xiaosong.validate.user.RealNameValidator;
 import com.xiaosong.validate.user.UserIdValidator;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -161,10 +162,41 @@ public class UserFriendController extends Controller {
             Map<String,Object> paramMap =new HashMap<>();
             paramMap.put("phoneStr",getPara("phoneStr"));
             paramMap.put("userId",getPara("userId"));
-            renderJson(userFriendService.findIsUserByPhone(paramMap));
+            renderText(JSON.toJSONString(userFriendService.findIsUserByPhone(paramMap)));
         }catch (Exception e){
             e.printStackTrace();
             renderJson(Result.unDataResult("fail", "系统异常"));
         }
     }
+
+
+    /**
+     * 通过手机号查找用户
+     */
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = true, checkRequestLegal = true)
+    public void findPhone(){
+        try {
+            String phone = getPara("phone");
+            if(StringUtils.isBlank(phone)){
+                renderText(JSON.toJSONString( Result.unDataResult(ConsantCode.FAIL, "请输入手机号")));
+            }else {
+                renderText(JSON.toJSONString(userFriendService.findPhone(phone),SerializerFeature.WriteNullStringAsEmpty));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            renderText(JSON.toJSONString( Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
+
+    public void addUserFriend(){
+        //添加通讯录功能需要改变
+        try {
+            renderText(JSON.toJSONString(userFriendService.addFriend(getInt("userId"),getInt("friendId"),get("remark"),get("applyType"),get("authentication"),get("remarkMsg")),SerializerFeature.WriteNullStringAsEmpty));
+        }catch (Exception e){
+            e.printStackTrace();
+            renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
+        }
+    }
+
 }

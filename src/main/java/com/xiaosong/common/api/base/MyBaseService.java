@@ -25,4 +25,15 @@ public class MyBaseService {
         }
         return apiRecords;
     }
+
+
+    public Map<String,Object> apiMap(Record record){
+           List<Map<String, Object> > apiRecords=new LinkedList<>();
+            record.getColumns().forEach((s, o) ->{
+                if (o==null) {
+                    record.getColumns().put(s, "");
+                }
+            } );
+        return record.getColumns();
+    }
 }
