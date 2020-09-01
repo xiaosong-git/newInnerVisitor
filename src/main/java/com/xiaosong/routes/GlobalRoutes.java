@@ -24,6 +24,7 @@ import com.xiaosong.common.web.deptUser.DeptUsersController;
 import com.xiaosong.common.web.inOut.InOutController;
 import com.xiaosong.common.web.key.KeyController;
 import com.xiaosong.common.web.login.LoginController;
+import com.xiaosong.common.web.monitor.MonitorCenterController;
 import com.xiaosong.common.web.news.NewsController;
 import com.xiaosong.common.web.org.OrgController;
 import com.xiaosong.common.web.sysAuth.SysAuthController;
@@ -93,6 +94,7 @@ public class GlobalRoutes extends Routes{
 		this.add(imgServer+"/goldccm/file", FileController.class);
 		this.add(imgServer+"/goldccm/image", ImageController.class);
 		this.add(imgServer+"/inAndOut", InAndOutController.class);
+		this.add(webprefix+"/monitorCenter", MonitorCenterController.class);
 	}
 
 }

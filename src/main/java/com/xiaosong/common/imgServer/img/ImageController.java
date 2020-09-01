@@ -52,7 +52,6 @@ public class ImageController extends Controller {
 		}
 	}
      public void index(){
-
 		 renderText(String.valueOf(Constant.TEMPLATE_ROLL_ANGL));
 	 }
 }

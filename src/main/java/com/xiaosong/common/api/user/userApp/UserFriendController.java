@@ -104,7 +104,7 @@ public class UserFriendController extends Controller {
     @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void newFriend(){
         try {
-            renderText(JSON.toJSONString(userFriendService.newFriend(getLong("userId"), get("phoneStr")),SerializerFeature.WriteNullStringAsEmpty));
+            renderText(JSON.toJSONString(userFriendService.newFriend(getLong("userId",0L), get("phoneStr",",")),SerializerFeature.WriteNullStringAsEmpty));
         }catch (Exception e){
             log.error(e.getMessage());
            renderText(JSON.toJSONString( Result.unDataResult(ConsantCode.FAIL, "系统异常")));
@@ -188,7 +188,7 @@ public class UserFriendController extends Controller {
     public void addUserFriend(){
         //添加通讯录功能需要改变
         try {
-            renderText(JSON.toJSONString(userFriendService.addFriend(getInt("userId"),getInt("friendId"),get("remark"),get("applyType"),get("authentication"),get("remarkMsg")),SerializerFeature.WriteNullStringAsEmpty));
+            renderText(JSON.toJSONString(userFriendService.addUserFriend(getInt("userId"),getInt("friendId"),get("remark"),get("authentication"),get("remarkMsg")),SerializerFeature.WriteNullStringAsEmpty));
         }catch (Exception e){
             e.printStackTrace();
             renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));

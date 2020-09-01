@@ -416,7 +416,7 @@ public class UserFriendService  extends MyBaseService {
 
 
 
-   public Result addUserFriend( Integer userId,Integer friendId, String remark, String authentication,String remarkMsg) {
+   public Result addUserFriend(Integer userId,Integer friendId, String remark, String authentication,String remarkMsg) {
         //添加通讯录功能需要改变
         try {
                 if (userId==null||friendId==null){
@@ -536,10 +536,16 @@ public class UserFriendService  extends MyBaseService {
 
 
     public Map<String, Object> findFriend(Integer userId, Integer friendId) throws Exception {
-        String sql = " select u.id,u.realName,u.phone,u.orgId,u.province,u.city,u.area,u.addr,u.idHandleImgUrl,u.companyId,uf.applyType,u.niceName,u.headImgUrl,uf.id ufId"+
+     /*   String sql = " select u.id,u.realName,u.phone,u.orgId,u.province,u.city,u.area,u.addr,u.idHandleImgUrl,u.companyId,uf.applyType,u.niceName,u.headImgUrl,uf.id ufId"+
+                " from " + TableList.USER_FRIEND + " uf " +
+                " left join " + TableList.DEPT_USER + " u on uf.friendId=u.id" +
+                " where uf.userId = '"+userId+"' and uf.friendId = '"+friendId+"'";*/
+
+        String sql = " select u.id,u.realName,u.phone,u.addr,u.idHandleImgUrl,uf.applyType,u.headImgUrl,uf.id ufId"+
                 " from " + TableList.USER_FRIEND + " uf " +
                 " left join " + TableList.DEPT_USER + " u on uf.friendId=u.id" +
                 " where uf.userId = '"+userId+"' and uf.friendId = '"+friendId+"'";
+
         System.out.println(sql);
         Record record =  Db.findFirst(sql);
         return apiMap(record);

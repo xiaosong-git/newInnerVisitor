@@ -92,7 +92,4 @@ public class VisitorsController extends Controller{
 		renderFile(exportFile);
 	}
 
-
-
-
 }

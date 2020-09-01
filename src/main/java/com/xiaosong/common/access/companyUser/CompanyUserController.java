@@ -79,14 +79,12 @@ public class CompanyUserController extends Controller {
 		}catch (Exception e){
 			e.printStackTrace();
 			renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
-
 		}
 	}
 
 	/**
 	 * 查询访客所拥有的公司
 	 */
-
 	public void findVisitComSuc(){
 		try {
 			renderText(JSON.toJSONString(deptUserService.findApplySuc(get("visitorId"))));
