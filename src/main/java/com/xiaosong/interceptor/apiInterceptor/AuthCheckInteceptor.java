@@ -89,7 +89,6 @@ public class AuthCheckInteceptor implements Interceptor {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
                     }
                 }
                 inv.invoke();

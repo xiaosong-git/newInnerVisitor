@@ -19,6 +19,36 @@ public abstract class BaseVNotice<M extends BaseVNotice<M>> extends Model<M> imp
 	}
 
 	/**
+	 * 所属机构
+	 */
+	public M setOrgId(java.lang.Long orgId) {
+		set("orgId", orgId);
+		return (M)this;
+	}
+	
+	/**
+	 * 所属机构
+	 */
+	public java.lang.Long getOrgId() {
+		return getLong("orgId");
+	}
+
+	/**
+	 * 机构关联 方便查看无限下级
+	 */
+	public M setRelationNo(java.lang.String relationNo) {
+		set("relationNo", relationNo);
+		return (M)this;
+	}
+	
+	/**
+	 * 机构关联 方便查看无限下级
+	 */
+	public java.lang.String getRelationNo() {
+		return getStr("relationNo");
+	}
+
+	/**
 	 * 标题
 	 */
 	public M setNoticeTitle(java.lang.String noticeTitle) {
@@ -91,6 +121,21 @@ public abstract class BaseVNotice<M extends BaseVNotice<M>> extends Model<M> imp
 	 */
 	public java.lang.String getCstatus() {
 		return getStr("cstatus");
+	}
+
+	/**
+	 * 公司id
+	 */
+	public M setCompanyId(java.lang.Long companyId) {
+		set("companyId", companyId);
+		return (M)this;
+	}
+	
+	/**
+	 * 公司id
+	 */
+	public java.lang.Long getCompanyId() {
+		return getLong("companyId");
 	}
 
 	public M setUpdateTime(java.lang.String updateTime) {

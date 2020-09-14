@@ -55,6 +55,36 @@ public abstract class BaseVOrg<M extends BaseVOrg<M>> extends Model<M> implement
 	}
 
 	/**
+	 * 创建人姓名---主管人
+	 */
+	public M setRealName(java.lang.String realName) {
+		set("realName", realName);
+		return (M)this;
+	}
+	
+	/**
+	 * 创建人姓名---主管人
+	 */
+	public java.lang.String getRealName() {
+		return getStr("realName");
+	}
+
+	/**
+	 * 手机
+	 */
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
+		return (M)this;
+	}
+	
+	/**
+	 * 手机
+	 */
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
+	/**
 	 * 创建时间
 	 */
 	public M setCreateDate(java.lang.String createDate) {
@@ -129,21 +159,6 @@ public abstract class BaseVOrg<M extends BaseVOrg<M>> extends Model<M> implement
 		return getStr("update_time");
 	}
 
-	/**
-	 * 大楼主管id 去dept_user 查询
-	 */
-	public M setManageUserId(java.lang.Long manageUserId) {
-		set("manage_user_id", manageUserId);
-		return (M)this;
-	}
-	
-	/**
-	 * 大楼主管id 去dept_user 查询
-	 */
-	public java.lang.Long getManageUserId() {
-		return getLong("manage_user_id");
-	}
-
 	public M setExt1(java.lang.String ext1) {
 		set("ext1", ext1);
 		return (M)this;
@@ -160,6 +175,15 @@ public abstract class BaseVOrg<M extends BaseVOrg<M>> extends Model<M> implement
 	
 	public java.lang.String getExt2() {
 		return getStr("ext2");
+	}
+
+	public M setApprole(java.lang.String approle) {
+		set("approle", approle);
+		return (M)this;
+	}
+	
+	public java.lang.String getApprole() {
+		return getStr("approle");
 	}
 
 }

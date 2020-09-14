@@ -18,13 +18,13 @@ public abstract class BaseVSysUser<M extends BaseVSysUser<M>> extends Model<M> i
 		return getLong("id");
 	}
 
-	public M setParentId(java.lang.Long parentId) {
+	public M setParentId(java.math.BigInteger parentId) {
 		set("parent_id", parentId);
 		return (M)this;
 	}
 	
-	public java.lang.Long getParentId() {
-		return getLong("parent_id");
+	public java.math.BigInteger getParentId() {
+		return get("parent_id");
 	}
 
 	/**

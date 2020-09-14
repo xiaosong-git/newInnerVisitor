@@ -1,5 +1,6 @@
 package com.xiaosong.common.web.visitor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
@@ -9,9 +10,11 @@ import com.xiaosong.common.web.appMenu.AppMenuService;
 import com.xiaosong.common.web.sysConfig.SysConfigController;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.ErrorCodeDef;
+import com.xiaosong.util.AuthUtil;
 import com.xiaosong.util.ExcelUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -90,6 +93,43 @@ public class VisitorsController extends Controller{
 			e.printStackTrace();
 		}
 		renderFile(exportFile);
+	}
+
+
+	/**
+	 * 实人认证接口
+	 */
+	public void checkAuth()
+	{
+		try {
+			String idCard = get("idCard");
+			String realName = get("realName");
+			String imgBase64 = get("imgBase64");
+
+			if(StringUtils.isBlank(idCard))
+			{
+				throw new Exception("证件号不能为空");
+			}
+			if(StringUtils.isBlank(realName))
+			{
+				throw new Exception("姓名不能为空");
+			}
+			if(StringUtils.isBlank(imgBase64))
+			{
+				throw new Exception("照片不能为空");
+			}
+			JSONObject photoResult = AuthUtil.auth(idCard, realName, imgBase64);
+			if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
+				renderJson(RetUtil.ok("实人认证通过"));
+			}else{
+				JSONObject errorData = photoResult.getJSONObject("data");
+				throw new Exception(errorData.getString("resultMsg"));
+			}
+		}
+		catch (Exception ex)
+		{
+			renderJson(RetUtil.fail("验证失败，"+ex.getMessage()));
+		}
 	}
 
 }

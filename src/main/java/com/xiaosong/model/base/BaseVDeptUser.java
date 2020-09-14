@@ -85,7 +85,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 职位 manage 部门管理员 staff 员工 floor:大楼管理员
+	 * 职位 manage 部门管理员 staff 员工 
 	 */
 	public M setRoleType(java.lang.String roleType) {
 		set("roleType", roleType);
@@ -93,7 +93,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * 职位 manage 部门管理员 staff 员工 floor:大楼管理员
+	 * 职位 manage 部门管理员 staff 员工 
 	 */
 	public java.lang.String getRoleType() {
 		return getStr("roleType");
@@ -409,21 +409,6 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 实人日期
-	 */
-	public M setAuthDate(java.lang.String authDate) {
-		set("authDate", authDate);
-		return (M)this;
-	}
-	
-	/**
-	 * 实人日期
-	 */
-	public java.lang.String getAuthDate() {
-		return getStr("authDate");
-	}
-
-	/**
 	 * 扩展字段1
 	 */
 	public M setExp1(java.lang.String exp1) {
@@ -451,6 +436,15 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	 */
 	public java.lang.String getExp2() {
 		return getStr("exp2");
+	}
+
+	public M setAuthDate(java.lang.String authDate) {
+		set("authDate", authDate);
+		return (M)this;
+	}
+	
+	public java.lang.String getAuthDate() {
+		return getStr("authDate");
 	}
 
 }

@@ -99,4 +99,19 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 		return getLong("manage_user_id");
 	}
 
+	/**
+	 * 详细地址
+	 */
+	public M setAddr(java.lang.String addr) {
+		set("addr", addr);
+		return (M)this;
+	}
+	
+	/**
+	 * 详细地址
+	 */
+	public java.lang.String getAddr() {
+		return getStr("addr");
+	}
+
 }

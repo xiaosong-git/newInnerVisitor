@@ -7,12 +7,15 @@ import java.util.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
+import com.jfinal.json.Json;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
+import com.xiaosong.common.api.websocket.WebSocketMonitor;
+import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.compose.Result;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
@@ -74,7 +77,8 @@ public class DeptUsersController extends Controller{
 		deptUser.setAddr(addr);
 		deptUser.setRemark(remark);
 		deptUser.setIdHandleImgUrl(imgName);
-
+		deptUser.setStatus("applySuc");
+		deptUser.setCurrentStatus("normal");
 		String cahceImgUrl = MainConfig.p.get("imageSaveDir")+"user/cache/"+imgName;
 		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(cahceImgUrl), 40960L));
 		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
@@ -92,11 +96,14 @@ public class DeptUsersController extends Controller{
 				{
 					fileDir.mkdirs();
 				}
-				String idHandleImgUrl  = imgPath+File.separator+imgName;
-				file.renameTo(new File(idHandleImgUrl));
+				String idHandleImgUrl  =File.separator+imgName;
+				file.renameTo(new File( imgPath+idHandleImgUrl));
 				deptUser.setIdHandleImgUrl(idHandleImgUrl);
 				deptUser.update();
 			}
+			//websocket通知前端获取用户数量
+			WebSocketMonitor.me.getPersonNum();
+			WebSocketSyncData.me.sendStaffData();
 			renderJson(RetUtil.ok());
 		} else {
 			renderJson(RetUtil.fail());
@@ -116,7 +123,7 @@ public class DeptUsersController extends Controller{
 		String remark = getPara("remark");
 		String imgName = getPara("idHandleImgUrl");
 		String imgPath = MainConfig.p.get("imageSaveDir")+"user"+File.separator+id;
-		String idHandleImgUrl  = imgPath+File.separator+imgName;
+		String idHandleImgUrl  = File.separator+imgName;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
@@ -132,6 +139,8 @@ public class DeptUsersController extends Controller{
 		deptUser.setRemark(remark);
 		deptUser.setId(id);
 		deptUser.setIdHandleImgUrl(idHandleImgUrl);
+		deptUser.setStatus("applySuc");
+		deptUser.setCurrentStatus("normal");
 		String cahceImgUrl = MainConfig.p.get("imageSaveDir")+"user"+File.separator+"cache"+File.separator+imgName;
 		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(cahceImgUrl), 40960L));
 		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
@@ -148,7 +157,7 @@ public class DeptUsersController extends Controller{
 				{
 					fileDir.mkdirs();
 				}
-				file.renameTo(new File((idHandleImgUrl)));
+				file.renameTo(new File((imgPath+idHandleImgUrl)));
 			}
 			renderJson(RetUtil.ok());
 		} else {
@@ -161,6 +170,9 @@ public class DeptUsersController extends Controller{
 		Long id = getLong("id");
 		boolean bool = srv.deleteDeptUser(id);
 		if(bool) {
+			//websocket通知前端获取用户数量
+			WebSocketMonitor.me.getPersonNum();
+			WebSocketSyncData.me.sendStaffData();
 			renderJson(RetUtil.ok());
 		}else {
 			renderJson(RetUtil.fail());
@@ -209,14 +221,14 @@ public class DeptUsersController extends Controller{
 						Row row = sheet.getRow(i);// 行数
 						StringBuffer errRow = new StringBuffer();
 						String realName = getCellValue(row, 0);
-						String userNo = getCellValue(row, 1);
-						String idNo = getCellValue(row, 2);
-						String sex = getCellValue(row, 3);
-						String inTime = getCellValue(row, 4);
-						String phone = getCellValue(row, 5);
-						String addr = getCellValue(row, 6);
-						String remark = getCellValue(row, 7);
-						String deptName =  getCellValue(row, 8);
+						String deptName =  getCellValue(row, 1);
+						String userNo = getCellValue(row, 2);
+						String idNo = getCellValue(row, 3);
+						String sex = getCellValue(row, 4);
+						String inTime = getCellValue(row, 5);
+						String phone = getCellValue(row, 6);
+						String addr = getCellValue(row, 7);
+						String remark = getCellValue(row, 8);
 						Long deptId = null;
 
 						// 姓名、身份证号、工号不能为空
@@ -254,6 +266,8 @@ public class DeptUsersController extends Controller{
 							deptUser.setIntime(inTime);
 							deptUser.setAddr(addr);
 							deptUser.setRemark(remark);
+							deptUser.setStatus("applySuc");
+							deptUser.setCurrentStatus("normal");
 							boolean bool = srv.addDeptUser(deptUser);
 							if (bool) {
 								succ_count++;
@@ -274,6 +288,10 @@ public class DeptUsersController extends Controller{
 				resultMap.put("succ_count", succ_count);
 				resultMap.put("err_count", err_count);
 				resultMap.put("errmgs", errList);
+
+				//websocket通知前端获取用户数量
+				WebSocketMonitor.me.getPersonNum();
+				WebSocketSyncData.me.sendStaffData();
 				renderJson(resultMap);
 			}
 	}
@@ -291,4 +309,5 @@ public class DeptUsersController extends Controller{
 		}
 		return result;
 	}
+
 }

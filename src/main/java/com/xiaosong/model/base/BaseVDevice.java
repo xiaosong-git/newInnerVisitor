@@ -150,4 +150,22 @@ public abstract class BaseVDevice<M extends BaseVDevice<M>> extends Model<M> imp
 		return getStr("extra3");
 	}
 
+	public M setPid(java.lang.Long pid) {
+		set("pid", pid);
+		return (M)this;
+	}
+	
+	public java.lang.Long getPid() {
+		return getLong("pid");
+	}
+
+	public M setStatus(java.lang.String status) {
+		set("status", status);
+		return (M)this;
+	}
+	
+	public java.lang.String getStatus() {
+		return getStr("status");
+	}
+
 }

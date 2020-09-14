@@ -1,5 +1,6 @@
 package com.xiaosong.common.web.sysRole;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,7 +33,7 @@ public class SysRoleController extends Controller{
 	}
 	
 	public void addSysRole() throws Exception {
-		Long userRole = getLong("userRole");
+		BigInteger userRole =BigInteger.valueOf(getLong("userRole"));
 		String roleName = getPara("role_name");
 		String description = getPara("description");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

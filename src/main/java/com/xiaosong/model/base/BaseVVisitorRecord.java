@@ -355,23 +355,6 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 
 	/**
-	 * 是否下发上位机
-T--是 F--否
-	 */
-	public M setIsFlag(java.lang.String isFlag) {
-		set("isFlag", isFlag);
-		return (M)this;
-	}
-	
-	/**
-	 * 是否下发上位机
-T--是 F--否
-	 */
-	public java.lang.String getIsFlag() {
-		return getStr("isFlag");
-	}
-
-	/**
 	 * 扩展字段1
 	 */
 	public M setExp1(java.lang.String exp1) {

@@ -5,7 +5,9 @@ import com.xiaosong.common.access.companyUser.CompanyUserController;
 import com.xiaosong.common.admin.DemoController;
 import com.xiaosong.common.api.appversion.AppVersionController;
 import com.xiaosong.common.api.code.CodeController;
+import com.xiaosong.common.api.device.DeviceController;
 import com.xiaosong.common.api.foreign.ForeignController;
+import com.xiaosong.common.api.inout.InoutController;
 import com.xiaosong.common.api.notice.BannerController;
 import com.xiaosong.common.api.notice.NoticeController;
 import com.xiaosong.common.api.param.ParamController;
@@ -76,6 +78,7 @@ public class GlobalRoutes extends Routes{
 		this.add(webprefix+"/appMenu", AppMenuController.class);
 		this.add(webprefix+"/dept", DeptController.class);
 		this.add(webprefix+"/deptUser", DeptUsersController.class);
+		this.add(webprefix+"/device", com.xiaosong.common.web.device.DeviceController.class);
 		this.add(webprefix+"/vipUser", VipUserController.class);
 		this.add(webprefix+"/org", OrgController.class);
 		this.add(webprefix+"/visitor", VisitorsController.class);
@@ -95,6 +98,10 @@ public class GlobalRoutes extends Routes{
 		this.add(imgServer+"/goldccm/image", ImageController.class);
 		this.add(imgServer+"/inAndOut", InAndOutController.class);
 		this.add(webprefix+"/monitorCenter", MonitorCenterController.class);
+
+		this.add(prefix+"/device", DeviceController.class);
+		this.add(prefix+"/inout", InoutController.class);
+
 	}
 
 }

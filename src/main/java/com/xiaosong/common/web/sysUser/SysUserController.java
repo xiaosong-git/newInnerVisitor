@@ -1,5 +1,6 @@
 package com.xiaosong.common.web.sysUser;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.jfinal.core.Controller;
@@ -45,7 +46,7 @@ public class SysUserController extends Controller{
 		user.setRoleId(roleId);
 		user.setCreatetime(createtime);
 		user.setTrueName(trueName);
-		user.setParentId(userId);
+		user.setParentId(BigInteger.valueOf(userId));
 		if(srv.findUser(username)) {
 			boolean bool = srv.addSysUser(user);
 			if(bool) {

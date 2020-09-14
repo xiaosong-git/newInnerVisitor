@@ -14,11 +14,9 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.common.api.code.CodeService;
-import com.xiaosong.common.api.websocket.WebSocketVisitor;
+import com.xiaosong.common.api.websocket.*;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
-import com.xiaosong.common.api.websocket.WebSocketEndPoint;
-import com.xiaosong.common.api.websocket.WebSocketMapUtil;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.MyRecordPage;
 import com.xiaosong.constant.TableList;
@@ -28,6 +26,7 @@ import com.xiaosong.model.VVisitorRecord;
 import com.xiaosong.constant.MyPage;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
+import okhttp3.WebSocket;
 
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
@@ -364,6 +363,11 @@ public class VisitorRecordService extends MyBaseService {
                     log.info(visitorByName + "：发送短信推送成功");
                 }
             }
+
+            //websocket通知前端获取访客数量
+            WebSocketMonitor.me.getVisitorData();
+            WebSocketSyncData.me.sendVisitorData();
+
             return Result.unDataResult("success", "申请成功");
         } else {
             return Result.unDataResult("fail", "申请失败");
@@ -426,6 +430,9 @@ public class VisitorRecordService extends MyBaseService {
                 return true;
             });
             if (tx) {
+                //websocket通知前端获取访客数量
+                WebSocketMonitor.me.getVisitorData();
+                WebSocketSyncData.me.sendVisitorData();
                 return Result.unDataResult("success", "访问外部用户成功");
             } else {
                 return Result.unDataResult("fail", "访问外部用户失败");
@@ -459,6 +466,9 @@ public class VisitorRecordService extends MyBaseService {
             visitorRecord.save();
             return true;
         });
+        //websocket通知前端获取访客数量
+        WebSocketMonitor.me.getVisitorData();
+        WebSocketSyncData.me.sendVisitorData();
         return tx ? Result.unDataResult("success", "操作成功") :
                 Result.unDataResult("fail", "操作失败");
     }
@@ -539,6 +549,9 @@ public class VisitorRecordService extends MyBaseService {
                 String encode = Base64.encode(BaseUtil.objToStr(visitRecord.get("id"),"").getBytes("UTF-8"));
                 String url = p.get("URL") + encode;
                 YunPainSmsUtil.sendSmsCode(url, phone, 6, addr, orgName, endDate, realName, startDate, visitorName);
+                //websocket通知前端获取访客数量
+                WebSocketMonitor.me.getVisitorData();
+                WebSocketSyncData.me.sendVisitorData();
                 return Result.unDataResult("success", "邀约成功");
             } else {
                 return Result.unDataResult("fail", "邀约失败");
@@ -677,6 +690,9 @@ public class VisitorRecordService extends MyBaseService {
         msg.put("addr", addr);
         if (visitorRecord.update()) {
             WebSocketVisitor.me.visitReply(id,cstatus);
+            //websocket通知前端获取访客数量
+            WebSocketMonitor.me.getVisitorData();
+            WebSocketSyncData.me.sendVisitorData();
             return Result.unDataResult("success", visitorResult + "成功");
         } else {
             return Result.unDataResult("fail", visitorResult + "失败");

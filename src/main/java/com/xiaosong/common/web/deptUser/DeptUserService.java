@@ -61,10 +61,6 @@ public class DeptUserService {
 		File file =  uploadfile.getFile();
 		try {
 			FileInputStream in = new FileInputStream(file);
-
-
-
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -43,7 +43,7 @@ public class AdController extends Controller{
 		ad.setImgUrl("ad/"+imgUrl);
 		ad.setHrefUrl(hrefUrl);
 		ad.setStatus(status);
-		ad.setCreateTime(createTime);
+		ad.setCreateTime(date);
 		ad.setOrders(1);
 		srv.setOption();
 		boolean bool = srv.addAd(ad);

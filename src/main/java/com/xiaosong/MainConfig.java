@@ -16,6 +16,8 @@ import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import com.xiaosong.cache.DictionaryCache;
 import com.xiaosong.common.api.websocket.WebSocketEndPoint;
+import com.xiaosong.common.api.websocket.WebSocketMonitor;
+import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.common.api.websocket.WebSocketVisitor;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.handle.Myhandler;
@@ -63,6 +65,8 @@ public class MainConfig extends JFinalConfig {
 		UndertowServer.create(MainConfig.class).configWeb(builder -> {
 			builder.addWebSocketEndpoint(WebSocketEndPoint.class);
 			builder.addWebSocketEndpoint(WebSocketVisitor.class);
+			builder.addWebSocketEndpoint(WebSocketMonitor.class);
+			builder.addWebSocketEndpoint(WebSocketSyncData.class);
 		}).start();
 
 //		UndertowServer.start(DemoConfig.class);
@@ -208,6 +212,8 @@ public class MainConfig extends JFinalConfig {
 		//visitor/chat地址作为websocket的地址，需要配置handler否则需要在地址后.ws 变为 visitor/chat.ws
 		me.add(new UrlSkipHandler("/visitor/chat" , false));
 		me.add(new UrlSkipHandler("/visitor/bigScreen" , false));
+		me.add(new UrlSkipHandler("/visitor/monitorCenter" , false));
+		me.add(new UrlSkipHandler("/visitor/syncData" , false));
 		me.add(new Myhandler());
 	}
 }

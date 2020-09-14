@@ -28,10 +28,14 @@ public class VisitorService {
 				"(select a.*,case when iot.inOrOut ='in' then min(CONCAT(iot.scanDate,' ',iot.scanTime)) end as inTime ,\n" +
 				"case when  iot.inOrOut ='out' then max(CONCAT(iot.scanDate,' ',iot.scanTime)) end as outTime FROM \n" +
 				"(select vi.*,u.realName as userName,u.phone as userPhone,du.realName as visitorName,du.phone as visitorPhone,CONCAT(vi.visitDate,' ',vi.visitTime) as visitDateTime  from v_visitor_record vi left join v_dept_user u on vi.userId=u.id \n" +
-				"LEFT JOIN v_dept_user du on vi.visitorId=du.id WHERE vi.userType='in' and vi.visitorType='in' \n" +
+				//"LEFT JOIN v_dept_user du on vi.visitorId=du.id WHERE vi.userType='in' and vi.visitorType='in' \n" +
+				"LEFT JOIN v_dept_user du on vi.visitorId=du.id WHERE vi.userType='in' \n" +
+
 				"UNION\n" +
 				"select vi.*,u.realName as userName,u.phone as userPhone,du.realName as visitorName,du.phone as visitorPhone ,CONCAT(vi.visitDate,' ',vi.visitTime) as visitDateTime from v_visitor_record vi left join v_out_visitor u on vi.userId=u.id \n" +
-				"LEFT JOIN v_dept_user du on vi.visitorId=du.id WHERE vi.userType='out' and vi.visitorType='in' ) AS a\n" +
+				//区分了内外网还不知道怎么用暂时注释
+				//"LEFT JOIN v_dept_user du on vi.visitorId=du.id WHERE vi.userType='out' and vi.visitorType='in' ) AS a\n" +
+				"LEFT JOIN v_dept_user du on vi.visitorId=du.id WHERE vi.userType='out' ) AS a\n" +
 				"LEFT JOIN v_d_inout iot on a.userName=iot.userName and DATE_ADD(STR_TO_DATE(a.startDate,'%Y-%m-%d %H:%i:%s'),INTERVAL -30 minute)<=STR_TO_DATE(CONCAT(iot.scanDate,' ',iot.scanTime),'%Y-%m-%d %H:%i:%s') \n" +
 				"and DATE_ADD(STR_TO_DATE(a.endDate,'%Y-%m-%d %H:%i:%s'),INTERVAL 30 minute)>=STR_TO_DATE(CONCAT(iot.scanDate,' ',iot.scanTime),'%Y-%m-%d %H:%i:%s') \n" +
 				"GROUP BY iot.inOrOut\n" +

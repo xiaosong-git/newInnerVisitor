@@ -78,4 +78,31 @@ public abstract class BaseVUserFriend<M extends BaseVUserFriend<M>> extends Mode
 		return getStr("remark");
 	}
 
+	public M setRemarkMsg(java.lang.String remarkMsg) {
+		set("remarkMsg", remarkMsg);
+		return (M)this;
+	}
+	
+	public java.lang.String getRemarkMsg() {
+		return getStr("remarkMsg");
+	}
+
+	public M setAuthentication(java.lang.String authentication) {
+		set("authentication", authentication);
+		return (M)this;
+	}
+	
+	public java.lang.String getAuthentication() {
+		return getStr("authentication");
+	}
+
+	public M setCreateTime(java.lang.String createTime) {
+		set("createTime", createTime);
+		return (M)this;
+	}
+	
+	public java.lang.String getCreateTime() {
+		return getStr("createTime");
+	}
+
 }

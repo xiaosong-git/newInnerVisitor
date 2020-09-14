@@ -123,17 +123,11 @@ public abstract class BaseVNews<M extends BaseVNews<M>> extends Model<M> impleme
 		return getStr("updateTime");
 	}
 
-	/**
-	 * 是否头条    T--是 F--否
-	 */
 	public M setHeadline(java.lang.String headline) {
 		set("headline", headline);
 		return (M)this;
 	}
 	
-	/**
-	 * 是否头条    T--是 F--否
-	 */
 	public java.lang.String getHeadline() {
 		return getStr("headline");
 	}

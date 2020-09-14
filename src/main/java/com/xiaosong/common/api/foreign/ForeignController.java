@@ -4,6 +4,7 @@ package com.xiaosong.common.api.foreign;
 import com.alibaba.fastjson.JSON;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
+import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.xiaosong.compose.Result;
 import com.xiaosong.validate.foreign.ForeginValidator;
@@ -23,11 +24,10 @@ public class ForeignController extends Controller {
      * @return
      */
     @Before(ForeginValidator.class)
+    @ActionKey(value = "/visitor/foreign/newFindOrgCode/{orgCode}/{pospCode}/{pageNum}/{pageSize}")
     public void newFindOrgCode(){
         try {
-
             renderText(JSON.toJSONString(foreignService.findOrgCode(get("orgCode"), getInt("pageNum"), getInt("pageSize"))));
-
         }catch (Exception e){
             e.printStackTrace();
             renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
@@ -39,9 +39,7 @@ public class ForeignController extends Controller {
      * @param
      * @return
      */
-
     public void newFindOrgCodeConfirm(){
-
         try {
             renderText(JSON.toJSONString(foreignService.newFindOrgCodeConfirm(get("pospCode"), get("orgCode"), get("idStr"))));
         }catch (Exception e){
@@ -49,7 +47,4 @@ public class ForeignController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult("fail", "系统异常")));
         }
     }
-
-
-
 }
