@@ -447,4 +447,34 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 		return getStr("authDate");
 	}
 
+	/**
+	 * 是否已经发送完成 T :已发送  F:未发送
+	 */
+	public M setIsReceive(java.lang.String isReceive) {
+		set("isReceive", isReceive);
+		return (M)this;
+	}
+	
+	/**
+	 * 是否已经发送完成 T :已发送  F:未发送
+	 */
+	public java.lang.String getIsReceive() {
+		return getStr("isReceive");
+	}
+
+	/**
+	 * 卡号
+	 */
+	public M setCardNO(java.lang.String cardNO) {
+		set("cardNO", cardNO);
+		return (M)this;
+	}
+	
+	/**
+	 * 卡号
+	 */
+	public java.lang.String getCardNO() {
+		return getStr("cardNO");
+	}
+
 }

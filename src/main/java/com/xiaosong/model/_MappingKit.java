@@ -16,8 +16,6 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
-		arp.addMapping("ksp_class_info", "CLASS_ID", KspClassInfo.class);
-		arp.addMapping("ksp_kid_info", "KID_ID", KspKidInfo.class);
 		arp.addMapping("v_ad_banner", "id", VAdBanner.class);
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);
