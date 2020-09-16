@@ -34,7 +34,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class DeptUsersController extends Controller{
 	private Log log = Log.getLog(DeptUsersController.class);
 	public DeptUserService srv = DeptUserService.me;
-	
+	private String imgServerUrl = MainConfig.p.get("imgServerUrl");//图片服务地址
+
 	public void findList() {
 		String realName = getPara("realName");
 		String dept = getPara("dept");
@@ -63,6 +64,7 @@ public class DeptUsersController extends Controller{
 		String addr = getPara("addr");
 		String remark = getPara("remark");
 		String imgName = getPara("idHandleImgUrl");
+		String carNo = getPara("carNo");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
@@ -79,28 +81,18 @@ public class DeptUsersController extends Controller{
 		deptUser.setIdHandleImgUrl(imgName);
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
-		String cahceImgUrl = MainConfig.p.get("imageSaveDir")+"user/cache/"+imgName;
-		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(cahceImgUrl), 40960L));
-		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
-		if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
+		deptUser.setCardNO(carNo);
+		String photoPath = File.separator+"user"+File.separator+"cache"+File.separator+imgName;
+		String cahceImgUrl = imgServerUrl+photoPath;
+		deptUser.setIdHandleImgUrl(photoPath);
+		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(cahceImgUrl), 40960L));
+/*		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
+		//实人认证
+		if ("00000".equals(photoResult.getString("return_code"))) {
 			deptUser.setIsAuth("T");
-		}
+		}*/
 		boolean bool = srv.addDeptUser(deptUser);
 		if (bool) {
-			String imgPath = MainConfig.p.get("imageSaveDir")+"user"+File.separator+deptUser.getId();
-			File file = new File(cahceImgUrl);
-			if(file.exists())
-			{
-				File fileDir = new File(imgPath);
-				if(!fileDir.exists())
-				{
-					fileDir.mkdirs();
-				}
-				String idHandleImgUrl  =File.separator+imgName;
-				file.renameTo(new File( imgPath+idHandleImgUrl));
-				deptUser.setIdHandleImgUrl(idHandleImgUrl);
-				deptUser.update();
-			}
 			//websocket通知前端获取用户数量
 			WebSocketMonitor.me.getPersonNum();
 			WebSocketSyncData.me.sendStaffData();
@@ -122,11 +114,10 @@ public class DeptUsersController extends Controller{
 		String addr = getPara("addr");
 		String remark = getPara("remark");
 		String imgName = getPara("idHandleImgUrl");
-		String imgPath = MainConfig.p.get("imageSaveDir")+"user"+File.separator+id;
-		String idHandleImgUrl  = File.separator+imgName;
+		String carNo = getPara("carNo");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
-		VDeptUser deptUser = getModel(VDeptUser.class);
+		VDeptUser deptUser = VDeptUser.dao.findById(id);
 		deptUser.setRealName(realName);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
@@ -138,27 +129,27 @@ public class DeptUsersController extends Controller{
 		deptUser.setAddr(addr);
 		deptUser.setRemark(remark);
 		deptUser.setId(id);
-		deptUser.setIdHandleImgUrl(idHandleImgUrl);
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
-		String cahceImgUrl = MainConfig.p.get("imageSaveDir")+"user"+File.separator+"cache"+File.separator+imgName;
-		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(cahceImgUrl), 40960L));
-		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
-		if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
-			deptUser.setIsAuth("T");
+		deptUser.setCardNO(carNo);
+
+		if(imgName!=null && !"cache".equals(imgName))
+		{
+			String photoPath = File.separator+"user"+File.separator+"cache"+File.separator+imgName;
+			String cahceImgUrl = imgServerUrl+photoPath;
+			deptUser.setIdHandleImgUrl(photoPath);
+			String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(cahceImgUrl), 40960L));
+			JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
+			if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
+				deptUser.setIsAuth("T");
+				deptUser.setIsReceive("F");
+			}
 		}
 		boolean bool = srv.editDeptUser(deptUser);
 		if (bool) {
-			File file = new File(cahceImgUrl);
-			if(file.exists())
-			{
-				File fileDir = new File(imgPath);
-				if(!fileDir.exists())
-				{
-					fileDir.mkdirs();
-				}
-				file.renameTo(new File((imgPath+idHandleImgUrl)));
-			}
+			//websocket通知前端获取用户数量
+			WebSocketMonitor.me.getPersonNum();
+			WebSocketSyncData.me.sendStaffData();
 			renderJson(RetUtil.ok());
 		} else {
 			renderJson(RetUtil.fail());
@@ -168,7 +159,10 @@ public class DeptUsersController extends Controller{
 	
 	public void delDeptUser() {
 		Long id = getLong("id");
-		boolean bool = srv.deleteDeptUser(id);
+		VDeptUser user = VDeptUser.dao.findById(id);
+        user.setCurrentStatus("deleted");
+		user.setIsReceive("F");
+		boolean bool =user.update();
 		if(bool) {
 			//websocket通知前端获取用户数量
 			WebSocketMonitor.me.getPersonNum();

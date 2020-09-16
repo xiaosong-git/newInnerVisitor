@@ -52,7 +52,6 @@ public class ImageService {
 						log.error("移动文件{}失败",myfile.getFileName(),e);
 						list.add(myfile.getOriginalFileName());
 					}
-
 				}
 			}
         }

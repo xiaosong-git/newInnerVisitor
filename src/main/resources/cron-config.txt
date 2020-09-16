@@ -1,0 +1,6 @@
+cron4j=task1
+task1.cron=0 0 1 * *
+task1.class=com.xiaosong.task.SyncDataTask
+# 是否开启守护线程
+task1.daemon=true
+task1.enable=true

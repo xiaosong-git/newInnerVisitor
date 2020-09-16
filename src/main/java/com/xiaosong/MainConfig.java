@@ -8,6 +8,7 @@ import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log4jLogFactory;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
+import com.jfinal.plugin.cron4j.Cron4jPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.plugin.redis.RedisPlugin;
@@ -181,6 +182,11 @@ public class MainConfig extends JFinalConfig {
 //			RedisPlugin db33 = new ESRedisPlugin().config("db33",33);//库33
 			me.add(redisPlugin).add(db1).add(db2).add(db3);
 		}
+
+		Cron4jPlugin cron4jPlugin = new Cron4jPlugin("cron-config.txt","cron4j");
+		me.add(cron4jPlugin);
+
+
 	}
 	
 	public static DruidPlugin createDruidPlugin() {

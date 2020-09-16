@@ -51,6 +51,18 @@ public class ImageController extends Controller {
 			renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
 		}
 	}
+
+
+	public void reName() {
+		try {
+			renderJson(ImageService.me.uploadMore(getFiles("imgMore"),get("userId")));
+		}catch (Exception e){
+			log.error(e.getMessage());
+			renderJson( Result.unDataResult(ConsantCode.FAIL, "系统异常"));
+		}
+	}
+
+
      public void index(){
 		 renderText(String.valueOf(Constant.TEMPLATE_ROLL_ANGL));
 	 }
