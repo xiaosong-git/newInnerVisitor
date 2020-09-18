@@ -29,7 +29,7 @@ public class MonitorCenterService {
     public int getAllEmployeeNum()
     {
         int result = 0;
-        Record record = Db.findFirst("select count(1) num from v_dept_user");
+        Record record = Db.findFirst("select count(1) num from v_dept_user where currentStatus!='deleted'");
         if(record!=null)
         {
             result = record.getInt("num");
@@ -91,7 +91,7 @@ public class MonitorCenterService {
         Record record = Db.findFirst("  select count(1) inNum from v_visitor_record a\n" +
                 "    LEFT JOIN v_dept_user b on b.id = a.visitorId\n" +
                 "    JOIN v_d_inout c on b.idNO = c.idCard and c.inOrOut='in' and a.visitDate = c.scanDate\n" +
-                "    and  CONCAT(c.scanDate,' ',c.scanTime)>= a.startDate and  CONCAT(c.scanDate,' ',c.scanTime)<= a.endDate and a.visitDate =  curdate()");
+                "    and  CONCAT(c.scanDate,' ',c.scanTime)>= a.startDate and  CONCAT(c.scanDate,' ',c.scanTime)<= a.endDate and a.visitDate =  curdate() and b.currentStatus!='deleted'");
         if(record!=null)
         {
             result = record.getInt("inNum");
