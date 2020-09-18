@@ -5,6 +5,8 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VOrg;
 
+import java.util.List;
+
 /** 
 * @author 作者 : xiaojf
 * @Date 创建时间：2020年1月20日 上午9:42:24 
@@ -32,5 +34,9 @@ public class OrgService {
 	
 	public boolean deleteOrg(Long id) {
 		return VOrg.dao.deleteById(id);
+	}
+
+	public List<Record> findOrgCodeAndName(){
+		return Db.find("select org_code,org_name from v_org");
 	}
 }

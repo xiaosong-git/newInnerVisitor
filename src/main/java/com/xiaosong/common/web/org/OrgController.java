@@ -2,6 +2,7 @@ package com.xiaosong.common.web.org;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
@@ -83,5 +84,10 @@ public class OrgController extends Controller{
 		}else {
 			renderJson(RetUtil.fail());
 		}
+	}
+
+	public void findOrgCodeAndName(){
+		List<Record> list = srv.findOrgCodeAndName();
+		renderJson(list);
 	}
 }
