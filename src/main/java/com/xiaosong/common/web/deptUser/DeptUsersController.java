@@ -82,15 +82,17 @@ public class DeptUsersController extends Controller{
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
 		deptUser.setCardNO(carNo);
-		String photoPath = File.separator+"user"+File.separator+"cache"+File.separator+imgName;
-		String cahceImgUrl = imgServerUrl+photoPath;
-		deptUser.setIdHandleImgUrl(photoPath);
-		String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(cahceImgUrl), 40960L));
-/*		JSONObject photoResult = AuthUtil.auth(idNO,realName,photo);
-		//实人认证
-		if ("00000".equals(photoResult.getString("return_code"))) {
-			deptUser.setIsAuth("T");
-		}*/
+		if(imgName!=null && !"cache".equals(imgName)) {
+			String photoPath = File.separator + "user" + File.separator + "cache" + File.separator + imgName;
+			String cahceImgUrl = imgServerUrl + photoPath;
+			deptUser.setIdHandleImgUrl(photoPath);
+			String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(cahceImgUrl), 40960L));
+			JSONObject photoResult = AuthUtil.auth(idNO, realName, photo);
+			//实人认证
+			if ("00000".equals(photoResult.getString("return_code"))) {
+				deptUser.setIsAuth("T");
+			}
+		}
 		boolean bool = srv.addDeptUser(deptUser);
 		if (bool) {
 			//websocket通知前端获取用户数量

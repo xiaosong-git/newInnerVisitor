@@ -132,4 +132,43 @@ public class VisitorsController extends Controller{
 		}
 	}
 
+	/**
+	 * 访问
+	 */
+	public void interview()
+	{
+		try {
+			String idCard = get("idCard");
+			String realName = get("realName");
+			String imgBase64 = get("imgBase64");
+
+			if(StringUtils.isBlank(idCard))
+			{
+				throw new Exception("证件号不能为空");
+			}
+			if(StringUtils.isBlank(realName))
+			{
+				throw new Exception("姓名不能为空");
+			}
+			if(StringUtils.isBlank(imgBase64))
+			{
+				throw new Exception("照片不能为空");
+			}
+			JSONObject photoResult = AuthUtil.auth(idCard, realName, imgBase64);
+			if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
+				renderJson(RetUtil.ok("实人认证通过"));
+			}else{
+				JSONObject errorData = photoResult.getJSONObject("data");
+				throw new Exception(errorData.getString("resultMsg"));
+			}
+		}
+		catch (Exception ex)
+		{
+			renderJson(RetUtil.fail("验证失败，"+ex.getMessage()));
+		}
+	}
+
+
+
+
 }

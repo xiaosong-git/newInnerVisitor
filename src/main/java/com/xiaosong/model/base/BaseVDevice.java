@@ -168,4 +168,13 @@ public abstract class BaseVDevice<M extends BaseVDevice<M>> extends Model<M> imp
 		return getStr("status");
 	}
 
+	public M setPing(java.lang.Integer ping) {
+		set("ping", ping);
+		return (M)this;
+	}
+	
+	public java.lang.Integer getPing() {
+		return getInt("ping");
+	}
+
 }
