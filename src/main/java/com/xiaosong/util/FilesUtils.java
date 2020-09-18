@@ -298,6 +298,18 @@ public class FilesUtils {
 		BASE64Encoder encoder = new BASE64Encoder();
 		return encoder.encode(data);
 	}
+	public static File buildFile(String fileName, boolean isDirectory) {
+		File target = new File(fileName);
+		if (isDirectory) {
+			target.mkdirs();
+		} else {
+			if (!target.getParentFile().exists()) {
+				target.getParentFile().mkdirs();
+				target = new File(target.getAbsolutePath());
+			}
+		}
+		return target;
+	}
 
 
 

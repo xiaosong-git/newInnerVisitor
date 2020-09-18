@@ -18,7 +18,8 @@ import java.util.List;
 */
 public class DeviceService {
 	public static final DeviceService me = new DeviceService();
-	
+
+
 	public Page<Record> findList(String ip,String status,String type,String gate,int currentPage,int pageSize){
 
 		StringBuilder sbWhere  = new StringBuilder(" 1=1");
@@ -60,4 +61,17 @@ public class DeviceService {
 	public boolean deleteDevice(Long id) {
 		return VDevice.dao.deleteById(id);
 	}
+
+	public Page<Record> findWinccList(String name,int currentPage,int pageSize){
+		StringBuilder sql = new StringBuilder();
+		sql.append("from "+ TableList.DEVICE+" a left join "+TableList.ORG +" b on a.gate=b.org_code where type = 'SWJ'");
+		if(name != null && name != ""){
+			return Db.paginate(currentPage, pageSize, "select a.*,b.org_code,b.org_name",sql.toString()+"and device_name = ?",name);
+
+		}else{
+			return Db.paginate(currentPage, pageSize, "select a.*,b.org_code,b.org_name",sql.toString());
+		}
+	}
+
+
 }
