@@ -34,6 +34,7 @@ public class LoginInterceptor implements Interceptor {
 		 * if(s.contains("visitor/web/login")) { inv.invoke(); }
 		 */
 		 if(s.contains("visitor/web")) {
+
 			 HttpServletRequest request=con.getRequest();
 			 String token = request.getParameter("token");
 			 String userId = request.getParameter("userId");

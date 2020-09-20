@@ -65,7 +65,7 @@ public class DeptUsersController extends Controller{
 		String addr = getPara("addr");
 		String remark = getPara("remark");
 		String imgName = getPara("idHandleImgUrl");
-		String carNo = getPara("carNo");
+		String cardNo = getPara("cardNo");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
@@ -82,7 +82,7 @@ public class DeptUsersController extends Controller{
 		deptUser.setIdHandleImgUrl(imgName);
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
-		deptUser.setCardNO(carNo);
+		deptUser.setCardNO(cardNo);
 		if(imgName!=null && !"cache".equals(imgName)) {
 			String photoPath = File.separator + "user" + File.separator + "cache" + File.separator + imgName;
 			String cahceImgUrl = imgServerUrl + photoPath;
@@ -117,7 +117,7 @@ public class DeptUsersController extends Controller{
 		String addr = getPara("addr");
 		String remark = getPara("remark");
 		String imgName = getPara("idHandleImgUrl");
-		String carNo = getPara("carNo");
+		String cardNo = getPara("cardNo");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = VDeptUser.dao.findById(id);
@@ -134,7 +134,7 @@ public class DeptUsersController extends Controller{
 		deptUser.setId(id);
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
-		deptUser.setCardNO(carNo);
+		deptUser.setCardNO(cardNo);
 
 		if(imgName!=null && !"cache".equals(imgName))
 		{
