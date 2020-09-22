@@ -68,7 +68,9 @@ public class MainConfig extends JFinalConfig {
 			builder.addWebSocketEndpoint(WebSocketVisitor.class);
 			builder.addWebSocketEndpoint(WebSocketMonitor.class);
 			builder.addWebSocketEndpoint(WebSocketSyncData.class);
+			builder.addListener("com.xiaosong.listener.WebServletRequestListener");
 		}).start();
+
 
 //		UndertowServer.start(DemoConfig.class);
 	}

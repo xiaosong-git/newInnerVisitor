@@ -17,7 +17,7 @@ public class MonitorCenterService {
     public List<Record> getPassToday()
     {
        // String sql = "select sum(a.num) num,a.userType,b.gate from (select count(1) num,userType,deviceIp from  (select * from  v_d_inout where scanDate = curdate() ) a group by deviceIp,userType ) a LEFT JOIN v_device b on a.deviceIp = b.ip  group by b.gate,a.userType";
-        String sql ="select count(1) num,userType,org_name gate from  (select * from  v_d_inout where scanDate = curdate() ) a  left join v_org on orgCode = org_code group by orgCode,userType";
+        String sql ="select count(1) num,userType,org_name gate from  (select * from  v_d_inout where scanDate = curdate() ) a  left join v_org on orgCode = org_code group by orgCode,userType,org_name";
         List<Record> list = Db.find(sql);
         return list;
     }

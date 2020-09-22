@@ -29,6 +29,7 @@ import com.xiaosong.common.web.login.LoginController;
 import com.xiaosong.common.web.monitor.MonitorCenterController;
 import com.xiaosong.common.web.news.NewsController;
 import com.xiaosong.common.web.org.OrgController;
+import com.xiaosong.common.web.sso.SSOController;
 import com.xiaosong.common.web.sysAuth.SysAuthController;
 import com.xiaosong.common.web.sysConfig.SysConfigController;
 import com.xiaosong.common.web.sysRole.SysRoleController;
@@ -68,6 +69,8 @@ public class GlobalRoutes extends Routes{
 		this.add(prefix+"/code", CodeController.class);
 		this.add(prefix+"/userFriend", UserFriendController.class);
 		this.add(prefix+"/visitorRecord", VisitorRecordController.class);
+
+		this.add(prefix+"/sso", SSOController.class);
 		this.add(imgServer+"/image", ImageController.class);
 		this.add(webprefix+"/login", LoginController.class);
 		this.add(webprefix+"/sysUser", SysUserController.class);

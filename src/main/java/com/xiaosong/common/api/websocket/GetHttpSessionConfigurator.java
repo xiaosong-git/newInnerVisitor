@@ -17,6 +17,10 @@ public class GetHttpSessionConfigurator extends Configurator {
         // TODO Auto-generated method stub
         HttpSession httpSession=(HttpSession) request.getHttpSession();
         sec.getUserProperties().put(HttpSession.class.getName(),httpSession);
+        if(httpSession!=null) {
+            sec.getUserProperties().put("client-ip", httpSession.getAttribute("client-ip"));
+        }
+
     }
 
 }

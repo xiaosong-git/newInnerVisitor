@@ -18,6 +18,11 @@ public class LoginService {
 	public List<VSysUser> checkPwd(Long id, String passWord) {
 		return VSysUser.dao.find("select * from v_sys_user where id="+id+" and password='"+passWord+"'");
 	}
+
+
+	public VSysUser getSysUserByUserName(String userName) {
+		return VSysUser.dao.findFirst("select * from v_sys_user where username='"+userName);
+	}
 	
 	public boolean editPwd(Long id, String passWord) {
 		VSysUser user = new VSysUser();

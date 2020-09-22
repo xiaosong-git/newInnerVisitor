@@ -13,18 +13,19 @@ import com.xiaosong.common.api.utils.ApiDataUtils;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VDeptUser;
-import com.xiaosong.util.Base64;
-import com.xiaosong.util.BaseUtil;
-import com.xiaosong.util.FilesUtils;
-import com.xiaosong.util.IdCardUtil;
+import com.xiaosong.model.VDevice;
+import com.xiaosong.util.*;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,9 +45,22 @@ public class WebSocketSyncData {
 
     @OnOpen
     public void open(Session session) {
-        System.out.println("OPEN is running"+imgServerUrl);
-        webSocketSet.add(this);
-        this.session = session;
+        Object clienetIp = session.getUserProperties().get("client-ip").toString();
+        System.out.println("客户端请求IP："+clienetIp);
+        VDevice device = VDevice.dao.findFirst("select * from "+TableList.DEVICE+" where type ='SWJ' and ip=?",clienetIp);
+        //判断设备表是否有配置该上位机IP，如果没有不能连接
+        if(device!=null) {
+            System.out.println("OPEN is running" + imgServerUrl);
+            webSocketSet.add(this);
+            this.session = session;
+        }else{
+            try {
+                session.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @OnMessage
