@@ -108,15 +108,36 @@ public class WebSocketSyncData {
         sqlPara.setSql(sql);
         Page<Record> pageList =   Db.paginate(1,5,sqlPara);
         List list = pageList.getList();
+        sendList(list);
+    }
+
+    /**
+     *  发送批量导入的员工数据
+     *
+     */
+    public void sendStaffList(List ids)
+    {
+        List<Record> records = new ArrayList<>();
+        if(ids != null){
+            for(int i =0;i<ids.size();i++){
+                Record record = Db.findFirst("select * from v_dept_user where id = ?",ids.get(i));
+                if(record != null){
+                    records.add(record);
+                }
+            }
+        }
+        sendList(records);
+    }
+    private void  sendList(List list){
         List<Map<String,Object>> result = ApiDataUtils.apiList(list);
         for(Map<String,Object> map : result)
         {
-           String idHandleImgUrl = map.get("idHandleImgUrl").toString();
-           byte[] imgBytes= FilesUtils.getImageFromNetByUrl(imgServerUrl+ File.separator+idHandleImgUrl);
-           if(imgBytes!=null) {
-               String imgBase64 = Base64.encode(imgBytes);
-               map.put("photo", imgBase64);
-           }
+            String idHandleImgUrl = map.get("idHandleImgUrl").toString();
+            byte[] imgBytes= FilesUtils.getImageFromNetByUrl(imgServerUrl+ File.separator+idHandleImgUrl);
+            if(imgBytes!=null) {
+                String imgBase64 = Base64.encode(imgBytes);
+                map.put("photo", imgBase64);
+            }
             map.put("userType", "staff");
         }
         if(result.size()>0) {
@@ -124,7 +145,6 @@ public class WebSocketSyncData {
             sendMessageToAll(msg);
         }
     }
-
 
     /**
      * 发送访客记录

@@ -17,12 +17,9 @@ import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
-import com.xiaosong.compose.Result;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.*;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -217,8 +214,11 @@ public class DeptUsersController extends Controller{
 			Map xmlMap = parseXlsFile(xmlFile);
 			Map resultMap = parseZipFile(xmlMap,zipFile);
 
-			WebSocketMonitor.me.getPersonNum();
+			List ids = (List) resultMap.get("pic_success");
 
+
+			//WebSocketMonitor.me.getPersonNum();
+			WebSocketSyncData.me.sendStaffList(ids);
 			renderJson(resultMap);
 		}
 	}
