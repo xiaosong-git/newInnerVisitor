@@ -20,6 +20,7 @@ public class TableList {
     public static final String USER_FRIEND= "v_user_friend"; //APP角色菜单关系
     public static final String DEPT_USER= "v_dept_user"; //原公司员工 现部门员工
     public static final String DEVICE= "v_device"; //原公司员工 现部门员工
+    public static final String SYS_USER= "v_sys_user"; //管理员表
 
     public static final String VISITOR_RECORD ="v_visitor_record ";//访问记录
     public static final String LOCAL_AUTH ="v_local_auth" ;

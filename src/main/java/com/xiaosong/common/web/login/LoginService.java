@@ -21,7 +21,7 @@ public class LoginService {
 
 
 	public VSysUser getSysUserByUserName(String userName) {
-		return VSysUser.dao.findFirst("select * from v_sys_user where username='"+userName);
+		return VSysUser.dao.findFirst("select * from v_sys_user where username='"+userName+"'");
 	}
 	
 	public boolean editPwd(Long id, String passWord) {

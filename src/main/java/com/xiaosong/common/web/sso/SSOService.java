@@ -94,7 +94,17 @@ public class SSOService {
     }
 
 
-
+    /**
+     * 同步用户数据
+     * @param token
+     * @param username
+     * @param password
+     * @param name
+     * @param phone
+     * @param idCard
+     * @param organCode
+     * @return
+     */
     public boolean userSync(String token ,String username,String password,String name,String phone,String idCard,String organCode)
     {
         HashMap<String, String> userMap = new HashMap<>();

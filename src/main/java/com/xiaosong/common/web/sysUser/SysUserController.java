@@ -7,6 +7,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.common.web.sso.SSOService;
 import com.xiaosong.model.VSysUser;
 import com.xiaosong.util.MD5Util;
 import com.xiaosong.util.RetUtil;
@@ -37,6 +38,7 @@ public class SysUserController extends Controller{
 		String tel = getPara("tel");
 		String trueName = getPara("true_name");
 		Long roleId = getLong("role_id");
+		String idCard = getPara("idcard");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VSysUser user = getModel(VSysUser.class);
@@ -50,6 +52,14 @@ public class SysUserController extends Controller{
 		if(srv.findUser(username)) {
 			boolean bool = srv.addSysUser(user);
 			if(bool) {
+				String organCode= null;
+				String token = SSOService.me.getToken();
+				boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,idCard,organCode);
+				if(result)
+				{
+					user.setIsSync("T");
+					user.update();
+				}
 				renderJson(RetUtil.ok());
 			}else {
 				renderJson(RetUtil.fail());
@@ -67,6 +77,7 @@ public class SysUserController extends Controller{
 		String tel = getPara("tel");
 		Long roleId = getLong("role_id");
 		String trueName = getPara("true_name");
+		String idCard = getPara("idcard");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VSysUser user = getModel(VSysUser.class);
@@ -79,6 +90,14 @@ public class SysUserController extends Controller{
 		user.setId(id);
 		boolean bool = srv.editSysUser(user);
 		if(bool) {
+			String organCode= null;
+			String token = SSOService.me.getToken();
+			boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,idCard,organCode);
+			if(result)
+			{
+				user.setIsSync("T");
+				user.update();
+			}
 			renderJson(RetUtil.ok());
 		}else {
 			renderJson(RetUtil.fail());
