@@ -62,7 +62,7 @@ public class DeptUsersController extends Controller{
 		String addr = getPara("addr");
 		String remark = getPara("remark");
 		String imgName = getPara("idHandleImgUrl");
-		String cardNo = getPara("cardNo");
+		String cardNO = getPara("cardNO");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = getModel(VDeptUser.class);
@@ -79,7 +79,7 @@ public class DeptUsersController extends Controller{
 		deptUser.setIdHandleImgUrl(imgName);
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
-		deptUser.setCardNO(cardNo);
+		deptUser.setCardNO(cardNO);
 		if(imgName!=null && !"cache".equals(imgName)) {
 			String photoPath = File.separator + "user" + File.separator + "cache" + File.separator + imgName;
 			String cahceImgUrl = imgServerUrl + photoPath;
@@ -114,7 +114,7 @@ public class DeptUsersController extends Controller{
 		String addr = getPara("addr");
 		String remark = getPara("remark");
 		String imgName = getPara("idHandleImgUrl");
-		String cardNo = getPara("cardNo");
+		String cardNO = getPara("cardNO");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = VDeptUser.dao.findById(id);
@@ -131,7 +131,7 @@ public class DeptUsersController extends Controller{
 		deptUser.setId(id);
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
-		deptUser.setCardNO(cardNo);
+		deptUser.setCardNO(cardNO);
 
 		if(imgName!=null && !"cache".equals(imgName))
 		{
@@ -263,6 +263,7 @@ public class DeptUsersController extends Controller{
 				String phone = getCellValue(row, 6);
 				String addr = getCellValue(row, 7);
 				String remark = getCellValue(row, 8);
+				String cardNO = getCellValue(row, 9);
 				Long deptId = null;
 
 				if (realName.isEmpty() || idNo.isEmpty() || userNo.isEmpty()) {
@@ -296,6 +297,9 @@ public class DeptUsersController extends Controller{
 					deptUser.setRemark(remark);
 					deptUser.setStatus("applySuc");
 					deptUser.setCurrentStatus("normal");
+					if(!cardNO.isEmpty()){
+						deptUser.setCardNO(cardNO);
+					}
 					boolean bool = srv.addDeptUser(deptUser);
 					if (bool) {
 						succ_count++;
