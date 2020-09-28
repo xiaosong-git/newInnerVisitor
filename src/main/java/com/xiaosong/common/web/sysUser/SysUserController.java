@@ -54,10 +54,10 @@ public class SysUserController extends Controller{
 			if(bool) {
 				String organCode= null;
 				String token = SSOService.me.getToken();
-				boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,idCard,organCode);
+				boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,organCode);
 				if(result)
 				{
-					user.setIsSync("T");
+				//	user.setIsSync("T");
 					user.update();
 				}
 				renderJson(RetUtil.ok());
@@ -92,10 +92,10 @@ public class SysUserController extends Controller{
 		if(bool) {
 			String organCode= null;
 			String token = SSOService.me.getToken();
-			boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,idCard,organCode);
+			boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,organCode);
 			if(result)
 			{
-				user.setIsSync("T");
+				//user.setIsSync("T");
 				user.update();
 			}
 			renderJson(RetUtil.ok());

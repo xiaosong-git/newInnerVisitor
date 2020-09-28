@@ -340,6 +340,36 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 
 	/**
+	 * 访客车牌号
+	 */
+	public M setPlate(java.lang.String plate) {
+		set("plate", plate);
+		return (M)this;
+	}
+	
+	/**
+	 * 访客车牌号
+	 */
+	public java.lang.String getPlate() {
+		return getStr("plate");
+	}
+
+	/**
+	 * 随行人员（record记录id）
+	 */
+	public M setPid(java.lang.Integer pid) {
+		set("pid", pid);
+		return (M)this;
+	}
+	
+	/**
+	 * 随行人员（record记录id）
+	 */
+	public java.lang.Integer getPid() {
+		return getInt("pid");
+	}
+
+	/**
 	 * 外部访问记录id
 	 */
 	public M setOutRecordId(java.lang.Long outRecordId) {

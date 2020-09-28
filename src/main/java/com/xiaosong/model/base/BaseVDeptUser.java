@@ -477,4 +477,19 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 		return getStr("cardNO");
 	}
 
+	/**
+	 * 人员类型，staff-员工，visitor-访客
+	 */
+	public M setUserType(java.lang.String userType) {
+		set("userType", userType);
+		return (M)this;
+	}
+	
+	/**
+	 * 人员类型，staff-员工，visitor-访客
+	 */
+	public java.lang.String getUserType() {
+		return getStr("userType");
+	}
+
 }

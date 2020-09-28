@@ -40,4 +40,8 @@ public class DeptService {
 	public boolean deleteDept(Long id) {
 		return VDept.dao.deleteById(id);
 	}
+
+	public List<Record> findDeptList(){
+		return Db.find("select id,dept_name from v_dept");
+	}
 }

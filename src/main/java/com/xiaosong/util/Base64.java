@@ -123,7 +123,7 @@ public class Base64 {
 		String cc = new String(Base64.decode("W+ael+emj11bNjg2XVsyMDE5LTEwLTA5IDE1OjE1XVsyMDE5LTExLTA5IDE1OjE1XQ=="),"UTF-8");
 		System.out.println(bb);
 		System.out.println(cc);
-		
-		
+
+
 	}
 }

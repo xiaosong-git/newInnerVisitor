@@ -19,6 +19,7 @@ import com.xiaosong.common.imgServer.errorLog.ErrorLogController;
 import com.xiaosong.common.imgServer.file.FileController;
 import com.xiaosong.common.imgServer.img.ImageController;
 import com.xiaosong.common.imgServer.inAndOut.InAndOutController;
+import com.xiaosong.common.visitDevice.visitDeviceController;
 import com.xiaosong.common.web.Ad.AdController;
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.dept.DeptController;
@@ -104,6 +105,8 @@ public class GlobalRoutes extends Routes{
 
 		this.add(prefix+"/device", DeviceController.class);
 		this.add(prefix+"/inout", InoutController.class);
+
+		this.add(prefix+"/machine", visitDeviceController.class);
 
 	}
 

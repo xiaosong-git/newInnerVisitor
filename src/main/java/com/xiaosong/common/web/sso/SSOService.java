@@ -105,14 +105,13 @@ public class SSOService {
      * @param organCode
      * @return
      */
-    public boolean userSync(String token ,String username,String password,String name,String phone,String idCard,String organCode)
+    public boolean userSync(String token ,String username,String password,String name,String phone,String organCode)
     {
         HashMap<String, String> userMap = new HashMap<>();
         userMap.put("username", username);
         userMap.put("password", password);
         userMap.put("name", name);
         userMap.put("phone", phone);
-        userMap.put("idCard", idCard);
         userMap.put("organCode", organCode);
         String userString = AesUtils.getAESEncrypt(JSON.toJSONString(userMap),aesKey);
 
@@ -138,7 +137,7 @@ public class SSOService {
     public static void main(String args[])
     {
         String token =  me.getToken();
-        boolean result = me.userSync(token,"chennl","123456","陈","15000000000","350128198901124028",null);
+        boolean result = me.userSync(token,"chennl","123456","陈","15000000000",null);
 
     }
 

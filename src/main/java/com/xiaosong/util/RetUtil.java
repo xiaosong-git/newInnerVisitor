@@ -27,7 +27,7 @@ public class RetUtil extends HashMap{
 	public static RetUtil ok(Object value) {
 		return new RetUtil().setOk(value);
 	}
-	
+
 	public static RetUtil ok(Object key, Object value) {
 		return ok().set(key, value);
 	}
@@ -59,7 +59,7 @@ public class RetUtil extends HashMap{
 	public static RetUtil create(Object key, Object value) {
 		return new RetUtil().set(key, value);
 	}
-	
+
 	public boolean success() {
 		Boolean success = (Boolean)get(SUCCESS);
 		return success != null && success;

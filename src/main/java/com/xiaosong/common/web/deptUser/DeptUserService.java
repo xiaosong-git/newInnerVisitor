@@ -67,4 +67,28 @@ public class DeptUserService {
 		} 
 		return false;
 	}
+
+	public Page<Record> findUserList(String phone,String name ,String dept_id, int currentPage, int pageSize){
+		StringBuilder sql = new StringBuilder();
+		List<Object> objects = new LinkedList<>();
+		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted'");
+		if(phone != null){
+			sql.append(" and phone like CONCAT('%',?,'%')");
+			objects.add(phone);
+		}
+		if(name != null){
+			sql.append(" and realName like CONCAT('%',?,'%') ");
+			objects.add(name);
+		}
+		if(dept_id != null){
+			sql.append(" and deptId = ? ");
+			objects.add(dept_id);
+		}
+		sql.append(") as a ");
+		return Db.paginate(currentPage, pageSize, "select id,deptId,realName,phone,dept_name,if(sex='1','男','女') as sex", sql.toString(),objects.toArray());
+	}
+
+	public Record findByStaffId(String staffId){
+		return Db.findFirst("select u.*,d.org_id from v_dept_user u left join v_dept d on d.id = u.deptId where u.id = ?",staffId);
+	}
 }
