@@ -1,15 +1,20 @@
 package com.xiaosong.common.api.user;
 
 import com.alibaba.fastjson.JSON;
+import com.gexin.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.aop.Clear;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaosong.common.web.sso.SSOService;
 import com.xiaosong.compose.Result;
+import com.xiaosong.constant.Constant;
 import com.xiaosong.interceptor.apiInterceptor.AuthCheckAnnotation;
 import com.xiaosong.model.VDeptUser;
+import com.xiaosong.model.VSysUser;
 import com.xiaosong.util.ConsantCode;
 import com.xiaosong.validate.user.AuthValidator;
 import com.xiaosong.validate.user.PhoneValidator;
@@ -28,16 +33,32 @@ public class UserController  extends Controller {
     private Log log = Log.getLog(UserController.class);
     @Inject
     UserService userService;
+
+    public SSOService srv = SSOService.me;
+
     @Clear
     @Before(PhoneValidator.class)
     public void login(){
         VDeptUser deptUser=getBean(VDeptUser.class,"",true);
         try {
+            String token = get("token");
+
             if (get("code")!=null) {
                 renderText(JSON.toJSONString(userService.loginByVerifyCode(deptUser, get("code"))));
                 return;
-            }else {
-            renderText(JSON.toJSONString(userService.login(deptUser,get("sysPwd"),getInt("style"))) );
+            }else if(token!=null) {
+                //根据token获取用信息
+                String userInfo =srv.getUserInfoSync(token);
+                JSONObject userJSON = JSONObject.parseObject(userInfo);
+                if (userJSON != null) {
+                    String username = userJSON.getString("username");
+                    renderText(JSON.toJSONString(userService.loginByToken(deptUser, username)));
+                } else {
+                   throw new Exception("无效的token");
+                }
+            }
+            else {
+                renderText(JSON.toJSONString(userService.login(deptUser,get("sysPwd"),getInt("style"))) );
             }
         }catch (Exception e){
             log.error("登入异常",e);

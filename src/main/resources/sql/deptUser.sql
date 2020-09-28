@@ -1,11 +1,11 @@
 #sql("findByPhone")
-    select * from v_dept_user where phone=#p(0)
+    select * from v_dept_user where currentStatus='normal' and phone=#p(0)
 #end
 #sql("findId")
-    select id from v_dept_user where phone=?
+    select id from v_dept_user where currentStatus='normal'and  phone=?
 #end
 #sql("findIdName")
-    select id from v_dept_user where phone=? and realName=?
+    select id from v_dept_user where currentStatus='normal' and phone=? and realName=?
 #end
 #sql("findFriend")
     select * from v_user_friend where userId=? and friendId=?

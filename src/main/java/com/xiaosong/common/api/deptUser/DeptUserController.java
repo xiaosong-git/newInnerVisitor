@@ -13,7 +13,4 @@ public class DeptUserController extends Controller {
 
 
 
-
-
-
 }

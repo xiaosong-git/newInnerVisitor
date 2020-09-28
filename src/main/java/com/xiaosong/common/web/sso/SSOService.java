@@ -4,6 +4,7 @@ import com.gexin.fastjson.JSON;
 import com.gexin.fastjson.JSONObject;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.log.Log;
+import com.xiaosong.param.ParamService;
 import com.xiaosong.util.AesUtils;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 public class SSOService {
 
     public static final SSOService me = new SSOService();
+    public static ParamService  paramService = new ParamService();
     private  String url ="http://111.75.240.74:56794/jx_offical_affair/";
     String aesKey ="W%d69mBbi$jRW^Qg";
     String client_id ="78b6cd20208f4c7899e24db3f0673d04";
@@ -27,6 +29,9 @@ public class SSOService {
      * @return
      */
     public String getUserInfoSync(String token) {
+
+        url = paramService.findValueByName("ssoUrl");
+        aesKey =paramService.findValueByName("ssoAesKey");
 
         String userInfo = null;
         HashMap<String, String> map = new HashMap<>();
@@ -72,6 +77,10 @@ public class SSOService {
      */
     public String getToken(String username,String password,String grant_type) {
 
+        url =paramService.findValueByName("ssoUrl");
+        client_id =paramService.findValueByName("ssoClientId");
+        client_secret=paramService.findValueByName("ssoClientSecret");
+
         String access_token = null;
         HashMap<String, String> map = new HashMap<>();
         map.put("client_id", client_id);
@@ -105,13 +114,16 @@ public class SSOService {
      * @param organCode
      * @return
      */
-    public boolean userSync(String token ,String username,String password,String name,String phone,String organCode)
+    public boolean userSync(String token ,String username,String password,String name,String phone,String idCard,String organCode)
     {
+        url =paramService.findValueByName("ssoUrl");
+        aesKey =paramService.findValueByName("ssoAesKey");
         HashMap<String, String> userMap = new HashMap<>();
         userMap.put("username", username);
         userMap.put("password", password);
         userMap.put("name", name);
         userMap.put("phone", phone);
+        userMap.put("idCard", idCard);
         userMap.put("organCode", organCode);
         String userString = AesUtils.getAESEncrypt(JSON.toJSONString(userMap),aesKey);
 
@@ -137,8 +149,7 @@ public class SSOService {
     public static void main(String args[])
     {
         String token =  me.getToken();
-        boolean result = me.userSync(token,"chennl","123456","陈","15000000000",null);
-
+        boolean result = me.userSync(token,"chennl","123456","陈","15000000000","350128198901124028",null);
     }
 
 }

@@ -5,6 +5,7 @@ import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.common.web.sso.SSOService;
 import com.xiaosong.constant.TableList;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VSysUser;
 
 import java.util.List;
@@ -18,18 +19,20 @@ public class SyncUserInfoTask extends  Thread {
     @Override
     public void run()
     {
-        List<VSysUser> list = VSysUser.dao.find("select * from "+ TableList.SYS_USER + " where isSync != 'T'");
+        List<VDeptUser> list = VDeptUser.dao.find("select * from "+ TableList.DEPT_USER + " where currentStatus='normal' and isSync != 'T'");
         String token = SSOService.me.getToken();
-        for(VSysUser record : list)
+        for(VDeptUser record : list)
         {
-            String username = record.getUsername();
+            String username = record.getPhone();
             String password= "000000";
-            String name= record.getTrueName();
-            String phone= record.getTel();
+            String name= record.getRealName();
+            String phone= record.getPhone();
+            String idCard= record.getIdNO();
             String organCode= null;
-            boolean result = SSOService.me.userSync(token,username,password,name,phone,organCode);
+            boolean result = SSOService.me.userSync(token,username,password,name,phone,idCard,organCode);
             if(result)
             {
+              //  record.setIsSync("T");
                 record.update();
             }
         }

@@ -8,12 +8,14 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.utils.ApiDataUtils;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VDevice;
+import com.xiaosong.model.VKey;
 import com.xiaosong.util.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -26,6 +28,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.security.interfaces.RSAPrivateKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,8 +41,12 @@ public class WebSocketSyncData {
     public static final WebSocketSyncData me = new WebSocketSyncData();
 
     private Session session;
+    private String key;
+    //rsa加密私钥
+    private String rsaPublicKey;
+
     // 若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
-    private static CopyOnWriteArraySet<WebSocketSyncData> webSocketSet = new CopyOnWriteArraySet<WebSocketSyncData>();
+    private static HashMap<String,WebSocketSyncData> webSocketSet = new HashMap<>();
 
     private String imgServerUrl = MainConfig.p.get("imgServerUrl");//图片服务地址
 
@@ -47,58 +54,70 @@ public class WebSocketSyncData {
     public void open(Session session) {
         Object clienetIp = session.getUserProperties().get("client-ip").toString();
         System.out.println("客户端请求IP："+clienetIp);
-        VDevice device = VDevice.dao.findFirst("select * from "+TableList.DEVICE+" where type ='SWJ' and ip=?",clienetIp);
-        //判断设备表是否有配置该上位机IP，如果没有不能连接
-        if(device!=null) {
-            System.out.println("OPEN is running" + imgServerUrl);
-            webSocketSet.add(this);
-            this.session = session;
-        }else{
-            try {
-                session.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        this.session = session;
 
     }
 
     @OnMessage
     public void receiveMessage(String message, Session session) {
         System.out.println(" send Message .. " + message);
-        try {
-            JSONArray jsonArray= JSON.parseArray(message);
-            for(int i =0 ;i<jsonArray.size();i++) {
-                JSONObject json = jsonArray.getJSONObject(i);
-                String userType = json.getString("userType");
-                int id = json.getInteger("id");
-                if ("staff".equals(userType)) {
-                    Db.update("update " + TableList.DEPT_USER + " set isReceive='T' where id =" + id);
-                } else if ("visitor".equals(userType)) {
-                    Db.update("update " + TableList.VISITOR_RECORD + " set isReceive='T' where id =" + id);
-                }
-            }
-        }catch (Exception ex)
+        //上位机第一次连接注册上位机编号
+        if(message.startsWith("pospCode:"))
         {
-            ex.fillInStackTrace();
+             key = message.replaceFirst("pospCode:","");
+             VKey vKey = VKey.dao.findFirst("select * from v_key where  swi_code=?",key);
+             if(vKey!=null) {
+                 rsaPublicKey = vKey.getPublicKey();
+                 webSocketSet.put(key, this);
+             }
+        }else {
+            try {
+                JSONObject jsonData = JSONObject.parseObject(message);
+                String sign = jsonData.getString("sign");
+                long timestamp = jsonData.getLong("timestamp");
+                String nonce = jsonData.getString("nonce");
+                String data = jsonData.getString("data");
+                String checkSign =  SignUtils.getSign(timestamp,rsaPublicKey,nonce,data);
+                //验证签名，如果签名验证不通过，那么断开websocket连接
+                if(sign.equals(checkSign)) {
+                    JSONArray jsonArray = jsonData.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JSONObject json = jsonArray.getJSONObject(i);
+                        String userType = json.getString("userType");
+                        int id = json.getInteger("id");
+                        if ("staff".equals(userType)) {
+                            Db.update("update " + TableList.DEPT_USER + " set isReceive='T' where id =" + id);
+                        } else if ("visitor".equals(userType)) {
+                            Db.update("update " + TableList.VISITOR_RECORD + " set isReceive='T' where id =" + id);
+                        }
+                    }
+                }else{
+                    throw new Exception("签名验证失败");
+                }
+            } catch (Exception ex) {
+                ex.fillInStackTrace();
+                this.close();
+                return;
+            }
         }
-
-       // if()
         sendStaffData();
         sendVisitorData();
+
     }
 
     @OnClose
     public void close() {
-        webSocketSet.remove(this);
-        System.out.println("Close is running ...");
+        webSocketSet.remove(this.key);
+        System.out.println("Close is running ..."+key);
     }
 
 
     public void sendMessageToAll(String message)
     {
-        for(WebSocketSyncData item: webSocketSet){
+        for(String k : webSocketSet.keySet()){
+            WebSocketSyncData item = webSocketSet.get(k);
             try {
+               //String data = Base64.encode(RSAEncrypt.encrypt(rsaPrivateKey,message.getBytes()));
                item.sendMessage(message);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -117,7 +136,7 @@ public class WebSocketSyncData {
      */
     public void sendStaffData()
     {
-        String sql ="select a.id,a.realName,a.idHandleImgUrl,a.idNO,floor,org_code,org_name,currentStatus from v_dept_user a left join v_dept  b on a.deptId = b.id LEFT join v_org c on b.org_id = c.id where isAuth ='T' and IFNULL(isReceive,'')!= 'T'";
+        String sql ="select a.id,a.realName,a.idHandleImgUrl,a.idNO,floor,org_code,org_name,currentStatus,cardNO from v_dept_user a left join v_dept  b on a.deptId = b.id LEFT join v_org c on b.org_id = c.id where isAuth ='T' and IFNULL(isReceive,'')!= 'T'";
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql);
         Page<Record> pageList =   Db.paginate(1,5,sqlPara);
@@ -210,6 +229,8 @@ public class WebSocketSyncData {
             sendMessageToAll(msg);
         }
     }
+
+
 
 
 }

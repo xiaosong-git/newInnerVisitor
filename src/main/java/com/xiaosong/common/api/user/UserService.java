@@ -80,6 +80,18 @@ public class UserService {
     }
 
 
+    //验证码登入
+    public Result loginByToken(VDeptUser deptUser, String username) throws Exception {
+        SqlPara para = Db.getSqlPara("deptUser.findByPhone", username);//根据手机查找用户
+        VDeptUser user = VDeptUser.dao.findFirst(para);
+        if (user == null) {
+            return Result.unDataResult(ConsantCode.FAIL, "用户不存在");
+        }else {
+            return UserUtil.me.loginSave(user, deptUser);
+        }
+    }
+
+
     //是否实名
     public boolean isVerify(Object userId) {
         /**
@@ -117,14 +129,16 @@ public class UserService {
             }
 //            String idNoMW = idNO;
             //储存在本地图片地址
-            String idHandleImgUrl = MainConfig.p.get("imageSaveDir")+deptUser.getIdHandleImgUrl();
-            String photo = Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(idHandleImgUrl), 40960L));
+            //String idHandleImgUrl = MainConfig.p.get("imageSaveDir")+deptUser.getIdHandleImgUrl();
+            //存储在图片服务器的图片
+            String idHandleImgUrl = deptUser.getIdHandleImgUrl();
+            String photo = Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(MainConfig.p.get("imgServerUrl")+idHandleImgUrl), 40960L));
             /**
              * 验证 身份证
              */
             // update by cwf  2019/10/15 10:54 Reason:改为加密后进行数据判断 原 idNO 现idNoMw
             // update by cwf  2019/11/6 13:42 Reason:改为回前端加密 原 idNoMW 现 idNO
-            Object o = Db.queryFirst("select id from " + TableList.DEPT_USER + " where idNo=?", idNO);
+            Object o = Db.queryFirst("select id from " + TableList.DEPT_USER + " where idNo=? and isAuth ='T'  and currentStatus ='normal'", idNO);
             if (o != null) {
                 return Result.unDataResult("fail", "该身份证已实名，无法再次进行实名认证！");
             }

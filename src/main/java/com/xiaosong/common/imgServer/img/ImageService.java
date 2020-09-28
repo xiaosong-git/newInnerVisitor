@@ -187,7 +187,6 @@ public class ImageService {
 				return ResultData.dataResult("fail","人脸识别失败，请重新提交人脸图片",imgMap);
 			}
 		}if("4".equals(type)){
-
 			log.info("进入普通图片........{}",realFilePath);
 		}
 		return uploadResult;

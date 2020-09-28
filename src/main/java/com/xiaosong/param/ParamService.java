@@ -15,7 +15,13 @@ public class ParamService {
     public String findValueByName(String paramName) {
         //先从缓存中读取数据
         String value = null;
-        value = CacheKit.get("PARAM",paramName);
+        try {
+            value = CacheKit.get("PARAM", paramName);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         //缓存中不存在，就从数据库中取值，并把值存入缓存中
         if (value == null){
             value = findValueByNameFromDB(paramName);

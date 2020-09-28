@@ -256,18 +256,19 @@ public class DeptUsersController extends Controller{
 				StringBuffer errRow = new StringBuffer();
 				String realName = getCellValue(row, 0);
 				String deptName =  getCellValue(row, 1);
-				String userNo = getCellValue(row, 2);
-				String idNo = getCellValue(row, 3);
-				String sex = getCellValue(row, 4);
-				String inTime = getCellValue(row, 5);
-				String phone = getCellValue(row, 6);
-				String addr = getCellValue(row, 7);
-				String remark = getCellValue(row, 8);
-				String cardNO = getCellValue(row, 9);
+				String cardNO = getCellValue(row, 2);
+				String userNo = getCellValue(row, 3);
+				String idNo = getCellValue(row, 4);
+				String sex = getCellValue(row, 5);
+				String inTime = getCellValue(row, 6);
+				String phone = getCellValue(row, 7);
+				String addr = getCellValue(row, 8);
+				String remark = getCellValue(row, 9);
+
 				Long deptId = null;
 
-				if (realName.isEmpty() || idNo.isEmpty() || userNo.isEmpty()) {
-					throw new Exception("姓名、身份证号或者工号存在空值");
+				if (realName.isEmpty() || idNo.isEmpty() ) {
+					throw new Exception("姓名或者身份证号存在空值");
 				} else {
 					if(!phone.isEmpty()) {
 						VDeptUser user = VDeptUser.dao.findFirst("select * from v_dept_user where phone = ?",phone);

@@ -79,7 +79,6 @@ public class YunPainSmsUtil {
      * @return json格式字符串
      * @throws IOException
      */
-
      public static String getUserInfo(String apikey) throws IOException, URISyntaxException {
          Map<String, String> params = new HashMap<String, String>();
          params.put("apikey", apikey);
@@ -94,7 +93,6 @@ public class YunPainSmsUtil {
      * @return json格式字符串
      * @throws IOException
      */
-
     public static String sendSmsCode(String checkCode, String mobile, Integer type, String date, String limit, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
         String msg = "";
         String content = "";
