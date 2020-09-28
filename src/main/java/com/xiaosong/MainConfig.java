@@ -56,7 +56,6 @@ public class MainConfig extends JFinalConfig {
 		}
 		else {
 			System.load(Constant.DB40_LINUX_PATH+"/libJavaJNI.so");
-			System.load(Constant.DB40_LINUX_PATH+"/libHJFacePos.so");
 			System.load(Constant.DB40_LINUX_PATH+"/libHJFaceDetect.so");
 			System.load(Constant.DB40_LINUX_PATH+"/libHJFaceIdentify.so");
 			System.load(Constant.DB40_LINUX_PATH+"/libHJFaceEngine.so");

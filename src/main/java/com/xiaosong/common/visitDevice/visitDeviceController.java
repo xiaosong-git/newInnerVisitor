@@ -96,10 +96,16 @@ public class visitDeviceController  extends Controller {
         Integer page_size = getInt("page_size");
         Integer page_num = getInt("page_num");
         if(page_size ==null ||page_num == null){
-
+            renderJson(new CommonResult(3,"参数不合法"));
+            return;
         }
-        Page<Record> list =  deptUserService.findUserList(phone,name,dept_id,page_num,page_size);
-        renderJson(list);
+        try{
+            List<Record> list =  deptUserService.findUserList(phone,name,dept_id,page_num,page_size);
+            renderJson(list);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void requestVisit() throws ParseException {

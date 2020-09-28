@@ -3,8 +3,10 @@ package com.xiaosong.common.web.deptUser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -68,9 +70,11 @@ public class DeptUserService {
 		return false;
 	}
 
-	public Page<Record> findUserList(String phone,String name ,String dept_id, int currentPage, int pageSize){
+	public List<Record> findUserList(String phone,String name ,String dept_id, int currentPage, int pageSize){
+		Map<String,Object> map = new HashMap<>();
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
+		sql.append("select id,deptId,realName,phone,dept_name,if(sex='1','男','女') as sex ");
 		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted'");
 		if(phone != null){
 			sql.append(" and phone like CONCAT('%',?,'%')");
@@ -85,7 +89,13 @@ public class DeptUserService {
 			objects.add(dept_id);
 		}
 		sql.append(") as a ");
-		return Db.paginate(currentPage, pageSize, "select id,deptId,realName,phone,dept_name,if(sex='1','男','女') as sex", sql.toString(),objects.toArray());
+		int total = Db.find(sql.toString(),objects.toArray()).size();
+		map.put("total",total);
+		currentPage = (currentPage - 1)*pageSize;
+		sql.append("limit ?,?");
+		objects.add(currentPage);
+		objects.add(pageSize);
+		return Db.find(sql.toString(),objects.toArray());
 	}
 
 	public Record findByStaffId(String staffId){

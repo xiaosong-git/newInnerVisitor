@@ -29,7 +29,6 @@ public class _MappingKit {
 		arp.addMapping("v_comp_vip_user", "id", VCompVipUser.class);
 		arp.addMapping("v_d_inout", "id", VDInout.class);
 		arp.addMapping("v_dept", "id", VDept.class);
-		arp.addMapping("v_dept_copy", "id", VDeptCopy.class);
 		arp.addMapping("v_dept_user", "id", VDeptUser.class);
 		arp.addMapping("v_device", "id", VDevice.class);
 		arp.addMapping("v_dictionaries", "id", VDictionaries.class);
