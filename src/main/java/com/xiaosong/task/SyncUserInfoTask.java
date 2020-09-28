@@ -27,9 +27,8 @@ public class SyncUserInfoTask extends  Thread {
             String password= "000000";
             String name= record.getRealName();
             String phone= record.getPhone();
-            String idCard= record.getIdNO();
             String organCode= null;
-            boolean result = SSOService.me.userSync(token,username,password,name,phone,idCard,organCode);
+            boolean result = SSOService.me.userSync(token,username,password,name,phone,organCode);
             if(result)
             {
               //  record.setIsSync("T");
