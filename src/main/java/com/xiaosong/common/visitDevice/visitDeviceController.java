@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  *  访客机对接接口
@@ -43,15 +44,13 @@ public class visitDeviceController  extends Controller {
     public void getAllDept(){
 
         String timestamp = getPara("timestamp");
-
-
         CommonResult result;
         try{
             List<Record> list = deptService.findDeptList();
             if(list.size()>0){
-                result = new CommonResult(1,"获取部门列表成功",list);
+                result = new CommonResult(0,"操作成功",list);
             }else{
-                result = new CommonResult(5,"获取列表失败，管理端未配置部门");
+                result = new CommonResult(3,"无相关记录");
             }
             renderJson(result);
         }catch (Exception e){
@@ -79,12 +78,12 @@ public class visitDeviceController  extends Controller {
       try {
            JSONObject photoResult = AuthUtil.auth(idCard,name,photo);
            if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
-             renderJson(new CommonResult(1,"身份核验成功"));
+               renderJson(new CommonResult(0,"操作成功"));
            }else{
-               renderJson(new CommonResult(2,"身份核验失败"));
+               renderJson(new CommonResult(3,"无相关记录"));
            }
         } catch (Exception e) {
-           renderJson(new CommonResult(444,"服务器异常"));
+           renderJson(new CommonResult(444,"服务异常"));
            e.printStackTrace();
         }
     }
@@ -96,10 +95,24 @@ public class visitDeviceController  extends Controller {
         Integer page_size = getInt("page_size");
         Integer page_num = getInt("page_num");
         if(page_size ==null ||page_num == null){
-
+            renderJson(new CommonResult(1,"参数不完整"));
+            return;
         }
-        Page<Record> list =  deptUserService.findUserList(phone,name,dept_id,page_num,page_size);
-        renderJson(list);
+        try{
+            Map list =  deptUserService.findUserList(phone,name,dept_id,page_num,page_size);
+            if(list.get("pageSize").equals(0)){
+                list.put("code",3);
+                list.put("message","无相关记录");
+            }else{
+                list.put("code",0);
+                list.put("message","操作成功");
+            }
+            renderJson(list);
+        }catch (Exception e){
+            renderJson(new CommonResult(444,"服务异常"));
+            e.printStackTrace();
+        }
+
     }
 
     public void requestVisit() throws ParseException {
@@ -122,74 +135,92 @@ public class visitDeviceController  extends Controller {
             fileName = visitor_name+".jpg";
             FilesUtils.getFileFromBytes(photoKey,"D:\\sts-space\\innervisitor\\", fileName);
         } catch (Exception e) {
-            renderJson(new CommonResult(444,"系统错误"));
+            renderJson(new CommonResult(444,"服务异常"));
             e.printStackTrace();
             return;
         }
-        Record record = Db.findFirst("select * from v_user_key");
-        String idNo = DESUtil.encode(record.getStr("workKey"), visitor_card_no);
-        VDeptUser vDeptUser = new VDeptUser();
-        vDeptUser.setRealName(visitor_name)
-                .setPhone(visitor_phone)
-                .setCreateDate(getDateTime())
-                .setAuthDate(getDate())
-                .setIdNO(idNo)
-                .setIdHandleImgUrl(fileName)
-                .setSex(visitor_sex)
-                .setStatus("applySuc")
-                .setCurrentStatus("normal")
-                .setUserType("visitor");
-        vDeptUser.save();
-        Record staff = deptUserService.findByStaffId(staff_id);
-        VVisitorRecord visitorRecord = new VVisitorRecord();
-        visitorRecord.setUserId(vDeptUser.getId())
-                .setVisitDate(getDate())
-                .setVisitTime(getTime())
-                .setVisitorId(Long.valueOf(staff_id))
-                .setReason(visit_reason)
-                .setStartDate(appoint_time)
-                .setEndDate(endDateTime(appoint_time,Float.valueOf(visit_hours)))
-                .setCstatus("applying")
-                .setRecordType(1)
-                .setIsReceive("F")
-                .setPlate(visitor_plate)
-                .setVitype(apply_type)
-                .setCompanyId(staff.getLong("deptId"))
-                .setOrgCode(staff.getStr("org_id"));
-        visitorRecord.save();
-        if(retinues != null){
-            List<RetinueEntity>  retinueEntities = JSON.parseArray(retinues,RetinueEntity.class);
-            for(RetinueEntity retinueEntity : retinueEntities){
-                try {
-                    byte[] photoKey =   Base64.decode(retinueEntity.getScene_photo());
-                    fileName = retinueEntity.getVisitor_name()+".jpg";
-                    FilesUtils.getFileFromBytes(photoKey,"D:\\sts-space\\innervisitor\\", fileName);
-                } catch (Exception e) {
-                    e.printStackTrace();
+
+        try{
+            Record record = Db.findFirst("select * from v_user_key");
+            String idNo = DESUtil.encode(record.getStr("workKey"), visitor_card_no);
+            VDeptUser vDeptUser = new VDeptUser();
+            vDeptUser.setRealName(visitor_name)
+                    .setPhone(visitor_phone)
+                    .setCreateDate(getDateTime())
+                    .setAuthDate(getDate())
+                    .setIdNO(idNo)
+                    .setIdHandleImgUrl(fileName)
+                    .setSex(visitor_sex)
+                    .setStatus("applySuc")
+                    .setCurrentStatus("normal")
+                    .setUserType("visitor");
+            vDeptUser.save();
+            Record staff = deptUserService.findByStaffId(staff_id);
+            VVisitorRecord visitorRecord = new VVisitorRecord();
+            visitorRecord.setUserId(vDeptUser.getId())
+                    .setVisitDate(getDate())
+                    .setVisitTime(getTime())
+                    .setVisitorId(Long.valueOf(staff_id))
+                    .setReason(visit_reason)
+                    .setStartDate(appoint_time)
+                    .setEndDate(endDateTime(appoint_time,Float.valueOf(visit_hours)))
+                    .setCstatus("applying")
+                    .setRecordType(1)
+                    .setIsReceive("F")
+                    .setPlate(visitor_plate)
+                    .setVitype(apply_type)
+                    .setCompanyId(staff.getLong("deptId"))
+                    .setOrgCode(staff.getStr("org_id"));
+            visitorRecord.save();
+            if(retinues != null){
+                List<RetinueEntity>  retinueEntities = JSON.parseArray(retinues,RetinueEntity.class);
+                for(RetinueEntity retinueEntity : retinueEntities){
+                    try {
+                        byte[] photoKey =   Base64.decode(retinueEntity.getScene_photo());
+                        fileName = retinueEntity.getVisitor_name()+".jpg";
+                        FilesUtils.getFileFromBytes(photoKey,"D:\\sts-space\\innervisitor\\", fileName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    VDeptUser retinueUser = new VDeptUser();
+                    retinueUser.setRealName(retinueEntity.getVisitor_name())
+                            .setPhone(retinueEntity.getVisitor_phone())
+                            .setCreateDate(getDateTime())
+                            .setAuthDate(getDate())
+                            .setIdNO(DESUtil.encode(record.getStr("workKey"), retinueEntity.getVisitor_card_no()))
+                            .setIdHandleImgUrl(fileName)
+                            .setSex(retinueEntity.getVisitor_sex())
+                            .setStatus("applySuc")
+                            .setCurrentStatus("normal")
+                            .setUserType("visitor");
+                    vDeptUser.save();
                 }
-                VDeptUser retinueUser = new VDeptUser();
-                retinueUser.setRealName(retinueEntity.getVisitor_name())
-                        .setPhone(retinueEntity.getVisitor_phone())
-                        .setCreateDate(getDateTime())
-                        .setAuthDate(getDate())
-                        .setIdNO(DESUtil.encode(record.getStr("workKey"), retinueEntity.getVisitor_card_no()))
-                        .setIdHandleImgUrl(fileName)
-                        .setSex(retinueEntity.getVisitor_sex())
-                        .setStatus("applySuc")
-                        .setCurrentStatus("normal")
-                        .setUserType("visitor");
-                vDeptUser.save();
             }
+            renderJson(new CommonResult(0,"操作成功"));
+        }catch (Exception e){
+            renderJson(new CommonResult(444,"服务异常"));
+            e.printStackTrace();
         }
-        renderJson(new CommonResult(1,"访问申请发送成功"));
+
     }
 
     public void getVisitList(){
 
         String card_no = getPara("card_no");
         String phone = getPara("phone");
-        List<Record> list = visitorRecordService.findValidList(card_no,phone,getDateTime());
-        renderJson(new CommonResult(1,"获取成功",list));
+
+        try {
+            List<Record> list = visitorRecordService.findValidList(card_no,phone,getDateTime());
+            if(list.size()>0){
+                renderJson(new CommonResult(0,"获取成功",list));
+            }else{
+                renderJson(new CommonResult(3,"无相关记录"));
+            }
+        }catch (Exception e){
+            renderJson(new CommonResult(444,"服务异常"));
+            e.printStackTrace();
+        }
+
     }
 
 
