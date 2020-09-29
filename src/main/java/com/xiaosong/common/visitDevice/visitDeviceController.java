@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.HttpKit;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.MainConfig;
+import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
 import com.xiaosong.common.web.dept.DeptService;
 import com.xiaosong.common.web.deptUser.DeptUserService;
@@ -27,7 +29,7 @@ import java.util.Map;
  *
  */
 public class visitDeviceController  extends Controller {
-
+    private Log log = Log.getLog(visitDeviceController.class);
     private DeptService deptService = DeptService.me;
 
     private DeptUserService deptUserService = DeptUserService.me;
@@ -48,11 +50,8 @@ public class visitDeviceController  extends Controller {
         }
         try{
             List<Record> list = deptService.findDeptList();
-            if(list.size()>0){
-                result = new CommonResult(0,"操作成功",list);
-            }else{
-                result = new CommonResult(3,"无相关记录");
-            }
+
+            result = new CommonResult(0,"操作成功",list);
             renderJson(result);
         }catch (Exception e){
             e.printStackTrace();
@@ -113,13 +112,10 @@ public class visitDeviceController  extends Controller {
                 return;
             }
             Map list =  deptUserService.findUserList(phone,name,dept_id,page_number,page_size);
-            if(list.get("page_size").equals(0)){
-                list.put("code",3);
-                list.put("message","无相关记录");
-            }else{
-                list.put("code",0);
-                list.put("message","操作成功");
-            }
+
+            list.put("code",0);
+            list.put("message","操作成功");
+
             renderJson(list);
         }catch (Exception e){
             renderJson(new CommonResult(444,"服务异常"));
@@ -151,12 +147,7 @@ public class visitDeviceController  extends Controller {
 
             String fileName ="";
 
-            //判断被访者是否存在
-            Record isStaff = deptUserService.confireNameAndIdNO(visitor_name,visitor_card_no);
-            if(isStaff == null){
-
-            }
-            if(scene_photo == null){
+            if(scene_photo.isEmpty() || visitor_name.isEmpty() || visitor_phone.isEmpty() ||visitor_card_no.isEmpty()||appoint_time.isEmpty()){
                 renderJson(new CommonResult<>(1,"参数不完整"));
                 return;
             }
@@ -235,6 +226,8 @@ public class visitDeviceController  extends Controller {
                     vDeptUser.save();
                 }
             }
+            CodeService.me.sendMsg(vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_VERIFY, null, null, appoint_time, visitor_name);
+
             renderJson(new CommonResult(0,"操作成功"));
 
         } catch (Exception e) {
@@ -261,15 +254,8 @@ public class visitDeviceController  extends Controller {
                 return;
             }
             Long userId = userR.getLong("id");
-
-
             List<Record> list = visitorRecordService.findValidList(userId,getDateTime());
-
-            if(list.size()>0){
-                renderJson(new CommonResult(0,"获取成功",list));
-            }else{
-                renderJson(new CommonResult(3,"无相关记录"));
-            }
+            renderJson(new CommonResult(0,"获取成功",list));
         }catch (Exception e){
             renderJson(new CommonResult(444,"服务异常"));
             e.printStackTrace();

@@ -62,4 +62,8 @@ public class CommonResult<T> {
         this.total = total;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

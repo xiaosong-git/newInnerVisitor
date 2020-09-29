@@ -61,7 +61,7 @@ public class YunPainSmsUtil {
 
     public static Integer MSG_TYPE_VERIFY = 5;//被访者
 
-    public static String CHECK_CODE_VERIFY = "【朋悦比邻】您好，您有一条预约访客需审核，访问者:visitor1,访问时间:visitorDateTime";
+    public static String CHECK_CODE_VERIFY = "【朋悦比邻】您好，您有一条预约访客需审核，访问者:visitor1,访问时间:visitorDateTime，请尽快到赣政通APP完成审核";
 
     public static Integer MSG_TYPE_INVITE = 6;//邀请
 

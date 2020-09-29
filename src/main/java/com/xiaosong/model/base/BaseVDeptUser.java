@@ -478,45 +478,27 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 是否同步 F:未同步 T：已同步
+	 * 人员类型，staff-员工，visitor-访客
 	 */
-	public M setIsSync(java.lang.String isSync) {
-		set("isSync", isSync);
-		return (M)this;
-	}
-	
-	/**
-	 * 是否同步 F:未同步 T：已同步
-	 */
-	public java.lang.String getIsSync() {
-		return getStr("isSync");
-	}
-
 	public M setUserType(java.lang.String userType) {
 		set("userType", userType);
 		return (M)this;
 	}
 	
+	/**
+	 * 人员类型，staff-员工，visitor-访客
+	 */
 	public java.lang.String getUserType() {
 		return getStr("userType");
 	}
 
-	public M setActiveDate(java.util.Date activeDate) {
-		set("activeDate", activeDate);
+	public M setIsSync(java.lang.String isSync) {
+		set("isSync", isSync);
 		return (M)this;
 	}
 	
-	public java.util.Date getActiveDate() {
-		return get("activeDate");
-	}
-
-	public M setExpiryDate(java.util.Date expiryDate) {
-		set("expiryDate", expiryDate);
-		return (M)this;
-	}
-	
-	public java.util.Date getExpiryDate() {
-		return get("expiryDate");
+	public java.lang.String getIsSync() {
+		return getStr("isSync");
 	}
 
 }
