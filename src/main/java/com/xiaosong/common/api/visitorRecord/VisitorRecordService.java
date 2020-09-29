@@ -962,20 +962,15 @@ public class VisitorRecordService extends MyBaseService {
     }
 
 
-    public List<Record> findValidList(String card_no,String phone,String time){
+    public List<Record> findValidList(Long userId , String time){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
         sql.append("select u.realName as real_name,u.phone,u.sex,v.startDate as start_date,v.endDate as end_date,v.reason,v.cstatus");
-        sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on (u.id=v.userId or u.id = v.visitorId) where ? <= v.endDate ");
+
+        sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId where ? <= v.endDate and v.userId = ?");
+
         objects.add(time);
-        if(phone != null){
-            sql.append(" and u.phone = ? ");
-            objects.add(phone);
-        }
-        if(card_no !=null){
-            sql.append(" and u.idNO = ? ");
-            objects.add(card_no);
-        }
+        objects.add(userId);
         return Db.find(sql.toString(),objects.toArray());
     }
 

@@ -21,6 +21,7 @@ import com.xiaosong.util.DESUtil;
 * 类说明 
 */
 public class DeptUserService {
+
 	public static final	DeptUserService me = new DeptUserService();
 	
 	public Page<Record> findList(String realName,String dept , int currentPage, int pageSize){
@@ -74,35 +75,59 @@ public class DeptUserService {
 		Map<String,Object> map = new HashMap<>();
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
-		sql.append("select id,deptId as dept_id,realName as real_name,phone,dept_name,if(sex='1','男','女') as sex ");
+		sql.append("select id,deptId as dept_id,realName as real_name,phone,dept_name,sex ");
 		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted'");
-		if(phone != null){
+		if( !phone.isEmpty()){
 			sql.append(" and phone like CONCAT('%',?,'%')");
 			objects.add(phone);
 		}
-		if(name != null){
+		if( !name.isEmpty()){
 			sql.append(" and realName like CONCAT('%',?,'%') ");
 			objects.add(name);
 		}
-		if(dept_id != null){
+		if( !dept_id.isEmpty()){
 			sql.append(" and deptId = ? ");
 			objects.add(dept_id);
 		}
 		sql.append(") as a ");
 		int total = Db.find(sql.toString(),objects.toArray()).size();
 		map.put("total",total);
-		map.put("pageNumber",currentPage);
+		map.put("page_number",currentPage);
 		currentPage = (currentPage - 1)*pageSize;
 		sql.append("limit ?,?");
 		objects.add(currentPage);
 		objects.add(pageSize);
+		System.out.println(sql.toString());
+		System.out.println(objects.toArray());
 		List<Record> list = Db.find(sql.toString(),objects.toArray());
-		map.put("pageSize",list.size());
-		map.put("list",list);
+		map.put("page_size",list.size());
+		map.put("data",list);
 		return map;
 	}
 
 	public Record findByStaffId(String staffId){
 		return Db.findFirst("select u.*,d.org_id from v_dept_user u left join v_dept d on d.id = u.deptId where u.id = ?",staffId);
+	}
+
+
+	public Record confireNameAndIdNO(String name ,String idNO){
+		return Db.findFirst("select * from v_dept_user where realName = ? and idNO = ?",name,idNO);
+	}
+
+	public Record findByIdNOOrPhone(String idNO ,String phone){
+		StringBuilder sql = new StringBuilder();
+		List<Object> objects = new LinkedList<>();
+		sql.append("select * from v_dept_user where  1 = 1");
+		if(!idNO.isEmpty()){
+			Record record = Db.findFirst("select * from v_user_key");
+			String idNo = DESUtil.encode(record.getStr("workKey"), idNO);
+			sql.append(" and idNO = ?");
+			objects.add(idNo);
+		}
+		if(!phone.isEmpty()){
+			sql.append(" and phone = ?");
+			objects.add(phone);
+		}
+		return Db.findFirst(sql.toString(),objects.toArray());
 	}
 }
