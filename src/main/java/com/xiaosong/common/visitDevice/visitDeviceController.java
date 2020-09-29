@@ -257,7 +257,7 @@ public class visitDeviceController  extends Controller {
             Record userR = deptUserService.findByIdNOOrPhone(card_no,phone);
 
             if(userR == null){
-                renderJson(new CommonResult(444,"服务异常,访客未记录"));
+                renderJson(new CommonResult(3,"无相关记录"));
                 return;
             }
             Long userId = userR.getLong("id");
