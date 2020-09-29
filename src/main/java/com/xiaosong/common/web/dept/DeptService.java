@@ -42,6 +42,6 @@ public class DeptService {
 	}
 
 	public List<Record> findDeptList(){
-		return Db.find("select id,dept_name from v_dept");
+		return Db.find("select id as dept_id,dept_name from v_dept");
 	}
 }
