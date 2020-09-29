@@ -399,13 +399,13 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 		return getStr("plate");
 	}
 
-	public M setPid(java.lang.Integer pid) {
+	public M setPid(java.lang.Long pid) {
 		set("pid", pid);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getPid() {
-		return getInt("pid");
+	public java.lang.Long getPid() {
+		return getLong("pid");
 	}
 
 }

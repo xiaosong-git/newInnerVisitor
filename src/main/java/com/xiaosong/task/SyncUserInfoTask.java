@@ -19,22 +19,24 @@ public class SyncUserInfoTask extends  Thread {
     @Override
     public void run()
     {
-        List<VDeptUser> list = VDeptUser.dao.find("select * from "+ TableList.DEPT_USER + " where currentStatus='normal' and isSync != 'T'");
-        String token = SSOService.me.getToken();
-        for(VDeptUser record : list)
-        {
-            String username = record.getPhone();
-            String password= "000000";
-            String name= record.getRealName();
-            String phone= record.getPhone();
-            String organCode= null;
-            boolean result = SSOService.me.userSync(token,username,password,name,phone,organCode);
-            if(result)
-            {
-              //  record.setIsSync("T");
-                record.update();
+        System.out.println("开始同步人员数据");
+        List<VDeptUser> list = VDeptUser.dao.find("select * from "+ TableList.DEPT_USER + " where currentStatus='normal' and IFNULL(isSync,'F')!= 'T'");
+        if(list!=null && list.size()>0) {
+            String token = SSOService.me.getToken();
+            for (VDeptUser record : list) {
+                String username = record.getPhone();
+                String password = "000000";
+                String name = record.getRealName();
+                String phone = record.getPhone();
+                String organCode = null;
+                boolean result = SSOService.me.userSync(token, username, password, name, phone, organCode);
+                if (result) {
+                    record.setIsSync("T");
+                    record.update();
+                }
             }
         }
+        System.out.println("结束同步人员数据，共同步"+list.size());
     }
 
 }

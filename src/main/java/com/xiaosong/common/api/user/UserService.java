@@ -81,14 +81,34 @@ public class UserService {
 
 
     //验证码登入
-    public Result loginByToken(VDeptUser deptUser, String username) throws Exception {
-        SqlPara para = Db.getSqlPara("deptUser.findByPhone", username);//根据手机查找用户
+    public Result loginByToken(VDeptUser deptUser, JSONObject userJSON) throws Exception {
+
+        String phone = userJSON.getString("phone");
+        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
         VDeptUser user = VDeptUser.dao.findFirst(para);
+        System.out.println("解析到sso数据"+  userJSON.toJSONString());
+
         if (user == null) {
-            return Result.unDataResult(ConsantCode.FAIL, "用户不存在");
-        }else {
-            return UserUtil.me.loginSave(user, deptUser);
+            String username = userJSON.getString("username");
+            String idCard = userJSON.getString("idCard");
+            String sex = userJSON.getInteger("sex")==0?"1":"2";
+            String name = userJSON.getString("name");
+            Record record = Db.findFirst("select * from v_user_key");
+            String idNo = DESUtil.encode(record.getStr("workKey"), idCard);
+            user = new VDeptUser();
+            user.setCurrentStatus("normal");
+            user.setIsAuth("F");
+            user.setPhone(phone);
+            user.setRealName(name);
+            user.setIdNO(idNo);
+            user.setSex(sex);
+            user.setIsSync("T");
+            user.setCreateDate(DateUtil.getSystemTime());
+            user.setStatus("applySuc");
+            user.setUserType("visitor");
+            user.save();
         }
+        return UserUtil.me.loginSave(user, deptUser);
     }
 
 

@@ -37,7 +37,7 @@ public class VisitorRecordController extends Controller {
     public void visit() throws Exception {
 
         try {
-            renderText(JSON.toJSONString(visitorRecordService.visit(getLong("userId"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"))));
+            renderText(JSON.toJSONString(visitorRecordService.visit(getLong("userId"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"),get("carNumber"),get("entourages"))));
 
         }catch (Exception e){
 
@@ -107,7 +107,7 @@ public class VisitorRecordController extends Controller {
     public void inviteStranger(){
 
         try {
-            renderText(JSON.toJSONString(visitorRecordService.inviteStranger(getInt("userId"), get("phone"),get("realName"),get("startDate"),get("endDate"),get("reason"),getInt("companyId"))));
+            renderText(JSON.toJSONString(visitorRecordService.inviteStranger(getInt("userId"), get("phone"),get("realName"),get("startDate"),get("endDate"),get("reason"),getInt("companyId"),get("carNumber"),get("entourages"))));
         }catch (Exception e){
             log.error("系统异常：",e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));

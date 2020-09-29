@@ -501,4 +501,22 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 		return getStr("userType");
 	}
 
+	public M setActiveDate(java.util.Date activeDate) {
+		set("activeDate", activeDate);
+		return (M)this;
+	}
+	
+	public java.util.Date getActiveDate() {
+		return get("activeDate");
+	}
+
+	public M setExpiryDate(java.util.Date expiryDate) {
+		set("expiryDate", expiryDate);
+		return (M)this;
+	}
+	
+	public java.util.Date getExpiryDate() {
+		return get("expiryDate");
+	}
+
 }

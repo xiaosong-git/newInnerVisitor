@@ -71,6 +71,17 @@ public class YunPainSmsUtil {
 
     public static String CHECK_CODE_VISITORBY_QRCODE = "【朋悦比邻】您好，您有一条预约访客申请已审核，审核结果：#visitorResult#，被访者:#visitorBy#,访问时间:#visitorDateTime#，通行时请使用链接中的二维码通行，请点击：#url#";
 
+
+    public static Integer MSG_TYPE_ENTOURAGE_NOAUTH = 8;//随行人员
+
+    public static String CHECK_CODE_ENTOURAGE_NOAUTH  = "【朋悦比邻】您好，您有一条访客随行预约记录，访问者:visitor1,访问时间:visitorDateTime,请尽快到赣政通APP，完成实人认证";
+
+
+    public static Integer MSG_TYPE_ENTOURAGE_AUTH =9;//随行人员
+
+    public static String CHECK_CODE_ENTOURAGE_AUTH  = "【朋悦比邻】您好，您有一条访客随行预约记录，访问者:visitor1,访问时间:visitorDateTime";
+
+
     private final static String APIKEY = "a8c29253d3e40dfa59b0f677bdd3f6fd";
 
     /**
@@ -140,6 +151,18 @@ public class YunPainSmsUtil {
             msg= msg.replace("#visitorBy#", visitorBy);
             msg=msg.replace("#url#",checkCode);
             content= msg.replace("#visitorDateTime#", visitorDateTime);
+        }
+        else if(MSG_TYPE_ENTOURAGE_NOAUTH == type)
+        {
+            msg = CHECK_CODE_ENTOURAGE_NOAUTH;
+            msg= msg.replace("visitor1", visitor);
+            content= msg.replace("visitorDateTime", visitorDateTime);
+        }
+        else if(MSG_TYPE_ENTOURAGE_AUTH == type)
+        {
+            msg = CHECK_CODE_ENTOURAGE_AUTH;
+            msg= msg.replace("visitor1", visitor);
+            content= msg.replace("visitorDateTime", visitorDateTime);
         }
         System.out.println("发送短信的内容： "+content);
         Map<String, String> params = new HashMap<String, String>();

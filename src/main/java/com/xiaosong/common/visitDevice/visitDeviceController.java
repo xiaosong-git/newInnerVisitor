@@ -7,7 +7,6 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
-import com.sun.tools.corba.se.idl.IncludeGen;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
 import com.xiaosong.common.web.dept.DeptService;

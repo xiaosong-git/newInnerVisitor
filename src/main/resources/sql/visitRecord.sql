@@ -17,7 +17,7 @@ FROM
 	v_visitor_record vr
 	LEFT JOIN v_dept_user u ON u.id = vr.visitorId
 	LEFT JOIN v_dept d ON d.id = vr.companyId
- where vr.id=?
+ where vr.id=? or vr.pid = ?
 #end
 
 #sql("findOrgCode")

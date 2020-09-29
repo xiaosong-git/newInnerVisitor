@@ -28,7 +28,7 @@ public class DeptUserService {
 
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
-		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted'");
+		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted' and  IFNULL(userType,'')!='visitor'");
 
 		if(realName!=null){
 			sql.append(" and u.realName like CONCAT('%',?,'%') ");
