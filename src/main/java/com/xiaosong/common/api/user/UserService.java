@@ -91,7 +91,7 @@ public class UserService {
         if (user == null) {
             String username = userJSON.getString("username");
             String idCard = userJSON.getString("idCard");
-            String sex = userJSON.getInteger("sex")==0?"1":"2";
+            String sex = userJSON.containsKey("sex")?(userJSON.getInteger("sex")==0?"1":"2"):"0";
             String name = userJSON.getString("name");
             Record record = Db.findFirst("select * from v_user_key");
             String idNo = DESUtil.encode(record.getStr("workKey"), idCard);

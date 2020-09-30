@@ -2,12 +2,14 @@ package com.xiaosong.common.imgServer.img;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hj.biz.bean.RetMsg;
+import com.hj.jni.bean.HJFaceModel;
 import com.jfinal.log.Log;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.util.BaseUtil;
+import com.xiaosong.util.Constant;
 import com.xiaosong.util.FaceModuleUtil;
 import com.xiaosong.util.FilesUtils;
 import org.apache.commons.io.FileUtils;
@@ -166,6 +168,10 @@ public class ImageService {
 //				return ResultData.dataResult("ocr","识别失败",map);
 //			}
 //		}
+
+
+
+
 		if("3".equals(type)){
 			System.out.println("进入人脸图片........");
 			String absolutePath=MainConfig.p.get("imageSaveDir")+realFilePath;
@@ -174,10 +180,39 @@ public class ImageService {
 			// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
 			String pic64_1 = FilesUtils.ImageToBase64ByLocal(absolutePath);
 			//创建人脸模型
-//			RetMsg retMsg = FaceModuleUtil.buildFaceModel(pic64_1,1);
+			RetMsg retMsg = FaceModuleUtil.genHjFaceModule(pic64_1);
 			//调用人像识别，判断是否符合
-//			if( retMsg.getResult_code()>0&&retMsg.getResult_code()!=500){
-			if( true){
+			if( retMsg.getResult_code()==0){
+			//if( true){
+
+				Object content = retMsg.getContent();
+				if (content != null) {
+					System.out.println("检测到人脸！");
+					List<HJFaceModel> hjface = (List<HJFaceModel>) content;
+					if (hjface.size() > 0) {
+						int leftEyeX = hjface.get(0).getLeftEyeX();
+						int rightEyeX = hjface.get(0).getRightEyeX();
+						int i = rightEyeX - leftEyeX;
+						log.info(realFileName + "——人脸眼间距为：" + i);
+						//眼间距<45过滤
+						if (i < Constant.TEMPLATE_EYE_CROSS) {
+							retMsg.setResult_code(Constant.ErrorCode.NO_FACE_DETECT);
+							retMsg.setResult_desc("请再靠近些！");
+							System.out.println(realFileName + "——人脸眼间距为：" + i);
+							return ResultData.dataResult("fail","请再靠近些",null);
+						}
+						int roll = hjface.get(0).getRoll();
+						int yaw = hjface.get(0).getYaw();
+						int pitch = hjface.get(0).getPitch();
+
+						if(Math.abs(roll)>15||Math.abs(yaw)>15||Math.abs(pitch)>20){
+							return ResultData.dataResult("fail","请提交正脸照",null);
+						}
+
+					}
+				}
+
+
 				return uploadResult;
 				//失败移除文件
 			}else {

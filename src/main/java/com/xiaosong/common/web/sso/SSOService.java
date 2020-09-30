@@ -137,7 +137,12 @@ public class SSOService {
         }
         else
         {
-            log.error("同步用户数据失败："+jsonResult.getString("msg"));
+            String msg = jsonResult.getString("msg");
+            if("用户已存在".equals(msg))
+            {
+                return true;
+            }
+            log.error("同步用户数据失败："+msg);
             return false;
         }
 

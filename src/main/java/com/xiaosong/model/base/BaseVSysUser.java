@@ -162,4 +162,19 @@ public abstract class BaseVSysUser<M extends BaseVSysUser<M>> extends Model<M> i
 		return getStr("token");
 	}
 
+	/**
+	 * 是否已经同步 同步：T，未同步 :F
+	 */
+	public M setIsSync(java.lang.String isSync) {
+		set("isSync", isSync);
+		return (M)this;
+	}
+	
+	/**
+	 * 是否已经同步 同步：T，未同步 :F
+	 */
+	public java.lang.String getIsSync() {
+		return getStr("isSync");
+	}
+
 }

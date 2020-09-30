@@ -114,4 +114,13 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 		return getStr("addr");
 	}
 
+	public M setLevel(java.lang.String level) {
+		set("level", level);
+		return (M)this;
+	}
+	
+	public java.lang.String getLevel() {
+		return getStr("level");
+	}
+
 }
