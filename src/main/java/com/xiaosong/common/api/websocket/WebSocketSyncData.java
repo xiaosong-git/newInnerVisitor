@@ -8,32 +8,21 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
-import com.jfinal.plugin.ehcache.CacheKit;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.utils.ApiDataUtils;
-import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
 import com.xiaosong.constant.TableList;
-import com.xiaosong.model.VDeptUser;
-import com.xiaosong.model.VDevice;
 import com.xiaosong.model.VKey;
 import com.xiaosong.util.*;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.servlet.http.HttpSession;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.File;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.security.interfaces.RSAPrivateKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint(value = "/visitor/syncData", configurator = GetHttpSessionConfigurator.class)
 public class WebSocketSyncData {
@@ -117,7 +106,6 @@ public class WebSocketSyncData {
         for(String k : webSocketSet.keySet()){
             WebSocketSyncData item = webSocketSet.get(k);
             try {
-               //String data = Base64.encode(RSAEncrypt.encrypt(rsaPrivateKey,message.getBytes()));
                item.sendMessage(message);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,7 +124,7 @@ public class WebSocketSyncData {
      */
     public void sendStaffData()
     {
-        String sql ="select a.id,a.realName,a.idHandleImgUrl,a.idNO,floor,org_code,org_name,currentStatus,cardNO from v_dept_user a left join v_dept  b on a.deptId = b.id LEFT join v_org c on b.org_id = c.id where isAuth ='T' and IFNULL(isReceive,'')!= 'T'";
+        String sql ="select a.id,a.realName,a.idHandleImgUrl,a.idNO,floor,org_code,org_name,currentStatus,cardNO,userType from v_dept_user a left join v_dept  b on a.deptId = b.id LEFT join v_org c on b.org_id = c.id where isAuth ='T' and IFNULL(isReceive,'')!= 'T' and userType ='staff'";
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql);
         Page<Record> pageList =   Db.paginate(1,5,sqlPara);
@@ -171,7 +159,6 @@ public class WebSocketSyncData {
                 String imgBase64 = Base64.encode(imgBytes);
                 map.put("photo", imgBase64);
             }
-            map.put("userType", "staff");
         }
         if(result.size()>0) {
             String msg = JSON.toJSONString(result, SerializerFeature.WriteMapNullValue);
