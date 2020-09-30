@@ -26,6 +26,7 @@ import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.routes.GlobalRoutes;
 import com.xiaosong.util.ESRedisPlugin;
+import com.xiaosong.util.FaceModuleUtil;
 
 /**
  * 本 demo 仅表达最为粗浅的 jfinal 用法，更为有价值的实用的企业级用法
@@ -209,8 +210,10 @@ public class MainConfig extends JFinalConfig {
 		dic.intoCache();
 		//启动海景人脸引擎
 //		FaceModuleUtil.initDetectEngine(1, 30, com.hj.jni.itf.Constant.TEMPLATE_ROLL_ANGL, 70);
-//		FaceModuleUtil.initFeatureEngine(1);
+		FaceModuleUtil.initEngine(1);
 	}
+
+
 
 	/**
 	 * 配置处理器
