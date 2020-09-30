@@ -11,8 +11,10 @@ import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
+import com.xiaosong.common.web.blackUser.BlackUserService;
 import com.xiaosong.common.web.dept.DeptService;
 import com.xiaosong.common.web.deptUser.DeptUserService;
+import com.xiaosong.model.VBlackUser;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VVisitorRecord;
 import com.xiaosong.util.*;
@@ -35,6 +37,8 @@ public class visitDeviceController  extends Controller {
     private DeptUserService deptUserService = DeptUserService.me;
 
     private VisitorRecordService visitorRecordService = VisitorRecordService.me;
+
+    private BlackUserService blackUserService = BlackUserService.me;
 
     NonceData nonceData = NonceData.getInstance();
     /**
@@ -183,6 +187,7 @@ public class visitDeviceController  extends Controller {
                 renderJson(new CommonResult<>(3,"该员工无相关记录"));
                 return;
             }
+
             VVisitorRecord visitorRecord = new VVisitorRecord();
             visitorRecord.setUserId(userId)
                     .setVisitDate(getDate())
@@ -190,7 +195,6 @@ public class visitDeviceController  extends Controller {
                     .setVisitorId(Long.valueOf(staff_id))
                     .setReason(visit_reason)
                     .setStartDate(appoint_time)
-                    .setCstatus("applying")
                     .setRecordType(1)
                     .setIsReceive("F")
                     .setVitype(apply_type)
@@ -201,6 +205,16 @@ public class visitDeviceController  extends Controller {
             }
             String endDate = endDateTime(appoint_time,Float.valueOf(visit_hours));
             visitorRecord.setEndDate(endDate);
+            //判断是否访问黑名单人员
+            VBlackUser blackUser =  blackUserService.findBalckUser(staff.getStr("realName"),staff.getStr("idNO"));
+            if(blackUser != null){
+                visitorRecord.setCstatus("applyFail:");
+                visitorRecord.setReplyDate(getDate());
+                visitorRecord.setReplyTime(getTime());
+                visitorRecord.setReplyUserId(0L);
+            }else{
+                visitorRecord.setCstatus("applying::");
+            }
             visitorRecord.save();
             if(retinues != null){
                 List<RetinueEntity>  retinueEntities = JSON.parseArray(retinues,RetinueEntity.class);
