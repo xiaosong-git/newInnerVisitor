@@ -25,6 +25,7 @@ public class _MappingKit {
 		arp.addMapping("v_app_user_message", "id", VAppUserMessage.class);
 		arp.addMapping("v_app_user_notice", "id", VAppUserNotice.class);
 		arp.addMapping("v_app_version", "id", VAppVersion.class);
+		arp.addMapping("v_black_user", "id", VBlackUser.class);
 		arp.addMapping("v_business", "id", VBusiness.class);
 		arp.addMapping("v_comp_vip_user", "id", VCompVipUser.class);
 		arp.addMapping("v_d_inout", "id", VDInout.class);

@@ -132,7 +132,7 @@ public class DeptUsersController extends Controller{
 		deptUser.setStatus("applySuc");
 		deptUser.setCurrentStatus("normal");
 		deptUser.setCardNO(cardNO);
-
+		deptUser.setUserType("staff");
 		if(imgName!=null && !"cache".equals(imgName))
 		{
 			String photoPath = File.separator+"user"+File.separator+"cache"+File.separator+imgName;
@@ -298,6 +298,7 @@ public class DeptUsersController extends Controller{
 					deptUser.setRemark(remark);
 					deptUser.setStatus("applySuc");
 					deptUser.setCurrentStatus("normal");
+					deptUser.setUserType("staff");
 					if(!cardNO.isEmpty()){
 						deptUser.setCardNO(cardNO);
 					}
