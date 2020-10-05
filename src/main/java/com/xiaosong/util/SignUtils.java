@@ -16,7 +16,13 @@ public class SignUtils {
      */
     public  static String getSign(long timestamp,String key,String nonce,String data) {
         String sign = null;
+
         try {
+            String s = timestamp + MD5Util.MD5(key).toUpperCase() + nonce + data;
+            System.out.println(s);
+            if(data == null || data.equals("null")){
+                data = "";
+            }
             sign = MD5Util.MD5(timestamp + MD5Util.MD5(key).toUpperCase() + nonce + data);
         } catch (Exception ex) {
             ex.fillInStackTrace();
