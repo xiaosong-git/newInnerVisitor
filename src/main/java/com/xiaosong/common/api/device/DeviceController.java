@@ -91,11 +91,12 @@ public class DeviceController extends Controller {
                 }
             }
             String strErrorDevices = errorDevices.toString();
-            if(StringUtils.isNotBlank(strErrorDevices) && !strErrorDevices.equals(lastErrorDevices))
+            if(StringUtils.isNotBlank(strErrorDevices) && !strErrorDevices.equals(lastErrorDevices) && System.currentTimeMillis()-lastSendMsgTime>=1*60*60*1000)
             {
                 lastErrorDevices = strErrorDevices;
                 String mobile =  Params.getMaintenancePhone();
                 YunPainSmsUtil.sendSmsErrorDevices(mobile,strErrorDevices);
+                lastSendMsgTime = System.currentTimeMillis();
             }
 
         } catch (Exception ex) {
