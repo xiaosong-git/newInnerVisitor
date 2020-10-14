@@ -42,7 +42,7 @@ public class MenuUtil {
         //子集的直接子对象
         for (Record entity : entityList) {
             parentId = entity.getStr("parentId");
-            if (id.equals(parentId)) {
+            if (id!=null && id.equals(parentId)) {
                 childList.add(entity);
             }
         }

@@ -1,8 +1,10 @@
 package com.xiaosong.param;
 
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VParams;
+import com.xiaosong.model.VUserAuth;
 
 /**
  * @program: xiaosong
@@ -12,6 +14,42 @@ import com.xiaosong.model.VParams;
  **/
 public class ParamService {
     public static final ParamService me = new ParamService();
+
+
+
+    public Page<VParams> findList(int currentPage, int pageSize){
+        return VParams.dao.paginate(currentPage, pageSize, "select *", "from v_params");
+    }
+
+
+    public boolean addParams(VParams vParams){
+        boolean result = vParams.save();
+        if(result) {
+            CacheKit.put("PARAM", vParams.getParamName(),vParams.getParamText());
+        }
+        return result;
+    }
+
+
+    public boolean editParams(VParams vParams){
+        boolean result = vParams.update();
+        if(result) {
+            CacheKit.put("PARAM", vParams.getParamName(),vParams.getParamText());
+        }
+        return result;
+    }
+
+
+    public boolean deleteParams(Long id){
+        VParams vParams = VParams.dao.findById(id);
+        String key =vParams.getParamName();
+        boolean result = vParams.delete();
+        if(result) {
+            CacheKit.remove("PARAM", key);
+        }
+        return result;
+    }
+
     public String findValueByName(String paramName) {
         //先从缓存中读取数据
         String value = null;
@@ -45,4 +83,5 @@ public class ParamService {
         }
         return null;
     }
+
 }

@@ -16,11 +16,13 @@ import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.base.MyBaseService;
 import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.common.api.websocket.*;
+import com.xiaosong.common.web.blackUser.BlackUserService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.MyRecordPage;
 import com.xiaosong.constant.TableList;
+import com.xiaosong.model.VBlackUser;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VOutVisitor;
 import com.xiaosong.model.VVisitorRecord;
@@ -49,6 +51,7 @@ public class VisitorRecordService extends MyBaseService {
     Log log = Log.getLog(VisitorRecordService.class);
     public static final VisitorRecordService me = new VisitorRecordService();
     Prop p = MainConfig.p;
+    private BlackUserService blackUserService = BlackUserService.me;
 
     /**
      * 根据 where 条件进行查询我的邀约，邀约我的，我的访问，访问我的判断
@@ -200,7 +203,24 @@ public class VisitorRecordService extends MyBaseService {
                 return Result.unDataResult("fail", "缺少参数");
             }
             visitorRecord.remove("userId").setReplyDate(replyDate).setReplyTime(replyTime).setIsReceive("F");
-            boolean update = visitorRecord.update();
+
+            boolean update = Db.tx(()->{
+                boolean result = visitorRecord.update();
+                //随行人员同时更新
+                List<VVisitorRecord> entourages = VVisitorRecord.dao.find("select * from "+TableList.VISITOR_RECORD+" where pid =?",visitorRecord.getId());
+                for(VVisitorRecord record : entourages)
+                {
+                    record.setReplyDate(replyDate);
+                    record.setIsReceive("F");
+                    record.setReplyTime(replyTime);
+                    record.setAnswerContent(answerContent);
+                    record.setCstatus(cstatus);
+                    record.update();
+                }
+                return true;
+            });
+
+
             String apply = "同意";
             if ("applyFail".equals(cstatus)) {
                 apply = "拒绝";
@@ -312,8 +332,8 @@ public class VisitorRecordService extends MyBaseService {
             return Result.unDataResult("fail", "被访者未实名！");
         }
         if (visitorBy.getDeptId() == null) {
-            Object existUser = Db.queryFirst("select 1 from " + TableList.DEPT_USER + " where userId=" + visitorId + " and currentStatus" +
-                    "='normal' and status='applySuc'", visitorId);
+            Object existUser = Db.queryFirst("select 1 from " + TableList.DEPT_USER + " where id=" + visitorId + " and currentStatus" +
+                    "='normal' and status='applySuc'");
             if (existUser == null) {
                 return Result.unDataResult("fail", "被访者无归属部门！");
             }
@@ -323,7 +343,9 @@ public class VisitorRecordService extends MyBaseService {
         //被访者姓名
         String visitorByName = BaseUtil.objToStr(visitorBy.get("realName"), null);
         //访问者姓名
-        String userName = Db.queryStr("select realName from " + TableList.DEPT_USER + " where id =?", userId);
+        Record userInfo = Db.findFirst("select * from " + TableList.DEPT_USER + " where id =?", userId);
+        String userName = userInfo.getStr("realName");
+        String idNO = userInfo.getStr("idNO");
         //如果是访问recordType=1
         //查询内部是否有邀约信息
 /*        Integer integer = Db.queryInt(Db.getSql("visitRecord.check"), userId, visitorId, Constant.VISITOR, endDate, startDate);
@@ -352,6 +374,14 @@ public class VisitorRecordService extends MyBaseService {
             visitRecord.set("vitype", "F");
             visitRecord.set("recordType", 1);
             visitRecord.setPlate(carNumber);
+            //判断访问者是否是黑名单人员
+            VBlackUser blackUser =  blackUserService.findBalckUser(userName,idNO);
+            if(blackUser != null){
+                visitRecord.setCstatus("applyFail:");
+                visitRecord.setReplyDate(DateUtil.getCurDate());
+                visitRecord.setReplyTime(DateUtil.getCurTime());
+                visitRecord.setReplyUserId(0L);
+            }
             visitRecord.save();
 
             if(StringUtils.isNotBlank(entourages))
@@ -390,6 +420,12 @@ public class VisitorRecordService extends MyBaseService {
                     record.set("recordType", 1);
                     record.setPlate(carNumber);
                     record.setPid(visitRecord.getId());
+                    if(blackUser != null){
+                        record.setCstatus("applyFail:");
+                        record.setReplyDate(DateUtil.getCurDate());
+                        record.setReplyTime(DateUtil.getCurTime());
+                        record.setReplyUserId(0L);
+                    }
                     record.save();
                 }
             }
@@ -1100,15 +1136,24 @@ public class VisitorRecordService extends MyBaseService {
     }
 
 
-    public List<Record> findValidList(Long userId , String time){
+    public List<Record> findValidList(Long userId , String time,String orderBy){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
-        sql.append("select u.realName as real_name,u.phone,u.sex,v.startDate as start_date,v.endDate as end_date,v.reason,v.cstatus");
+        sql.append("select d.dept_name,visitorid as staff_id,u.realName as real_name,u.phone,u.sex,v.startDate as start_date,v.endDate as end_date,v.reason,v.cstatus,v.plate visitor_plate,vu.addr visitor_cmp,vu.phone visitor_phone ");
+        sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where 1=1 ");
 
-        sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId where ? <= v.endDate and v.userId = ?");
-
-        objects.add(time);
-        objects.add(userId);
+        if(StringUtils.isNotBlank(time))
+        {
+            objects.add(time);
+            sql.append("and ? <= v.endDate ");
+        }
+        if(userId!= null)
+        {
+            objects.add(userId);
+            sql.append(" and v.userId = ? ");
+        }
+        sql.append(" order by visitDate " + orderBy);
+        sql.append(" , visitTime " + orderBy+" ");
         return Db.find(sql.toString(),objects.toArray());
     }
 

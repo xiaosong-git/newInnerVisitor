@@ -2,6 +2,7 @@ package com.xiaosong.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.xiaosong.constant.Params;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -12,6 +13,8 @@ import java.util.Random;
 
 public class AuthUtil {
 
+
+
     public static void main(String[] args) throws Exception {
         String photo=Base64.encode(FilesUtils.getImageFromNetByUrl("http://47.98.205.206/imgserver/"+"user/125/1596016858139.jpg"));
         auth("350121199306180330","陈维发",photo);
@@ -20,14 +23,23 @@ public class AuthUtil {
     }
 
     public static JSONObject auth(String idNO, String realName, String idHandleImgUrl) throws Exception {
+
+        //是否开启实人验证
+/*        if("T".equals(Params.getStopAuthVerify()))
+        {
+            JSONObject result = new JSONObject();
+            result.put("return_code","00000");
+            return result;
+        }*/
+
         String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
         JSONObject itemJSONObj =new JSONObject();
-        itemJSONObj.put("custid", "1000000007");//账号
+        itemJSONObj.put("custid", "1000000008");//账号
         itemJSONObj.put("txcode", "tx00010");//交易码
         itemJSONObj.put("productcode", "000010");//业务编码
         itemJSONObj.put("serialno", string);//流水号
         itemJSONObj.put("mac", createSign(string));//随机状态码   --验证签名  商户号+订单号+时间+产品编码+秘钥
-        String key="2B207D1341706A7R4160724854065152";
+        String key="2B207D1341706A7R4160724854065153";
         String userName =DESUtil.encode(key,realName);
         String certNo = DESUtil.encode(key,idNO);
         itemJSONObj.put("userName", userName);
@@ -39,7 +51,7 @@ public class AuthUtil {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
         Request request = new Request.Builder()
-                .url("http://t.pyblkj.cn:8082/wisdom/entrance/pub")
+                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
                 .method("POST", body1)
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build();
@@ -52,6 +64,7 @@ public class AuthUtil {
             returnObject= JSONObject.parseObject(string);
           return returnObject;
         } catch (IOException e) {
+            e.printStackTrace();
             returnObject.put("msg","系统错误");
             returnObject.put("code","-1");
             return returnObject;
@@ -125,7 +138,7 @@ public class AuthUtil {
     }
     public static String createSign(String str) throws Exception {
         StringBuilder sb=new StringBuilder();
-        sb.append("1000000007000010").append(str).append("9A0723248F21943R4208534528919630");
+        sb.append("1000000008000010").append(str).append("2B207D1341706A7R4160724854065153");
         String newSign = MD5Util.MD5Encode(sb.toString(),"UTF-8");
         return newSign;
     }

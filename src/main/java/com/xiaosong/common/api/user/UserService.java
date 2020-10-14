@@ -8,6 +8,8 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.userkey.UserKeyService;
 import com.xiaosong.common.api.code.CodeService;
+import com.xiaosong.common.api.websocket.WebSocketMonitor;
+import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.common.api.password.PasswordService;
@@ -84,10 +86,17 @@ public class UserService {
     public Result loginByToken(VDeptUser deptUser, JSONObject userJSON) throws Exception {
 
         String phone = userJSON.getString("phone");
-        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
-        VDeptUser user = VDeptUser.dao.findFirst(para);
-        System.out.println("解析到sso数据"+  userJSON.toJSONString());
 
+        if(StringUtils.isBlank(phone))
+        {
+            phone = userJSON.getString("username");
+        }
+        VDeptUser user = null;
+        if(StringUtils.isNotBlank(phone)) {
+            SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
+            user = VDeptUser.dao.findFirst(para);
+        }
+        System.out.println("解析到sso数据" + userJSON.toJSONString());
         if (user == null) {
             String username = userJSON.getString("username");
             String idCard = userJSON.getString("idCard");
@@ -98,7 +107,7 @@ public class UserService {
             user = new VDeptUser();
             user.setCurrentStatus("normal");
             user.setIsAuth("F");
-            user.setPhone(phone);
+            user.setPhone(StringUtils.isBlank(phone)?username:phone);
             user.setRealName(name);
             user.setIdNO(idNo);
             user.setSex(sex);
@@ -152,7 +161,7 @@ public class UserService {
             //String idHandleImgUrl = MainConfig.p.get("imageSaveDir")+deptUser.getIdHandleImgUrl();
             //存储在图片服务器的图片
             String idHandleImgUrl = deptUser.getIdHandleImgUrl();
-            String photo = Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(MainConfig.p.get("imgServerUrl")+idHandleImgUrl), 40960L));
+            String photo = Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(MainConfig.p.get("imgServerUrl")+"imgserver/"+idHandleImgUrl), 40960L));
             /**
              * 验证 身份证
              */
@@ -202,6 +211,11 @@ public class UserService {
                         "values('" + userId + "','" + idNO + "','" + realName + "','" + idHandleImgUrl + "',SYSDATE())");
                 log.info("插入本地实人：" + authSave);
                 resultMap.put("isSetTransPwd", BaseUtil.objToStr(user.get("isSetTransPwd"), "F"));
+
+                WebSocketSyncData.me.sendVisitorData();
+                WebSocketSyncData.me.sendStaffData();
+                WebSocketMonitor.me.getAllData();
+
                 return ResultData.dataResult("success", "实名认证成功", resultMap);
             }
             return Result.unDataResult("fail", "实名认证失败");

@@ -21,7 +21,8 @@ public class DeptController extends Controller{
 	public void findList() {
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(currentPage,pageSize);
+		String deptName = get("deptName");
+		Page<Record> pagelist = srv.findList(currentPage,pageSize,deptName);
 		renderJson(pagelist);
 	}
 	

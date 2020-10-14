@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CommonResult<T> {
 
-    public List<T> data;
+    public Object data;
 
     public Integer code;
 
@@ -24,17 +24,23 @@ public class CommonResult<T> {
         this.data = data;
     }
 
+    public CommonResult( Integer code, String message,Object data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
+
     public CommonResult(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
 
-    public List<T> getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(List<T> data) {
+    public void setData(Object data) {
         this.data = data;
     }
 

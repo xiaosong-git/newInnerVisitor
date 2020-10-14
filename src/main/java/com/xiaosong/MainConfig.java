@@ -24,7 +24,9 @@ import com.xiaosong.constant.Constant;
 import com.xiaosong.handle.Myhandler;
 import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model._MappingKit;
+import com.xiaosong.param.ParamService;
 import com.xiaosong.routes.GlobalRoutes;
+import com.xiaosong.util.AuthUtil;
 import com.xiaosong.util.ESRedisPlugin;
 import com.xiaosong.util.FaceModuleUtil;
 
@@ -98,7 +100,7 @@ public class MainConfig extends JFinalConfig {
 	public void configConstant(Constants me) {
 		loadConfig();
 		me.setDevMode(Constant.DEV_MODE);//是否开发模式 上生产时需要改变 与JFInal框架有关
-		me.setMaxPostSize(1024 * 1024 * 20);//默认最大上传数据大小
+		me.setMaxPostSize(1024 * 1024 * 1024 * 1);//默认最大上传数据大小
 		me.setLogFactory(new Log4jLogFactory());//日志配置
 		me.setBaseUploadPath(Constant.BASE_UPLOAD_PATH);//文件上传路径
 		me.setBaseDownloadPath(Constant.BASE_DOWNLOAD_PATH);//文件下载路径
@@ -193,7 +195,6 @@ public class MainConfig extends JFinalConfig {
 	
 	public static DruidPlugin createDruidPlugin() {
 		loadConfig();
-		
 		return new DruidPlugin(p.get("jdbcUrl"), p.get("user"), p.get("password").trim());
 	}
 	
@@ -209,8 +210,9 @@ public class MainConfig extends JFinalConfig {
 		DictionaryCache dic = new DictionaryCache();
 		dic.intoCache();
 		//启动海景人脸引擎
-//		FaceModuleUtil.initDetectEngine(1, 30, com.hj.jni.itf.Constant.TEMPLATE_ROLL_ANGL, 70);
-		FaceModuleUtil.initEngine(1);
+		//FaceModuleUtil.initEngine(1);
+
+
 	}
 
 

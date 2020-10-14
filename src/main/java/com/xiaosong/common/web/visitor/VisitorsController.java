@@ -37,7 +37,7 @@ public class VisitorsController extends Controller{
 		String endTime = getPara("endTime");
 		String startTime = getPara("startTime");
 		String visitorName = getPara("visitorName");
-		String cStatus = getPara("cStatus");
+		String cStatus = getPara("cstatus");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
 		Page<Record> pagelist = srv.findList(realName, visitorName, startTime, endTime, cStatus,currentPage,pageSize);
@@ -53,7 +53,7 @@ public class VisitorsController extends Controller{
 		String endTime = getPara("endTime");
 		String startTime = getPara("startTime");
 		String visitorName = getPara("visitorName");
-		String cStatus = getPara("cStatus");
+		String cStatus = getPara("cstatus");
 		List<Record> recordList = srv.findList(realName, visitorName, startTime, endTime, cStatus);
 		List outputList = new ArrayList<>();
 		if (recordList != null && recordList.size() > 0) {

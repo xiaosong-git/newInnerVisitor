@@ -180,12 +180,11 @@ public class ImageService {
 			// 将图片文件转化为字节数组字符串，并对其进行Base64编码处理
 			String pic64_1 = FilesUtils.ImageToBase64ByLocal(absolutePath);
 			//创建人脸模型
-			RetMsg retMsg = FaceModuleUtil.genHjFaceModule(pic64_1);
+//			RetMsg retMsg = FaceModuleUtil.genHjFaceModule(pic64_1);
 			//调用人像识别，判断是否符合
-			if( retMsg.getResult_code()==0){
-			//if( true){
-
-				Object content = retMsg.getContent();
+			//if( retMsg.getResult_code()==0){
+			if( true){
+/*				Object content = retMsg.getContent();
 				if (content != null) {
 					System.out.println("检测到人脸！");
 					List<HJFaceModel> hjface = (List<HJFaceModel>) content;
@@ -210,8 +209,7 @@ public class ImageService {
 						}
 
 					}
-				}
-
+				}*/
 
 				return uploadResult;
 				//失败移除文件

@@ -1,11 +1,13 @@
 package com.xiaosong.common.web.dept;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VDept;
+import org.apache.commons.lang3.StringUtils;
 
 /** 
 * @author 作者 : xiaojf
@@ -15,10 +17,16 @@ import com.xiaosong.model.VDept;
 public class DeptService {
 	public static final	DeptService me = new DeptService();
 	
-	public Page<Record> findList(int currentPage,int pageSize){
+	public Page<Record> findList(int currentPage,int pageSize,String deptName){
+		List<Object> params = new ArrayList<>();
 		String sql = "SELECT d.*,o.org_name,du.realName from v_dept d left join v_org o on d.org_id=o.id\r\n" + 
-					 "left join v_dept_user du on d.manage_user_id=du.id";
-		return Db.paginate(currentPage, pageSize, "select *", "from ("+sql+") as a");
+					 "left join v_dept_user du on d.manage_user_id=du.id where 1=1";
+		if(StringUtils.isNotBlank(deptName))
+		{
+			sql += " and dept_name like ?";
+			params.add("%"+deptName+"%");
+		}
+		return Db.paginate(currentPage, pageSize, "select *", "from ("+sql+") as a",params.toArray());
 	}
 	
 	public List<VDept> findByOption(){

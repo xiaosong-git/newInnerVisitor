@@ -1,65 +1,125 @@
 package com.xiaosong.common.api.device;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.HttpKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
+import com.xiaosong.constant.Params;
+import com.xiaosong.model.TbFailreceive;
 import com.xiaosong.model.VDevice;
 import com.xiaosong.util.ConsantCode;
+import com.xiaosong.util.YunPainSmsUtil;
 import org.apache.commons.beanutils.Converter;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CNL on 2020/9/7.
  */
 public class DeviceController extends Controller {
 
+
+    private static Long lastSendMsgTime = System.currentTimeMillis();
+    private static String lastErrorDevices = null;
+
     public void save() {
-        String ip = get("ip");
-        String deviceName = get("deviceName");
-        String type = get("type");
-        String gate = get("gate");
-        String status = get("status");
-        String avg = get("avg");
-        Integer ping =(int)Float.parseFloat(avg);
+        String jsonStr = HttpKit.readData(getRequest());
+        System.out.println("接收的JSON参数：" + jsonStr);
         try {
-            if (StringUtils.isBlank(ip)) {
-                throw new Exception("IP地址不能为空");
-            }
-            if (StringUtils.isBlank(deviceName)) {
-                throw new Exception("设备名称不能为空");
-            }
-            if (StringUtils.isBlank(type)) {
-                throw new Exception("设备类型不能为空");
-            }
-            if (StringUtils.isBlank(status)) {
-                throw new Exception("设备状态不能为空");
+            JSONArray jsonArray = JSON.parseArray(jsonStr);
+            if (jsonArray == null) {
+                throw new Exception("获取不到设备信息");
             }
 
-            VDevice vDevice = VDevice.dao.findFirst("select * from v_device where ip =?", ip);
-            boolean isUpdate = true;
-            if (vDevice == null) {
-                isUpdate = false;
-                vDevice = new VDevice();
+            StringBuilder errorDevices = new StringBuilder();
+
+            for (int i = 0; i < jsonArray.size(); i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String ip = jsonObject.getString("ip");
+                String deviceName = jsonObject.getString("deviceName");
+                String type = jsonObject.getString("type");
+                String gate = jsonObject.getString("gate");
+                String status = jsonObject.getString("status");
+                String avg = jsonObject.getString("avg");
+                Integer ping = (int) Float.parseFloat(avg);
+                if (StringUtils.isBlank(ip)) {
+                    throw new Exception("IP地址不能为空");
+                }
+                if (StringUtils.isBlank(deviceName)) {
+                    throw new Exception("设备名称不能为空");
+                }
+                if (StringUtils.isBlank(type)) {
+                    throw new Exception("设备类型不能为空");
+                }
+                if (StringUtils.isBlank(status)) {
+                    throw new Exception("设备状态不能为空");
+                }
+                //删除上位机的所有数据
+                if(i==0)
+                {
+                    Db.delete("delete from v_device where gate = ?",gate );
+                }
+
+                VDevice vDevice =new VDevice();
+                vDevice.setIp(ip);
+                vDevice.setDeviceName(deviceName);
+                vDevice.setType(type);
+                vDevice.setGate(gate);
+                vDevice.setStatus(status);
+                vDevice.setPing(ping);
+                boolean succ = vDevice.save();
+                if (succ) {
+
+                    if("error".equals(status))
+                    {
+                        errorDevices.append(ip);
+                        errorDevices.append("，");
+                    }
+                    WebSocketMonitor.me.getDeviceStatus();
+                    renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.SUCCESS, "同步设备信息成功")));
+                }
             }
-            vDevice.setIp(ip);
-            vDevice.setDeviceName(deviceName);
-            vDevice.setType(type);
-            vDevice.setGate(gate);
-            vDevice.setStatus(status);
-            vDevice.setPing(ping);
-            boolean succ = isUpdate ? vDevice.update() : vDevice.save();
-            if (succ) {
-                WebSocketMonitor.me.getDeviceStatus();
-                renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.SUCCESS, "同步设备信息成功")));
+            String strErrorDevices = errorDevices.toString();
+            if(StringUtils.isNotBlank(strErrorDevices) && !strErrorDevices.equals(lastErrorDevices))
+            {
+                lastErrorDevices = strErrorDevices;
+                String mobile =  Params.getMaintenancePhone();
+                YunPainSmsUtil.sendSmsErrorDevices(mobile,strErrorDevices);
             }
+
         } catch (Exception ex) {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常," + ex.getMessage())));
         }
-
     }
+
+
+
+
+
+    public void saveFailreceive() {
+        String jsonStr = HttpKit.readData(getRequest());
+        System.out.println("接收的JSON参数：" + jsonStr);
+        try {
+            TbFailreceive tbFailreceive = JSON.parseObject(jsonStr,TbFailreceive.class);
+            if (tbFailreceive == null) {
+                throw new Exception("获取不到失败记录");
+            }
+            tbFailreceive.save();
+        } catch (Exception ex) {
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常," + ex.getMessage())));
+        }
+    }
+
+
 }

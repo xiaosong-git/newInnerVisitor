@@ -40,6 +40,9 @@ public class InOutService {
             sql.append(" and scanDate <= ?");
             objects.add(endDate);
         }
+
+
+        sql.append(" order by id desc");
         return Db.paginate(currentPage, pageSize, "select *", sql.toString(),objects.toArray());
     }
 
@@ -68,6 +71,8 @@ public class InOutService {
             sql.append(" and scanDate <= ?");
             objects.add(endDate);
         }
+        sql.append(" order by id desc");
+
         List<Record> pagelist = Db.find(sql.toString(),objects.toArray());
 
         return pagelist;

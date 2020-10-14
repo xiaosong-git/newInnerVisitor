@@ -21,11 +21,11 @@ public class HttpPostUploadUtil {
      * @param args 
      */  
     public static void main(String[] args) {
-        String filepath="I:\\123456.jpg";
-        String urlStr = "http://127.0.0.1:8080/goldccm-imgServer/goldccm/image/gainData";
+        String filepath="D:\\123456.jpg";
+        String urlStr = "http://127.0.0.1:8081/goldccm-imgServer/goldccm/image/gainData";
         Map<String, String> textMap = new HashMap<String, String>();
         textMap.put("userId", "8");
-        textMap.put("type", "1");
+        textMap.put("type", "3");
         textMap.put("ad", null);
         Map<String, String> fileMap = new HashMap<String, String>();
         fileMap.put("file", filepath);

@@ -9,9 +9,9 @@ import org.apache.commons.codec.binary.Base64;
 */
 public class MainTest {
 
-	public static void main(String[] args) throws Exception {  
-        
-        String filepath="D:/publicprivatekey/";  
+	public static void main(String[] args) throws Exception {
+
+	    String filepath="D:/publicprivatekey/";
    
         RSAEncrypt.genKeyPair();
   

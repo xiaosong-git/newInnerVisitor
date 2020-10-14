@@ -8,12 +8,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
+import com.xiaosong.MainConfig;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
+import com.xiaosong.util.HttpPostUploadUtil;
+import org.apache.commons.lang3.StringUtils;
 
 /** 
 * @author 作者 : xiaojf
@@ -23,7 +28,8 @@ import com.xiaosong.util.DESUtil;
 public class DeptUserService {
 
 	public static final	DeptUserService me = new DeptUserService();
-	
+	private String imgServerUrl = MainConfig.p.get("imgServerUrl");//图片服务地址
+
 	public Page<Record> findList(String realName,String dept , int currentPage, int pageSize){
 
 		StringBuilder sql = new StringBuilder();
@@ -38,7 +44,7 @@ public class DeptUserService {
 			sql.append(" and u.deptId = ? ");
 			objects.add(dept);
 		}
-		sql.append(") as a ");
+		sql.append(" order by u.id desc) as a ");
 		return Db.paginate(currentPage, pageSize, "select *", sql.toString(),objects.toArray());
 	}
 	
@@ -75,8 +81,8 @@ public class DeptUserService {
 		Map<String,Object> map = new HashMap<>();
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
-		sql.append("select id,deptId as dept_id,realName as real_name,phone,dept_name,sex ");
-		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted'");
+		sql.append("select id,deptId as dept_id,realName as real_name,phone,dept_name,sex,CASE WHEN (addr is null  or addr ='')THEN deptAddr ELSE addr END AS address  ");
+		sql.append("from (select u.*,d.dept_name,d.addr as deptAddr from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and IFNULL(userType,'')!='visitor' and currentStatus!='deleted'");
 		if( !phone.isEmpty()){
 			sql.append(" and phone like CONCAT('%',?,'%')");
 			objects.add(phone);
@@ -89,7 +95,7 @@ public class DeptUserService {
 			sql.append(" and deptId = ? ");
 			objects.add(dept_id);
 		}
-		sql.append(") as a ");
+		sql.append(") as a  order by id desc ");
 		int total = Db.find(sql.toString(),objects.toArray()).size();
 		map.put("total",total);
 		map.put("page_number",currentPage);
@@ -106,7 +112,7 @@ public class DeptUserService {
 	}
 
 	public Record findByStaffId(String staffId){
-		return Db.findFirst("select u.*,d.org_id from v_dept_user u left join v_dept d on d.id = u.deptId where u.id = ?",staffId);
+		return Db.findFirst("select u.*,d.org_id,org_code from v_dept_user u left join v_dept d on d.id = u.deptId left join v_org o on o.id = d.org_id where u.id = ?",staffId);
 	}
 
 
@@ -118,16 +124,43 @@ public class DeptUserService {
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
 		sql.append("select * from v_dept_user where  1 = 1");
-		if(!idNO.isEmpty()){
+		if(StringUtils.isNotBlank(idNO)){
 			Record record = Db.findFirst("select * from v_user_key");
 			String idNo = DESUtil.encode(record.getStr("workKey"), idNO);
 			sql.append(" and idNO = ?");
 			objects.add(idNo);
 		}
-		if(!phone.isEmpty()){
+		if(StringUtils.isNotBlank(phone)){
 			sql.append(" and phone = ?");
 			objects.add(phone);
 		}
 		return Db.findFirst(sql.toString(),objects.toArray());
+	}
+
+
+
+	public String uploadUserImg(String filepath,String userId){
+		try {
+			String urlStr = imgServerUrl+"goldccm-imgServer/goldccm/image/gainData";
+			Map<String, String> textMap = new HashMap<String, String>();
+			textMap.put("ad", null);
+			textMap.put("type", "3");
+			textMap.put("userId", userId);
+			Map<String, String> fileMap = new HashMap<String, String>();
+			fileMap.put("file", filepath);
+			String ret = HttpPostUploadUtil.formUpload(urlStr, textMap, fileMap);
+			JSONObject json = JSON.parseObject(ret);
+			JSONObject jsonVerify = json.getJSONObject("verify");
+			JSONObject jsonData = json.getJSONObject("data");
+			if (jsonVerify != null && jsonVerify.containsKey("sign") && "success".equals(jsonVerify.get("sign"))) {
+				return jsonData.getString("imageFileName");
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.fillInStackTrace();
+		}
+
+		return null;
 	}
 }

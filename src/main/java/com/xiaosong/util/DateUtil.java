@@ -107,6 +107,14 @@ public class DateUtil {
         returnStr = f.format(date);
         return returnStr;
     }
+
+    public static String getCurYear() {
+        String returnStr = null;
+        SimpleDateFormat f = new SimpleDateFormat("yyyy");
+        Date date = new Date();
+        returnStr = f.format(date);
+        return returnStr;
+    }
     public static String getCurrentDateTime(String type){
         String returnStr = null;
         SimpleDateFormat f = new SimpleDateFormat(type);
@@ -122,6 +130,20 @@ public class DateUtil {
         returnStr = f.format(date);
         return returnStr;
     }
+
+    public static String getSystemTomorrowTime() {
+        String returnStr = null;
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd 00:00");
+        Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 1);
+        returnStr = f.format(calendar.getTime());
+        return returnStr;
+    }
+
+
+
     public boolean compareDate(String date1,String date2) {
         DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         try {
@@ -422,6 +444,19 @@ public class DateUtil {
         Date strDate = f.parse(date);
         return f.format(strDate);
     }
+
+    public static Date changeDate(String date) {
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+        Date strDate = null;
+        try {
+            strDate = f.parse(date);
+            f.format(strDate);
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        return strDate;
+    }
+
 
     public static String NextDate(String date) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

@@ -33,6 +33,6 @@ public class BlackUserService {
     }
 
     public VBlackUser findBalckUser(String name,String idNO){
-        return dao.findFirst("select * from v_black_user where realName = ? and idNO = ?",name,idNO);
+        return dao.findFirst("select * from v_black_user where realName = ? and idCard = ?",name,idNO);
     }
 }

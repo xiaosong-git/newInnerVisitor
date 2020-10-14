@@ -12,24 +12,31 @@ import java.util.List;
 import java.util.Map;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
+
+import javax.net.ssl.SSLContext;
 
 public class YunPainSmsUtil {
 
 	//查账户信息的http地址
-    private static String URI_GET_USER_INFO = "https://sms.yunpian.com/v2/user/get.json";
+    private static String URI_GET_USER_INFO = "https://203.107.55.55/v2/user/get.json";
 
     //智能匹配模板发送接口的http地址
-    private static String URI_SEND_SMS = "https://sms.yunpian.com/v2/sms/single_send.json";
+    private static String URI_SEND_SMS = "https://203.107.55.55/v2/sms/single_send.json";
 
     //模板发送接口的http地址
-    private static String URI_TPL_SEND_SMS = "https://sms.yunpian.com/v2/sms/tpl_single_send.json";
+    private static String URI_TPL_SEND_SMS = "https://203.107.55.55/v2/sms/tpl_single_send.json";
 
     //发送语音验证码接口的http地址
     private static String URI_SEND_VOICE = "https://voice.yunpian.com/v2/voice/send.json";
@@ -69,7 +76,7 @@ public class YunPainSmsUtil {
 
     public static Integer MSG_TYPE_VISITORBY_QRCODE = 7;//访客
 
-    public static String CHECK_CODE_VISITORBY_QRCODE = "【朋悦比邻】您好，您有一条预约访客申请已审核，审核结果：#visitorResult#，被访者:#visitorBy#,访问时间:#visitorDateTime#，通行时请使用链接中的二维码通行，请点击：#url#";
+    public static String CHECK_CODE_VISITORBY_QRCODE = "【朋悦比邻】您好，您有一条访客预约申请已审核，被访者:#visitorBy#,访问时间:#visitorDateTime#，审核结果：#visitorResult#，请您在访问时间内进出";
 
 
     public static Integer MSG_TYPE_ENTOURAGE_NOAUTH = 8;//随行人员
@@ -80,6 +87,13 @@ public class YunPainSmsUtil {
     public static Integer MSG_TYPE_ENTOURAGE_AUTH =9;//随行人员
 
     public static String CHECK_CODE_ENTOURAGE_AUTH  = "【朋悦比邻】您好，您有一条访客随行预约记录，访问者:visitor1,访问时间:visitorDateTime";
+
+
+    public static Integer MSG_DEVICE_ERROR =10;//随行人员
+
+    public static String CHECK_CODE_DEVICE_ERROR  = "【朋悦比邻】以下设备#errorDevices#有异常，请及时查看";
+
+
 
 
     private final static String APIKEY = "a8c29253d3e40dfa59b0f677bdd3f6fd";
@@ -164,19 +178,7 @@ public class YunPainSmsUtil {
             msg= msg.replace("visitor1", visitor);
             content= msg.replace("visitorDateTime", visitorDateTime);
         }
-        System.out.println("发送短信的内容： "+content);
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("apikey", APIKEY);
-        params.put("text", content);
-        System.out.println("content:"+content);
-        params.put("mobile", mobile);
-        String  backJson =  post(URI_SEND_SMS, params);
-        JSONObject jsonObject = JSON.parseObject(backJson);
-        System.out.println("jsonObject:"+jsonObject);
-        if (jsonObject.getString("code").equals("0")){
-            return  "0000";
-        }
-        return jsonObject.getString("msg");
+        return sendMsg(content,mobile);
     }
 
 
@@ -275,7 +277,7 @@ public class YunPainSmsUtil {
      */
 
      public static String post(String url, Map<String, String> paramsMap) {
-         CloseableHttpClient client = HttpClients.createDefault();
+         //CloseableHttpClient client = HttpClients.createDefault();
          String responseText = "";
          CloseableHttpResponse response = null;
              try {
@@ -304,10 +306,64 @@ public class YunPainSmsUtil {
              }
              return responseText;
       }
-     
-     public static void main(String[] args) throws Exception{
 
-         String sid =Base64.encode((String.valueOf(150)).getBytes("UTF-8"));
+
+    private static CloseableHttpClient client;
+    static {
+        try {
+            SSLContext sslContext = SSLContextBuilder.create().useProtocol(SSLConnectionSocketFactory.SSL).loadTrustMaterial((x, y) -> true).build();
+            RequestConfig config = RequestConfig.custom().setConnectTimeout(5000).setSocketTimeout(5000).build();
+            client = HttpClientBuilder.create().setDefaultRequestConfig(config).setSSLContext(sslContext).setSSLHostnameVerifier((x, y) -> true).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public static void test()
+    {
+        sendSmsCode("123456","15005089512",1,null,null,null,null,null,null);
+
+    }
+
+
+    public static String sendSmsErrorDevices(String mobile,String errorDevices) {
+        String content = CHECK_CODE_DEVICE_ERROR.replace("#errorDevices#",errorDevices);
+        return sendMsg(content,mobile);
+    }
+
+
+    private  static String sendMsg(String content,String mobile)
+    {
+        System.out.println("发送短信的内容： "+content);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("apikey", APIKEY);
+        params.put("text", content);
+        System.out.println("content:"+content);
+        params.put("mobile", mobile);
+        String  backJson =  post(URI_SEND_SMS, params);
+        JSONObject jsonObject = JSON.parseObject(backJson);
+        System.out.println("jsonObject:"+jsonObject);
+        if(jsonObject!=null) {
+            if (jsonObject.getString("code").equals("0")) {
+                return "0000";
+            }
+            return jsonObject.getString("msg");
+        }
+        else
+        {
+            return "9999";
+        }
+    }
+
+
+    public static void main(String[] args) throws Exception{
+
+
+        sendSmsCode("123456","15005089512",1,null,null,null,null,null,null);
+
+       //  String sid =Base64.encode((String.valueOf(150)).getBytes("UTF-8"));
 //         String sendMsg =	YunPainSmsUtil.sendSmsCode(Constant.URL+sid,"18150797748",YunPainSmsUtil.MSG_TYPE_VISITORBY_QRCODE,null,null,
 //                 "审核已通过","fafa","2019-09-20 10:19",null);
 //         sendSmsCode("c", "18150797748", 6, DateUtil.getCurDate(), "4", "hoho", "fafa",DateUtil.getCurTime(), "guigui");
@@ -322,7 +378,7 @@ public class YunPainSmsUtil {
 //         params.put("text", content);
 //         System.out.println("content:"+content);
 //         params.put("mobile", "18150797748");
-//         String URI_SEND_SMS = "https://sms.yunpian.com/v2/sms/single_send.json";
+//         String URI_SEND_SMS = "https://203.107.55.55/v2/sms/single_send.json";
 //         String  backJson =  post(URI_SEND_SMS, params);
 //         JSONObject jsonObject = JSON.parseObject(backJson);
 //         System.out.println("jsonObject:"+jsonObject);

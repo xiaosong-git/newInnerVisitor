@@ -31,6 +31,7 @@ import com.xiaosong.common.web.login.LoginController;
 import com.xiaosong.common.web.monitor.MonitorCenterController;
 import com.xiaosong.common.web.news.NewsController;
 import com.xiaosong.common.web.org.OrgController;
+import com.xiaosong.common.web.params.ParamsController;
 import com.xiaosong.common.web.sso.SSOController;
 import com.xiaosong.common.web.sysAuth.SysAuthController;
 import com.xiaosong.common.web.sysConfig.SysConfigController;
@@ -93,6 +94,7 @@ public class GlobalRoutes extends Routes{
 		this.add(webprefix+"/inOut", InOutController.class);//考勤
 
 		this.add(webprefix+"/blackUser", BlackUserController.class);
+		this.add(webprefix+"/params", ParamsController.class);
 
 		this.add(prefix+"/p", ParamController.class);
 		this.add(prefix+"/appVersion", AppVersionController.class);

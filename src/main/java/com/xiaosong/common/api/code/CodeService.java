@@ -53,7 +53,7 @@ public class CodeService {
         if ("0000".equals(state)) {
             //插入redis缓存别名为“db1”库的信息
              CacheKit.put("CODE", phone,code);//1800s
-            Object ok = CacheKit.get("CODE", phone);
+             Object ok = CacheKit.get("CODE", phone);
 
             return ok!=null?Result.success():Result.fail();
         } else {
