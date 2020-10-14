@@ -14,6 +14,7 @@ import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VKey;
 import com.xiaosong.model.VSync;
 import com.xiaosong.util.*;
+import com.xiaosong.util.Base64;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.websocket.OnClose;
@@ -22,10 +23,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ServerEndpoint(value = "/visitor/syncData", configurator = GetHttpSessionConfigurator.class)
 public class WebSocketSyncData {
@@ -40,7 +38,16 @@ public class WebSocketSyncData {
     // 若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
     private static HashMap<String,WebSocketSyncData> webSocketSet = new HashMap<>();
 
+    private static Hashtable<String,Long> lastSendTime = new Hashtable<>();
+
+
     private String imgServerUrl = MainConfig.p.get("imgServerUrl")+"imgserver/";//图片服务地址
+
+
+    public WebSocketSyncData()
+    {
+        checkThread.start();
+    }
 
 
     @OnOpen
@@ -78,12 +85,23 @@ public class WebSocketSyncData {
                         JSONObject json = jsonArray.getJSONObject(i);
                         String userType = json.getString("userType");
                         Long id = json.getLong("id");
-                        VSync vSync = new VSync();
-                        vSync.setIsReceive("T");
-                        vSync.setPospCode(key);
-                        vSync.setRelationId(id);
-                        vSync.setType(userType);
-                        vSync.save();
+                        VSync vSync = VSync.dao.findFirst("select * from v_sync where pospCode=? and relationId=? and type=?",key,id,userType);
+                        if(vSync == null) {
+                            vSync = new VSync();
+                            vSync.setIsReceive("T");
+                            vSync.setPospCode(key);
+                            vSync.setRelationId(id);
+                            vSync.setType(userType);
+                            vSync.save();
+                        }
+
+                        //有返回移除最后发送时间
+                        String lastSendTimeKey = key+"_"+userType;
+                        if(lastSendTime.containsKey(lastSendTimeKey))
+                        {
+                            lastSendTime.remove(lastSendTimeKey);
+                        }
+
                     }
                 }else{
                     sendMessage(message);
@@ -200,6 +218,7 @@ public class WebSocketSyncData {
             String msg = JSON.toJSONString(result, SerializerFeature.WriteMapNullValue);
            // sendMessageToAll(msg);
             webSocketSyncData.sendMessage(msg);
+            lastSendTime.put(webSocketSyncData.key+"_staff",System.currentTimeMillis());
         }
     }
 
@@ -264,6 +283,7 @@ public class WebSocketSyncData {
                     String msg = JSON.toJSONString(result, SerializerFeature.WriteMapNullValue);
                     //sendMessageToAll(msg);
                     item.sendMessage(msg);
+                    lastSendTime.put(item.key+"_visitor",System.currentTimeMillis());
                 }
 
             } catch (Exception e) {
@@ -271,10 +291,54 @@ public class WebSocketSyncData {
                 continue;
             }
         }
-
-
-
     }
+
+
+
+    Thread checkThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+
+            while(1==1)
+            {
+                for(String key : lastSendTime.keySet())
+                {
+                       Long lastTime = lastSendTime.get(key);
+                       //有三秒没返回的数据，那么重新发送
+                       if(System.currentTimeMillis() - lastTime >10000){
+                           System.out.println("搜索到十秒没有返回值的记录，开始重新发送");
+                           if(key!=null){
+                               String [] keySplit = key.split("_");
+                               if(keySplit.length==2)
+                               {
+                                   String webSocketKey = keySplit[0];
+                                   String type =keySplit[1];
+                                   if(webSocketSet.containsKey(webSocketKey))
+                                   {
+                                        if("staff".equals(type))
+                                        {
+                                            sendStaffData(webSocketKey);
+                                        }else if("visitor".equals(type))
+                                        {
+                                            sendVisitorData(type);
+                                        }
+                                   }
+
+                               }
+                           }
+                       }
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+    });
+
 
 
 

@@ -1139,6 +1139,26 @@ public class VisitorRecordService extends MyBaseService {
     public List<Record> findValidList(Long userId , String time,String orderBy){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
+        getFindValidList(sql,objects,userId,time,null,orderBy);
+        return Db.find(sql.toString(),objects.toArray());
+    }
+
+
+    public Page<Record> findValidListPage(int pageNumber,int pageSize,Long userId ,String orderBy){
+        StringBuilder sql = new StringBuilder();
+        List<Object> objects = new LinkedList<>();
+        String visitDate = DateUtil.getCurDate();
+        getFindValidList(sql,objects,userId,null,visitDate,orderBy);
+        SqlPara sqlPara = new SqlPara();
+        sqlPara.setSql(sql.toString());
+        for(Object object : objects) {
+            sqlPara.addPara(object);
+        }
+        return Db.paginate(pageNumber,pageSize,sqlPara);
+    }
+
+
+    private void getFindValidList(StringBuilder sql, List<Object> objects,Long userId , String time,String visitDate,String orderBy){
         sql.append("select d.dept_name,visitorid as staff_id,u.realName as real_name,u.phone,u.sex,v.startDate as start_date,v.endDate as end_date,v.reason,v.cstatus,v.plate visitor_plate,vu.addr visitor_cmp,vu.phone visitor_phone ");
         sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where 1=1 ");
 
@@ -1152,9 +1172,16 @@ public class VisitorRecordService extends MyBaseService {
             objects.add(userId);
             sql.append(" and v.userId = ? ");
         }
+        if(StringUtils.isNotBlank(visitDate))
+        {
+            objects.add(time);
+            sql.append("and v.visitDate = ? ");
+        }
+
+
         sql.append(" order by visitDate " + orderBy);
         sql.append(" , visitTime " + orderBy+" ");
-        return Db.find(sql.toString(),objects.toArray());
     }
+
 
 }

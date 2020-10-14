@@ -7,9 +7,11 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.code.CodeService;
+import com.xiaosong.common.api.utils.ApiDataUtils;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
 import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
@@ -244,13 +246,18 @@ public class visitDeviceController  extends Controller {
         String phone = jsonObject.getString("phone");
         String query_type = jsonObject.getString("query_type");
         try {
-            Record userR = deptUserService.findByIdNOOrPhone(card_no, phone);
-            if (userR == null) {
-                renderJson(new CommonResult(3, "无相关记录"));
-                return;
-            }
-            Long userId = userR.getLong("id");
+
             List<Record> list = null;
+            Long userId =null;
+
+            if(!"2".equals(query_type)) {
+                Record userR = deptUserService.findByIdNOOrPhone(card_no, phone);
+                if (userR == null) {
+                    renderJson(new CommonResult(3, "无相关记录"));
+                    return;
+                }
+                userId = userR.getLong("id");
+            }
 
             if ("1".equals(query_type)) {
                 list = new ArrayList<>();
@@ -267,7 +274,29 @@ public class visitDeviceController  extends Controller {
                     }
                 }
 
-            } else {
+            }else if("2".equals(query_type)) {
+                Integer page_size = jsonObject.getInteger("page_size");
+                Integer page_number = jsonObject.getInteger("page_number");
+                if(page_size ==null ||page_number == null){
+                    renderJson(new CommonResult(1,"参数不完整"));
+                    return;
+                }
+                Page<Record> recordPage = visitorRecordService.findValidListPage(page_number,page_size,userId,"desc");
+                if(recordPage!=null) {
+                    HashMap map = new HashMap();
+                    map.put("total", recordPage.getTotalRow());
+                    map.put("page_number", recordPage.getPageNumber());
+                    map.put("page_size", recordPage.getPageSize());
+                    map.put("data", ApiDataUtils.apiList(recordPage.getList()));
+                    renderJson(new CommonResult(0, "获取成功", map));
+                }
+                else
+                {
+                    renderJson(new CommonResult(3, "无相关记录"));
+                }
+                return;
+            }
+            else {
                 list = visitorRecordService.findValidList(userId, getDateTime(),"asc");
             }
 
@@ -319,7 +348,6 @@ public class visitDeviceController  extends Controller {
                 vDeptUser.update();
                 file.delete();
             }
-
             visitorRecord =  new VVisitorRecord();
             visitorRecord.setUserId(userId)
                     .setVisitDate(getDate())
