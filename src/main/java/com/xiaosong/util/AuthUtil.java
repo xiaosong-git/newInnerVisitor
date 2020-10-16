@@ -16,10 +16,10 @@ public class AuthUtil {
 
 
     public static void main(String[] args) throws Exception {
-        String photo=Base64.encode(FilesUtils.getImageFromNetByUrl("http://47.98.205.206/imgserver/"+"user/125/1596016858139.jpg"));
-        auth("350121199306180330","陈维发",photo);
+       // String photo=Base64.encode(FilesUtils.getImageFromNetByUrl("http://47.98.205.206/imgserver/"+"user/125/1596016858139.jpg"));
+       // auth("350121199306180330","陈维发",photo);
 //        phoneResult("350121199306180330","陈维发",photo);
-
+        fk("350128198901124018","陈乃亮");
     }
 
     public static JSONObject auth(String idNO, String realName, String idHandleImgUrl) throws Exception {
@@ -142,5 +142,50 @@ public class AuthUtil {
         String newSign = MD5Util.MD5Encode(sb.toString(),"UTF-8");
         return newSign;
     }
+
+
+
+    public static JSONObject fk(String idNO, String realName) throws Exception {
+        String key="8f933a619a3042b597d8f99d712a2932";
+        String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
+        JSONObject itemJSONObj =new JSONObject();
+        itemJSONObj.put("custid", "1000000012");//账号
+        itemJSONObj.put("txcode", "tx00011");//交易码
+        itemJSONObj.put("productcode", "000011");//业务编码
+        itemJSONObj.put("serialno", string);//流水号
+
+        StringBuilder sb=new StringBuilder();
+        sb.append("1000000012000011").append(string).append(key);
+        String newSign = MD5Util.MD5Encode(sb.toString(),"UTF-8");
+
+        itemJSONObj.put("mac", newSign);//随机状态码   --验证签名  商户号+订单号+时间+产品编码+秘钥
+        itemJSONObj.put("name", realName);
+        itemJSONObj.put("idNo", ""+idNO);
+        itemJSONObj.put("timestamp", ""+System.currentTimeMillis());
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
+        Request request = new Request.Builder()
+                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
+                .method("POST", body1)
+                .addHeader("Content-Type", "application/json;charset=utf-8")
+                .build();
+        Response response = null;
+        JSONObject returnObject = new JSONObject();
+        try {
+            response = client.newCall(request).execute();
+            string = response.body().string();
+            // 解密响应数据
+            returnObject= JSONObject.parseObject(string);
+            return returnObject;
+        } catch (IOException e) {
+            e.printStackTrace();
+            returnObject.put("msg","系统错误");
+            returnObject.put("code","-1");
+            return returnObject;
+        }
+    }
+
 
 }

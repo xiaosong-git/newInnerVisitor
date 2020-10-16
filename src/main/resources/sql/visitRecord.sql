@@ -7,15 +7,17 @@ select id from  v_visitor_record  where userId = ? and visitorId =? and recordTy
 #sql("findRecordFromId")
 SELECT
 	vr.*,
-	realName,
-	sex,
-	idHandleImgUrl,
-	headImgUrl,
+	u.realName,
+  u2.realName userName,
+	u.sex,
+	u.idHandleImgUrl,
+	u.headImgUrl,
 	d.dept_name companyName,
 	u.addr
 FROM
 	v_visitor_record vr
 	LEFT JOIN v_dept_user u ON u.id = vr.visitorId
+	LEFT JOIN v_dept_user u2 ON u2.id = vr.userId
 	LEFT JOIN v_dept d ON d.id = vr.companyId
  where vr.id=? or vr.pid = ?
 #end

@@ -93,7 +93,7 @@ public class MonitorCenterService {
         Record record = Db.findFirst("  select count(1) inNum from (select count(1) inNum from v_visitor_record a\n" +
                 "    LEFT JOIN v_dept_user b on b.id = a.userId\n" +
                 "    LEFT JOIN v_d_inout c on b.idNO = c.idCard  and a.visitDate = c.scanDate\n" +
-                "    and  CONCAT(c.scanDate,' ',c.scanTime)>= a.startDate and  CONCAT(c.scanDate,' ',c.scanTime)<= a.endDate where a.visitDate =  ? and b.currentStatus!='deleted' group by idNO) as a",DateUtil.getCurDate());
+                "    where  CONCAT(c.scanDate,' ',c.scanTime)>= a.startDate and  CONCAT(c.scanDate,' ',c.scanTime)<= a.endDate and a.visitDate =  ? and b.currentStatus!='deleted' group by idNO) as a",DateUtil.getCurDate());
         if(record!=null)
         {
             result = record.getInt("inNum");
@@ -119,7 +119,7 @@ public class MonitorCenterService {
 
     public List<Record> getDevices()
     {
-        String sql = "select a.device_name,ip,type,a.status,org_code,org_name gate from v_device a join v_org b on gate = org_code";
+        String sql = "select a.device_name,ip,type,a.status,org_code,org_name gate from v_device a join v_org b on gate = org_code order by gate desc";
         List<Record> result = Db.find(sql);
         return result;
     }

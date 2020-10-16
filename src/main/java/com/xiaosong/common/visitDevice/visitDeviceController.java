@@ -258,7 +258,6 @@ public class visitDeviceController  extends Controller {
                 }
                 userId = userR.getLong("id");
             }
-
             if ("1".equals(query_type)) {
                 list = new ArrayList<>();
                 List<Long> visitorIds = new ArrayList<>();
@@ -288,7 +287,9 @@ public class visitDeviceController  extends Controller {
                     map.put("page_number", recordPage.getPageNumber());
                     map.put("page_size", recordPage.getPageSize());
                     map.put("data", ApiDataUtils.apiList(recordPage.getList()));
-                    renderJson(new CommonResult(0, "获取成功", map));
+                    map.put("code",0);
+                    map.put("message","获取成功");
+                    renderJson( map);
                 }
                 else
                 {

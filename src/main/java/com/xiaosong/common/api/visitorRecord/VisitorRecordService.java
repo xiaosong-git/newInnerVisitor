@@ -69,7 +69,6 @@ public class VisitorRecordService extends MyBaseService {
             inOutType = "vr.visitorType";
         }
 
-
         String coloumSql = "SELECT vr.id,IF(u.realName IS NULL or u.realName=\"\",remarkName,u.realName) realName,u.phone,u.headImgUrl,\n" +
                 "\tvr.visitDate,vr.visitTime,vr.userId,vr.visitorId,vr.reason,vr.cstatus,vr.dateType\n" +
                 ",vr.startDate,vr.endDate,vr.answerContent,vr.orgCode,IF(vr.companyId is null,0,vr.companyId) companyId,vr.recordType,\n" +
@@ -966,7 +965,7 @@ public class VisitorRecordService extends MyBaseService {
             if(record.get("pid")==null || "".equals(record.get("pid").toString())) {
                 first = record;
             }else{
-                entourage+=record.get("realName")+",";
+                entourage+=record.get("userName")+",";
             }
         }
         if(entourage.length()>1)
@@ -1030,7 +1029,7 @@ public class VisitorRecordService extends MyBaseService {
                 " FROM (\n" +
                 "select id,IF(userId=" + userId + ",visitorId,userId) visitorId,startDate,endDate,companyId,orgCode\n" +
                 "from " + TableList.VISITOR_RECORD + "\n" +
-                "where userId=" + userId + " or visitorId=" + userId + ")vr\n" +
+                "where  pid is null and (userId=" + userId + " or visitorId=" + userId + "))vr\n" +
                 "LEFT JOIN " + TableList.DEPT_USER + " u ON vr.visitorId = u.id\n" +
                 "LEFT JOIN " + TableList.DEPT + " d on d.id=u.deptId " +
                 " where u.realName is not null\n" +
@@ -1159,7 +1158,7 @@ public class VisitorRecordService extends MyBaseService {
 
 
     private void getFindValidList(StringBuilder sql, List<Object> objects,Long userId , String time,String visitDate,String orderBy){
-        sql.append("select d.dept_name,visitorid as staff_id,u.realName as real_name,u.phone,u.sex,v.startDate as start_date,v.endDate as end_date,v.reason,v.cstatus,v.plate visitor_plate,vu.addr visitor_cmp,vu.phone visitor_phone ");
+        sql.append("select d.dept_name,visitorid as staff_id,u.realName as real_name,u.phone,u.sex,v.startDate as start_date,v.endDate as end_date,v.reason,v.cstatus,v.plate visitor_plate,vu.addr visitor_cmp,vu.phone visitor_phone,vu.realName visitor_name,vu.sex visitor_sex ");
         sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where 1=1 ");
 
         if(StringUtils.isNotBlank(time))
@@ -1174,7 +1173,7 @@ public class VisitorRecordService extends MyBaseService {
         }
         if(StringUtils.isNotBlank(visitDate))
         {
-            objects.add(time);
+            objects.add(visitDate);
             sql.append("and v.visitDate = ? ");
         }
 

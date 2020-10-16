@@ -52,6 +52,7 @@ public class DeviceController extends Controller {
                 String gate = jsonObject.getString("gate");
                 String status = jsonObject.getString("status");
                 String avg = jsonObject.getString("avg");
+                String extra1 = jsonObject.getString("extra1");
                 Integer ping = (int) Float.parseFloat(avg);
                 if (StringUtils.isBlank(ip)) {
                     throw new Exception("IP地址不能为空");
@@ -78,6 +79,7 @@ public class DeviceController extends Controller {
                 vDevice.setGate(gate);
                 vDevice.setStatus(status);
                 vDevice.setPing(ping);
+                vDevice.setExtra1(extra1);
                 boolean succ = vDevice.save();
                 if (succ) {
 

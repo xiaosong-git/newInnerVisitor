@@ -22,6 +22,7 @@ import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.*;
 import com.xiaosong.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -39,9 +40,10 @@ public class DeptUsersController extends Controller{
 	public void findList() {
 		String realName = getPara("realName");
 		String dept = getPara("dept");
+		String idHandleImgUrl = getPara("idHandleImgUrl");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(realName,dept,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(realName,dept,idHandleImgUrl,currentPage,pageSize);
 		List<Record> recordList = pagelist.getList();
 		Record user_key = Db.findFirst("select * from v_user_key");
 		for(Record record : recordList)
@@ -312,17 +314,14 @@ public class DeptUsersController extends Controller{
 				String strActiveDate = getCellValue(row, 10);
 				String strExpiryDate = getCellValue(row, 11);
 
-
 				Date activeDate = null;
 				Date expiryDate =null;
-
 				activeDate = DateUtil.changeDate(strActiveDate);
 				expiryDate= DateUtil.changeDate(strExpiryDate);
 
-
 				Long deptId = null;
 
-				if (false /*realName.isEmpty() || idNo.isEmpty()*/ ) {
+				if (StringUtils.isBlank(realName) || StringUtils.isBlank(idNo) ) {
 					throw new Exception("姓名或者身份证号存在空值");
 				} else {
 					if(!phone.isEmpty()) {
@@ -332,13 +331,15 @@ public class DeptUsersController extends Controller{
 						}
 					}
 					if(!deptName.isEmpty()) {
-						/*VDept dept = VDept.dao.findFirst("select * from v_dept where dept_name =?",deptName);
-						if(dept!=null)
+						VDept dept = VDept.dao.findFirst("select * from v_dept where dept_name =?",deptName);
+						if(dept==null)
 						{
-							deptId = dept.getId();
-						}*/
-//
-						deptId = Long.parseLong(deptName);
+							dept = new VDept();
+							dept.setDeptName(deptName);
+							dept.save();
+						}
+						deptId = dept.getId();
+						//deptId = Long.parseLong(deptName);
 					}
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					String createtime = df.format(new Date());

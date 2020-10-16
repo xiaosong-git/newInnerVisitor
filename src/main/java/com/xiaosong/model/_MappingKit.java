@@ -16,7 +16,6 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
-		arp.addMapping("tb_failreceive", "failedId", TbFailreceive.class);
 		arp.addMapping("v_ad_banner", "id", VAdBanner.class);
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);
@@ -43,7 +42,6 @@ public class _MappingKit {
 		arp.addMapping("v_org", "id", VOrg.class);
 		arp.addMapping("v_out_visitor", "id", VOutVisitor.class);
 		arp.addMapping("v_params", "id", VParams.class);
-		arp.addMapping("v_sync", "id", VSync.class);
 		arp.addMapping("v_sys_config", "id", VSysConfig.class);
 		arp.addMapping("v_sys_user", "id", VSysUser.class);
 		arp.addMapping("v_user_auth", "id", VUserAuth.class);

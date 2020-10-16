@@ -30,7 +30,7 @@ public class DeptUserService {
 	public static final	DeptUserService me = new DeptUserService();
 	private String imgServerUrl = MainConfig.p.get("imgServerUrl");//图片服务地址
 
-	public Page<Record> findList(String realName,String dept , int currentPage, int pageSize){
+	public Page<Record> findList(String realName,String dept,String idHandleImgUrl, int currentPage, int pageSize){
 
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
@@ -44,6 +44,17 @@ public class DeptUserService {
 			sql.append(" and u.deptId = ? ");
 			objects.add(dept);
 		}
+
+		if(idHandleImgUrl!=null){
+			if("0".equals(idHandleImgUrl)) {
+				sql.append(" and u.idHandleImgUrl is null ");
+			}
+			else if("1".equals(idHandleImgUrl))
+			{
+				sql.append(" and u.idHandleImgUrl is not null ");
+			}
+		}
+
 		sql.append(" order by u.id desc) as a ");
 		return Db.paginate(currentPage, pageSize, "select *", sql.toString(),objects.toArray());
 	}
