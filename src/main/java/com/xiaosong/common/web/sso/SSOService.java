@@ -113,7 +113,7 @@ public class SSOService {
      * @param organCode
      * @return
      */
-    public boolean userSync(String token ,String username,String password,String name,String phone,String organCode)
+    public boolean userSync(String token ,String username,String password,String name,String phone,String idCard,String organCode)
     {
         url =paramService.findValueByName("ssoUrl");
         aesKey =paramService.findValueByName("ssoAesKey");
@@ -121,18 +121,24 @@ public class SSOService {
         userMap.put("username", username);
         userMap.put("password", password);
         userMap.put("name", name);
+        userMap.put("idCard", idCard);
         userMap.put("phone", phone);
         userMap.put("organCode", organCode);
         String userString = AesUtils.getAESEncrypt(JSON.toJSONString(userMap),aesKey);
 
         HashMap<String, String> map = new HashMap<>();
-        map.put("accessToken", token);
+      //  map.put("accessToken", token);
         map.put("userString", userString);
 
-        String result = HttpKit.post(url + "api/v1/userSync", map, null);
+        HashMap<String, String> head = new HashMap<>();
+        head.put("accessToken", token);
+
+
+        String result = HttpKit.post(url + "api/v1/userSync", map, null,head);
 
         JSONObject jsonResult = JSON.parseObject(result);
         if (jsonResult.getInteger("code") == 200) {
+            log.debug("同步用户数据成功");
             return true;
         }
         else
@@ -140,9 +146,10 @@ public class SSOService {
             String msg = jsonResult.getString("msg");
             if("用户已存在".equals(msg))
             {
+                log.debug("用户已存在");
                 return true;
             }
-            log.error("同步用户数据失败："+msg);
+            log.error("token:"+"同步用户数据失败："+msg);
             return false;
         }
 
@@ -152,7 +159,7 @@ public class SSOService {
     public static void main(String args[])
     {
         String token =  me.getToken();
-        boolean result = me.userSync(token,"chennl","123456","陈","15000000000",null);
+       // boolean result = me.userSync(token,"chennl","123456","陈","15000000000",null);
     }
 
 }

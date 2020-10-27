@@ -28,6 +28,7 @@ public class _MappingKit {
 		arp.addMapping("v_app_version", "id", VAppVersion.class);
 		arp.addMapping("v_black_user", "id", VBlackUser.class);
 		arp.addMapping("v_business", "id", VBusiness.class);
+		arp.addMapping("v_car", "id", VCar.class);
 		arp.addMapping("v_comp_vip_user", "id", VCompVipUser.class);
 		arp.addMapping("v_d_inout", "id", VDInout.class);
 		arp.addMapping("v_dept", "id", VDept.class);
@@ -43,12 +44,14 @@ public class _MappingKit {
 		arp.addMapping("v_org", "id", VOrg.class);
 		arp.addMapping("v_out_visitor", "id", VOutVisitor.class);
 		arp.addMapping("v_params", "id", VParams.class);
+		arp.addMapping("v_post", "id", VPost.class);
 		arp.addMapping("v_sync", "id", VSync.class);
 		arp.addMapping("v_sys_config", "id", VSysConfig.class);
 		arp.addMapping("v_sys_user", "id", VSysUser.class);
 		arp.addMapping("v_user_auth", "id", VUserAuth.class);
 		arp.addMapping("v_user_friend", "id", VUserFriend.class);
 		arp.addMapping("v_user_key", "id", VUserKey.class);
+		arp.addMapping("v_user_post", "id", VUserPost.class);
 		arp.addMapping("v_user_role", "id", VUserRole.class);
 		arp.addMapping("v_user_role_auth", "id", VUserRoleAuth.class);
 		arp.addMapping("v_visitor_record", "id", VVisitorRecord.class);

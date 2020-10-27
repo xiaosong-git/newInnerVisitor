@@ -140,9 +140,9 @@ public class visitDeviceController  extends Controller {
     public void requestVisit() throws ParseException {
         try {
             String data = HttpKit.readData(getRequest());
-            if(!isValued(data)){
+/*            if(!isValued(data)){
                 return;
-            }
+            }*/
             JSONObject jsonObject = JSONObject.parseObject(data);
             String staff_id = jsonObject.getString("staff_id");//员工ID
             String visitor_name = jsonObject.getString("visitor_name");
@@ -343,9 +343,12 @@ public class visitDeviceController  extends Controller {
             } else {
                 userId = user.getLong("id");
                 vDeptUser = VDeptUser.dao.findById(userId);
-                fileName = deptUserService.uploadUserImg(file.getAbsolutePath(), "" + userId);
+                if ("visitor".equals(vDeptUser.getUserType()) || StringUtils.isBlank(vDeptUser.getIdHandleImgUrl()))
+                {
+                    fileName = deptUserService.uploadUserImg(file.getAbsolutePath(), "" + userId);
+                    vDeptUser.setIdHandleImgUrl(fileName);
+                }
                 vDeptUser.setAddr(visitor_cmp);
-                vDeptUser.setIdHandleImgUrl(fileName);
                 vDeptUser.update();
                 file.delete();
             }
@@ -388,6 +391,7 @@ public class visitDeviceController  extends Controller {
             visitorRecord.save();
         } catch (Exception ex) {
             ex.fillInStackTrace();
+            return  null;
         }
         return visitorRecord;
     }

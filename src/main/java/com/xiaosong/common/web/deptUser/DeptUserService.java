@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
 import com.xiaosong.model.VDeptUser;
@@ -31,10 +32,22 @@ public class DeptUserService {
 	private String imgServerUrl = MainConfig.p.get("imgServerUrl");//图片服务地址
 
 	public Page<Record> findList(String realName,String dept,String idHandleImgUrl, int currentPage, int pageSize){
+	   SqlPara sqlPara =	findList(realName,dept,idHandleImgUrl);
+	   return Db.paginate(currentPage, pageSize, sqlPara);
+	}
+
+
+	public List<Record> findRecordList(String realName,String dept,String idHandleImgUrl){
+		SqlPara sqlPara =findList(realName,dept,idHandleImgUrl);
+		return Db.find(sqlPara);
+	}
+
+
+	private SqlPara findList(String realName,String dept,String idHandleImgUrl){
 
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
-		sql.append("from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted' and  IFNULL(userType,'')!='visitor'");
+		sql.append("select * from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted' and  IFNULL(userType,'')!='visitor'");
 
 		if(realName!=null){
 			sql.append(" and u.realName like CONCAT('%',?,'%') ");
@@ -56,8 +69,16 @@ public class DeptUserService {
 		}
 
 		sql.append(" order by u.id desc) as a ");
-		return Db.paginate(currentPage, pageSize, "select *", sql.toString(),objects.toArray());
+
+		SqlPara sqlPara = new SqlPara();
+		sqlPara.setSql(sql.toString());
+		for(Object object : objects) {
+			sqlPara.addPara(object);
+		}
+
+		return sqlPara;
 	}
+
 	
 	public boolean addDeptUser(VDeptUser config) {
 		Record record = Db.findFirst("select * from v_user_key");

@@ -1,5 +1,6 @@
 package com.xiaosong.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -18,7 +19,13 @@ import java.util.logging.Logger;
  */
 public class ExcelUtil {
 
+
     public static byte[] export(String sheetTitle, String[] title, List<Object> list) {
+
+        return export(sheetTitle,title,list,true);
+    }
+
+    public static byte[] export(String sheetTitle, String[] title, List<Object> list,boolean hasTitle) {
 
     	HSSFWorkbook wb = new HSSFWorkbook();//创建excel表
         HSSFSheet sheet = wb.createSheet(sheetTitle);
@@ -59,19 +66,22 @@ public class ExcelUtil {
         cellStyle3.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
         cellStyle3.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
 
-        //创建表头
-        HSSFRow row = sheet.createRow(0);
-        row.setHeightInPoints(20);//行高
-        
-        HSSFCell cell = row.createCell(0);
-        cell.setCellValue(sheetTitle);
-        cell.setCellStyle(cellStyle);
 
-        sheet.addMergedRegion(new CellRangeAddress(0,0,0,(title.length-1)));
-        
+        int index =0 ;
+        if(hasTitle) {
+            //创建表头
+            HSSFRow row = sheet.createRow(0);
+            row.setHeightInPoints(20);//行高
+            HSSFCell cell = row.createCell(index);
+            cell.setCellValue(sheetTitle);
+            cell.setCellStyle(cellStyle);
+            index++;
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0,(title.length-1)));
+        }
         //创建标题
-        HSSFRow rowTitle = sheet.createRow(1);
+        HSSFRow rowTitle = sheet.createRow(index);
         rowTitle.setHeightInPoints(20);
+        index++;
 
         HSSFCell hc;
         for (int i = 0; i < title.length; i++) {
@@ -87,7 +97,7 @@ public class ExcelUtil {
         try {
             //创建表格数据
             Field[] fields;
-            int i = 2;
+            int i =index;
 
             for (Object obj : list) {
                 fields = obj.getClass().getDeclaredFields();
@@ -104,11 +114,9 @@ public class ExcelUtil {
                     if (null == va) {
                         va = "";
                     }
-
                     hc = rowBody.createCell(j);
                     hc.setCellValue(va.toString());
                     hc.setCellStyle(cellStyle3);
-                    
                     j++;
                 }
 

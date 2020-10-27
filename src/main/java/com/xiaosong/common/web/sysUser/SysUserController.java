@@ -52,14 +52,14 @@ public class SysUserController extends Controller{
 		if(srv.findUser(username)) {
 			boolean bool = srv.addSysUser(user);
 			if(bool) {
-				String organCode= null;
-				String token = SSOService.me.getToken();
-				boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,organCode);
-				if(result)
-				{
-				//	user.setIsSync("T");
-					user.update();
-				}
+//				String organCode= null;
+//				String token = SSOService.me.getToken();
+//				boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,idCard,organCode);
+//				if(result)
+//				{
+//				//	user.setIsSync("T");
+//					user.update();
+//				}
 				renderJson(RetUtil.ok());
 			}else {
 				renderJson(RetUtil.fail());
@@ -90,14 +90,14 @@ public class SysUserController extends Controller{
 		user.setId(id);
 		boolean bool = srv.editSysUser(user);
 		if(bool) {
-			String organCode= null;
-			String token = SSOService.me.getToken();
-			boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,organCode);
-			if(result)
-			{
-				//user.setIsSync("T");
-				user.update();
-			}
+//			String organCode= null;
+//			String token = SSOService.me.getToken();
+//			boolean result = SSOService.me.userSync(token,username,"000000",trueName,tel,organCode);
+//			if(result)
+//			{
+//				//user.setIsSync("T");
+//				user.update();
+//			}
 			renderJson(RetUtil.ok());
 		}else {
 			renderJson(RetUtil.fail());

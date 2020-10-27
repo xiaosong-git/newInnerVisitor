@@ -1,6 +1,7 @@
 package com.xiaosong.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xiaosong.constant.Params;
 import okhttp3.*;
@@ -16,21 +17,26 @@ public class AuthUtil {
 
 
     public static void main(String[] args) throws Exception {
-       // String photo=Base64.encode(FilesUtils.getImageFromNetByUrl("http://47.98.205.206/imgserver/"+"user/125/1596016858139.jpg"));
-       // auth("350121199306180330","陈维发",photo);
-//        phoneResult("350121199306180330","陈维发",photo);
-        fk("350128198901124018","陈乃亮");
+//        fk("140107198411203046","陶鸥");
+        JSONObject result =  fk("500382198510163172","祖映兵");
+
+        JSONArray jsonArray  = result.getJSONArray("data");
+
+        System.out.print(result.toJSONString());
+/*        JSONObject result2 = fk2("500382198510163172","祖映兵");
+        System.out.print(result2.toJSONString());*/
+
     }
 
     public static JSONObject auth(String idNO, String realName, String idHandleImgUrl) throws Exception {
 
         //是否开启实人验证
-/*        if("T".equals(Params.getStopAuthVerify()))
+        if("T".equals(Params.getStopAuthVerify()))
         {
             JSONObject result = new JSONObject();
             result.put("return_code","00000");
             return result;
-        }*/
+        }
 
         String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
         JSONObject itemJSONObj =new JSONObject();
@@ -150,12 +156,60 @@ public class AuthUtil {
         String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
         JSONObject itemJSONObj =new JSONObject();
         itemJSONObj.put("custid", "1000000012");//账号
-        itemJSONObj.put("txcode", "tx00011");//交易码
-        itemJSONObj.put("productcode", "000011");//业务编码
+        itemJSONObj.put("txcode", "tx00012");//交易码
+        itemJSONObj.put("productcode", "000012");//业务编码
         itemJSONObj.put("serialno", string);//流水号
 
         StringBuilder sb=new StringBuilder();
-        sb.append("1000000012000011").append(string).append(key);
+        sb.append("1000000012000012").append(string).append(key);
+        String newSign = MD5Util.MD5Encode(sb.toString(),"UTF-8");
+
+        itemJSONObj.put("mac", newSign);//随机状态码   --验证签名  商户号+订单号+时间+产品编码+秘钥
+        itemJSONObj.put("name", realName);
+        itemJSONObj.put("idNo", ""+idNO);
+        itemJSONObj.put("timestamp", ""+System.currentTimeMillis());
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
+        Request request = new Request.Builder()
+                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
+                .method("POST", body1)
+                .addHeader("Content-Type", "application/json;charset=utf-8")
+                .build();
+        Response response = null;
+        JSONObject returnObject = new JSONObject();
+        try {
+            response = client.newCall(request).execute();
+            string = response.body().string();
+            // 解密响应数据
+            returnObject= JSONObject.parseObject(string);
+            return returnObject;
+        } catch (IOException e) {
+            e.printStackTrace();
+            returnObject.put("msg","系统错误");
+            returnObject.put("code","-1");
+            return returnObject;
+        }
+    }
+
+
+    public static JSONObject fk2(String idNO, String realName) throws Exception {
+
+        String key="8f933a619a3042b597d8f99d712a2932";
+        String custid ="1000000012";
+        String productcode ="000011";
+        String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
+        JSONObject itemJSONObj =new JSONObject();
+        itemJSONObj.put("custid", custid);//账号
+        itemJSONObj.put("txcode", "tx00011");//交易码
+        itemJSONObj.put("productcode", productcode);//业务编码
+        itemJSONObj.put("serialno", string);//流水号
+
+        StringBuilder sb=new StringBuilder();
+        sb.append(custid);
+        sb.append(productcode);
+        sb.append(string).append(key);
         String newSign = MD5Util.MD5Encode(sb.toString(),"UTF-8");
 
         itemJSONObj.put("mac", newSign);//随机状态码   --验证签名  商户号+订单号+时间+产品编码+秘钥

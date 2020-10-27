@@ -97,7 +97,10 @@ public class DeviceController extends Controller {
             {
                 lastErrorDevices = strErrorDevices;
                 String mobile =  Params.getMaintenancePhone();
-                YunPainSmsUtil.sendSmsErrorDevices(mobile,strErrorDevices);
+                String [] mobiles = mobile.split(",");
+                for(String phone : mobiles) {
+                    YunPainSmsUtil.sendSmsErrorDevices(phone, strErrorDevices);
+                }
                 lastSendMsgTime = System.currentTimeMillis();
             }
 

@@ -15,6 +15,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
+import com.xiaosong.bean.DeptUserBean;
 import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.common.web.sysn.SysnService;
@@ -22,10 +23,12 @@ import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.*;
 import com.xiaosong.util.DateUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.xiaosong.constant.Constant;
 
 /** 
 * @author 作者 : xiaojf
@@ -100,7 +103,8 @@ public class DeptUsersController extends Controller{
 				byte[] data = FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(cahceImgUrl), 40960L);
 				String photo = com.xiaosong.util.Base64.encode(data);
 				JSONObject photoResult = AuthUtil.auth(idNO, realName, photo);
-				if ("00000".equals(photoResult.getString("return_code"))) {  //实人认证
+				//实人认证
+				if ("00000".equals(photoResult.getString("return_code"))) {
 					deptUser.setIsAuth("T");
 				} else {
 					JSONObject errorData = photoResult.getJSONObject("data");
@@ -264,8 +268,6 @@ public class DeptUsersController extends Controller{
 			Map resultMap = parseZipFile(xmlMap,zipFile);
 
 			List ids = (List) resultMap.get("pic_success");
-
-
 			//WebSocketMonitor.me.getPersonNum();
 			WebSocketSyncData.me.sendStaffData();
 			renderJson(resultMap);
@@ -291,7 +293,6 @@ public class DeptUsersController extends Controller{
 		} else if (xlsFile.getName().endsWith(".xlsx")) {
 			book = new XSSFWorkbook(new FileInputStream(xlsFile));
 		}
-
 		Sheet sheet = book.getSheetAt(0);
 		int rows = sheet.getPhysicalNumberOfRows();
 		total_count = rows - 1;
@@ -300,6 +301,21 @@ public class DeptUsersController extends Controller{
 			Map successMap = new HashMap<>();
 			try {
 				Row row = sheet.getRow(i);// 行数
+                boolean hasValue = false;
+				for(int j =0 ;j<12;j++)
+				{
+					String value = getCellValue(row, j);
+					if(!StringUtils.isBlank(value))
+					{
+						hasValue =true;
+						break;
+					}
+				}
+				if(!hasValue)
+				{
+					total_count--;
+					continue;
+				}
 				StringBuffer errRow = new StringBuffer();
 				String realName = getCellValue(row, 0);
 				String deptName =  getCellValue(row, 1);
@@ -325,7 +341,7 @@ public class DeptUsersController extends Controller{
 					throw new Exception("姓名或者身份证号存在空值");
 				} else {
 					if(!phone.isEmpty()) {
-						VDeptUser user = VDeptUser.dao.findFirst("select * from v_dept_user where phone = ?",phone);
+						VDeptUser user = VDeptUser.dao.findFirst("select * from v_dept_user where currentStatus='normal' and userType='staff' and  phone = ?",phone);
 						if(user!=null) {
 							throw new Exception(phone+"该手机号码已存在");
 						}
@@ -417,12 +433,12 @@ public class DeptUsersController extends Controller{
 					String phone = pictureName;
 					VDeptUser user = null;
 					if(map.size()==0){
-						user = VDeptUser.dao.findFirst("select * from v_dept_user where currentStatus='normal'  and phone = ?",phone);
+						user = VDeptUser.dao.findFirst("select * from v_dept_user where userType='staff' and currentStatus='normal'  and phone = ?",phone);
 					}else{
 						List<Map> xmlSucList = (List) map.get("sucmgs");
 						for(int i=0;i<xmlSucList.size();i++){
 							if(phone.equals(xmlSucList.get(i).get("phone"))){
-								user = VDeptUser.dao.findFirst("select * from v_dept_user where currentStatus='normal' and phone = ?",phone);
+								user = VDeptUser.dao.findFirst("select * from v_dept_user where userType='staff' and currentStatus='normal' and phone = ?",phone);
 								break;
 							}
 						}
@@ -601,4 +617,63 @@ public class DeptUsersController extends Controller{
 		return result;
 	}
 
+
+
+
+	public void download() {
+		String realName = getPara("realName");
+		String dept = getPara("dept");
+		String idHandleImgUrl = getPara("idHandleImgUrl");
+		List<Record> recordList = srv.findRecordList(realName,dept,idHandleImgUrl);
+		Record user_key = Db.findFirst("select * from v_user_key");
+		for(Record record : recordList)
+		{
+			String idNo =record.get("idNO");
+			idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+			record.set("idNO",idNo);
+		}
+		List outputList = new ArrayList<>();
+		if (recordList != null && recordList.size() > 0) {
+			// 生成文件并返回
+			for (int i = 0; i < recordList.size(); i++) {
+				Record record = recordList.get(i);
+				DeptUserBean sd = new DeptUserBean();
+				sd.setName(record.getStr("realName"));
+				sd.setActiveDate(record.getStr("activeDate"));
+				sd.setAddress(record.getStr("address"));
+				sd.setCardNO(record.getStr("cardNO"));
+				sd.setDeptName(record.getStr("dept_name"));
+				sd.setExpiryDate(record.getStr("expiryDate"));
+				sd.setIntime(record.getStr("intime"));
+				sd.setPhone(record.getStr("phone"));
+				sd.setSex("1".equals(record.getStr("sex")) ? "男" : "女");
+				sd.setRemark(record.getStr("remark"));
+				sd.setIdNO(record.getStr("idNO"));
+				sd.setUserNO(record.getStr("userNo"));
+				outputList.add(sd);
+			}
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String date = format.format(new Date());
+		String exportName = date + "_员工报表.xls";
+		String exportPath = Constant.BASE_DOWNLOAD_PATH;
+		File exportFile = new File(exportPath + "/" + exportName);
+		if(exportFile.exists()){
+			exportFile.delete();
+			try {
+				exportFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		String[] title = {  "姓名", "部门", "卡号","工号","身份证","性别","入职时间","联系电话","住址","备注","卡激活时间","卡过期时间"};
+		byte[] data = ExcelUtil.export("人员报表", title, outputList,false);
+		try {
+			FileUtils.writeByteArrayToFile(exportFile, data, true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		renderFile(exportFile);
+	}
 }
