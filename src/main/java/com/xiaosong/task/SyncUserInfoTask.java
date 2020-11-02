@@ -23,9 +23,9 @@ public class SyncUserInfoTask extends  Thread {
     {
         System.out.println("开始同步人员数据");
         int i=0;
-        List<Record> list = Db.find("select a.*,d.code from "+ TableList.DEPT_USER + " a  left join v_dept d on deptId = d.id where currentStatus='normal' and IFNULL(isSync,'F')!= 'T'");
+        List<Record> list = Db.find("select a.*,d.code from "+ TableList.DEPT_USER + " a  left join v_dept d on deptId = d.id where currentStatus='normal' and IFNULL(a.isSync,'F')!= 'T'");
         if(list!=null && list.size()>0) {
-            String token = SSOService.me.getToken();
+
             Record work = Db.findFirst("select * from v_user_key");
             String workKey = work.getStr("workKey");
 
@@ -45,7 +45,7 @@ public class SyncUserInfoTask extends  Thread {
                     continue;
                 }
 
-                boolean result = SSOService.me.userSync(token, username, password, name, phone, idNo,organCode);
+                boolean result = SSOService.me.userSync(SSOService.me.getToken(), username, password, name, phone, idNo,organCode);
                 if (result) {
                     VDeptUser deptUser = VDeptUser.dao.findById(id);
                     deptUser.setIsSync("T");

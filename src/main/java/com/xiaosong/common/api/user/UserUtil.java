@@ -11,6 +11,7 @@ import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
+import com.xiaosong.model.VUserPost;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.BaseUtil;
 import com.xiaosong.util.ConsantCode;
@@ -156,7 +157,18 @@ public class UserUtil {
                  users.put("companyName",dept.getDeptName());
              }
          }
-                String orgCode =BaseUtil.objToStr(findOrgCodeByUserId(user.getId()),"无");
+
+         List<VUserPost> list = VUserPost.dao.find("select * from v_user_post where userId = ?",user.getId());
+         if(list!=null && list.size()>0) {
+             Long[] userPosts = new Long[list.size()];
+             for(int i = 0; i< list.size();i++)
+             {
+                userPosts[i] = list.get(i).getPostId();
+             }
+             users.put("userPost", userPosts);
+         }
+
+         String orgCode =BaseUtil.objToStr(findOrgCodeByUserId(user.getId()),"无");
          users.put("orgCode", orgCode);
          return ResultData.dataResult(ConsantCode.SUCCESS,"登录成功",result);
      }

@@ -16,11 +16,13 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
 import com.xiaosong.bean.DeptUserBean;
+import com.xiaosong.common.api.userPost.UserPostService;
 import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.common.web.sysn.SysnService;
 import com.xiaosong.model.VDept;
 import com.xiaosong.model.VDeptUser;
+import com.xiaosong.model.VUserPost;
 import com.xiaosong.util.*;
 import com.xiaosong.util.DateUtil;
 import org.apache.commons.io.FileUtils;
@@ -53,6 +55,17 @@ public class DeptUsersController extends Controller{
 		{
 			String idNo =record.get("idNO");
 			idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+
+			List<VUserPost> list = VUserPost.dao.find("select * from v_user_post where userId = ?",record.getLong("id"));
+			Long[] userPosts = null;
+			if(list!=null && list.size()>0) {
+				userPosts = new Long[list.size()];
+				for(int i = 0; i< list.size();i++)
+				{
+					userPosts[i] = list.get(i).getPostId();
+				}
+			}
+			record.set("userPost",userPosts);
 			record.set("idNO",idNo);
 		}
 		renderJson(pagelist);
@@ -74,6 +87,7 @@ public class DeptUsersController extends Controller{
 		String strExpiryDate =getPara("expiryDate");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
+		String [] postIds = getParaValues("userPost[]");
 		VDeptUser deptUser = getModel(VDeptUser.class);
 		deptUser.setRealName(realName);
 		deptUser.setCreateDate(createtime);
@@ -124,7 +138,11 @@ public class DeptUsersController extends Controller{
 //				System.out.println(errorData.getString("resultMsg"));
 //			}
 		}
-		boolean bool = srv.addDeptUser(deptUser);
+		boolean bool = Db.tx(()->{
+			srv.addDeptUser(deptUser);
+			UserPostService.me.addPostUser(deptUser.getId(),postIds);
+			return true;
+		});
 		if (bool) {
 			//websocket通知前端获取用户数量
 			WebSocketMonitor.me.getPersonNum();
@@ -150,6 +168,7 @@ public class DeptUsersController extends Controller{
 		String cardNO = getPara("cardNO");
 		String strActiveDate =getPara("activeDate");
 		String strExpiryDate =getPara("expiryDate");
+		String [] postIds = getParaValues("userPost[]");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = VDeptUser.dao.findById(id);
@@ -193,7 +212,12 @@ public class DeptUsersController extends Controller{
 				ex.printStackTrace();
 			}
 		}
-		boolean bool = srv.editDeptUser(deptUser);
+
+		boolean bool = Db.tx(()->{
+			srv.editDeptUser(deptUser);
+			UserPostService.me.addPostUser(deptUser.getId(),postIds);
+			return true;
+		});
 		if (bool) {
 			sysnService.setStaffIsReceiveF(deptUser.getId());
 			deptUser.setIsReceive("F");
@@ -281,7 +305,7 @@ public class DeptUsersController extends Controller{
 	 * @throws IOException
 	 */
 	private Map<String,Object> parseXlsFile(File xlsFile) throws IOException {
-		Map<String,Object> resultMap = new HashMap<>();
+		Map<String, Object> resultMap = new HashMap<>();
 		int total_count = 0;
 		int succ_count = 0;
 		int err_count = 0;
@@ -301,24 +325,21 @@ public class DeptUsersController extends Controller{
 			Map successMap = new HashMap<>();
 			try {
 				Row row = sheet.getRow(i);// 行数
-                boolean hasValue = false;
-				for(int j =0 ;j<12;j++)
-				{
+				boolean hasValue = false;
+				for (int j = 0; j < 12; j++) {
 					String value = getCellValue(row, j);
-					if(!StringUtils.isBlank(value))
-					{
-						hasValue =true;
+					if (!StringUtils.isBlank(value)) {
+						hasValue = true;
 						break;
 					}
 				}
-				if(!hasValue)
-				{
+				if (!hasValue) {
 					total_count--;
 					continue;
 				}
 				StringBuffer errRow = new StringBuffer();
 				String realName = getCellValue(row, 0);
-				String deptName =  getCellValue(row, 1);
+				String deptName = getCellValue(row, 1);
 				String cardNO = getCellValue(row, 2);
 				String userNo = getCellValue(row, 3);
 				String idNo = getCellValue(row, 4);
@@ -331,25 +352,24 @@ public class DeptUsersController extends Controller{
 				String strExpiryDate = getCellValue(row, 11);
 
 				Date activeDate = null;
-				Date expiryDate =null;
+				Date expiryDate = null;
 				activeDate = DateUtil.changeDate(strActiveDate);
-				expiryDate= DateUtil.changeDate(strExpiryDate);
+				expiryDate = DateUtil.changeDate(strExpiryDate);
 
 				Long deptId = null;
 
-				if (StringUtils.isBlank(realName) || StringUtils.isBlank(idNo) ) {
+				if (StringUtils.isBlank(realName) || StringUtils.isBlank(idNo)) {
 					throw new Exception("姓名或者身份证号存在空值");
 				} else {
-					if(!phone.isEmpty()) {
-						VDeptUser user = VDeptUser.dao.findFirst("select * from v_dept_user where currentStatus='normal' and userType='staff' and  phone = ?",phone);
-						if(user!=null) {
-							throw new Exception(phone+"该手机号码已存在");
-						}
-					}
-					if(!deptName.isEmpty()) {
-						VDept dept = VDept.dao.findFirst("select * from v_dept where dept_name =?",deptName);
-						if(dept==null)
-						{
+//					if(!phone.isEmpty()) {
+//						VDeptUser user = VDeptUser.dao.findFirst("select * from v_dept_user where currentStatus='normal' and userType='staff' and  phone = ?",phone);
+//						if(user!=null) {
+//							throw new Exception(phone+"该手机号码已存在");
+//						}
+//					}
+					if (!deptName.isEmpty()) {
+						VDept dept = VDept.dao.findFirst("select * from v_dept where dept_name =?", deptName);
+						if (dept == null) {
 							dept = new VDept();
 							dept.setDeptName(deptName);
 							dept.save();
@@ -359,10 +379,21 @@ public class DeptUsersController extends Controller{
 					}
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					String createtime = df.format(new Date());
-					VDeptUser deptUser = getModel(VDeptUser.class);
+					VDeptUser deptUser = null;
+					boolean isNewRecord = false;
+
+					Record record = Db.findFirst("select * from v_user_key");
+					idNo = DESUtil.encode(record.getStr("workKey"), idNo);
+					if (StringUtils.isNotBlank(realName) && StringUtils.isNotBlank(idNo)) {
+						deptUser = VDeptUser.dao.findFirst("select * from v_dept_user where currentStatus='normal' and userType='staff' and  idNO = ? and realName=?", idNo, realName);
+					}
+					if (deptUser == null) {
+						deptUser = getModel(VDeptUser.class);
+						isNewRecord = true;
+					}
 					deptUser.setRealName(realName);
 					deptUser.setCreateDate(createtime);
-					deptUser.setSex("男".equals(sex)?"1":"2");
+					deptUser.setSex("男".equals(sex) ? "1" : "2");
 					deptUser.setPhone(phone);
 					deptUser.setUserNo(userNo);
 					deptUser.setDeptId(deptId);
@@ -375,20 +406,20 @@ public class DeptUsersController extends Controller{
 					deptUser.setUserType("staff");
 					deptUser.setActiveDate(activeDate);
 					deptUser.setExpiryDate(expiryDate);
-					if(!cardNO.isEmpty()){
+					if (!cardNO.isEmpty()) {
 						deptUser.setCardNO(cardNO);
 					}
-					boolean bool = srv.addDeptUser(deptUser);
+					boolean bool = isNewRecord ? deptUser.save() : deptUser.update();
 					if (bool) {
 						succ_count++;
-						successMap.put("userName",realName);
-						successMap.put("phone",phone);
+						successMap.put("userName", realName);
+						successMap.put("phone", phone);
 						successList.add(successMap);
 					} else {
 						throw new Exception("保存失败");
 					}
 				}
-			}catch (Exception e) {
+			} catch (Exception e) {
 				err_count++;
 				errMap.put("errNum", i);
 				errMap.put("errormsg", e.getMessage());
@@ -614,10 +645,8 @@ public class DeptUsersController extends Controller{
 			}
 			result = cell.getStringCellValue();
 		}
-		return result;
+		return result.trim();
 	}
-
-
 
 
 	public void download() {
@@ -675,5 +704,90 @@ public class DeptUsersController extends Controller{
 			e.printStackTrace();
 		}
 		renderFile(exportFile);
+	}
+
+
+	public void batchUpdateTime() {
+
+		String strActiveDate =getPara("activeDate");
+		String strExpiryDate =getPara("expiryDate");
+		String[] userids = this.getParaValues("userIds[]");
+		String [] postIds = getParaValues("right[]");
+		String strUserids = "";
+		if(userids==null)
+		{
+			renderJson(RetUtil.fail("人员不能为空"));
+		}
+		for(String userId : userids)
+		{
+			strUserids+=userId+",";
+		}
+
+		if(strUserids.length()>0)
+		{
+			strUserids = strUserids.substring(0,strUserids.length()-1);
+		}
+
+		final String finalUserids = strUserids;
+	    boolean result =	Db.tx(()->{
+	    	if(userids==null || userids.length==0)
+			{
+				return false;
+			}
+	    	if(StringUtils.isNotBlank(strActiveDate)|| StringUtils.isNotBlank(strExpiryDate)) {
+				Db.update("update v_dept_user set activeDate =? , expiryDate =? where id in (" + finalUserids + ")", strActiveDate, strExpiryDate);
+				Db.delete("delete from v_sync where relationId in (" + finalUserids + ") and type='staff'");
+			}
+			if(postIds!=null && postIds.length>0) {
+				for(String userId : userids)
+				{
+					UserPostService.me.addPostUser(Long.parseLong(userId),postIds);
+				}
+			}
+
+			Db.delete("delete from v_sync where type='staff' and relationId  in ("+finalUserids+")");
+			return true;
+		});
+
+		if(result) {
+			renderJson(RetUtil.ok());
+		}
+		else
+		{
+			renderJson(RetUtil.fail());
+		}
+	}
+
+
+	public void findListByDeptId() {
+
+		String dept = getPara("dept");
+		List<Record> recordList = srv.findRecordList(null,dept,null);
+		renderJson(recordList);
+	}
+
+
+
+	public void batchApportionPost() {
+
+		String [] postIds = getParaValues("right[]");
+		String[] userids = this.getParaValues("userIds[]");
+
+		boolean result =	Db.tx(()->{
+
+			for(String userId : userids)
+			{
+				UserPostService.me.addPostUser(Long.parseLong(userId),postIds);
+			}
+			return true;
+		});
+
+		if(result) {
+			renderJson(RetUtil.ok());
+		}
+		else
+		{
+			renderJson(RetUtil.fail());
+		}
 	}
 }

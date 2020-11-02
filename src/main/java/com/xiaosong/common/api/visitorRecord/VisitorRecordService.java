@@ -14,7 +14,10 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.base.MyBaseService;
+import com.xiaosong.common.api.car.CarService;
 import com.xiaosong.common.api.code.CodeService;
+import com.xiaosong.common.api.userPost.UserPostConstant;
+import com.xiaosong.common.api.userPost.UserPostService;
 import com.xiaosong.common.api.websocket.*;
 import com.xiaosong.common.web.blackUser.BlackUserService;
 import com.xiaosong.compose.Result;
@@ -22,10 +25,7 @@ import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.MyRecordPage;
 import com.xiaosong.constant.TableList;
-import com.xiaosong.model.VBlackUser;
-import com.xiaosong.model.VDeptUser;
-import com.xiaosong.model.VOutVisitor;
-import com.xiaosong.model.VVisitorRecord;
+import com.xiaosong.model.*;
 import com.xiaosong.constant.MyPage;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
@@ -165,7 +165,7 @@ public class VisitorRecordService extends MyBaseService {
                         CodeService.me.sendMsg(phone, 3, visitorResult, realName, startDate, null);
                         log.info(realName + "：发送短信推送成功");
                     } else {
-                        boolean single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
+                        boolean single = GTNotification.Single(toUser.getStr("registration_id"),toUser.getStr("app_type"), msg_content);
                         if (!single) {
                             CodeService.me.sendMsg(phone, 3, visitorResult, realName, startDate, null);
                         }
@@ -218,7 +218,6 @@ public class VisitorRecordService extends MyBaseService {
                 }
                 return true;
             });
-
 
             String apply = "同意";
             if ("applyFail".equals(cstatus)) {
@@ -274,7 +273,8 @@ public class VisitorRecordService extends MyBaseService {
 
                     String phone = BaseUtil.objToStr(toUser.get("phone"), "0");
                     //个推
-                    single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
+                //    single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
+                    single = GTNotification.Single(toUser.getOrDefault("registration_id","").toString(),toUser.getOrDefault("app_type","").toString(), msg_content);
 //						isYmSuc=shortMessageService.YMNotification(deviceToken,deviceType,notification_title,msg_content,isOnlineApp);
                     log.info("发送个推 推送成功? 设备号{}", single);
 //                        if (!isYmSuc) {
@@ -282,6 +282,11 @@ public class VisitorRecordService extends MyBaseService {
 //			                }
 
                 }
+
+                //websocket通知前端获取访客数量
+                WebSocketMonitor.me.getVisitorData();
+                WebSocketSyncData.me.sendVisitorData();
+
                 return Result.unDataResult("success", apply + "邀约成功！");
             } else {
                 return Result.unDataResult("fail", apply + "邀约失败！");
@@ -428,6 +433,7 @@ public class VisitorRecordService extends MyBaseService {
                     record.save();
                 }
             }
+             CarService.me.addCarInfo(visitRecord);
              return true;
         });
 
@@ -580,6 +586,13 @@ public class VisitorRecordService extends MyBaseService {
         if (visitorId == null || "".equals(phone) || "".equals(realName)) {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
         }
+
+        boolean hasCarAuth = UserPostService.me.checkPostAuth(visitorId.longValue(), UserPostConstant.YAOYUE_POST);
+        if(!hasCarAuth)
+        {
+            return ResultData.unDataResult("fail", "没有邀约权限");
+        }
+
 //        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
 ////        //如果用户不存在
 //        VDeptUser user = VDeptUser.dao.findFirst(para);
@@ -685,6 +698,7 @@ public class VisitorRecordService extends MyBaseService {
                         record.save();
                     }
                 }
+                CarService.me.addCarInfo(visitRecord);
                 return true;
             });
 
@@ -886,7 +900,7 @@ public class VisitorRecordService extends MyBaseService {
                 String isOnlineApp = BaseUtil.objToStr(userUser.get("isOnlineApp"), "F");
 
 //个推
-                single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
+              //  single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
 //				shortMessageService.YMNotification(deviceToken,deviceType,notification_title,msg_content,isOnlineApp);
                 //个推不在线，短信推送
                 if (!single || "F".equals(isOnlineApp)) {
@@ -1177,10 +1191,104 @@ public class VisitorRecordService extends MyBaseService {
             sql.append("and v.visitDate = ? ");
         }
 
-
         sql.append(" order by visitDate " + orderBy);
         sql.append(" , visitTime " + orderBy+" ");
     }
+
+
+
+
+
+    //查询所有审批的车辆
+    public Result findCarList(Long userId, Integer pageNum, Integer pageSize) {
+        if (userId == null) {
+            return ResultData.unDataResult("fail", "缺少参数");
+        }
+
+        boolean hasCarAuth = UserPostService.me.checkPostAuth(userId, UserPostConstant.CAR_POST);
+        if(!hasCarAuth)
+        {
+            return ResultData.unDataResult("fail", "没有车辆审批权限");
+        }
+
+        pageNum = pageNum == null ? 1 : pageNum;
+        pageSize = pageSize == null ? 10 : pageSize;
+
+        String sql = "select a.*,du1.realName,du2.realName visitName,r.endDate from v_car a left join v_visitor_record r on a.visitId = r.id left join v_dept_user du1 on du1.id = r.userId left join v_dept_user du2 on r.visitorId = du2.id  where r.cstatus = 'applySuccess' order by visitDate desc ,visitTime desc";
+        SqlPara sqlPara = new SqlPara();
+        sqlPara.setSql(sql);
+
+        Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
+
+        MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());
+
+        return ResultData.dataResult("success", "查看成功", myPage);
+    }
+
+
+
+    //查询所有审批的车辆
+    public Result approvalCar(Long userId,Long carId,String status) {
+        if (userId == null || carId ==null || status ==null) {
+            return ResultData.unDataResult("fail", "缺少参数");
+        }
+
+        boolean hasCarAuth = UserPostService.me.checkPostAuth(userId, UserPostConstant.CAR_POST);
+        if(!hasCarAuth)
+        {
+            return ResultData.unDataResult("fail", "没有车辆审批权限");
+        }
+
+        VCar car  =   VCar.dao.findById(carId);
+        if(car==null)
+        {
+            return ResultData.unDataResult("fail", "没有找到该记录");
+        }
+        car.setCStatus(status);
+        car.setApprovalDateTime(DateUtil.getSystemTime());
+        car.setApprovalUserId(userId);
+        boolean result = car.update();
+        if(result) {
+            return ResultData.unDataResult("success", "审批成功");
+        }else{
+            return ResultData.unDataResult("fail", "审批失败");
+        }
+    }
+
+
+
+    /**
+     * 查找车辆明细
+     *
+     * @param recordId 记录id
+     * @return result
+     */
+    public Result findCarFromId(Object id) {
+
+        String sql = "select a.*,du1.realName,du2.realName visitName,r.endDate from v_car a left join v_visitor_record r on a.visitId = r.id left join v_dept_user du1 on du1.id = r.userId left join v_dept_user du2 on r.visitorId = du2.id  where r.cstatus = 'applySuccess' and a.id =?";
+        SqlPara sqlPara = new SqlPara();
+        sqlPara.setSql(sql);
+        sqlPara.addPara(id);
+        Record first = Db.findFirst(sqlPara);
+        if(first!=null) {
+            Long recordId = first.getLong("visitId");
+            List<Record> list = Db.find(Db.getSql("visitRecord.findRecordFromId"), recordId, recordId);
+            String entourage = ""; //随行人员
+            for (Record record : list) {
+                //pid 为空，为主访问记录,否则是随行人员将人员姓名添加到对应的字段
+                if (record.get("pid") != null && !"".equals(record.get("pid").toString())) {
+                    entourage += record.get("userName") + ",";
+                }
+            }
+            if (entourage.length() > 1) {
+                entourage = entourage.substring(0, entourage.length() - 1);
+            }
+            first.set("entourage", entourage);
+        }
+        return first != null ? ResultData.dataResult("success", "获取成功", first.getColumns()) :
+                Result.unDataResult("fail", "获取失败");
+    }
+
 
 
 }

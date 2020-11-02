@@ -167,7 +167,16 @@ public class ZipUtil {
                         File file = new File(pathTemp);
                         file.mkdirs();
                         System.out.println(pathTemp);
-//                        continue;
+                    }
+                    else
+                    {
+                        String fileName = zipEntry.getName();
+                        String directoryName = fileName.substring(0,fileName.indexOf("/"));
+                        pathTemp =  directoryPath + File.separator
+                                + directoryName;
+                        File file = new File(pathTemp);
+                        file.mkdirs();
+                        System.out.println(pathTemp);
                     }
                 }
             }

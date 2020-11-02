@@ -53,7 +53,7 @@ public class UserController  extends Controller {
                     Result result =  userService.loginByToken(deptUser, userJSON);
                     renderText(JSON.toJSONString(result));
                 } else {
-                   throw new Exception("无效的token");
+                   throw new Exception("无效的token:"+token);
                 }
             }
             else {

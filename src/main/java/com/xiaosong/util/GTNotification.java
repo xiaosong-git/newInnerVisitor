@@ -16,6 +16,7 @@ import com.gexin.rp.sdk.http.IGtPush;
 import com.gexin.rp.sdk.template.NotificationTemplate;
 import com.gexin.rp.sdk.template.TransmissionTemplate;
 import com.gexin.rp.sdk.template.style.Style0;
+import com.xiaosong.common.web.sso.SSOService;
 import org.apache.commons.lang3.StringUtils;
 
 public class GTNotification {
@@ -31,12 +32,12 @@ public class GTNotification {
 
     public static void main(String[] args) throws Exception {
 //        Single("64a00060bb7cdbf4976c37fb742ddfd2","18150797748","文坤","坤","透传");
-        Single("51c61bd49cda922a1c6e6ca44ef6dd1b","18150797748","发","发","发");
+        //Single("51c61bd49cda922a1c6e6ca44ef6dd1b","18150797748","发","发","发");
 //        Single("9fde86d15925a4eb3bb14f0feade83fb","18150797748","塑封","塑封","塑封");
-        Single("55c021f33d9df3b25322cd0ae09542b9","18150797748","春雨","春雨","塑封");
+     //   Single("55c021f33d9df3b25322cd0ae09542b9","18150797748","春雨","春雨","塑封");
 //        Single("683a18644fd5f8bcdf5555f1a9a083fd","18150797748","宋伟","宋伟","宋伟");
     }
-    public static boolean Single(String CID,String Alias,String title,String text,String transmissionContent){
+/*    public static boolean Single(String CID,String Alias,String title,String text,String transmissionContent){
         IGtPush push = new IGtPush(host, appKey, masterSecret);
         NotificationTemplate template = notificationTemplate(title,text,transmissionContent);
         SingleMessage message = new SingleMessage();
@@ -74,7 +75,19 @@ public class GTNotification {
             return false;
         }
 
+    }*/
+
+
+
+    public static boolean Single(String registrationId,String appType,String content) {
+         if(StringUtils.isBlank(registrationId)) {
+             return false;
+         }
+         return SSOService.me.push(SSOService.me.getToken(),appType,registrationId,content);
     }
+
+
+
     //厂商通道透传
     public static TransmissionTemplate transmissionTemplateDemo(String title,String Text,String transmissionContent){
         TransmissionTemplate template = new TransmissionTemplate();

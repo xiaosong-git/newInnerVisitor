@@ -186,4 +186,44 @@ public class VisitorRecordController extends Controller {
         }
     }
 
+
+
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    @Before(UserIdValidator.class)
+    public void findCarList(){
+        Integer pageNum = getAttrForInt("pageNum");
+        Integer pageSize = getAttrForInt("pageSize");
+        try {
+            renderText(JSON.toJSONString(visitorRecordService.findCarList(getLong("userId"), pageNum, pageSize)));
+
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
+
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    public void findCarFromId(){
+        try {
+            renderText(JSON.toJSONString(visitorRecordService.findCarFromId(get("id"))));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
+
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    @Before(UserIdValidator.class)
+    public void approvalCar(){
+        try {
+            renderText(JSON.toJSONString(visitorRecordService.approvalCar(getLong("userId"),getLong("carId"),get("status"))));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
+
 }

@@ -27,11 +27,17 @@ public abstract class BaseVUserPost<M extends BaseVUserPost<M>> extends Model<M>
 		return getLong("userId");
 	}
 
+	/**
+	 * 岗位类型 1：邀约岗，2车辆审批岗
+	 */
 	public M setPostId(java.lang.Long postId) {
 		set("postId", postId);
 		return (M)this;
 	}
 	
+	/**
+	 * 岗位类型 1：邀约岗，2车辆审批岗
+	 */
 	public java.lang.Long getPostId() {
 		return getLong("postId");
 	}

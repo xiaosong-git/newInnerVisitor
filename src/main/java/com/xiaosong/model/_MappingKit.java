@@ -48,6 +48,7 @@ public class _MappingKit {
 		arp.addMapping("v_sync", "id", VSync.class);
 		arp.addMapping("v_sys_config", "id", VSysConfig.class);
 		arp.addMapping("v_sys_user", "id", VSysUser.class);
+		arp.addMapping("v_temp", "id", VTemp.class);
 		arp.addMapping("v_user_auth", "id", VUserAuth.class);
 		arp.addMapping("v_user_friend", "id", VUserFriend.class);
 		arp.addMapping("v_user_key", "id", VUserKey.class);

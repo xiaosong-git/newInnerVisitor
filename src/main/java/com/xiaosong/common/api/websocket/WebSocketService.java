@@ -146,7 +146,7 @@ public class WebSocketService extends MyBaseService {
                     VDeptUser deptUser = VDeptUser.dao.findById(toUserId);
                     String notification_title = type == 4 ? "您有一条好友申请需处理！" : obj.get("realName") + "给您发来消息！";
                     //个推
-                    GTNotification.Single(deptUser.getDeviceToken(), deptUser.getPhone(), notification_title, content, content);
+                    GTNotification.Single(deptUser.getRegistrationId(), deptUser.getAppType(),content);
                 } else {
                     fromUserRemote.sendText(Result.ResultCodeType("fail", "发送失败", "-1", type));
                 }
@@ -272,7 +272,8 @@ public class WebSocketService extends MyBaseService {
 //
 //            }
             String phone = BaseUtil.objToStr(toUser.get("phone"), "0");
-            boolean single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
+           // boolean single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
+            boolean single = GTNotification.Single(toUser.getRegistrationId(),toUser.getAppType(),msg_content);
             log.info("发送个推 推送成功? {}", single);
         }
 

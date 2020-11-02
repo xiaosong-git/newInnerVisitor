@@ -39,7 +39,8 @@
     <orderEntry type="library" name="Maven: log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.log4jdbc:log4jdbc:1.2" level="project" />
     <orderEntry type="library" name="Maven: JavaJNICall:JavaJNICall:1.0" level="project" />
-    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.44" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.11" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:druid:1.0.29" level="project" />
     <orderEntry type="library" name="Maven: com.jfinal:cos:2019.8" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.8.1" level="project" />
@@ -65,7 +66,6 @@
     <orderEntry type="library" name="Maven: com.gexin.platform:gexin-rp-sdk-http:4.1.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.gexin.platform:gexin-rp-sdk-template:4.0.0.24" level="project" />
     <orderEntry type="library" name="Maven: com.gexin.platform:gexin-rp-sdk-base:4.0.0.30" level="project" />
-    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:2.5.0" level="project" />
     <orderEntry type="library" name="Maven: com.gexin.platform:gexin-rp-fastjson:1.0.0.3" level="project" />
     <orderEntry type="library" name="Maven: net.sf.jmimemagic:jmimemagic:0.1.4" level="project" />
     <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />

@@ -21,6 +21,8 @@ public class SSOService {
     String client_id ="78b6cd20208f4c7899e24db3f0673d04";
     String client_secret="69595e41e4d345e0bc682f10d7f5ce97";
     private Log log = Log.getLog(SSOService.class);
+    public static String clientToken = null;
+
 
 
     /**
@@ -55,8 +57,19 @@ public class SSOService {
      * 获取token
      */
     public String getToken() {
-        return getToken(null,null,"client_credentials");
+        if(clientToken == null) {
+            clientToken = getToken(null, null, "client_credentials");
+        }
+        return clientToken;
     }
+
+    /**
+     * 刷新token
+     */
+    public void refreshToken() {
+        clientToken = getToken(null, null, "client_credentials");
+    }
+
 
     /**
      * 获取token
@@ -133,7 +146,6 @@ public class SSOService {
         HashMap<String, String> head = new HashMap<>();
         head.put("accessToken", token);
 
-
         String result = HttpKit.post(url + "api/v1/userSync", map, null,head);
 
         JSONObject jsonResult = JSON.parseObject(result);
@@ -149,6 +161,10 @@ public class SSOService {
                 log.debug("用户已存在");
                 return true;
             }
+            else if("accessToken错误".equals(msg))
+            {
+                refreshToken();
+            }
             log.error("token:"+"同步用户数据失败："+msg);
             return false;
         }
@@ -156,10 +172,117 @@ public class SSOService {
     }
 
 
+
+    /**
+     * 同步部门数据
+     * @param token
+     * @param code
+     * @param deptName
+     * @return
+     */
+    public boolean deptSync(String token ,String code,String deptName)
+    {
+        url =paramService.findValueByName("ssoUrl");
+        aesKey =paramService.findValueByName("ssoAesKey");
+        HashMap<String, String> userMap = new HashMap<>();
+        userMap.put("code", code);
+        userMap.put("name", deptName);
+        userMap.put("pCode", "0");
+        String organString = AesUtils.getAESEncrypt(JSON.toJSONString(userMap),aesKey);
+
+        HashMap<String, String> map = new HashMap<>();
+        //  map.put("accessToken", token);
+        map.put("organString", organString);
+
+        HashMap<String, String> head = new HashMap<>();
+        head.put("accessToken", token);
+
+        String result = HttpKit.post(url + "api/v1/organASync", map, null,head);
+
+        JSONObject jsonResult = JSON.parseObject(result);
+        if (jsonResult.getInteger("code") == 200) {
+            log.debug("同步部门数据成功");
+            return true;
+        }
+        else
+        {
+            String msg = jsonResult.getString("msg");
+            if("组织机构已存在".equals(msg))
+            {
+                log.debug("组织机构已存在");
+                return true;
+            }
+            else if("accessToken错误".equals(msg))
+            {
+                refreshToken();
+            }
+            log.error("token:"+"同步部门数据失败："+msg);
+            return false;
+        }
+
+
+
+    }
+
+
+
+    /**
+     * 推送消息
+     * @param token
+     * @param type
+     * @param registrationId
+     * @param content
+     * @return
+     */
+    public boolean push(String token ,String type,String registrationId,String content)
+    {
+        url =paramService.findValueByName("ssoUrl");
+        aesKey =paramService.findValueByName("ssoAesKey");
+        HashMap<String, Object> userMap = new HashMap<>();
+        userMap.put("type", type);
+        userMap.put("registrationId", registrationId);
+        userMap.put("content", content);
+        if(!"android".equals(type)) {
+            userMap.put("apns", true);
+        }
+        userMap.put("content", content);
+
+        HashMap<String, String> map = new HashMap<>();
+        //  map.put("accessToken", token);
+        //map.put("pushPara", JSON.toJSONString(userMap));
+
+        HashMap<String, String> head = new HashMap<>();
+        head.put("accessToken", token);
+        head.put("Content-Type", "application/json");
+
+        String result = HttpKit.post(url + "api/v1/push", map, JSON.toJSONString(userMap),head);
+
+        JSONObject jsonResult = JSON.parseObject(result);
+        if (jsonResult.getInteger("code") == 200) {
+            log.debug("消息推送成功");
+            return true;
+        }
+        else
+        {
+            String msg = jsonResult.getString("msg");
+            if("accessToken错误".equals(msg))
+            {
+                refreshToken();
+            }
+            log.error("消息推送失败："+msg);
+            return false;
+        }
+
+
+    }
+
+
+
     public static void main(String args[])
     {
         String token =  me.getToken();
-       // boolean result = me.userSync(token,"chennl","123456","陈","15000000000",null);
+        boolean result = me.push(token,"android","123456","测试测试测试");
+        System.out.println(result);
     }
 
 }

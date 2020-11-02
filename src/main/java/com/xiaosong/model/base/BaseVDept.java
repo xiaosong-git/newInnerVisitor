@@ -123,4 +123,19 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 		return getStr("level");
 	}
 
+	/**
+	 * 是否同步T：已同步 F:未同步
+	 */
+	public M setIsSync(java.lang.String isSync) {
+		set("isSync", isSync);
+		return (M)this;
+	}
+	
+	/**
+	 * 是否同步T：已同步 F:未同步
+	 */
+	public java.lang.String getIsSync() {
+		return getStr("isSync");
+	}
+
 }

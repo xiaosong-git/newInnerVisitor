@@ -95,13 +95,21 @@ public class UserService {
         if(StringUtils.isNotBlank(phone)) {
             SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
             user = VDeptUser.dao.findFirst(para);
+        }else
+        {
+            return Result.fail();
         }
         System.out.println("解析到sso数据" + userJSON.toJSONString());
+
+        String appType = userJSON.getString("appType");
+        String registrationId = userJSON.getString("registrationId");
+
         if (user == null) {
             String username = userJSON.getString("username");
             String idCard = userJSON.getString("idCard");
             String sex = userJSON.containsKey("sex")?(userJSON.getInteger("sex")==0?"1":"2"):"0";
             String name = userJSON.getString("name");
+
             Record record = Db.findFirst("select * from v_user_key");
             String idNo = DESUtil.encode(record.getStr("workKey"), idCard);
             user = new VDeptUser();
@@ -115,7 +123,15 @@ public class UserService {
             user.setCreateDate(DateUtil.getSystemTime());
             user.setStatus("applySuc");
             user.setUserType("visitor");
+            user.setRegistrationId(registrationId);
+            user.setAppType(appType);
             user.save();
+        }
+        else
+        {
+            user.setRegistrationId(registrationId);
+            user.setAppType(appType);
+            user.update();
         }
         return UserUtil.me.loginSave(user, deptUser);
     }
@@ -167,9 +183,15 @@ public class UserService {
              */
             // update by cwf  2019/10/15 10:54 Reason:改为加密后进行数据判断 原 idNO 现idNoMw
             // update by cwf  2019/11/6 13:42 Reason:改为回前端加密 原 idNoMW 现 idNO
-            Object o = Db.queryFirst("select id from " + TableList.DEPT_USER + " where idNo=? and isAuth ='T'  and currentStatus ='normal'", idNO);
-            if (o != null) {
-                return Result.unDataResult("fail", "该身份证已实名，无法再次进行实名认证！");
+
+
+            VDeptUser record = VDeptUser.dao.findFirst("select * from " + TableList.DEPT_USER + " where idNo=? and isAuth ='T'  and currentStatus ='normal'", idNO);
+           // Object o = Db.queryFirst("select id from " + TableList.DEPT_USER + " where idNo=? and isAuth ='T'  and currentStatus ='normal'", idNO);
+            if (record != null) {
+               String authPhone =  record.getStr("phone");
+               if(StringUtils.isNotBlank(authPhone)) {
+                   return Result.unDataResult("fail", "该身份证已实名，无法再次进行实名认证！");
+               }
             }
             //实人认证  update by cwf  2019/11/25 11:30 Reason:先查询本地库是否有实名认证 如果没有 则调用CTID认证  判断实人认证是否过期，过期重新走ctid
             String sql = "select distinct * from " + TableList.LOCAL_AUTH + " where idNo='" + idNO + "' and realName='" + realName + "'";
@@ -199,7 +221,39 @@ public class UserService {
             user.setIdHandleImgUrl(idHandleImgUrl)
                     .setRealName(realName).setIsAuth("T").setIdNO(idNO).setAddr(address)
                     .setAuthDate(DateUtil.getCurDate());
-            if (user.update()) {
+
+            boolean result = Db.tx(()->{
+
+                try {
+                    //如果存在随行人员记录，删除随行人员记录，并修改访客记录的ID
+                    if(record!=null) {
+                        record.setCurrentStatus("deleted");
+                        user.setUserType(record.getUserType());
+                        user.setDeptId(record.getDeptId());
+                        user.setActiveDate(record.getActiveDate());
+                        user.setExpiryDate(record.getExpiryDate());
+                        user.setSex(record.getSex());
+                        user.setCardNO(record.getCardNO());
+                        user.setAddr(record.getAddr());
+                        user.setIntime(record.getIntime());
+                        user.setUserNo(record.getUserNo());
+                        user.setRemark(record.getRemark());
+                        record.update();
+                        Db.update("update v_visitor_record set userId=? where userId =?",user.getId(),record.getId());
+                        Db.update("update v_visitor_record set visitorId=? where visitorId =?",user.getId(),record.getId());
+                        Db.update("update v_user_post set userId=? where userId =?",user.getId(),record.getId());
+                    }
+                    user.update();
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+                return true;
+            });
+
+            if (result) {
 //                Integer apiAuthCheckReduserloginisDbIndex = Integer.valueOf(ParamService.me.findValueByName("apiAuthCheckRedisDbIndex"));//存储在缓存中的位置
 //                String key = userId + "_isAuth";
                 //redis修改

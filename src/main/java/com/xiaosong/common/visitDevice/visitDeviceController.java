@@ -10,6 +10,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.MainConfig;
+import com.xiaosong.common.api.car.CarService;
 import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.common.api.utils.ApiDataUtils;
 import com.xiaosong.common.api.visitorRecord.VisitorRecordService;
@@ -197,6 +198,7 @@ public class visitDeviceController  extends Controller {
                         addQRCode(QRCodeList,retinueVisitorName,retinueRecord);
                     }
                 }
+                CarService.me.addCarInfo(vVisitorRecord);
                 return  true ;
             });
 
