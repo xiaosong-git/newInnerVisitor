@@ -736,7 +736,6 @@ public class DeptUsersController extends Controller{
 			}
 	    	if(StringUtils.isNotBlank(strActiveDate)|| StringUtils.isNotBlank(strExpiryDate)) {
 				Db.update("update v_dept_user set activeDate =? , expiryDate =? where id in (" + finalUserids + ")", strActiveDate, strExpiryDate);
-				Db.delete("delete from v_sync where relationId in (" + finalUserids + ") and type='staff'");
 			}
 			if(postIds!=null && postIds.length>0) {
 				for(String userId : userids)
