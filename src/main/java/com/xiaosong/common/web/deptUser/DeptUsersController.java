@@ -371,6 +371,7 @@ public class DeptUsersController extends Controller{
 						VDept dept = VDept.dao.findFirst("select * from v_dept where dept_name =?", deptName);
 						if (dept == null) {
 							dept = new VDept();
+							dept.setOrgId(1L);
 							dept.setDeptName(deptName);
 							dept.save();
 						}

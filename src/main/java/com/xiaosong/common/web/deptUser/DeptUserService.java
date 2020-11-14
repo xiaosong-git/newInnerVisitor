@@ -148,8 +148,8 @@ public class DeptUserService {
 	}
 
 
-	public Record confireNameAndIdNO(String name ,String idNO){
-		return Db.findFirst("select * from v_dept_user where realName = ? and idNO = ?",name,idNO);
+	public VDeptUser confireNameAndIdNO(String name ,String idNO){
+		return VDeptUser.dao.findFirst("select * from v_dept_user where currentStatus='normal' and realName = ? and idNO = ?",name,idNO);
 	}
 
 	public Record findByIdNOOrPhone(String idNO ,String phone){

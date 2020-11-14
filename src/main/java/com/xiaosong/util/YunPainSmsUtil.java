@@ -119,6 +119,19 @@ public class YunPainSmsUtil {
      * @throws IOException
      */
     public static String sendSmsCode(String checkCode, String mobile, Integer type, String date, String limit, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
+        String content = getSmsContent(checkCode,mobile,type,date,limit,visitorResult,visitorBy,visitorDateTime,visitor);
+        return sendMsg(content,mobile);
+    }
+
+
+    /**
+     * 发送短信验证码(注册、修改密码、找回密码)
+     * @param checkCode   　验证码
+     * @param mobile 　接受的手机号
+     * @return json格式字符串
+     * @throws IOException
+     */
+    public static String getSmsContent(String checkCode, String mobile, Integer type, String date, String limit, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
         String msg = "";
         String content = "";
         //其他
@@ -178,8 +191,11 @@ public class YunPainSmsUtil {
             msg= msg.replace("visitor1", visitor);
             content= msg.replace("visitorDateTime", visitorDateTime);
         }
-        return sendMsg(content,mobile);
+
+        return content;
     }
+
+
 
 
     /**
@@ -334,7 +350,7 @@ public class YunPainSmsUtil {
     }
 
 
-    private  static String sendMsg(String content,String mobile)
+    public static String sendMsg(String content,String mobile)
     {
         System.out.println("发送短信的内容： "+content);
         Map<String, String> params = new HashMap<String, String>();

@@ -6,7 +6,9 @@ import com.jfinal.plugin.redis.Redis;
 import com.xiaosong.cache.MyCache;
 import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
+import com.xiaosong.util.GTNotification;
 import com.xiaosong.util.NumberUtil;
 import com.xiaosong.util.YunPainSmsUtil;
 
@@ -47,7 +49,8 @@ public class CodeService {
         String code = NumberUtil.getRandomCode(6);
         String limit = ParamService.me.findValueByName("maxErrorInputSyspwdLimit");
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String state = YunPainSmsUtil.sendSmsCode(code, phone, type, date, limit, visitorResult, visitorBy, visitorDateTime, visitor);
+        String content = YunPainSmsUtil.getSmsContent(code, phone, type, date, limit, visitorResult, visitorBy, visitorDateTime, visitor);
+        String state = YunPainSmsUtil.sendMsg(content,phone);
 //        CacheKit.put("CODE", phone,code);//1800s
 //        Object ok = CacheKit.get("CODE", phone);
         if ("0000".equals(state)) {
@@ -60,4 +63,38 @@ public class CodeService {
             return Result.unDataResult("fail", state);
         }
     }
+
+
+
+    //推送消息
+    public void pushMsg(VDeptUser vDeptUser, Integer type, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
+        String content = YunPainSmsUtil.getSmsContent(null, vDeptUser.getPhone(), type, null, null, visitorResult, visitorBy, visitorDateTime, visitor);
+        pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(),content);
+
+    }
+
+    //推送消息
+    public void pushMsg(String registrationId,String appType,String phone, Integer type, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
+        String content = YunPainSmsUtil.getSmsContent(null, phone, type, null, null, visitorResult, visitorBy, visitorDateTime, visitor);
+        pushMsg(registrationId,appType,phone,content);
+
+    }
+
+    //推送消息
+    public void pushMsg(String registrationId,String appType,String phone, Integer type, String date, String limit, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
+        String content = YunPainSmsUtil.getSmsContent(null, phone, type, date, limit, visitorResult, visitorBy, visitorDateTime, visitor);
+        pushMsg(registrationId,appType,phone,content);
+
+    }
+
+    //推送消息
+    public void pushMsg(String registrationId,String appType,String phone, String content) {
+        boolean single = GTNotification.Single(registrationId,appType.toString(), content);
+        //推送失败发送短信验证
+        if(!single) {
+            YunPainSmsUtil.sendMsg(content, phone);
+        }
+    }
+
+
 }

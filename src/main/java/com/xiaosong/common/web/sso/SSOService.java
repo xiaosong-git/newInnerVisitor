@@ -66,8 +66,9 @@ public class SSOService {
     /**
      * 刷新token
      */
-    public void refreshToken() {
+    public String refreshToken() {
         clientToken = getToken(null, null, "client_credentials");
+        return clientToken;
     }
 
 
@@ -163,7 +164,8 @@ public class SSOService {
             }
             else if("accessToken错误".equals(msg))
             {
-                refreshToken();
+                token =  refreshToken();
+                userSync( token , username, password, name, phone, idCard, organCode);
             }
             log.error("token:"+"同步用户数据失败："+msg);
             return false;
@@ -214,7 +216,8 @@ public class SSOService {
             }
             else if("accessToken错误".equals(msg))
             {
-                refreshToken();
+                token =  refreshToken();
+                deptSync( token , code, deptName);
             }
             log.error("token:"+"同步部门数据失败："+msg);
             return false;
@@ -267,7 +270,8 @@ public class SSOService {
             String msg = jsonResult.getString("msg");
             if("accessToken错误".equals(msg))
             {
-                refreshToken();
+                token =  refreshToken();
+                push( token , type, registrationId, content);
             }
             log.error("消息推送失败："+msg);
             return false;

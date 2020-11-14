@@ -17,12 +17,12 @@ public class AuthUtil {
 
 
     public static void main(String[] args) throws Exception {
-//        fk("140107198411203046","陶鸥");
-        JSONObject result =  fk("500382198510163172","祖映兵");
+      //  fk("140107198411203046","陶鸥");
+        JSONObject result =  ys3("310104197303100451","贺樑","9555500211474076");
 
-        JSONArray jsonArray  = result.getJSONArray("data");
+     //   JSONArray jsonArray  = result.getJSONArray("data");
 
-        System.out.print(result.toJSONString());
+     //   System.out.print(result.toJSONString());
 /*        JSONObject result2 = fk2("500382198510163172","祖映兵");
         System.out.print(result2.toJSONString());*/
 
@@ -221,6 +221,51 @@ public class AuthUtil {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
         Request request = new Request.Builder()
+                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
+                .method("POST", body1)
+                .addHeader("Content-Type", "application/json;charset=utf-8")
+                .build();
+        Response response = null;
+        JSONObject returnObject = new JSONObject();
+        try {
+            response = client.newCall(request).execute();
+            string = response.body().string();
+            // 解密响应数据
+            returnObject= JSONObject.parseObject(string);
+            return returnObject;
+        } catch (IOException e) {
+            e.printStackTrace();
+            returnObject.put("msg","系统错误");
+            returnObject.put("code","-1");
+            return returnObject;
+        }
+    }
+
+
+
+    public static JSONObject ys3(String idNO, String realName,String card) throws Exception {
+        String key="9A0723248F21943R4208534528919553";
+        String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
+        JSONObject itemJSONObj =new JSONObject();
+        itemJSONObj.put("custid", "1000000006");//账号
+        itemJSONObj.put("txcode", "tx00009");//交易码
+        itemJSONObj.put("productcode", "000009");//业务编码
+        itemJSONObj.put("serialno", string);//流水号
+
+        StringBuilder sb=new StringBuilder();
+        sb.append("1000000006000009").append(string).append(key);
+        String newSign = MD5Util.MD5Encode(sb.toString(),"UTF-8");
+
+        itemJSONObj.put("mac", newSign);//随机状态码   --验证签名  商户号+订单号+时间+产品编码+秘钥
+        itemJSONObj.put("idname", realName);
+        itemJSONObj.put("idcard", idNO);
+        itemJSONObj.put("bankcard",card);
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
+        Request request = new Request.Builder()
+                //.url("http://127.0.0.1:8882/wisdom-new/entrance/pub")
                 .url("http://47.99.129.98:8082/wisdom/entrance/pub")
                 .method("POST", body1)
                 .addHeader("Content-Type", "application/json;charset=utf-8")
