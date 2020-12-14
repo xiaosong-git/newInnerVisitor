@@ -28,7 +28,7 @@ public abstract class BaseVUserPost<M extends BaseVUserPost<M>> extends Model<M>
 	}
 
 	/**
-	 * 岗位类型 1：邀约岗，2车辆审批岗
+	 * ??λ???? 1????Լ?ڣ?2?????????
 	 */
 	public M setPostId(java.lang.Long postId) {
 		set("postId", postId);
@@ -36,7 +36,7 @@ public abstract class BaseVUserPost<M extends BaseVUserPost<M>> extends Model<M>
 	}
 	
 	/**
-	 * 岗位类型 1：邀约岗，2车辆审批岗
+	 * ??λ???? 1????Լ?ڣ?2?????????
 	 */
 	public java.lang.Long getPostId() {
 		return getLong("postId");

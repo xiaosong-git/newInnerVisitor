@@ -520,7 +520,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 推送ID
+	 * ????ID
 	 */
 	public M setRegistrationId(java.lang.String registrationId) {
 		set("registration_id", registrationId);
@@ -528,14 +528,14 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * 推送ID
+	 * ????ID
 	 */
 	public java.lang.String getRegistrationId() {
 		return getStr("registration_id");
 	}
 
 	/**
-	 * app类型
+	 * app???
 	 */
 	public M setAppType(java.lang.String appType) {
 		set("app_type", appType);
@@ -543,7 +543,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * app类型
+	 * app???
 	 */
 	public java.lang.String getAppType() {
 		return getStr("app_type");

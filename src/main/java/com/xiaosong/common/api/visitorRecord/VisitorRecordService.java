@@ -34,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -95,7 +96,7 @@ public class VisitorRecordService extends MyBaseService {
         //根据Id获取需要更新的类容
         String replyDate = DateUtil.getCurDate();
         String replyTime = DateUtil.getCurTime();
-        long id = msg.getLong("id");
+        BigInteger id = msg.getBigInteger("id");
         //登入人
         String fromUserId = WebSocketEndPoint.me.getUserId(session.getQueryString());
         VVisitorRecord visitorRecord = VVisitorRecord.dao.findById(id);
@@ -305,7 +306,7 @@ public class VisitorRecordService extends MyBaseService {
         }
         //被访者
         VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
-                "where currentStatus ='normal' and phone=?", phone);
+                "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
         if (visitUser == null) {
@@ -420,7 +421,7 @@ public class VisitorRecordService extends MyBaseService {
                     record.set("vitype", "F");
                     record.set("recordType", 1);
                     record.setPlate(carNumber);
-                    record.setPid(visitRecord.getId());
+                    record.setPid(visitRecord.getId()!=null?visitRecord.getId().longValue():null);
                     if(blackUser != null){
                         record.setCstatus("applyFail:");
                         record.setReplyDate(DateUtil.getCurDate());
@@ -692,7 +693,7 @@ public class VisitorRecordService extends MyBaseService {
                         record.set("vitype", "F");
                         record.set("recordType", 1);
                         record.setPlate(carNumber);
-                        record.setPid(visitRecord.getId());
+                        record.setPid(visitRecord.getId()!=null?visitRecord.getId().longValue():null);
                         record.save();
                     }
                 }
@@ -1040,7 +1041,7 @@ public class VisitorRecordService extends MyBaseService {
         pageSize = pageSize == null ? 10 : pageSize;
         String coloumSql = "select *";
         String fromSql = " from (SELECT vr.id,vr.visitorId, Max( startDate ) startDate,endDate,u.realName,idHandleImgUrl,headImgUrl,\n" +
-                "IF( dept_name IS NULL, '', dept_name ) companyName\n" +
+                "IF( dept_name IS NULL, '', dept_name ) companyName,case when IFNULL(u.addr,'')='' then '省行政服务中心' else u.addr end as addr\n" +
                 " FROM (\n" +
                 "select id,IF(userId=" + userId + ",visitorId,userId) visitorId,startDate,endDate,companyId,orgCode\n" +
                 "from " + TableList.VISITOR_RECORD + "\n" +
@@ -1074,7 +1075,7 @@ public class VisitorRecordService extends MyBaseService {
         String coloumSql = "select *";
         String fromSql = "from (select vr.id,vr.userId,vr.visitorId,vr.visitDate,vr.visitTime,vr.recordType,vr.startDate,vr.endDate,vr.cstatus,\n" +
                 "IF(vr.replyDate IS NULL,'',vr.replyDate) replyDate,IF(vr.replyTime IS NULL,'',vr.replyTime) replyTime," +
-                "IF( dept_name IS NULL, '', dept_name ) companyName,\n" +
+                "IF( dept_name IS NULL, '', dept_name ) companyName,case when IFNULL(vu.addr,'')='' then '省行政服务中心' else vu.addr end as addr,\n" +
                 "(CASE WHEN vr.userId=" + userId + " AND vr.recordType=1 THEN u.realName \n" +
                 "WHEN vr.userId=" + userId + " AND vr.recordType=2 THEN vu.realName \n" +
                 "WHEN  vr.visitorId=" + userId + " AND vr.recordType=1 THEN u.realName  \n" +
@@ -1150,19 +1151,19 @@ public class VisitorRecordService extends MyBaseService {
     }
 
 
-    public List<Record> findValidList(Long userId , String time,String orderBy){
+    public List<Record> findValidList(Long userId , String time,Long createUserId,String machineCode,String orderBy){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
-        getFindValidList(sql,objects,userId,time,null,null,orderBy);
+        getFindValidList(sql,objects,userId,time,null,null,createUserId,machineCode,null,orderBy);
         return Db.find(sql.toString(),objects.toArray());
     }
 
 
-    public Page<Record> findValidListPage(int pageNumber,int pageSize,Long userId ,String phone,String orderBy){
+    public Page<Record> findValidListPage(int pageNumber,int pageSize,Long userId ,String phone,Long createUserId,String machineCode,Integer recordType,String orderBy){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
         String visitDate = DateUtil.getCurDate();
-        getFindValidList(sql,objects,userId,null,visitDate,phone,orderBy);
+        getFindValidList(sql,objects,userId,null,visitDate,phone,createUserId,machineCode,recordType,orderBy);
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql.toString());
         for(Object object : objects) {
@@ -1172,7 +1173,10 @@ public class VisitorRecordService extends MyBaseService {
     }
 
 
-    private void getFindValidList(StringBuilder sql, List<Object> objects,Long userId , String time,String visitDate,String phone,String orderBy){
+
+
+
+    private void getFindValidList(StringBuilder sql, List<Object> objects,Long userId , String time,String visitDate,String phone,Long createUserId,String machineCode,Integer recordType,String orderBy){
         sql.append("select v.userId visitor_id,v.id record_id, vu.isAuth is_auth,v.recordType record_type,u.addr address,d.dept_name,visitorid as staff_id,u.realName as real_name,u.phone,u.sex,v.startDate as start_date,v.endDate as end_date,v.reason,v.cstatus,v.plate visitor_plate,vu.addr visitor_cmp,vu.phone visitor_phone,vu.realName visitor_name,vu.sex visitor_sex ");
         sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where 1=1 ");
 
@@ -1196,6 +1200,23 @@ public class VisitorRecordService extends MyBaseService {
         {
             objects.add(phone);
             sql.append("and v.vu.phone = ? ");
+        }
+        if(createUserId != null)
+        {
+            objects.add(createUserId);
+            sql.append("and v.createUser = ? ");
+        }
+
+        if(StringUtils.isNotBlank(machineCode))
+        {
+            objects.add(machineCode);
+            sql.append("and v.machineCode = ? ");
+        }
+
+        if(recordType!=null && recordType!=0)
+        {
+            objects.add(recordType);
+            sql.append("and v.recordType = ? ");
         }
 
         sql.append(" order by visitDate " + orderBy);
@@ -1292,6 +1313,38 @@ public class VisitorRecordService extends MyBaseService {
         }
         return first != null ? ResultData.dataResult("success", "获取成功", first.getColumns()) :
                 Result.unDataResult("fail", "获取失败");
+    }
+
+
+
+    /**
+     *统计
+     */
+    public List<Record> statVisitorRecordToday() {
+        List<Record> list = Db.find("SELECT " +
+                "sum(num) num,org_name,recordType " +
+                "FROM " +
+                "( " +
+                "SELECT " +
+                "a.*, c.org_name " +
+                "FROM " +
+                "( " +
+                "SELECT " +
+                "count(*) num, " +
+                "machineCode,recordType " +
+                "FROM " +
+                "v_visitor_record  where visitDate=?"+
+                "GROUP BY " +
+                "machineCode,recordType " +
+                ") a " +
+                "LEFT JOIN v_machine b ON a.machineCode = b.machine_code " +
+                "LEFT JOIN v_org c ON b.org_code = c.org_code " +
+                ") T " +
+                "GROUP BY " +
+                "org_name,recordType",DateUtil.getCurDate());
+
+        return list;
+
     }
 
 }

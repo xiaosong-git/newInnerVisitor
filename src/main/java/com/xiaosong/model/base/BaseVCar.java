@@ -10,7 +10,7 @@ import com.jfinal.plugin.activerecord.IBean;
 public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implements IBean {
 
 	/**
-	 * 车辆通行ID
+	 * ????ͨ??ID
 	 */
 	public M setId(java.lang.Long id) {
 		set("id", id);
@@ -18,14 +18,14 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 车辆通行ID
+	 * ????ͨ??ID
 	 */
 	public java.lang.Long getId() {
 		return getLong("id");
 	}
 
 	/**
-	 * 车牌号
+	 * ???ƺ
 	 */
 	public M setPlate(java.lang.String plate) {
 		set("plate", plate);
@@ -33,14 +33,14 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 车牌号
+	 * ???ƺ
 	 */
 	public java.lang.String getPlate() {
 		return getStr("plate");
 	}
 
 	/**
-	 * 访问日期
+	 * ???????
 	 */
 	public M setVisitDate(java.lang.String visitDate) {
 		set("visitDate", visitDate);
@@ -48,14 +48,14 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 访问日期
+	 * ???????
 	 */
 	public java.lang.String getVisitDate() {
 		return getStr("visitDate");
 	}
 
 	/**
-	 * 访问时间
+	 * ????ʱ?
 	 */
 	public M setVisitTime(java.lang.String visitTime) {
 		set("visitTime", visitTime);
@@ -63,14 +63,14 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 访问时间
+	 * ????ʱ?
 	 */
 	public java.lang.String getVisitTime() {
 		return getStr("visitTime");
 	}
 
 	/**
-	 * 访问记录ID
+	 * ???ʼ?¼ID
 	 */
 	public M setVisitId(java.lang.Long visitId) {
 		set("visitId", visitId);
@@ -78,14 +78,14 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 访问记录ID
+	 * ???ʼ?¼ID
 	 */
 	public java.lang.Long getVisitId() {
 		return getLong("visitId");
 	}
 
 	/**
-	 * 状态 applyConfirm:申请中，applySuccess:接受访问，applyFail:拒绝访问
+	 * ״̬ applyConfirm:?????У?applySuccess:???ܷ??ʣ?applyFail:?ܾ????
 	 */
 	public M setCStatus(java.lang.String cStatus) {
 		set("cStatus", cStatus);
@@ -93,14 +93,14 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 状态 applyConfirm:申请中，applySuccess:接受访问，applyFail:拒绝访问
+	 * ״̬ applyConfirm:?????У?applySuccess:???ܷ??ʣ?applyFail:?ܾ????
 	 */
 	public java.lang.String getCStatus() {
 		return getStr("cStatus");
 	}
 
 	/**
-	 * 审批人ID
+	 * ??????ID
 	 */
 	public M setApprovalUserId(java.lang.Long approvalUserId) {
 		set("approvalUserId", approvalUserId);
@@ -108,7 +108,7 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 审批人ID
+	 * ??????ID
 	 */
 	public java.lang.Long getApprovalUserId() {
 		return getLong("approvalUserId");

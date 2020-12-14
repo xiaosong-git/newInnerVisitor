@@ -68,28 +68,28 @@ public class CodeService {
 
     //推送消息
     public void pushMsg(VDeptUser vDeptUser, Integer type, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
-        String content = YunPainSmsUtil.getSmsContent(null, vDeptUser.getPhone(), type, null, null, visitorResult, visitorBy, visitorDateTime, visitor);
+        String content = YunPainSmsUtil.getSmsContent("", vDeptUser.getPhone(), type, "", "", visitorResult, visitorBy, visitorDateTime, visitor);
         pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(),content);
 
     }
 
     //推送消息
     public void pushMsg(String registrationId,String appType,String phone, Integer type, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
-        String content = YunPainSmsUtil.getSmsContent(null, phone, type, null, null, visitorResult, visitorBy, visitorDateTime, visitor);
+        String content = YunPainSmsUtil.getSmsContent("", phone, type, "", "", visitorResult, visitorBy, visitorDateTime, visitor);
         pushMsg(registrationId,appType,phone,content);
 
     }
 
     //推送消息
     public void pushMsg(String registrationId,String appType,String phone, Integer type, String date, String limit, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
-        String content = YunPainSmsUtil.getSmsContent(null, phone, type, date, limit, visitorResult, visitorBy, visitorDateTime, visitor);
+        String content = YunPainSmsUtil.getSmsContent("", phone, type, date, limit, visitorResult, visitorBy, visitorDateTime, visitor);
         pushMsg(registrationId,appType,phone,content);
 
     }
 
     //推送消息
     public void pushMsg(String registrationId,String appType,String phone, String content) {
-        boolean single = GTNotification.Single(registrationId,appType.toString(), content);
+        boolean single = GTNotification.Single(registrationId,appType, content);
         //推送失败发送短信验证
         if(!single) {
             YunPainSmsUtil.sendMsg(content, phone);

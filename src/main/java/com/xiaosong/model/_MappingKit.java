@@ -39,6 +39,7 @@ public class _MappingKit {
 		arp.addMapping("v_key", "id", VKey.class);
 		arp.addMapping("v_kq_attendrule", "id", VKqAttendrule.class);
 		arp.addMapping("v_local_auth", "id", VLocalAuth.class);
+		arp.addMapping("v_machine", "id", VMachine.class);
 		arp.addMapping("v_news", "id", VNews.class);
 		arp.addMapping("v_notice", "id", VNotice.class);
 		arp.addMapping("v_org", "id", VOrg.class);

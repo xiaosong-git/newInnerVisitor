@@ -18,13 +18,13 @@ public class AuthUtil {
 
     public static void main(String[] args) throws Exception {
       //  fk("140107198411203046","陶鸥");
-        JSONObject result =  ys3("310104197303100451","贺樑","9555500211474076");
+       // JSONObject result =  ys3("32042119760310271X","杨军","1375219980110032054");
 
      //   JSONArray jsonArray  = result.getJSONArray("data");
 
-     //   System.out.print(result.toJSONString());
-/*        JSONObject result2 = fk2("500382198510163172","祖映兵");
-        System.out.print(result2.toJSONString());*/
+        //System.out.print(result.toJSONString());
+        JSONObject result2 = fk("500382198510163172","祖映兵");
+       System.out.print(result2.toJSONString());
 
     }
 

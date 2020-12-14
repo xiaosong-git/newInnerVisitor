@@ -155,7 +155,7 @@ public class DeptUserService {
 	public Record findByIdNOOrPhone(String idNO ,String phone){
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
-		sql.append("select * from v_dept_user where  1 = 1");
+		sql.append("select * from v_dept_user where  1 = 1 and  currentStatus='normal' ");
 		if(StringUtils.isNotBlank(idNO)){
 			Record record = Db.findFirst("select * from v_user_key");
 			String idNo = DESUtil.encode(record.getStr("workKey"), idNO);

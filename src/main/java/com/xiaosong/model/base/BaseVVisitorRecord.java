@@ -12,7 +12,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	/**
 	 * 智慧访客
 	 */
-	public M setId(java.lang.Long id) {
+	public M setId(java.math.BigInteger id) {
 		set("id", id);
 		return (M)this;
 	}
@@ -20,8 +20,8 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	/**
 	 * 智慧访客
 	 */
-	public java.lang.Long getId() {
-		return getLong("id");
+	public java.math.BigInteger getId() {
+		return get("id");
 	}
 
 	/**
@@ -100,7 +100,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 
 	/**
-	 * 状态 applying:申请中，applySuccess:接受访问，applyFail:拒绝访问
+	 * 状态 applyConfirm :申请中，applySuccess:接受访问，applyFail:拒绝访问
 	 */
 	public M setCstatus(java.lang.String cstatus) {
 		set("cstatus", cstatus);
@@ -108,7 +108,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	}
 	
 	/**
-	 * 状态 applying:申请中，applySuccess:接受访问，applyFail:拒绝访问
+	 * 状态 applyConfirm :申请中，applySuccess:接受访问，applyFail:拒绝访问
 	 */
 	public java.lang.String getCstatus() {
 		return getStr("cstatus");
@@ -406,6 +406,36 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	
 	public java.lang.Long getPid() {
 		return getLong("pid");
+	}
+
+	/**
+	 * 创建者ID
+	 */
+	public M setCreateUser(java.lang.Long createUser) {
+		set("createUser", createUser);
+		return (M)this;
+	}
+	
+	/**
+	 * 创建者ID
+	 */
+	public java.lang.Long getCreateUser() {
+		return getLong("createUser");
+	}
+
+	/**
+	 * 创建的机器编码
+	 */
+	public M setMachineCode(java.lang.String machineCode) {
+		set("machineCode", machineCode);
+		return (M)this;
+	}
+	
+	/**
+	 * 创建的机器编码
+	 */
+	public java.lang.String getMachineCode() {
+		return getStr("machineCode");
 	}
 
 }

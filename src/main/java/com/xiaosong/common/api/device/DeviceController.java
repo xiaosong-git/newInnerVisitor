@@ -43,6 +43,7 @@ public class DeviceController extends Controller {
 
             StringBuilder errorDevices = new StringBuilder();
 
+            String gateName = "";
             for (int i = 0; i < jsonArray.size(); i++) {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -53,6 +54,7 @@ public class DeviceController extends Controller {
                 String status = jsonObject.getString("status");
                 String avg = jsonObject.getString("avg");
                 String extra1 = jsonObject.getString("extra1");
+                String addr = jsonObject.getString("addr");
                 Integer ping = (int) Float.parseFloat(avg);
                 if (StringUtils.isBlank(ip)) {
                     throw new Exception("IP地址不能为空");
@@ -70,6 +72,11 @@ public class DeviceController extends Controller {
                 if(i==0)
                 {
                     Db.delete("delete from v_device where gate = ?",gate );
+                    Record record = Db.findFirst("select * from v_org where org_code = ? ",gate);
+                    if(record!=null)
+                    {
+                        gateName = record.getStr("org_name");
+                    }
                 }
 
                 VDevice vDevice =new VDevice();
@@ -80,11 +87,21 @@ public class DeviceController extends Controller {
                 vDevice.setStatus(status);
                 vDevice.setPing(ping);
                 vDevice.setExtra1(extra1);
+                vDevice.setExtra2(addr);
                 boolean succ = vDevice.save();
                 if (succ) {
-
                     if("error".equals(status))
                     {
+                        errorDevices.append(addr);
+                        if("FACE".equals(type))
+                        {
+                            errorDevices.append("人脸设备");
+                        }
+                        else if("QRCODE".equals(type))
+                        {
+                            errorDevices.append("二维码设备");
+                        }
+                        errorDevices.append(addr);
                         errorDevices.append(ip);
                         errorDevices.append("，");
                     }
@@ -99,7 +116,7 @@ public class DeviceController extends Controller {
                 String mobile =  Params.getMaintenancePhone();
                 String [] mobiles = mobile.split(",");
                 for(String phone : mobiles) {
-                    YunPainSmsUtil.sendSmsErrorDevices(phone, strErrorDevices);
+                    YunPainSmsUtil.sendSmsErrorDevices(phone, gateName+strErrorDevices);
                 }
                 lastSendMsgTime = System.currentTimeMillis();
             }

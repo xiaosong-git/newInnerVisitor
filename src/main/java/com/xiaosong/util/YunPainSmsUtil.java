@@ -176,7 +176,6 @@ public class YunPainSmsUtil {
             msg=CHECK_CODE_VISITORBY_QRCODE;
             msg= msg.replace("#visitorResult#", visitorResult);
             msg= msg.replace("#visitorBy#", visitorBy);
-            msg=msg.replace("#url#",checkCode);
             content= msg.replace("#visitorDateTime#", visitorDateTime);
         }
         else if(MSG_TYPE_ENTOURAGE_NOAUTH == type)

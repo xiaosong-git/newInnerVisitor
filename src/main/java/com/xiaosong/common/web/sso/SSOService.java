@@ -6,6 +6,7 @@ import com.jfinal.kit.HttpKit;
 import com.jfinal.log.Log;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.AesUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 
@@ -57,7 +58,7 @@ public class SSOService {
      * 获取token
      */
     public String getToken() {
-        if(clientToken == null) {
+        if(StringUtils.isBlank(clientToken)) {
             clientToken = getToken(null, null, "client_credentials");
         }
         return clientToken;

@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.core.Controller;
 import com.jfinal.json.Json;
@@ -646,7 +649,20 @@ public class DeptUsersController extends Controller{
 			}
 			result = cell.getStringCellValue();
 		}
-		return result.trim();
+		return replaceBlank(result);
+	}
+
+
+
+	public static String replaceBlank(String str) {
+		String dest = "";
+		if (str!=null) {
+
+			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+			Matcher m = p.matcher(str);
+			dest = m.replaceAll("");
+		}
+		return dest;
 	}
 
 

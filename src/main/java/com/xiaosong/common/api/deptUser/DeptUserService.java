@@ -23,7 +23,7 @@ public class DeptUserService extends MyBaseService {
     Log log=Log.getLog(DeptUserService.class);
     public Result findApplySuc(String userId) {
         String columnSql = "select du.realName userName,currentStatus,status,roleType,du.createDate," +
-                "du.deptId companyId,concat(IFNULL(floor,'1'),'层',dept_name) companyName, d.dept_name sectionName ";
+                "du.deptId companyId,concat(IFNULL(floor,'1'),'层',dept_name) companyName, case when IFNULL(du.addr,'')='' then '省行政服务中心' else du.addr end as addr,d.dept_name sectionName ";
         String fromSql = " from " + TableList.DEPT_USER + " du " +
                 " left join " + TableList.DEPT + " d on du.deptId=d.id" +
                  " left join"  + TableList.ORG +" og on d.org_id=og.id"+

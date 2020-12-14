@@ -272,7 +272,7 @@ public class WebSocketSyncData {
                 "WHERE\n" +
                         "\ta.isAuth = 'T'\n" +
                         "AND IFNULL(d.isReceive, '') != 'T'\n" +
-                        "AND t.cstatus = 'applySuccess' AND endDate >'"+DateUtil.getSystemTime()+"' and endDate <='"+DateUtil.getSystemTomorrowTime()+"'";
+                        "AND t.cstatus = 'applySuccess' AND endDate >'"+DateUtil.getSystemTime()+"' and startDate <='"+DateUtil.getSystemTomorrowTime()+"'";
                 SqlPara sqlPara = new SqlPara();
                 sqlPara.setSql(sql);
                 Page<Record> pageList =   Db.paginate(1,5,sqlPara);

@@ -22,7 +22,7 @@ public class CarService {
             vCar.setCStatus("applyConfirm");
             vCar.setVisitDate(visitorRecord.getVisitDate());
             vCar.setVisitTime(visitorRecord.getVisitTime());
-            vCar.setVisitId(visitorRecord.getId());
+            vCar.setVisitId(visitorRecord.getId()!=null?visitorRecord.getId().longValue():null);
             return vCar.save();
         }else{
             return true;

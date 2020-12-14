@@ -12,7 +12,7 @@ import com.xiaosong.model.VSysUser;
 public class LoginService {
 	public static final	LoginService me = new LoginService();
 	public VSysUser checkLoginUser(String userName, String passWord) {
-		return VSysUser.dao.findFirst("select * from v_sys_user where username='"+userName+"' and password='"+passWord+"'");
+		return VSysUser.dao.findFirst("select * from v_sys_user where (username='"+userName+"' or true_name='"+userName+"') and password='"+passWord+"'");
 	}
 	
 	public List<VSysUser> checkPwd(Long id, String passWord) {

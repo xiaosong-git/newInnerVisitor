@@ -9,6 +9,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.api.car.CarService;
 import com.xiaosong.common.api.code.CodeService;
@@ -19,15 +20,18 @@ import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.common.web.blackUser.BlackUserService;
 import com.xiaosong.common.web.dept.DeptService;
 import com.xiaosong.common.web.deptUser.DeptUserService;
-import com.xiaosong.constant.Params;
-import com.xiaosong.model.VBlackUser;
-import com.xiaosong.model.VDeptUser;
-import com.xiaosong.model.VVisitorRecord;
+import com.xiaosong.common.web.login.LoginService;
+import com.xiaosong.common.web.machine.MachineService;
+import com.xiaosong.common.web.sysUser.SysUserService;
+import com.xiaosong.constant.*;
+import com.xiaosong.model.*;
 import com.xiaosong.util.*;
 import com.xiaosong.util.Base64;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -128,7 +132,7 @@ public class visitDeviceController  extends Controller {
             Long userId = jsonObject.getLong("user_id");
             Long recordId = jsonObject.getLong("record_id");
             CommonResult result = null;
-
+            List<String> QRCodeList = new ArrayList<>();
 
             if(StringUtils.isNotEmpty(idCard) && StringUtils.isNotEmpty(name) && StringUtils.isNotEmpty(photo) && userId != null) {
 
@@ -162,9 +166,16 @@ public class visitDeviceController  extends Controller {
                     boolean r = vDeptUser.update();
                     if (r) {
                         file.delete();
-                        Db.update("update v_visitor_record set cstatus ='applySuccess' where  recordType =2  and cstatus = 'applyConfirm' and userId =? and endDate>?", userId, DateUtil.getSystemTime());
+                        String sqlWhere = " where recordType =2  and cstatus = 'applyConfirm' and userId =? and endDate>?";
+                        Db.update("update v_visitor_record set cstatus ='applySuccess'"+ sqlWhere, userId, DateUtil.getSystemTime());
+                        List<VVisitorRecord> vVisitorRecords = VVisitorRecord.dao.find("select * from v_visitor_record "+ sqlWhere, userId, DateUtil.getSystemTime());
+                        if(vVisitorRecords!=null && vVisitorRecords.size()>0) {
+                            vVisitorRecords.stream().forEach(x->{
+                                addQRCode(QRCodeList, name, x);
+                            });
+                        }
                     }
-                    result = new CommonResult(0,"操作成功");
+                    result = new CommonResult(0,"操作成功",QRCodeList);
                     WebSocketSyncData.me.sendVisitorData();
                 }
 
@@ -178,14 +189,21 @@ public class visitDeviceController  extends Controller {
                 {
                     result = new CommonResult(3,"参数不合法");
                 }
-                else if(vVisitorRecord.getRecordType()==1)
-                {
-                    result = new CommonResult(3,"访问类型不是邀约");
-                }else {
-                    vVisitorRecord.setCstatus("applySuccess");
-                    vVisitorRecord.update();
-                    result = new CommonResult(0,"操作成功");
-                    WebSocketSyncData.me.sendVisitorData();
+                else {
+                    //访问类型只返回二维码内容，邀约类型并且未确认的修改未审核通过，并打印二维码
+                    if(vVisitorRecord.getRecordType()!=1 && "applyConfirm".equals(vVisitorRecord.getCstatus()))
+                    {
+                        vVisitorRecord.setCstatus("applySuccess");
+                        vVisitorRecord.update();
+                        WebSocketSyncData.me.sendVisitorData();
+                    }
+                    VDeptUser vDeptUser =  VDeptUser.dao.findById(vVisitorRecord.getUserId());
+                    if(vDeptUser!=null) {
+                        addQRCode(QRCodeList, vDeptUser.getRealName(), vVisitorRecord);
+                        result = new CommonResult(0, "操作成功", QRCodeList);
+                    }else{
+                        result = new CommonResult(4444, "服务异常");
+                    }
                 }
             }
             renderJson(result);
@@ -248,6 +266,9 @@ public class visitDeviceController  extends Controller {
             String scene_photo = jsonObject.getString("scene_photo");
             String apply_type = jsonObject.getString("apply_type"); //申请方式0：手机申请；1：二代证自助预约；2：无证自助预约；3：二代证人工预约；4：无证人工预约
             String retinues = jsonObject.getString("retinues");  //随行人员
+            BigInteger createUserId = jsonObject.getBigInteger("create_user_id");
+            String machineCode = jsonObject.getString("machine_code");
+
 
             if(scene_photo.isEmpty() || visitor_name.isEmpty() || visitor_phone.isEmpty() ||visitor_card_no.isEmpty()||appoint_time.isEmpty()){
                 renderJson(new CommonResult<>(1,"参数不完整"));
@@ -268,7 +289,7 @@ public class visitDeviceController  extends Controller {
             boolean result =  Db.tx(()->{
                 staff.setAddr(visit_address);
                 staff.update();
-                VVisitorRecord vVisitorRecord =  addVisitor(visitorList,workKey,visitor_name,visitor_card_no,visitor_phone,visitor_sex,scene_photo,visit_reason,appoint_time,apply_type,visitor_plate,visit_hours,null,visitor_cmp,staff);
+                VVisitorRecord vVisitorRecord =  addVisitor(visitorList,workKey,visitor_name,visitor_card_no,visitor_phone,visitor_sex,scene_photo,visit_reason,appoint_time,apply_type,visitor_plate,visit_hours,null,visitor_cmp,staff,createUserId,machineCode);
                 addQRCode(QRCodeList,visitor_name,vVisitorRecord);
 
                 if(vVisitorRecord!= null && retinues != null){
@@ -279,7 +300,7 @@ public class visitDeviceController  extends Controller {
                         String retinueVisitorCardNo = retinueEntity.getVisitor_card_no();
                         String retinueVisitorPhone= retinueEntity.getVisitor_phone();
                         String retinueVisitorSex= retinueEntity.getVisitor_sex();
-                        VVisitorRecord retinueRecord = addVisitor(visitorList,workKey,retinueVisitorName,retinueVisitorCardNo,retinueVisitorPhone,retinueVisitorSex,retinuePhoto,visit_reason,appoint_time,apply_type,visitor_plate,visit_hours,vVisitorRecord.getId(),visitor_cmp,staff);
+                        VVisitorRecord retinueRecord = addVisitor(visitorList,workKey,retinueVisitorName,retinueVisitorCardNo,retinueVisitorPhone,retinueVisitorSex,retinuePhoto,visit_reason,appoint_time,apply_type,visitor_plate,visit_hours,vVisitorRecord.getId(),visitor_cmp,staff,createUserId,machineCode);
                         addQRCode(QRCodeList,retinueVisitorName,retinueRecord);
                     }
                 }
@@ -332,6 +353,10 @@ public class visitDeviceController  extends Controller {
         String card_no = jsonObject.getString("card_no");
         String phone = jsonObject.getString("phone");
         String query_type = jsonObject.getString("query_type");
+        Long createUserId = jsonObject.getLong("create_user_id");
+        String machineCode = jsonObject.getString("machine_code");
+        Integer recordType = jsonObject.getInteger("record_type");
+
         try {
 
             List<Record> list = null;
@@ -348,7 +373,7 @@ public class visitDeviceController  extends Controller {
             if ("1".equals(query_type)) {
                 list = new ArrayList<>();
                 List<Long> visitorIds = new ArrayList<>();
-                List<Record> findList = visitorRecordService.findValidList(userId, null,"desc");
+                List<Record> findList = visitorRecordService.findValidList(userId, null,null,null,"desc");
                 for (Record record : findList) {
                     Long visitorId = record.getLong("staff_id");
                     if (list.size() >= 9) {
@@ -367,7 +392,7 @@ public class visitDeviceController  extends Controller {
                     renderJson(new CommonResult(1,"参数不完整"));
                     return;
                 }
-                Page<Record> recordPage = visitorRecordService.findValidListPage(page_number,page_size,userId,phone,"desc");
+                Page<Record> recordPage = visitorRecordService.findValidListPage(page_number,page_size,userId,phone,createUserId,machineCode,recordType,"desc");
                 if(recordPage!=null) {
                     HashMap map = new HashMap();
                     map.put("total", recordPage.getTotalRow());
@@ -385,9 +410,8 @@ public class visitDeviceController  extends Controller {
                 return;
             }
             else {
-                list = visitorRecordService.findValidList(userId, getDateTime(),"asc");
+                list = visitorRecordService.findValidList(userId, getDateTime(),createUserId,machineCode,"asc");
             }
-
             renderJson(new CommonResult(0, "获取成功", list));
         } catch (Exception e) {
             renderJson(new CommonResult(444, "服务异常"));
@@ -396,7 +420,113 @@ public class visitDeviceController  extends Controller {
     }
 
 
-    private VVisitorRecord addVisitor(List<HashMap<String,Object>> visitorList,String workKey,String visitor_name,String visitor_card_no,String visitor_phone,String visitor_sex,String scene_photo,String visit_reason,String appoint_time,String apply_type,String visitor_plate,String visit_hours,Long pid,String visitor_cmp,VDeptUser staff) {
+
+    public void login() {
+        String data = HttpKit.readData(getRequest());
+        if (!isValued(data)) {
+            return;
+        }
+        try {
+            JSONObject jsonObject = JSONObject.parseObject(data);
+            Map<String, Object> map = new HashMap<String, Object>();
+            String username = jsonObject.getString("user_name");
+            String password = jsonObject.getString("password");
+            password = MD5Util.MD5(password);
+            VSysUser user = LoginService.me.checkLoginUser(username, password);
+            if(user!=null) {
+                map.put("user_name", username);
+                map.put("real_name", user.getTrueName());
+                map.put("role_id", user.getRoleId());
+                map.put("user_id", user.getId().toString());
+                renderJson(new CommonResult(0,"登录成功",map));
+            }else {
+                renderJson(new CommonResult(3, "无相关记录"));
+            }
+        }
+        catch (Exception ex)
+        {
+            renderJson(new CommonResult(444, "服务异常"));
+        }
+
+    }
+
+
+
+    public void editPwd() throws Exception {
+        String data = HttpKit.readData(getRequest());
+        if (!isValued(data)) {
+            return;
+        }
+        JSONObject jsonObject = JSONObject.parseObject(data);
+        Long id = jsonObject.getLong("user_id");
+        String oldPwd =jsonObject.getString("old_pwd");
+        String newPwd = jsonObject.getString("new_pwd");
+        oldPwd = MD5Util.MD5(oldPwd);
+        newPwd = MD5Util.MD5(newPwd);
+        List<VSysUser> sysuser = LoginService.me.checkPwd(id, oldPwd);
+        if(sysuser!=null&&sysuser.size()>0) {
+            if(LoginService.me.editPwd(id, newPwd)) {
+                renderJson(new CommonResult(0,"操作成功"));
+            }else {
+                renderJson(new CommonResult(3,"修改失败"));
+            }
+        }else {
+            renderJson(new CommonResult(3,"密码错误"));
+        }
+
+    }
+
+
+    public void getMachineList(){
+        String data = HttpKit.readData(getRequest());
+        if (!isValued(data)) {
+            return;
+        }
+        List<VMachine> machineList = MachineService.me.getMachineList();
+        renderJson(new CommonResult(0,"操作成功",machineList));
+    }
+
+
+    public void statVisitorRecord() {
+
+        String data = HttpKit.readData(getRequest());
+        if (!isValued(data)) {
+            return;
+        }
+         List<Record> list =  VisitorRecordService.me.statVisitorRecordToday();
+         int visitCount = 0;
+         int inviteCount=0;
+         HashMap<String,Object> resultMap = new HashMap<>();
+         if(list!=null && list.size()>0)
+         {
+             List<HashMap<String,Object>> detailList = new ArrayList<>();
+             for(Record record : list){
+                 HashMap<String,Object> map = new HashMap<>();
+                 int num = record.getInt("num");
+                 int recordType = record.getInt("recordType");
+                 String orgName = record.getStr("org_name");
+                 if(recordType == 1) {
+                     visitCount += num;
+                     map.put("org_name",orgName);
+                     map.put("num",num);
+                     detailList.add(map);
+                 }
+                 else if(recordType == 2)
+                 {
+                     inviteCount +=num;
+                 }
+
+             }
+             resultMap.put("detail_list",detailList);
+         }
+        resultMap.put("visit_count",visitCount);
+        resultMap.put("invite_count",inviteCount);
+        renderJson(new CommonResult(0,"操作成功",resultMap));
+    }
+
+
+
+    private VVisitorRecord addVisitor(List<HashMap<String,Object>> visitorList, String workKey, String visitor_name, String visitor_card_no, String visitor_phone, String visitor_sex, String scene_photo, String visit_reason, String appoint_time, String apply_type, String visitor_plate, String visit_hours, BigInteger pid, String visitor_cmp, VDeptUser staff, BigInteger createUserId, String machineCode) {
 
         VVisitorRecord visitorRecord = null;
         try {
@@ -430,12 +560,20 @@ public class visitDeviceController  extends Controller {
             } else {
                 userId = user.getLong("id");
                 vDeptUser = VDeptUser.dao.findById(userId);
+                if(StringUtils.isNotEmpty(visitor_phone)) {
+                    vDeptUser.setPhone(visitor_phone);
+                }
+                if(StringUtils.isNotEmpty(visitor_sex)) {
+                    vDeptUser.setSex(visitor_sex);
+                }
                 if ("visitor".equals(vDeptUser.getUserType()) || StringUtils.isBlank(vDeptUser.getIdHandleImgUrl()))
                 {
                     fileName = deptUserService.uploadUserImg(file.getAbsolutePath(), "" + userId);
                     vDeptUser.setIdHandleImgUrl(fileName);
                 }
-                vDeptUser.setAddr(visitor_cmp);
+                if(StringUtils.isNotEmpty(visitor_cmp)) {
+                    vDeptUser.setAddr(visitor_cmp);
+                }
                 vDeptUser.update();
                 file.delete();
             }
@@ -450,7 +588,9 @@ public class visitDeviceController  extends Controller {
                     .setIsReceive("F")
                     .setVitype(apply_type)
                     .setCompanyId(staff.getLong("deptId"))
-                    .setPid(pid)
+                    .setPid(pid!=null?pid.longValue():null)
+                    .setMachineCode(machineCode)
+                    .setCreateUser(createUserId!=null?createUserId.longValue():null)
                     .setOrgCode(staff.getStr("org_id"));
 
             if (StringUtils.isNotBlank(visitor_plate)) {
@@ -603,4 +743,9 @@ public class visitDeviceController  extends Controller {
             visitorList.add(mapVisitor);
         }
     }
+
+
+
+
+
 }
