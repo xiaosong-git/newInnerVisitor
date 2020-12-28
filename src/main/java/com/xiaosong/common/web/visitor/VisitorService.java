@@ -53,7 +53,7 @@ public class VisitorService {
 				") as b " ;
 
 */
-         String sqls ="  select  du1.idNO,case cstatus when 'applyConfirm' then '等待审核' when 'applySuccess' then '审核通过' when 'applyFail' then '拒绝访问' end as cstatusName,cstatus ,CONCAT(visitDate,\" \",visitTime) visitDateTime, du1.realName userName,du1.phone userPhone,startDate,endDate,CONCAT(DATE_FORMAT(startDate,'%H:%m'),'~',DATE_FORMAT(endDate,'%H:%m')) as visitTimePeriod,du2.realName visitorName,du2.phone visitorPhone   from v_visitor_record  v left join v_dept_user  du1 on v.userId = du1.id LEFT JOIN v_dept_user du2 on v.visitorId =du2.id ";
+         String sqls ="  select su.true_name,su.username, du1.idNO,case cstatus when 'applyConfirm' then '等待审核' when 'applySuccess' then '审核通过' when 'applyFail' then '拒绝访问' end as cstatusName,cstatus ,CONCAT(visitDate,\" \",visitTime) visitDateTime, du1.realName userName,du1.phone userPhone,startDate,endDate,CONCAT(DATE_FORMAT(startDate,'%H:%m'),'~',DATE_FORMAT(endDate,'%H:%m')) as visitTimePeriod,du2.realName visitorName,du2.phone visitorPhone   from v_visitor_record  v left join v_dept_user  du1 on v.userId = du1.id LEFT JOIN v_dept_user du2 on v.visitorId =du2.id left join v_sys_user su on v.createUser = su.id";
 
 		if(realName!=null &&realName!="") {
 			params.add(realName);

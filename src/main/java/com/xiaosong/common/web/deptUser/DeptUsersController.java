@@ -49,9 +49,13 @@ public class DeptUsersController extends Controller{
 		String realName = getPara("realName");
 		String dept = getPara("dept");
 		String idHandleImgUrl = getPara("idHandleImgUrl");
+        String phone = getPara("phone");
+        String cardNo = getPara("cardNo");
+        String idCard = getPara("idCard");
+
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(realName,dept,idHandleImgUrl,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(realName,dept,idHandleImgUrl,phone,cardNo,idCard,currentPage,pageSize);
 		List<Record> recordList = pagelist.getList();
 		Record user_key = Db.findFirst("select * from v_user_key");
 		for(Record record : recordList)
@@ -353,12 +357,10 @@ public class DeptUsersController extends Controller{
 				String remark = getCellValue(row, 9);
 				String strActiveDate = getCellValue(row, 10);
 				String strExpiryDate = getCellValue(row, 11);
-
 				Date activeDate = null;
 				Date expiryDate = null;
 				activeDate = DateUtil.changeDate(strActiveDate);
 				expiryDate = DateUtil.changeDate(strExpiryDate);
-
 				Long deptId = null;
 
 				if (StringUtils.isBlank(realName) || StringUtils.isBlank(idNo)) {
@@ -670,7 +672,11 @@ public class DeptUsersController extends Controller{
 		String realName = getPara("realName");
 		String dept = getPara("dept");
 		String idHandleImgUrl = getPara("idHandleImgUrl");
-		List<Record> recordList = srv.findRecordList(realName,dept,idHandleImgUrl);
+        String phone = getPara("phone");
+        String cardNo = getPara("cardNo");
+        String idCard = getPara("idCard");
+
+		List<Record> recordList = srv.findRecordList(realName,dept,idHandleImgUrl,phone,cardNo,idCard);
 		Record user_key = Db.findFirst("select * from v_user_key");
 		for(Record record : recordList)
 		{
@@ -778,7 +784,7 @@ public class DeptUsersController extends Controller{
 	public void findListByDeptId() {
 
 		String dept = getPara("dept");
-		List<Record> recordList = srv.findRecordList(null,dept,null);
+		List<Record> recordList = srv.findRecordList(null,dept,null,null,null,null);
 		renderJson(recordList);
 	}
 

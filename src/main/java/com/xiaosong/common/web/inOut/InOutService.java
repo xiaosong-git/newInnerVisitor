@@ -5,8 +5,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +16,7 @@ public class InOutService {
 
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
-        sql.append("from v_d_inout where 1=1");
+        sql.append(" from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName where 1=1");
         if(userName!=null){
             sql.append(" and userName = ?");
             objects.add(userName);
@@ -40,16 +38,14 @@ public class InOutService {
             sql.append(" and scanDate <= ?");
             objects.add(endDate);
         }
-
-
         sql.append(" order by id desc");
-        return Db.paginate(currentPage, pageSize, "select *", sql.toString(),objects.toArray());
+        return Db.paginate(currentPage, pageSize, "select a.*,b.phone,b.cardNO,b.idNO,b.deptId ", sql.toString(),objects.toArray());
     }
 
     public List<Record> downReport(String userName,String userType,String inOrOut,String startDate, String endDate){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
-        sql.append("select * from v_d_inout where 1=1");
+        sql.append("select a.*,b.phone,b.cardNO,b.idNO,b.deptId from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName where 1=1");
         if(userName!=null){
             sql.append(" and userName = ?");
             objects.add(userName);

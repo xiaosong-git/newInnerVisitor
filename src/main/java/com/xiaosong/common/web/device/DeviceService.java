@@ -74,4 +74,10 @@ public class DeviceService {
 	}
 
 
+	public List<VDevice> findAll()
+	{
+		return VDevice.dao.findAll();
+	}
+
+
 }

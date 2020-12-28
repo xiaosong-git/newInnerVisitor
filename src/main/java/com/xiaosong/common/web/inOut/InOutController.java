@@ -2,15 +2,21 @@ package com.xiaosong.common.web.inOut;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.bean.InOutBean;
 import com.xiaosong.bean.VisitorsBean;
+import com.xiaosong.common.web.dept.DeptService;
+import com.xiaosong.common.web.device.DeviceService;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.ErrorCodeDef;
+import com.xiaosong.model.VDevice;
+import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.ExcelUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +39,43 @@ public class InOutController extends Controller {
         int currentPage = getInt("currentPage");
         int pageSize = getInt("pageSize");
         Page<Record> pagelist = srv.findList(userName,userType,inOrOut,startDate,endDate,currentPage,pageSize);
+        List list = pagelist.getList();
+        List<Record> depts = DeptService.me.findDeptList();
+        List<VDevice> devices =DeviceService.me.findAll();
+        Record user_key = Db.findFirst("select * from v_user_key");
+
+        for(Object obj : list)
+        {
+            Record record = (Record) obj;
+            String deptId  = record.getStr("deptId");
+            String deviceIp = record.getStr("deviceIp");
+            String idCard = record.getStr("idCard");
+
+            if(StringUtils.isNotBlank(deptId))
+            {
+                for(Record dept : depts) {
+                    if (deptId.equals(dept.getStr("dept_id")))
+                    {
+                        record.set("deptName",dept.getStr("dept_name"));
+                        break;
+                    }
+                }
+            }
+
+            if(StringUtils.isNotBlank(deviceIp))
+            {
+                for(VDevice vDevice : devices) {
+                    if (deviceIp.equals(vDevice.getExtra2()))
+                    {
+                        record.set("addr",vDevice.getExtra2());
+                        break;
+                    }
+                }
+            }
+
+            String idNo = DESUtil.decode(user_key.getStr("workKey"), idCard);
+            record.set("idCard",idNo);
+        }
         renderJson(pagelist);
     }
 

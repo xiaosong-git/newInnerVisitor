@@ -31,19 +31,19 @@ public class DeptUserService {
 	public static final	DeptUserService me = new DeptUserService();
 	private String imgServerUrl = MainConfig.p.get("imgServerUrl");//图片服务地址
 
-	public Page<Record> findList(String realName,String dept,String idHandleImgUrl, int currentPage, int pageSize){
-	   SqlPara sqlPara =	findList(realName,dept,idHandleImgUrl);
+	public Page<Record> findList(String realName,String dept,String idHandleImgUrl,String phone,String cardNo,String idCard, int currentPage, int pageSize){
+	   SqlPara sqlPara =	findList(realName,dept,idHandleImgUrl,phone,cardNo,idCard);
 	   return Db.paginate(currentPage, pageSize, sqlPara);
 	}
 
 
-	public List<Record> findRecordList(String realName,String dept,String idHandleImgUrl){
-		SqlPara sqlPara =findList(realName,dept,idHandleImgUrl);
+	public List<Record> findRecordList(String realName,String dept,String idHandleImgUrl,String phone,String cardNo,String idCard){
+		SqlPara sqlPara =findList(realName,dept,idHandleImgUrl,phone,cardNo,idCard);
 		return Db.find(sqlPara);
 	}
 
 
-	private SqlPara findList(String realName,String dept,String idHandleImgUrl){
+	private SqlPara findList(String realName,String dept,String idHandleImgUrl,String phone,String cardNo,String idCard){
 
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
@@ -67,6 +67,26 @@ public class DeptUserService {
 				sql.append(" and u.idHandleImgUrl is not null ");
 			}
 		}
+
+
+		if(StringUtils.isNotBlank(phone)){
+			sql.append(" and u.phone = ? ");
+			objects.add(phone);
+		}
+
+		if(StringUtils.isNotBlank(cardNo)){
+			sql.append(" and u.cardNo = ? ");
+			objects.add(cardNo);
+		}
+
+		if(StringUtils.isNotBlank(idCard)){
+			Record record = Db.findFirst("select * from v_user_key");
+			String idNo = DESUtil.encode(record.getStr("workKey"), idCard);
+			sql.append(" and u.idNo = ? ");
+			objects.add(idNo);
+		}
+
+
 
 		sql.append(" order by u.id desc) as a ");
 
