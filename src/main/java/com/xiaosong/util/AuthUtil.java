@@ -18,14 +18,19 @@ public class AuthUtil {
 
     public static void main(String[] args) throws Exception {
       //  fk("140107198411203046","陶鸥");
-       // JSONObject result =  ys3("32042119760310271X","杨军","1375219980110032054");
+        //JSONObject result2 =  ys3("32042119760310271X","杨军","1375219980110032054");
 
      //   JSONArray jsonArray  = result.getJSONArray("data");
 
         //System.out.print(result.toJSONString());
-        JSONObject result2 = fk("500382198510163172","祖映兵");
-       System.out.print(result2.toJSONString());
+        //JSONObject result2 = fk2("500382198510163172","祖映兵");
+       //System.out.print(result2.toJSONString());
 
+
+
+       String idcard = "FC268D412AAE08E79D6F99258BCEE426565D31147CEF894B";
+        String idNo = DESUtil.decode("iB4drRzSrC", idcard);
+        System.out.print(idNo);
     }
 
     public static JSONObject auth(String idNO, String realName, String idHandleImgUrl) throws Exception {
@@ -57,7 +62,7 @@ public class AuthUtil {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
         Request request = new Request.Builder()
-                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
+                .url("http://192.168.10.80:8882/wisdom-new/entrance/pub")
                 .method("POST", body1)
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build();
@@ -221,7 +226,7 @@ public class AuthUtil {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
         Request request = new Request.Builder()
-                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
+                .url("http://47.110.18.250/wisdom/entrance/pub")
                 .method("POST", body1)
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build();
@@ -266,7 +271,7 @@ public class AuthUtil {
         RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
         Request request = new Request.Builder()
                 //.url("http://127.0.0.1:8882/wisdom-new/entrance/pub")
-                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
+                .url("http://47.99.209.40:8082/wisdom/entrance/pub")
                 .method("POST", body1)
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build();

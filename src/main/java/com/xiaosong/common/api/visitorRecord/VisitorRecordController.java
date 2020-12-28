@@ -148,7 +148,7 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
-    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    //@AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void visitReply(){
         VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
         try {

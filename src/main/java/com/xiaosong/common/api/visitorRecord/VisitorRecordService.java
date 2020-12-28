@@ -267,7 +267,7 @@ public class VisitorRecordService extends MyBaseService {
                     String msg_content = "【朋悦比邻】您好，您有一条邀约已回应，请登入app查收!";
                     boolean single = false;
 
-//						String deviceType = BaseUtil.objToStr(toUser.get("deviceType"), "0");
+//					String deviceType = BaseUtil.objToStr(toUser.get("deviceType"), "0");
 
                     String phone = BaseUtil.objToStr(toUser.get("phone"), "0");
                     //个推
@@ -305,7 +305,7 @@ public class VisitorRecordService extends MyBaseService {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
         }
         //被访者
-        VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
+        VDeptUser visitorBy = VDeptUser.dao.findFirst("select app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
@@ -593,7 +593,7 @@ public class VisitorRecordService extends MyBaseService {
 //        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
 ////        //如果用户不存在
 //        VDeptUser user = VDeptUser.dao.findFirst(para);
-        String sql = "select id,deptId companyId,realName,idNO,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
+        String sql = "select app_type,registration_id,id,deptId companyId,realName,idNO,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
                 "where currentStatus='normal' and phone='" + phone + "'";
 //        //被邀者==访问者
         VDeptUser invitor = VDeptUser.dao.findFirst(sql);

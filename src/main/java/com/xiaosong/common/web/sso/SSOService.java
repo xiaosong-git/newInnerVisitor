@@ -163,7 +163,7 @@ public class SSOService {
                 log.debug("用户已存在");
                 return true;
             }
-            else if("accessToken错误".equals(msg))
+            else if("accessToken错误".equals(msg) || "accessToken已过期".equals(msg))
             {
                 token =  refreshToken();
                 userSync( token , username, password, name, phone, idCard, organCode);
@@ -215,7 +215,7 @@ public class SSOService {
                 log.debug("组织机构已存在");
                 return true;
             }
-            else if("accessToken错误".equals(msg))
+            else if("accessToken错误".equals(msg) || "accessToken已过期".equals(msg))
             {
                 token =  refreshToken();
                 deptSync( token , code, deptName);
@@ -246,6 +246,8 @@ public class SSOService {
         userMap.put("type", type);
         userMap.put("registrationId", registrationId);
         userMap.put("content", content);
+        userMap.put("pushType", "alert");
+        userMap.put("audience","one");
         if(!"android".equals(type)) {
             userMap.put("apns", true);
         }
@@ -269,7 +271,7 @@ public class SSOService {
         else
         {
             String msg = jsonResult.getString("msg");
-            if("accessToken错误".equals(msg))
+            if("accessToken错误".equals(msg) || "accessToken已过期".equals(msg))
             {
                 token =  refreshToken();
                 push( token , type, registrationId, content);

@@ -625,8 +625,6 @@ public class visitDeviceController  extends Controller {
         return visitorRecord;
     }
 
-
-
     public void testService(){
         renderJson(new CommonResult(0,"请求成功"));
     }
