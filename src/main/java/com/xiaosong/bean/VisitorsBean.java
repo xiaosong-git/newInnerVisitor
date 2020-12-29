@@ -34,6 +34,15 @@ public class VisitorsBean {
      */
     private String outTime;
 
+    private String trueName;
+
+    public String getTrueName() {
+        return trueName;
+    }
+
+    public void setTrueName(String trueName) {
+        this.trueName = trueName;
+    }
 
     public String getUserName() {
         return userName;

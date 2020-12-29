@@ -65,7 +65,7 @@ public class InOutController extends Controller {
             if(StringUtils.isNotBlank(deviceIp))
             {
                 for(VDevice vDevice : devices) {
-                    if (deviceIp.equals(vDevice.getExtra2()))
+                    if (deviceIp.equals(vDevice.getIp()))
                     {
                         record.set("addr",vDevice.getExtra2());
                         break;
@@ -90,8 +90,53 @@ public class InOutController extends Controller {
         String endDate = getPara("endDate");
         List<Record> recordList = srv.downReport(userName,userType,inOrOut,startDate,endDate);
 
+
+
+
         List outputList = new ArrayList<>();
         if (recordList != null && recordList.size() > 0) {
+
+
+
+
+            List<Record> depts = DeptService.me.findDeptList();
+            List<VDevice> devices =DeviceService.me.findAll();
+            Record user_key = Db.findFirst("select * from v_user_key");
+
+            for(Object obj : recordList)
+            {
+                Record record = (Record) obj;
+                String deptId  = record.getStr("deptId");
+                String deviceIp = record.getStr("deviceIp");
+                String idCard = record.getStr("idCard");
+
+                if(StringUtils.isNotBlank(deptId))
+                {
+                    for(Record dept : depts) {
+                        if (deptId.equals(dept.getStr("dept_id")))
+                        {
+                            record.set("deptName",dept.getStr("dept_name"));
+                            break;
+                        }
+                    }
+                }
+
+                if(StringUtils.isNotBlank(deviceIp))
+                {
+                    for(VDevice vDevice : devices) {
+                        if (deviceIp.equals(vDevice.getIp()))
+                        {
+                            record.set("addr",vDevice.getExtra2());
+                            break;
+                        }
+                    }
+                }
+
+                String idNo = DESUtil.decode(user_key.getStr("workKey"), idCard);
+                record.set("idCard",idNo);
+            }
+
+
             // 生成文件并返回
             for (int i = 0; i < recordList.size(); i++) {
                 Record record = recordList.get(i);
@@ -101,6 +146,11 @@ public class InOutController extends Controller {
                 sd.setScanDate(record.getStr("scanDate"));
                 sd.setScanTime(record.getStr("scanTime"));
                 sd.setUserName(record.getStr("userName"));
+                sd.setIdNo(record.getStr("idCard"));
+                sd.setCardNo(record.getStr("cardNo"));
+                sd.setDeptName(record.getStr("deptName"));
+                sd.setPhone(record.getStr("phone"));
+                sd.setAddr(record.getStr("addr"));
                 sd.setUserType("staff".equals(record.getStr("userType")) ? "员工" : "访客");
                 sd.setDeviceType("FACE".equals(record.getStr("deviceType"))? "人脸设备" : "二维码设备");
                 sd.setInOrOut("in".equals(record.getStr("inOrOut")) ? "进" : "出");
@@ -122,7 +172,7 @@ public class InOutController extends Controller {
             }
         }
 
-        String[] title = {  "序号", "通行日期", "通行时间","姓名","人员类型","设备类型","设备IP","进出类型"};
+        String[] title = {  "序号", "通行日期", "通行时间","姓名","卡号","身份证号","手机号码","部门","人员类型","设备类型","设备IP","进出类型","通道"};
         byte[] data = ExcelUtil.export("通行人员报表", title, outputList);
         try {
             FileUtils.writeByteArrayToFile(exportFile, data, true);

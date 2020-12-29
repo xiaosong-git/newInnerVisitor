@@ -309,7 +309,7 @@ public class visitDeviceController  extends Controller {
             });
 
             if(result) {
-                if (!"T".equals(Params.getAutoApproval())) //自动审核不发送请求审核短信
+                if (!"T".equals(Params.getAutoApproval()) && ("1".equals(apply_type) || "2".equals(apply_type))) //自动审核不发送请求审核短信
                 {
                     CodeService.me.pushMsg(staff, YunPainSmsUtil.MSG_TYPE_VERIFY, null, null, appoint_time, visitor_name);
                 }

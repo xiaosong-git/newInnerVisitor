@@ -21,6 +21,17 @@ public class InOutBean {
      * 姓名
      */
     private String userName;
+
+
+    private String cardNo;
+
+
+    private String idNo;
+
+    private String phone;
+
+
+    private String deptName;
     /**
      * 人员类型
      */
@@ -40,6 +51,50 @@ public class InOutBean {
      */
     private String inOrOut;
 
+    /**
+     * 通道
+     */
+    private String addr;
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public String getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(String idNo) {
+        this.idNo = idNo;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
 
     public Long getId() {
         return id;

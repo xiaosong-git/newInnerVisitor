@@ -37,10 +37,11 @@ public class VisitorsController extends Controller{
 		String endTime = getPara("endTime");
 		String startTime = getPara("startTime");
 		String visitorName = getPara("visitorName");
+		String trueName = getPara("trueName");
 		String cStatus = getPara("cstatus");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(realName, visitorName, startTime, endTime, cStatus,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(realName, visitorName, startTime, endTime, cStatus,trueName,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 
@@ -54,7 +55,8 @@ public class VisitorsController extends Controller{
 		String startTime = getPara("startTime");
 		String visitorName = getPara("visitorName");
 		String cStatus = getPara("cstatus");
-		List<Record> recordList = srv.findList(realName, visitorName, startTime, endTime, cStatus);
+		String trueName = getPara("trueName");
+		List<Record> recordList = srv.findList(realName, visitorName, startTime, endTime, cStatus,trueName);
 		List outputList = new ArrayList<>();
 		if (recordList != null && recordList.size() > 0) {
 			// 生成文件并返回
@@ -68,6 +70,7 @@ public class VisitorsController extends Controller{
 				sd.setVisitDateTime(record.getStr("visitDateTime"));
 				sd.setVisitorName(record.getStr("visitorName"));
 				sd.setUserName(record.getStr("userName"));
+				sd.setTrueName(record.getStr("true_name"));
 				outputList.add(sd);
 			}
 		}
@@ -85,7 +88,7 @@ public class VisitorsController extends Controller{
 				e.printStackTrace();
 			}
 		}
-		String[] title = {  "来访人", "受访人", "申请时间","访问时段", "状态", "进入时间","离开时间"};
+		String[] title = {  "来访人", "受访人", "申请时间","访问时段", "状态", "进入时间","离开时间","操作员"};
 		byte[] data = ExcelUtil.export("访客报表", title, outputList);
 		try {
 			FileUtils.writeByteArrayToFile(exportFile, data, true);
