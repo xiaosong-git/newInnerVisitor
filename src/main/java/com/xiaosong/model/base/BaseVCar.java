@@ -198,4 +198,109 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 		return getStr("reason");
 	}
 
+	/**
+	 * 受访者姓名
+	 */
+	public M setVisitorName(java.lang.String visitorName) {
+		set("visitorName", visitorName);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访者姓名
+	 */
+	public java.lang.String getVisitorName() {
+		return getStr("visitorName");
+	}
+
+	/**
+	 * 受访者手机号
+	 */
+	public M setVisitorPhone(java.lang.String visitorPhone) {
+		set("visitorPhone", visitorPhone);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访者手机号
+	 */
+	public java.lang.String getVisitorPhone() {
+		return getStr("visitorPhone");
+	}
+
+	/**
+	 * 出入类型
+	 */
+	public M setInOutType(java.lang.Integer inOutType) {
+		set("inOutType", inOutType);
+		return (M)this;
+	}
+	
+	/**
+	 * 出入类型
+	 */
+	public java.lang.Integer getInOutType() {
+		return getInt("inOutType");
+	}
+
+	/**
+	 * 受访者单位
+	 */
+	public M setVisitorDept(java.lang.String visitorDept) {
+		set("visitorDept", visitorDept);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访者单位
+	 */
+	public java.lang.String getVisitorDept() {
+		return getStr("visitorDept");
+	}
+
+	/**
+	 * 随车人数
+	 */
+	public M setNum(java.lang.Integer num) {
+		set("num", num);
+		return (M)this;
+	}
+	
+	/**
+	 * 随车人数
+	 */
+	public java.lang.Integer getNum() {
+		return getInt("num");
+	}
+
+	/**
+	 * 开始日期
+	 */
+	public M setStartDate(java.lang.String startDate) {
+		set("startDate", startDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 开始日期
+	 */
+	public java.lang.String getStartDate() {
+		return getStr("startDate");
+	}
+
+	/**
+	 * 结束日期
+	 */
+	public M setEndDate(java.lang.String endDate) {
+		set("endDate", endDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 结束日期
+	 */
+	public java.lang.String getEndDate() {
+		return getStr("endDate");
+	}
+
 }

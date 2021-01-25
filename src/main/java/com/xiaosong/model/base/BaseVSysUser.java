@@ -117,6 +117,21 @@ public abstract class BaseVSysUser<M extends BaseVSysUser<M>> extends Model<M> i
 		return getStr("createtime");
 	}
 
+	/**
+	 * 登入时间
+	 */
+	public M setLogintime(java.lang.String logintime) {
+		set("logintime", logintime);
+		return (M)this;
+	}
+	
+	/**
+	 * 登入时间
+	 */
+	public java.lang.String getLogintime() {
+		return getStr("logintime");
+	}
+
 	public M setExtra1(java.lang.String extra1) {
 		set("extra1", extra1);
 		return (M)this;

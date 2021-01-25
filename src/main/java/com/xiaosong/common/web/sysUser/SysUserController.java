@@ -23,11 +23,14 @@ public class SysUserController extends Controller{
 	public SysUserService srv = SysUserService.me;
 	
 	public void findList() {
-		String tel = getPara("queryString");
+		//todo 修改查询条件
+		String tel = get("tel");
+		String name = get("true_name");
+		Long roleId = getLong("role_id");
 		Long userId = getLong("userId");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(tel,userId,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(tel,name,roleId,userId,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 	

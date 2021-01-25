@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.hutool.core.date.DateUtil;
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
@@ -40,7 +42,9 @@ public class LoginController extends Controller{
 		passWord = MD5Util.MD5(passWord);
 		VSysUser user = srv.checkLoginUser(userName, passWord);
 		if(user!=null) {
+			//todo app用户登入登入
 			user.setToken(token);
+			user.setLogintime(DateUtil.now());
 			user.update();
 			map.put("token", token);
 			map.put("result", "success");
