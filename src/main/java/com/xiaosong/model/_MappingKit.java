@@ -16,7 +16,31 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
-		arp.addMapping("tb_failreceive", "failedId", TbFailreceive.class);
+		arp.addMapping("ACT_EVT_LOG", "LOG_NR_", ActEvtLog.class);
+		arp.addMapping("ACT_GE_BYTEARRAY", "ID_", ActGeBytearray.class);
+		arp.addMapping("ACT_GE_PROPERTY", "NAME_", ActGeProperty.class);
+		arp.addMapping("ACT_HI_ACTINST", "ID_", ActHiActinst.class);
+		arp.addMapping("ACT_HI_ATTACHMENT", "ID_", ActHiAttachment.class);
+		arp.addMapping("ACT_HI_COMMENT", "ID_", ActHiComment.class);
+		arp.addMapping("ACT_HI_DETAIL", "ID_", ActHiDetail.class);
+		arp.addMapping("ACT_HI_IDENTITYLINK", "ID_", ActHiIdentitylink.class);
+		arp.addMapping("ACT_HI_PROCINST", "ID_", ActHiProcinst.class);
+		arp.addMapping("ACT_HI_TASKINST", "ID_", ActHiTaskinst.class);
+		arp.addMapping("ACT_HI_VARINST", "ID_", ActHiVarinst.class);
+		arp.addMapping("ACT_ID_GROUP", "ID_", ActIdGroup.class);
+		arp.addMapping("ACT_ID_INFO", "ID_", ActIdInfo.class);
+		// Composite Primary Key order: GROUP_ID_,USER_ID_
+		arp.addMapping("ACT_ID_MEMBERSHIP", "GROUP_ID_,USER_ID_", ActIdMembership.class);
+		arp.addMapping("ACT_ID_USER", "ID_", ActIdUser.class);
+		arp.addMapping("ACT_RE_DEPLOYMENT", "ID_", ActReDeployment.class);
+		arp.addMapping("ACT_RE_MODEL", "ID_", ActReModel.class);
+		arp.addMapping("ACT_RE_PROCDEF", "ID_", ActReProcdef.class);
+		arp.addMapping("ACT_RU_EVENT_SUBSCR", "ID_", ActRuEventSubscr.class);
+		arp.addMapping("ACT_RU_EXECUTION", "ID_", ActRuExecution.class);
+		arp.addMapping("ACT_RU_IDENTITYLINK", "ID_", ActRuIdentitylink.class);
+		arp.addMapping("ACT_RU_JOB", "ID_", ActRuJob.class);
+		arp.addMapping("ACT_RU_TASK", "ID_", ActRuTask.class);
+		arp.addMapping("ACT_RU_VARIABLE", "ID_", ActRuVariable.class);
 		arp.addMapping("v_ad_banner", "id", VAdBanner.class);
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);

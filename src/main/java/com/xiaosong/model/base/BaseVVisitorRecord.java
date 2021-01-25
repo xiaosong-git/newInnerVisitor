@@ -21,7 +21,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	 * 智慧访客
 	 */
 	public java.lang.Long getId() {
-		return get("id");
+		return getLong("id");
 	}
 
 	/**

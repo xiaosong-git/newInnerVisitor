@@ -123,4 +123,79 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 		return getStr("approvalDateTime");
 	}
 
+	/**
+	 * 访问者手机号码
+	 */
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
+		return (M)this;
+	}
+	
+	/**
+	 * 访问者手机号码
+	 */
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
+	/**
+	 * 访问者姓名
+	 */
+	public M setUserName(java.lang.String userName) {
+		set("userName", userName);
+		return (M)this;
+	}
+	
+	/**
+	 * 访问者姓名
+	 */
+	public java.lang.String getUserName() {
+		return getStr("userName");
+	}
+
+	/**
+	 * 出入口
+	 */
+	public M setGate(java.lang.String gate) {
+		set("gate", gate);
+		return (M)this;
+	}
+	
+	/**
+	 * 出入口
+	 */
+	public java.lang.String getGate() {
+		return getStr("gate");
+	}
+
+	/**
+	 * 受访人ID
+	 */
+	public M setIntervieweeId(java.lang.Long intervieweeId) {
+		set("intervieweeId", intervieweeId);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访人ID
+	 */
+	public java.lang.Long getIntervieweeId() {
+		return getLong("intervieweeId");
+	}
+
+	/**
+	 * 事由
+	 */
+	public M setReason(java.lang.String reason) {
+		set("reason", reason);
+		return (M)this;
+	}
+	
+	/**
+	 * 事由
+	 */
+	public java.lang.String getReason() {
+		return getStr("reason");
+	}
+
 }

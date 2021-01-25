@@ -18,13 +18,13 @@ public abstract class BaseVUserRole<M extends BaseVUserRole<M>> extends Model<M>
 		return getLong("id");
 	}
 
-	public M setParentId(java.math.BigInteger parentId) {
+	public M setParentId(java.lang.Long parentId) {
 		set("parent_id", parentId);
 		return (M)this;
 	}
 	
-	public java.math.BigInteger getParentId() {
-		return get("parent_id");
+	public java.lang.Long getParentId() {
+		return getLong("parent_id");
 	}
 
 	/**
