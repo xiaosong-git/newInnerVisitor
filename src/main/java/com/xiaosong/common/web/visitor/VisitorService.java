@@ -103,6 +103,8 @@ public class VisitorService {
 				{
 					continue;
 				}
+
+
 				String startDate = record.getStr("startDate").substring(11,16);
 				String endDate = record.getStr("endDate").substring(11,16);
 

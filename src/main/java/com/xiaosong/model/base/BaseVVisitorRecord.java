@@ -12,7 +12,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	/**
 	 * 智慧访客
 	 */
-	public M setId(java.math.BigInteger id) {
+	public M setId(java.lang.Long id) {
 		set("id", id);
 		return (M)this;
 	}
@@ -20,7 +20,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	/**
 	 * 智慧访客
 	 */
-	public java.math.BigInteger getId() {
+	public java.lang.Long getId() {
 		return get("id");
 	}
 

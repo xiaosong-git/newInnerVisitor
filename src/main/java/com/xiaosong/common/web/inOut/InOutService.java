@@ -22,7 +22,7 @@ public class InOutService {
             objects.add(userName);
         }
         if(userType != null){
-            sql.append(" and userType = ?");
+            sql.append(" and a.userType = ?");
             objects.add(userType);
         }
 
@@ -51,7 +51,7 @@ public class InOutService {
             objects.add(userName);
         }
         if(userType != null){
-            sql.append(" and userType = ?");
+            sql.append(" and a.userType = ?");
             objects.add(userType);
         }
 

@@ -3,11 +3,14 @@ package com.xiaosong.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Params;
 import okhttp3.*;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -28,9 +31,23 @@ public class AuthUtil {
 
 
 
-       String idcard = "FC268D412AAE08E79D6F99258BCEE426565D31147CEF894B";
-        String idNo = DESUtil.decode("iB4drRzSrC", idcard);
-        System.out.print(idNo);
+//       String idcard = "FC268D412AAE08E79D6F99258BCEE426565D31147CEF894B";
+//        String idNo = DESUtil.decode("iB4drRzSrC", idcard);
+//        System.out.print(idNo);
+
+        String data= "2021-01-01 11:11:22";
+        String startDate = data.substring(11,16);
+        System.out.print(startDate);
+        try{
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.parse(data);
+        }
+        catch (ParseException ex)
+        {
+            System.out.print("日期格式不正确!");
+        }
+
     }
 
     public static JSONObject auth(String idNO, String realName, String idHandleImgUrl) throws Exception {
@@ -62,7 +79,7 @@ public class AuthUtil {
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
         Request request = new Request.Builder()
-                .url("http://192.168.10.80:8882/wisdom-new/entrance/pub")
+                .url("http://47.99.129.98:8082/wisdom/entrance/pub")
                 .method("POST", body1)
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build();

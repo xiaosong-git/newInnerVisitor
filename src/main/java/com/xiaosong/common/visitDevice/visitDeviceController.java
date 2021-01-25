@@ -266,7 +266,7 @@ public class visitDeviceController  extends Controller {
             String scene_photo = jsonObject.getString("scene_photo");
             String apply_type = jsonObject.getString("apply_type"); //申请方式0：手机申请；1：二代证自助预约；2：无证自助预约；3：二代证人工预约；4：无证人工预约
             String retinues = jsonObject.getString("retinues");  //随行人员
-            BigInteger createUserId = jsonObject.getBigInteger("create_user_id");
+            Long createUserId = jsonObject.getLong("create_user_id");
             String machineCode = jsonObject.getString("machine_code");
 
 
@@ -278,8 +278,8 @@ public class visitDeviceController  extends Controller {
             String workKey = record.getStr("workKey");
 
             VDeptUser staff = VDeptUser.dao.findById(staff_id);
-            if(staff == null){
-                renderJson(new CommonResult<>(3,"该员工无相关记录"));
+            if(staff == null /*|| "visitor".equals(staff.getUserType())*/){
+                renderJson(new CommonResult<>(3,"无该员工相关记录"));
                 return;
             }
             List<HashMap<String,Object>> visitorList = new ArrayList<>();
@@ -309,7 +309,7 @@ public class visitDeviceController  extends Controller {
             });
 
             if(result) {
-                if (!"T".equals(Params.getAutoApproval()) && ("1".equals(apply_type) || "2".equals(apply_type))) //自动审核不发送请求审核短信
+                if (!"T".equals(Params.getAutoApproval()) || "0".equals(apply_type) || "1".equals(apply_type) || "2".equals(apply_type)) //自动审核不发送请求审核短信
                 {
                     CodeService.me.pushMsg(staff, YunPainSmsUtil.MSG_TYPE_VERIFY, null, null, appoint_time, visitor_name);
                 }
@@ -526,7 +526,7 @@ public class visitDeviceController  extends Controller {
 
 
 
-    private VVisitorRecord addVisitor(List<HashMap<String,Object>> visitorList, String workKey, String visitor_name, String visitor_card_no, String visitor_phone, String visitor_sex, String scene_photo, String visit_reason, String appoint_time, String apply_type, String visitor_plate, String visit_hours, BigInteger pid, String visitor_cmp, VDeptUser staff, BigInteger createUserId, String machineCode) {
+    private VVisitorRecord addVisitor(List<HashMap<String,Object>> visitorList, String workKey, String visitor_name, String visitor_card_no, String visitor_phone, String visitor_sex, String scene_photo, String visit_reason, String appoint_time, String apply_type, String visitor_plate, String visit_hours, Long pid, String visitor_cmp, VDeptUser staff, Long createUserId, String machineCode) {
 
         VVisitorRecord visitorRecord = null;
         try {
@@ -607,7 +607,7 @@ public class visitDeviceController  extends Controller {
                 visitorRecord.setReplyUserId(0L);
             } else {
                 visitorRecord.setCstatus("applyConfirm");
-                if ("T".equals(Params.getAutoApproval())) //自动审核通过
+                if ("T".equals(Params.getAutoApproval()) && !"0".equals(apply_type) && !"1".equals(apply_type) && !"2".equals(apply_type)) //自动审核通过
                 {
                     visitorRecord.setCstatus("applySuccess");
                     visitorRecord.setReplyDate(getDate());

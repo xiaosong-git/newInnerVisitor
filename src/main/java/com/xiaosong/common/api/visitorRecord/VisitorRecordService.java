@@ -29,12 +29,14 @@ import com.xiaosong.constant.MyPage;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
 import com.xiaosong.util.Base64;
+import io.undertow.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.websocket.RemoteEndpoint;
 import javax.websocket.Session;
 import java.io.File;
-import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -96,7 +98,7 @@ public class VisitorRecordService extends MyBaseService {
         //根据Id获取需要更新的类容
         String replyDate = DateUtil.getCurDate();
         String replyTime = DateUtil.getCurTime();
-        BigInteger id = msg.getBigInteger("id");
+        Long id = msg.getLong("id");
         //登入人
         String fromUserId = WebSocketEndPoint.me.getUserId(session.getQueryString());
         VVisitorRecord visitorRecord = VVisitorRecord.dao.findById(id);
@@ -301,9 +303,23 @@ public class VisitorRecordService extends MyBaseService {
      * 2内网不存在用户 ->调用外网api接口查找用户 ->判断存在->判断是否实名->return
      */
     public Result visit(Long userId, String phone, String realName, String startDate, String endDate, String reason,String carNumber,String entourages) throws Exception {
-        if (userId == null || phone == null || realName == null) {
+        if (userId == null || phone == null || realName == null||startDate == null || endDate ==null) {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
         }
+
+
+        try{
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.parse(startDate);
+            sdf.parse(endDate);
+        }
+        catch (ParseException ex)
+        {
+            return Result.unDataResult(ConsantCode.FAIL, "日期格式不正确!");
+        }
+
+
         //被访者
         VDeptUser visitorBy = VDeptUser.dao.findFirst("select app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
@@ -582,6 +598,17 @@ public class VisitorRecordService extends MyBaseService {
 
         if (visitorId == null || "".equals(phone) || "".equals(realName)) {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
+        }
+
+        try{
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.parse(startDate);
+            sdf.parse(endDate);
+        }
+        catch (ParseException ex)
+        {
+            return Result.unDataResult(ConsantCode.FAIL, "日期格式不正确!");
         }
 
         boolean hasCarAuth = UserPostService.me.checkPostAuth(visitorId.longValue(), UserPostConstant.YAOYUE_POST);

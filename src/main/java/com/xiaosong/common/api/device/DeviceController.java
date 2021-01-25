@@ -93,6 +93,7 @@ public class DeviceController extends Controller {
                     if("error".equals(status))
                     {
                         errorDevices.append(addr);
+                        errorDevices.append("，");
                         if("FACE".equals(type))
                         {
                             errorDevices.append("人脸设备");
@@ -101,7 +102,6 @@ public class DeviceController extends Controller {
                         {
                             errorDevices.append("二维码设备");
                         }
-                        errorDevices.append(addr);
                         errorDevices.append(ip);
                         errorDevices.append("，");
                     }

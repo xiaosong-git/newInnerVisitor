@@ -16,6 +16,7 @@ import com.jfinal.server.undertow.UndertowServer;
 import com.jfinal.template.Engine;
 import com.jfinal.template.source.ClassPathSourceFactory;
 import com.xiaosong.cache.DictionaryCache;
+import com.xiaosong.common.activiti.ActivitiPlugin;
 import com.xiaosong.common.api.websocket.WebSocketEndPoint;
 import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
@@ -97,6 +98,7 @@ public class MainConfig extends JFinalConfig {
 	/**
 	 * 配置常量
 	 */
+	@Override
 	public void configConstant(Constants me) {
 		loadConfig();
 		me.setDevMode(Constant.DEV_MODE);//是否开发模式 上生产时需要改变 与JFInal框架有关
@@ -120,12 +122,14 @@ public class MainConfig extends JFinalConfig {
 	/**
 	 * 配置路由
 	 */
+	@Override
 	public void configRoute(Routes me) {
 //		me.add("/", IndexController.class, "/index");	// 第三个参数为该Controller的视图存放路径
 //		me.add("/blog", BlogController.class);			// 第三个参数省略时默认与第一个参数值相同，在此即为 "/blog"
 		me.add(new GlobalRoutes());
 	}
-	
+
+	@Override
 	public void configEngine(Engine me) {
 		me.setBaseTemplatePath("webapp");
 		me.setToClassPathSourceFactory();
@@ -139,6 +143,7 @@ public class MainConfig extends JFinalConfig {
 	/**
 	 * 配置插件
 	 */
+	@Override
 	public void configPlugin(Plugins me) {
 //		System.out.println(PropKit.get("password").trim());
 		// 配置 druid 数据库连接池插件
@@ -190,6 +195,8 @@ public class MainConfig extends JFinalConfig {
 		Cron4jPlugin cron4jPlugin = new Cron4jPlugin("cron-config.txt","cron4j");
 		me.add(cron4jPlugin);
 
+		ActivitiPlugin ap = new ActivitiPlugin();
+		me.add(ap);
 
 	}
 	
@@ -201,6 +208,7 @@ public class MainConfig extends JFinalConfig {
 	/**
 	 * 配置全局拦截器
 	 */
+	@Override
 	public void configInterceptor(Interceptors me) {
 		  me.add(new LoginInterceptor());
 	}
@@ -220,6 +228,7 @@ public class MainConfig extends JFinalConfig {
 	/**
 	 * 配置处理器
 	 */
+	@Override
 	public void configHandler(Handlers me) {
 		//visitor/chat地址作为websocket的地址，需要配置handler否则需要在地址后.ws 变为 visitor/chat.ws
 		me.add(new UrlSkipHandler("/visitor/chat" , false));
