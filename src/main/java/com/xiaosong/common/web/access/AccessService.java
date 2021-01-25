@@ -29,8 +29,13 @@ public class AccessService {
     RetUtil updateAccess(TblAccess tblAccess) throws Exception{
 
         if (tblAccess.getId()==null){
+
             tblAccess.setUpdateTime(DateUtil.now());
             boolean update = tblAccess.update();
+            //todo 下发上位机
+
+            //todo 修改所有用户区域
+
             return update?RetUtil.ok("修改成功"):RetUtil.fail("修改失败");
         }else{
             tblAccess.setCreateTime(DateUtil.now());
