@@ -50,12 +50,12 @@ public class MainConfig extends JFinalConfig {
 		 */
 		String osName = System.getProperty("os.name");
 		if (!osName.contains("Linux")) {
-			System.load(Constant.DB40_PATH + "/FreeImage.dll");
-			System.load(Constant.DB40_PATH + "/HJFacePos.dll");
-			System.load(Constant.DB40_PATH + "/HJFaceDetect.dll");
-			System.load(Constant.DB40_PATH + "/HJFaceIdentify.dll");
-			System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
-			System.load(Constant.DB40_PATH + "/JavaJNI.dll");
+//			System.load(Constant.DB40_PATH + "/FreeImage.dll");
+//			System.load(Constant.DB40_PATH + "/HJFacePos.dll");
+//			System.load(Constant.DB40_PATH + "/HJFaceDetect.dll");
+//			System.load(Constant.DB40_PATH + "/HJFaceIdentify.dll");
+//			System.load(Constant.DB40_PATH + "/HJFaceEngine.dll");
+//			System.load(Constant.DB40_PATH + "/JavaJNI.dll");
 
 		}
 		else {
