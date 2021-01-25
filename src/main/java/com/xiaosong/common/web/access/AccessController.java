@@ -29,12 +29,19 @@ public class AccessController extends Controller {
 
     private AccessService accessService = AccessService.me;
 
-    public void updateAccess(@JsonBody TblAccess tblAccess) throws Exception {
-        if (tblAccess==null){
-            renderJson(RetUtil.fail("参数缺失！"));
-            return;
+    public void updateAccess(@JsonBody TblAccess tblAccess) {
+        try {
+
+            if (tblAccess == null) {
+                renderJson(RetUtil.fail("参数缺失！"));
+                return;
+            }
+            renderJson(accessService.updateAccess(tblAccess));
+        }catch (Exception e){
+            log.error("错误信息：",e);
+
+            renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
         }
-        renderJson( accessService.updateAccess(tblAccess));
     }
 
 }

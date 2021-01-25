@@ -11,6 +11,7 @@
 package com.xiaosong.common.web.access;
 
 
+import cn.hutool.core.date.DateUtil;
 import com.xiaosong.model.TblAccess;
 import com.xiaosong.util.RetUtil;
 
@@ -25,12 +26,15 @@ import com.xiaosong.util.RetUtil;
 public class AccessService {
     public static final AccessService me = new AccessService();
 
-    RetUtil updateAccess(TblAccess tblAccess) {
+    RetUtil updateAccess(TblAccess tblAccess) throws Exception{
 
         if (tblAccess.getId()==null){
+            tblAccess.setUpdateTime(DateUtil.now());
             boolean update = tblAccess.update();
             return update?RetUtil.ok("修改成功"):RetUtil.fail("修改失败");
         }else{
+            tblAccess.setCreateTime(DateUtil.now());
+            tblAccess.setUpdateTime(DateUtil.now());
             boolean save = tblAccess.save();
             return save?RetUtil.ok("新增成功"):RetUtil.fail("新增失败");
         }
