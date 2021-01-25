@@ -41,6 +41,8 @@ public class _MappingKit {
 		arp.addMapping("ACT_RU_JOB", "ID_", ActRuJob.class);
 		arp.addMapping("ACT_RU_TASK", "ID_", ActRuTask.class);
 		arp.addMapping("ACT_RU_VARIABLE", "ID_", ActRuVariable.class);
+		arp.addMapping("tbl_access", "id", TblAccess.class);
+		arp.addMapping("tbl_access_org", "id", TblAccessOrg.class);
 		arp.addMapping("v_ad_banner", "id", VAdBanner.class);
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);

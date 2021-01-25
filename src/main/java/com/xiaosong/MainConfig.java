@@ -24,6 +24,7 @@ import com.xiaosong.common.api.websocket.WebSocketVisitor;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.handle.Myhandler;
 import com.xiaosong.interceptor.LoginInterceptor;
+import com.xiaosong.interceptor.jsonbody.JsonInterceptor;
 import com.xiaosong.model._MappingKit;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.routes.GlobalRoutes;
@@ -211,6 +212,7 @@ public class MainConfig extends JFinalConfig {
 	@Override
 	public void configInterceptor(Interceptors me) {
 		  me.add(new LoginInterceptor());
+		me.add(new JsonInterceptor());
 	}
 	//项目启动后操作，常用场景可以加载一些定时任务JOB类可在此处加载启动
 	@Override

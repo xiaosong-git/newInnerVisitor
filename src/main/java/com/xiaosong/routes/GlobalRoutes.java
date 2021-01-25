@@ -21,6 +21,7 @@ import com.xiaosong.common.imgServer.img.ImageController;
 import com.xiaosong.common.imgServer.inAndOut.InAndOutController;
 import com.xiaosong.common.visitDevice.visitDeviceController;
 import com.xiaosong.common.web.Ad.AdController;
+import com.xiaosong.common.web.access.AccessController;
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.blackUser.BlackUserController;
 import com.xiaosong.common.web.dept.DeptController;
@@ -95,7 +96,7 @@ public class GlobalRoutes extends Routes{
 
 		this.add(webprefix+"/blackUser", BlackUserController.class);
 		this.add(webprefix+"/params", ParamsController.class);
-
+		this.add(webprefix+"/access", AccessController.class);//区域
 		this.add(prefix+"/p", ParamController.class);
 		this.add(prefix+"/appVersion", AppVersionController.class);
 		this.add(prefix+"/errorLog", ErrorLogController.class);
@@ -104,6 +105,7 @@ public class GlobalRoutes extends Routes{
 		this.add(prefix+"/companyUser", CompanyUserController.class);//api公司员工 改名为部门员工
 		this.add(prefix+"/foreign", ForeignController.class);//上位机拉取访客
 		this.add(prefix+"/work", WorkController.class);//考勤
+
 		this.add(imgServer+"/goldccm/file", FileController.class);
 		this.add(imgServer+"/goldccm/image", ImageController.class);
 		this.add(imgServer+"/inAndOut", InAndOutController.class);

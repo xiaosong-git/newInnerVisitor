@@ -1,16 +1,16 @@
 package com.xiaosong.common.web.sysUser;
 
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.xiaosong.common.web.sso.SSOService;
 import com.xiaosong.model.VSysUser;
 import com.xiaosong.util.MD5Util;
 import com.xiaosong.util.RetUtil;
+
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /** 
 * @author 作者 : xiaojf
