@@ -201,31 +201,31 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	/**
 	 * 受访者姓名
 	 */
-	public M setVisitorName(java.lang.String visitorName) {
-		set("visitorName", visitorName);
+	public M setVisitName(java.lang.String visitName) {
+		set("visitName", visitName);
 		return (M)this;
 	}
 	
 	/**
 	 * 受访者姓名
 	 */
-	public java.lang.String getVisitorName() {
-		return getStr("visitorName");
+	public java.lang.String getVisitName() {
+		return getStr("visitName");
 	}
 
 	/**
 	 * 受访者手机号
 	 */
-	public M setVisitorPhone(java.lang.String visitorPhone) {
-		set("visitorPhone", visitorPhone);
+	public M setVisitPhone(java.lang.String visitPhone) {
+		set("visitPhone", visitPhone);
 		return (M)this;
 	}
 	
 	/**
 	 * 受访者手机号
 	 */
-	public java.lang.String getVisitorPhone() {
-		return getStr("visitorPhone");
+	public java.lang.String getVisitPhone() {
+		return getStr("visitPhone");
 	}
 
 	/**
@@ -246,16 +246,16 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	/**
 	 * 受访者单位
 	 */
-	public M setVisitorDept(java.lang.String visitorDept) {
-		set("visitorDept", visitorDept);
+	public M setVisitDept(java.lang.String visitDept) {
+		set("visitDept", visitDept);
 		return (M)this;
 	}
 	
 	/**
 	 * 受访者单位
 	 */
-	public java.lang.String getVisitorDept() {
-		return getStr("visitorDept");
+	public java.lang.String getVisitDept() {
+		return getStr("visitDept");
 	}
 
 	/**
@@ -316,6 +316,81 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	 */
 	public java.lang.String getEndDate() {
 		return getStr("endDate");
+	}
+
+	/**
+	 * 被访者回复
+	 */
+	public M setAnswerContent(java.lang.String answerContent) {
+		set("answerContent", answerContent);
+		return (M)this;
+	}
+	
+	/**
+	 * 被访者回复
+	 */
+	public java.lang.String getAnswerContent() {
+		return getStr("answerContent");
+	}
+
+	/**
+	 * 1--访问，2--邀约
+	 */
+	public M setRecordType(java.lang.Integer recordType) {
+		set("recordType", recordType);
+		return (M)this;
+	}
+	
+	/**
+	 * 1--访问，2--邀约
+	 */
+	public java.lang.Integer getRecordType() {
+		return getInt("recordType");
+	}
+
+	/**
+	 * 审核日期
+	 */
+	public M setReplyDate(java.lang.String replyDate) {
+		set("replyDate", replyDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 审核日期
+	 */
+	public java.lang.String getReplyDate() {
+		return getStr("replyDate");
+	}
+
+	/**
+	 * 审核时间
+	 */
+	public M setReplyTime(java.lang.String replyTime) {
+		set("replyTime", replyTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 审核时间
+	 */
+	public java.lang.String getReplyTime() {
+		return getStr("replyTime");
+	}
+
+	/**
+	 * 审核人ID
+	 */
+	public M setReplyUserId(java.lang.Long replyUserId) {
+		set("replyUserId", replyUserId);
+		return (M)this;
+	}
+	
+	/**
+	 * 审核人ID
+	 */
+	public java.lang.Long getReplyUserId() {
+		return getLong("replyUserId");
 	}
 
 }

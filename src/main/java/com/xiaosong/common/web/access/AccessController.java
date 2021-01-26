@@ -12,10 +12,13 @@ package com.xiaosong.common.web.access;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Page;
 import com.xiaosong.interceptor.jsonbody.JsonBody;
-//import com.xiaosong.model.TblAccess;
 import com.xiaosong.model.TblAccess;
 import com.xiaosong.util.RetUtil;
+
+import java.util.List;
+
 
 /**
  * 〈一句话功能简述〉<br> 
@@ -28,24 +31,47 @@ import com.xiaosong.util.RetUtil;
 public class AccessController extends Controller {
     private Log log= Log.getLog(AccessController.class);
 
-    private AccessService accessService = AccessService.me;
+    private AccessService tblAccessService = AccessService.me;
 
     public void updateAccess(@JsonBody TblAccess tblAccess) {
         try {
 
-            if (tblAccess == null) {
+            if (tblAccess == null||tblAccess._getAttrNames().length==0) {
                 renderJson(RetUtil.fail("参数缺失！"));
-                return;
+            }else{
+            renderJson(tblAccessService.updateAccess(tblAccess));
             }
-            renderJson(accessService.updateAccess(tblAccess));
         }catch (Exception e){
             log.error("错误信息：",e);
 
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
         }
     }
-//   public void  deleteAccess(){
-//    accessService.deleteAccess();
-//    renderJson
-//   }
+   public void  bandOrgdeleteAccess(){
+       try {
+
+           if (tblAccessService.bandOrgdeleteAccess(getLong("id"),getLong("orgId"),getInt("status"))>0){
+               renderJson(RetUtil.ok());
+           }else {
+               renderJson(RetUtil.fail());
+           }
+       }catch (Exception e){
+           log.error("错误信息：",e);
+
+           renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+       }
+
+
+   }
+    public void getAccessList( ){
+        try {
+            int currentPage = getInt("currentPage");
+            int pageSize = getInt("pageSize");
+            Page<TblAccess> accessList = tblAccessService.getAccessList(currentPage, pageSize, getLong("orgId"), get("name"), getInt("status"));
+            renderJson(RetUtil.ok(accessList));
+        }catch (Exception e){
+            log.error("错误信息：",e);
+            renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+        }
+    }
 }

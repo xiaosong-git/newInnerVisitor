@@ -50,5 +50,17 @@ public class NumberUtil {
     }
 
 
-
+    /**
+     * 随机生成验证码
+     * @Author linyb
+     * @Date 2017/4/3 16:11
+     */
+    public static String getRandomHexCode(Integer length){
+        char[] num = {'1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+        StringBuilder code = new StringBuilder();
+        for (int i = 1 ;i <= length ;i++){
+            code.append(num[new Random().nextInt(num.length)]);
+        }
+        return code.toString();
+    }
 }
