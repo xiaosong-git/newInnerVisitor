@@ -274,6 +274,21 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 
 	/**
+	 * 审批流程ID
+	 */
+	public M setProcessId(java.lang.String processId) {
+		set("processId", processId);
+		return (M)this;
+	}
+	
+	/**
+	 * 审批流程ID
+	 */
+	public java.lang.String getProcessId() {
+		return getStr("processId");
+	}
+
+	/**
 	 * 开始日期
 	 */
 	public M setStartDate(java.lang.String startDate) {

@@ -13,6 +13,7 @@ package com.xiaosong.common.web.access;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.xiaosong.interceptor.jsonbody.JsonBody;
+//import com.xiaosong.model.TblAccess;
 import com.xiaosong.model.TblAccess;
 import com.xiaosong.util.RetUtil;
 
@@ -43,5 +44,8 @@ public class AccessController extends Controller {
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
         }
     }
-
+//   public void  deleteAccess(){
+//    accessService.deleteAccess();
+//    renderJson
+//   }
 }
