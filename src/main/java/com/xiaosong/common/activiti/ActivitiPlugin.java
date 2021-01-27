@@ -3,7 +3,9 @@ package com.xiaosong.common.activiti;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
@@ -16,14 +18,14 @@ import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.ProcessEngineConfiguration;
-import org.activiti.engine.ProcessEngines;
-import org.activiti.engine.RepositoryService;
+import org.activiti.engine.*;
 import org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration;
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
@@ -67,39 +69,6 @@ public class ActivitiPlugin implements IPlugin {
 		isStarted = true;
 		//开启流程引擎
 		System.out.println("启动流程引擎.......");
-		
-		/**
-		 * 部署流程定义
-		 * 以后可以拿出去
-		 * */
-//		ProcessEngine pe = ProcessEngines.getDefaultProcessEngine();
-//		pe.getRepositoryService()
-//		.createDeployment()
-//		.name("督察催办")
-//		.addClasspathResource("/com/****/jbsf/oa/bpmn/Urge.bpmn")
-//		.addClasspathResource("/com/****/jbsf/oa/bpmn/Urge.png")
-//		.deploy();
-//		convertToModel(ActivitiPlugin.processEngine,"Urge:4:17504");
-//		createModel(ActivitiPlugin.processEngine);
-
-
-		ProcessEngine pe = ProcessEngines.getDefaultProcessEngine();
-		pe.getRepositoryService()
-				.createDeployment()
-				.name("测试审批")
-				.addClasspathResource("processes/visitorApprove.bpmn")
-				.deploy();
-
-
-		RepositoryService repositoryService = ActivitiPlugin.processEngine.getRepositoryService();
-		//获取流程定义查询对象
-		ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
-		List<ProcessDefinition> list = processDefinitionQuery.list();
-		for (ProcessDefinition processDefinition : list) {
-			System.out.println("id="+processDefinition.getId());
-			System.out.println("name="+processDefinition.getName());
-		}
-
 
 		return isStarted;
 	}
@@ -175,6 +144,30 @@ public class ActivitiPlugin implements IPlugin {
     }
 
 
+
+    public void createProcess(String name,String resource)
+	{
+
+		ProcessEngine pe = ProcessEngines.getDefaultProcessEngine();
+		pe.getRepositoryService()
+				.createDeployment()
+				.name(name)
+				.addClasspathResource(resource)
+				.deploy();
+
+//		RepositoryService repositoryService = ActivitiPlugin.processEngine.getRepositoryService();
+//		//获取流程定义查询对象
+//		ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
+//		List<ProcessDefinition> list = processDefinitionQuery.list();
+//		for (ProcessDefinition processDefinition : list) {
+//			System.out.println("id="+processDefinition.getId());
+//			System.out.println("name="+processDefinition.getName());
+//		}
+
+	}
+
+
+
 	@Test
 	public void test_02() throws Exception {
 		createProcessEngine();
@@ -186,6 +179,50 @@ public class ActivitiPlugin implements IPlugin {
 			System.out.println("id="+processDefinition.getId());
 			System.out.println("name="+processDefinition.getName());
 		}
+	}
+
+
+	@Test
+	public void start_process() throws Exception {
+
+
+		//部署一个流程
+		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+		RepositoryService rs = engine.getRepositoryService();
+		Deployment deploy = rs.createDeployment().addClasspathResource("processes/visitorApprove.bpmn").deploy();
+		ProcessDefinition pd = rs.createProcessDefinitionQuery().deploymentId(deploy.getId()).singleResult();
+
+		//启动流程服务
+		RuntimeService runtimeService = engine.getRuntimeService();
+
+		//启动当前流程
+		ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
+		//当前流程id
+		System.out.println(pi.getId());
+		//任务服务
+		TaskService taskService = engine.getTaskService();
+		//当前流程的任务
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+		Map<String,Object> map=new HashMap<>();
+		//用来判断当前流程是否通过，流程图中定义的判断条件  flag
+		map.put("flag",false);
+		//完成当前节点任务，flag值用于进行判断
+		taskService.complete(task.getId(),map);
+		System.out.println("完成第一个节点任务:任务id"+task.getId()+"____  流程实例ID:"+pi.getId());
+		//获取第二个节点信息
+		Task task1 = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+		System.out.println("流程实例ID:"+task1.getProcessInstanceId()+"___任务ID:"+task1.getId()+"____任务名称:"+task1.getName());
+		Map<String,Object> map1=new HashMap<>();
+		//用来判断当前流程是否通过，流程图中定义的判断条件  flag
+		map1.put("flag",false);
+		//完成当前节点任务，flag值用于进行判断
+		taskService.complete(task1.getId(),map1);
+		System.out.println("完成第二个节点任务:任务id"+task1.getId()+"____  流程实例ID:"+pi.getId());
+		//获取第三个节点信息
+		Task task2 = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+		System.out.println("流程实例ID:"+task2.getProcessInstanceId()+"___任务ID:"+task2.getId()+"____任务名称:"+task2.getName());
+		taskService.complete(task2.getId());
+		System.out.println("完成任务");
 	}
 
 }
