@@ -393,4 +393,19 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 		return getLong("replyUserId");
 	}
 
+	/**
+	 * 访问者身份证号
+	 */
+	public M setIdNO(java.lang.String idNO) {
+		set("idNO", idNO);
+		return (M)this;
+	}
+	
+	/**
+	 * 访问者身份证号
+	 */
+	public java.lang.String getIdNO() {
+		return getStr("idNO");
+	}
+
 }

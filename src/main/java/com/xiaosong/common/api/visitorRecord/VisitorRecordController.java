@@ -37,7 +37,7 @@ public class VisitorRecordController extends Controller {
     public void visit() throws Exception {
 
         try {
-            renderText(JSON.toJSONString(visitorRecordService.visit(getLong("userId"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"),get("carNumber"),get("entourages"))));
+            renderText(JSON.toJSONString(visitorRecordService.visit(getLong("userId"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"),get("carNumber"),get("entourages"),get("visitDept"))));
 
         }catch (Exception e){
 
@@ -46,6 +46,25 @@ public class VisitorRecordController extends Controller {
             throw e;
         }
     }
+
+
+
+    /**
+     *  车辆访问
+     */
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    public void carVisit() throws Exception {
+
+        try {
+            renderText(JSON.toJSONString(visitorRecordService.carVisit(getLong("userId"), get("userName"), get("idNo"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"),get("carNumber"),getInt("num"),get("visitDept"),get("gate"),getInt("inOutType"))));
+        }catch (Exception e){
+
+            log.error("系统异常：",e.getMessage());
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, e.getMessage())));
+            throw e;
+        }
+    }
+
 
     /**
      * 接收外部访问
@@ -107,7 +126,7 @@ public class VisitorRecordController extends Controller {
     public void inviteStranger(){
 
         try {
-            renderText(JSON.toJSONString(visitorRecordService.inviteStranger(getInt("userId"), get("phone"),get("realName"),get("startDate"),get("endDate"),get("reason"),getInt("companyId"),get("carNumber"),get("entourages"))));
+            renderText(JSON.toJSONString(visitorRecordService.inviteStranger(getInt("userId"), get("phone"),get("realName"),get("startDate"),get("endDate"),get("reason"),getInt("companyId"),get("carNumber"),get("entourages"),get("visitDept"))));
         }catch (Exception e){
             log.error("系统异常：",e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
