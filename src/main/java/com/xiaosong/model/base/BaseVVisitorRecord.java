@@ -21,7 +21,7 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	 * 智慧访客
 	 */
 	public java.lang.Long getId() {
-		return get("id");
+		return getLong("id");
 	}
 
 	/**
@@ -436,6 +436,36 @@ public abstract class BaseVVisitorRecord<M extends BaseVVisitorRecord<M>> extend
 	 */
 	public java.lang.String getMachineCode() {
 		return getStr("machineCode");
+	}
+
+	/**
+	 * 审批流程ID
+	 */
+	public M setProcessId(java.lang.String processId) {
+		set("processId", processId);
+		return (M)this;
+	}
+	
+	/**
+	 * 审批流程ID
+	 */
+	public java.lang.String getProcessId() {
+		return getStr("processId");
+	}
+
+	/**
+	 * 受访者单位
+	 */
+	public M setVisitDept(java.lang.String visitDept) {
+		set("visitDept", visitDept);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访者单位
+	 */
+	public java.lang.String getVisitDept() {
+		return getStr("visitDept");
 	}
 
 }

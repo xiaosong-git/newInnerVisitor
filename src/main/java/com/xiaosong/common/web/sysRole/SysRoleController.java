@@ -33,7 +33,7 @@ public class SysRoleController extends Controller{
 	}
 	
 	public void addSysRole() throws Exception {
-		BigInteger userRole =BigInteger.valueOf(getLong("userRole"));
+//		BigInteger userRole =BigInteger.valueOf(getLong("userRole"));
 		String roleName = getPara("role_name");
 		String description = getPara("description");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -42,7 +42,7 @@ public class SysRoleController extends Controller{
 		role.setRoleName(roleName);
 		role.setCreatetime(createtime);
 		role.setDescription(description);
-		role.setParentId(userRole);
+		role.setParentId(getLong("userRole"));
 		boolean bool = srv.addSysRole(role);
 		if(bool) {
 			renderJson(RetUtil.ok());

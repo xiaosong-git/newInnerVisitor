@@ -1,16 +1,16 @@
 package com.xiaosong.common.web.sysUser;
 
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.xiaosong.common.web.sso.SSOService;
 import com.xiaosong.model.VSysUser;
 import com.xiaosong.util.MD5Util;
 import com.xiaosong.util.RetUtil;
+
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /** 
 * @author 作者 : xiaojf
@@ -23,11 +23,14 @@ public class SysUserController extends Controller{
 	public SysUserService srv = SysUserService.me;
 	
 	public void findList() {
-		String tel = getPara("queryString");
+		//todo 修改查询条件
+		String tel = get("tel");
+		String name = get("true_name");
+		Long roleId = getLong("role_id");
 		Long userId = getLong("userId");
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
-		Page<Record> pagelist = srv.findList(tel,userId,currentPage,pageSize);
+		Page<Record> pagelist = srv.findList(tel,name,roleId,userId,currentPage,pageSize);
 		renderJson(pagelist);
 	}
 	

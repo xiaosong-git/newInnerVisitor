@@ -549,4 +549,49 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 		return getStr("app_type");
 	}
 
+	/**
+	 * 卡牌类型 1：金卡 2：红卡 3：蓝卡
+	 */
+	public M setCardType(java.lang.Integer cardType) {
+		set("cardType", cardType);
+		return (M)this;
+	}
+	
+	/**
+	 * 卡牌类型 1：金卡 2：红卡 3：蓝卡
+	 */
+	public java.lang.Integer getCardType() {
+		return getInt("cardType");
+	}
+
+	/**
+	 * 通行权限 多个用|分割
+	 */
+	public M setAccessCodes(java.lang.String accessCodes) {
+		set("accessCodes", accessCodes);
+		return (M)this;
+	}
+	
+	/**
+	 * 通行权限 多个用|分割
+	 */
+	public java.lang.String getAccessCodes() {
+		return getStr("accessCodes");
+	}
+
+	/**
+	 * 是否部门领导 0 否 1是
+	 */
+	public M setDeptLeader(java.lang.Integer deptLeader) {
+		set("deptLeader", deptLeader);
+		return (M)this;
+	}
+	
+	/**
+	 * 是否部门领导 0 否 1是
+	 */
+	public java.lang.Integer getDeptLeader() {
+		return getInt("deptLeader");
+	}
+
 }

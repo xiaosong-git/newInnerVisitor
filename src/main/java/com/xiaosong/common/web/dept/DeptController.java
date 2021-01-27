@@ -1,6 +1,8 @@
 package com.xiaosong.common.web.dept;
 
+import java.util.Arrays;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
@@ -40,12 +42,14 @@ public class DeptController extends Controller{
 		String deptName = getPara("dept_name");
 		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
+		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);
+//		dept.setAccessCodes(accessCodes);
 		dept.setCode(UUID.randomUUID().toString());
-		boolean bool = srv.addDept(dept);
+		boolean bool = srv.addDept(dept,accessIds);
 		if(bool) {
 			renderJson(RetUtil.ok());
 		}else {
@@ -58,11 +62,14 @@ public class DeptController extends Controller{
 		String deptName = getPara("dept_name");
 		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
+		String[] accessCodes = getParaValues("accessCodes");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);
 		dept.setId(id);
+		String collect = Arrays.stream(accessCodes).collect(Collectors.joining(","));
+		dept.setAccessCodes(collect);
 		boolean bool = srv.editDept(dept);
 		if(bool) {
 			renderJson(RetUtil.ok());

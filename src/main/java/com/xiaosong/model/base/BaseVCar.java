@@ -123,4 +123,274 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 		return getStr("approvalDateTime");
 	}
 
+	/**
+	 * 访问者手机号码
+	 */
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
+		return (M)this;
+	}
+	
+	/**
+	 * 访问者手机号码
+	 */
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
+	/**
+	 * 访问者姓名
+	 */
+	public M setUserName(java.lang.String userName) {
+		set("userName", userName);
+		return (M)this;
+	}
+	
+	/**
+	 * 访问者姓名
+	 */
+	public java.lang.String getUserName() {
+		return getStr("userName");
+	}
+
+	/**
+	 * 出入口
+	 */
+	public M setGate(java.lang.String gate) {
+		set("gate", gate);
+		return (M)this;
+	}
+	
+	/**
+	 * 出入口
+	 */
+	public java.lang.String getGate() {
+		return getStr("gate");
+	}
+
+	/**
+	 * 受访人ID
+	 */
+	public M setIntervieweeId(java.lang.Long intervieweeId) {
+		set("intervieweeId", intervieweeId);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访人ID
+	 */
+	public java.lang.Long getIntervieweeId() {
+		return getLong("intervieweeId");
+	}
+
+	/**
+	 * 事由
+	 */
+	public M setReason(java.lang.String reason) {
+		set("reason", reason);
+		return (M)this;
+	}
+	
+	/**
+	 * 事由
+	 */
+	public java.lang.String getReason() {
+		return getStr("reason");
+	}
+
+	/**
+	 * 受访者姓名
+	 */
+	public M setVisitName(java.lang.String visitName) {
+		set("visitName", visitName);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访者姓名
+	 */
+	public java.lang.String getVisitName() {
+		return getStr("visitName");
+	}
+
+	/**
+	 * 受访者手机号
+	 */
+	public M setVisitPhone(java.lang.String visitPhone) {
+		set("visitPhone", visitPhone);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访者手机号
+	 */
+	public java.lang.String getVisitPhone() {
+		return getStr("visitPhone");
+	}
+
+	/**
+	 * 出入类型
+	 */
+	public M setInOutType(java.lang.Integer inOutType) {
+		set("inOutType", inOutType);
+		return (M)this;
+	}
+	
+	/**
+	 * 出入类型
+	 */
+	public java.lang.Integer getInOutType() {
+		return getInt("inOutType");
+	}
+
+	/**
+	 * 受访者单位
+	 */
+	public M setVisitDept(java.lang.String visitDept) {
+		set("visitDept", visitDept);
+		return (M)this;
+	}
+	
+	/**
+	 * 受访者单位
+	 */
+	public java.lang.String getVisitDept() {
+		return getStr("visitDept");
+	}
+
+	/**
+	 * 随车人数
+	 */
+	public M setNum(java.lang.Integer num) {
+		set("num", num);
+		return (M)this;
+	}
+	
+	/**
+	 * 随车人数
+	 */
+	public java.lang.Integer getNum() {
+		return getInt("num");
+	}
+
+	/**
+	 * 审批流程ID
+	 */
+	public M setProcessId(java.lang.String processId) {
+		set("processId", processId);
+		return (M)this;
+	}
+	
+	/**
+	 * 审批流程ID
+	 */
+	public java.lang.String getProcessId() {
+		return getStr("processId");
+	}
+
+	/**
+	 * 开始日期
+	 */
+	public M setStartDate(java.lang.String startDate) {
+		set("startDate", startDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 开始日期
+	 */
+	public java.lang.String getStartDate() {
+		return getStr("startDate");
+	}
+
+	/**
+	 * 结束日期
+	 */
+	public M setEndDate(java.lang.String endDate) {
+		set("endDate", endDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 结束日期
+	 */
+	public java.lang.String getEndDate() {
+		return getStr("endDate");
+	}
+
+	/**
+	 * 被访者回复
+	 */
+	public M setAnswerContent(java.lang.String answerContent) {
+		set("answerContent", answerContent);
+		return (M)this;
+	}
+	
+	/**
+	 * 被访者回复
+	 */
+	public java.lang.String getAnswerContent() {
+		return getStr("answerContent");
+	}
+
+	/**
+	 * 1--访问，2--邀约
+	 */
+	public M setRecordType(java.lang.Integer recordType) {
+		set("recordType", recordType);
+		return (M)this;
+	}
+	
+	/**
+	 * 1--访问，2--邀约
+	 */
+	public java.lang.Integer getRecordType() {
+		return getInt("recordType");
+	}
+
+	/**
+	 * 审核日期
+	 */
+	public M setReplyDate(java.lang.String replyDate) {
+		set("replyDate", replyDate);
+		return (M)this;
+	}
+	
+	/**
+	 * 审核日期
+	 */
+	public java.lang.String getReplyDate() {
+		return getStr("replyDate");
+	}
+
+	/**
+	 * 审核时间
+	 */
+	public M setReplyTime(java.lang.String replyTime) {
+		set("replyTime", replyTime);
+		return (M)this;
+	}
+	
+	/**
+	 * 审核时间
+	 */
+	public java.lang.String getReplyTime() {
+		return getStr("replyTime");
+	}
+
+	/**
+	 * 审核人ID
+	 */
+	public M setReplyUserId(java.lang.Long replyUserId) {
+		set("replyUserId", replyUserId);
+		return (M)this;
+	}
+	
+	/**
+	 * 审核人ID
+	 */
+	public java.lang.Long getReplyUserId() {
+		return getLong("replyUserId");
+	}
+
 }

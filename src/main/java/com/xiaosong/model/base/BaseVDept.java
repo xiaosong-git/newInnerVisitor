@@ -132,4 +132,19 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 		return getStr("isSync");
 	}
 
+	/**
+	 * 通行权限 多个用|分割
+	 */
+	public M setAccessCodes(java.lang.String accessCodes) {
+		set("accessCodes", accessCodes);
+		return (M)this;
+	}
+	
+	/**
+	 * 通行权限 多个用|分割
+	 */
+	public java.lang.String getAccessCodes() {
+		return getStr("accessCodes");
+	}
+
 }
