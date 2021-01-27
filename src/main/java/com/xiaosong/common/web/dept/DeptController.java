@@ -47,7 +47,6 @@ public class DeptController extends Controller{
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);
-//		dept.setAccessCodes(accessCodes);
 		dept.setCode(UUID.randomUUID().toString());
 		boolean bool = srv.addDept(dept,accessIds);
 		if(bool) {
@@ -62,15 +61,15 @@ public class DeptController extends Controller{
 		String deptName = getPara("dept_name");
 		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
-		String[] accessCodes = getParaValues("accessCodes");
+		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);
 		dept.setId(id);
-		String collect = Arrays.stream(accessCodes).collect(Collectors.joining(","));
-		dept.setAccessCodes(collect);
-		boolean bool = srv.editDept(dept);
+//		String collect = String.join(",", accessCodes);
+//		dept.setAccessCodes(collect);
+		boolean bool = srv.editDept(dept,accessIds);
 		if(bool) {
 			renderJson(RetUtil.ok());
 		}else {

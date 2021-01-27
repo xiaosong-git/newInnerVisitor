@@ -15,5 +15,5 @@ public @interface JsonBody {
      * 是否对Json内容根据注解进行校验
      * @return
      */
-    public boolean validate() default true;
+     boolean validate() default true;
 }

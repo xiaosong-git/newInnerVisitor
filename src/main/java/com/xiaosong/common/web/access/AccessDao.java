@@ -3,8 +3,10 @@ package com.xiaosong.common.web.access;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.TblAccess;
+import com.xiaosong.model.TblAccessDept;
 import com.xiaosong.model.base.BaseTblAccess;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +23,32 @@ public class AccessDao {
         return  TblAccess.dao.findFirst("select * from tbl_access where status= 1 and access_code=? and org_id=?",accessCode,orgId);
     }
 
-    public List<String> getByAccessCodes(Long orgId) {
-        List<Record>  list= Db.find("select access_code from tbl_access_org o left join tbl_access a on a.access_id=o.id where a.org_id=? and a.status=1 and o.status=1",orgId);
-        return list.stream().map(n->n.getStr("access_code")).collect(Collectors.toList());
+    public List<TblAccess> getAcessByDept(Long deptId) {
+        return TblAccess.dao.find("select a.id,access_code from tbl_access_dept d left join tbl_access a on a.id=d.access_id where d.dept_id=? and  a.status=1",deptId);
     }
-//    public List<String> getByAccessCodes(Long orgId) {
-//        List<Record>  list= Db.find("select access_code from tbl_access_org o left join tbl_access a on a.access_id=o.id where a.org_id=? and a.status=1 and o.status=1",orgId);
-//        return list.stream().map(n->n.getStr("access_code")).collect(Collectors.toList());
-//    }
+
+    /**
+     * 批量查询门禁
+     * @param accessIds
+     * @return
+     */
+    public  String getByAccessIds(Long[] accessIds) {
+        String collect = Arrays.stream(accessIds).map(Object::toString).collect(Collectors.joining(","));
+        List<TblAccess> accesses = TblAccess.dao.find("select access_code from tbl_access where id in ("+collect+") and status=1");
+        return accesses.stream().map(BaseTblAccess::getAccessCode).collect(Collectors.joining(","));
+
+    }
+
+    /**
+     * 批量更新门禁
+     * @param intersection
+     * @param deptId
+     * @param status
+     * @return
+     */
+    public int updateAccessOrgStatus(String intersection, Long deptId,int status) {
+        return  Db.update("update tbl_access_dept set status=? ,dept_id=?,update_time=now() where id in(" + intersection + ")",status, deptId);
+
+    }
+
 }
