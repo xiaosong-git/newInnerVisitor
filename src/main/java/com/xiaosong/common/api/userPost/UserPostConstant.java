@@ -10,4 +10,7 @@ public class UserPostConstant {
     //车辆邀约岗
     public final  static Long YAOYUE_CAR_POST = 3L;
 
+
+
+
 }

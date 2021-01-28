@@ -63,12 +63,22 @@ public class ActivitiPlugin implements IPlugin {
 		conf.setDataSource(DbKit.getConfig().getDataSource())
 		.setDatabaseSchemaUpdate(ProcessEngineConfiguration.DB_SCHEMA_UPDATE_TRUE)
 		.setDbHistoryUsed(true);
+		conf.setDatabaseSchemaUpdate("true");
 //		conf.setTransactionsExternallyManaged(true); // 使用托管事务工厂
 		conf.setTransactionFactory(new ActivitiTransactionFactory());
 		ActivitiPlugin.processEngine = conf.buildProcessEngine();
 		isStarted = true;
 		//开启流程引擎
 		System.out.println("启动流程引擎.......");
+
+		String pid = VisitorProcess.createNewProcess("1000",1,"1001");
+		VisitorProcess.approve(pid,true,"1001");
+
+		//部署一个流程
+		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+		//任务服务
+		TaskService taskService = engine.getTaskService();
+		taskService.createTaskQuery().taskAssignee("1001").orderByTaskCreateTime().desc().list();
 
 		return isStarted;
 	}
@@ -185,7 +195,6 @@ public class ActivitiPlugin implements IPlugin {
 	@Test
 	public void start_process() throws Exception {
 
-
 		//部署一个流程
 		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
 		RepositoryService rs = engine.getRepositoryService();
@@ -223,6 +232,21 @@ public class ActivitiPlugin implements IPlugin {
 		System.out.println("流程实例ID:"+task2.getProcessInstanceId()+"___任务ID:"+task2.getId()+"____任务名称:"+task2.getName());
 		taskService.complete(task2.getId());
 		System.out.println("完成任务");
+	}
+
+
+
+	@Test
+	public void getTaskList() throws Exception {
+
+		//部署一个流程
+		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+		//任务服务
+		TaskService taskService = engine.getTaskService();
+
+		taskService.createTaskQuery().taskAssignee("").orderByTaskCreateTime().desc().list();
+
+
 	}
 
 }

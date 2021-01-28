@@ -31,7 +31,6 @@ import com.xiaosong.constant.MyPage;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
 import com.xiaosong.util.Base64;
-import io.undertow.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.websocket.RemoteEndpoint;
@@ -69,7 +68,6 @@ public class VisitorRecordService extends MyBaseService {
             otherMan = "visitorId";
             inOutType = "vr.visitorType";
         }
-
         String coloumSql = "SELECT vr.id,IF(u.realName IS NULL or u.realName=\"\",remarkName,u.realName) realName,u.phone,u.headImgUrl,\n" +
                 "\tvr.visitDate,vr.visitTime,vr.userId,vr.visitorId,vr.reason,vr.cstatus,vr.dateType\n" +
                 ",vr.startDate,vr.endDate,vr.answerContent,vr.orgCode,IF(vr.companyId is null,0,vr.companyId) companyId,vr.recordType,\n" +
@@ -163,8 +161,11 @@ public class VisitorRecordService extends MyBaseService {
                 return Result.unDataResult("fail", "缺少参数");
             }
             visitorRecord.remove("userId").setReplyDate(replyDate).setReplyTime(replyTime).setIsReceive("F");
-
+            VVisitorRecord vVisitorRecord = VVisitorRecord.dao.findById(visitorRecord.getId());
+            boolean flag = "applySuccess".equals(cstatus);
+            boolean hasNext =VisitorProcess.approve(vVisitorRecord.getProcessId(),flag,String.valueOf(userId));
             boolean update = Db.tx(()->{
+                visitorRecord.setCstatus(hasNext?"applyConfirm":cstatus);
                 boolean result = visitorRecord.update();
                 //随行人员同时更新
                 List<VVisitorRecord> entourages = VVisitorRecord.dao.find("select * from "+TableList.VISITOR_RECORD+" where pid =?",visitorRecord.getId());
@@ -225,7 +226,6 @@ public class VisitorRecordService extends MyBaseService {
                 } else {
                     //发送推送
                     Map<String, Object> toUser = Db.findById(TableList.DEPT_USER, toUserId).getColumns();
-                    String notification_title = "邀约回应信息提醒";
                     String deviceToken = BaseUtil.objToStr(toUser.get("deviceToken"), "");
                     String msg_content = "【朋悦比邻】您好，您有一条邀约已回应，请登入app查收!";
                     boolean single = false;
@@ -243,12 +243,10 @@ public class VisitorRecordService extends MyBaseService {
 //			                }
 
                 }
-
                 //websocket通知前端获取访客数量
                 WebSocketMonitor.me.getVisitorData();
                 WebSocketSyncData.me.sendVisitorData();
-
-                return Result.unDataResult("success", apply + "邀约成功！");
+                return ResultData.dataResult("success", "审批成功",hasNext);
             } else {
                 return Result.unDataResult("fail", apply + "邀约失败！");
             }
@@ -360,7 +358,6 @@ public class VisitorRecordService extends MyBaseService {
                 visitRecord.setReplyUserId(0L);
             }
             visitRecord.save();
-
 
             if(!"applyFail".equals(visitRecord.getCstatus())) {
                 String processId = VisitorProcess.createNewProcess(String.valueOf(userId), visitorBy.getDeptLeader(), String.valueOf(visitorId));
@@ -1453,7 +1450,7 @@ public class VisitorRecordService extends MyBaseService {
 
 
     //查询所有审批的车辆
-    public Result approvalCar(Long userId,Long carId,String status) {
+    public Result approvalCar(Long userId,Long carId,String status,String reason) {
         if (userId == null || carId ==null || status ==null) {
             return ResultData.unDataResult("fail", "缺少参数");
         }
@@ -1468,12 +1465,16 @@ public class VisitorRecordService extends MyBaseService {
         {
             return ResultData.unDataResult("fail", "没有找到该记录");
         }
-        car.setCStatus(status);
+
+        boolean flag = "applySuccess".equals(status);
+        boolean hasNext = CarProcess.approve(car.getProcessId(),flag,String.valueOf(userId));
+        car.setCStatus(hasNext?"applyConfirm":status);
         car.setApprovalDateTime(DateUtil.getSystemTime());
         car.setApprovalUserId(userId);
+        car.setReason(reason);
         boolean result = car.update();
         if(result) {
-            return ResultData.unDataResult("success", "审批成功");
+            return ResultData.dataResult("success", "审批成功",hasNext);
         }else{
             return ResultData.unDataResult("fail", "审批失败");
         }
@@ -1543,5 +1544,9 @@ public class VisitorRecordService extends MyBaseService {
         return list;
 
     }
+
+
+
+
 
 }

@@ -126,7 +126,6 @@ public class WebSocketSyncData {
         }
         sendStaffData(key);
         sendVisitorData(key);
-
     }
 
     @OnClose

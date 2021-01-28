@@ -20,6 +20,7 @@ public class SyncOrgTask extends  Thread {
     @Override
     public void run()
     {
+        SSOService.me.refreshToken();
         System.out.println("开始同步部门数据");
         int i=0;
         List<Record> list = Db.find("select * from "+ TableList.DEPT + "  where  IFNULL(isSync,'F')!= 'T'");

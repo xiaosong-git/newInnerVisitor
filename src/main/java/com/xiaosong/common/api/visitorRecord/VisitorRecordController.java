@@ -7,6 +7,7 @@ import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.tx.Tx;
+import com.xiaosong.common.api.deptUser.DeptUserService;
 import com.xiaosong.common.api.user.UserService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
@@ -30,6 +31,10 @@ public class VisitorRecordController extends Controller {
     private Log log = Log.getLog(VisitorRecordController.class);
     @Inject
     VisitorRecordService visitorRecordService;
+    @Inject
+    DeptUserService deptUserService;
+
+
     /**
      *  非好友访问
      */
@@ -119,12 +124,11 @@ public class VisitorRecordController extends Controller {
     }
 
     /**
-     * 非好友访问
+     * 访客邀约
      */
     @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     @Before(UserIdValidator.class)
     public void inviteStranger(){
-
         try {
             renderText(JSON.toJSONString(visitorRecordService.inviteStranger(getInt("userId"), get("phone"),get("realName"),get("startDate"),get("endDate"),get("reason"),getInt("companyId"),get("carNumber"),get("entourages"),get("visitDept"))));
         }catch (Exception e){
@@ -132,6 +136,23 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+
+
+    /**
+     * 车辆邀约
+     */
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    @Before(UserIdValidator.class)
+    public void inviteCar(){
+        try {
+            renderText(JSON.toJSONString(visitorRecordService.inviteCar(getLong("userId"), get("startDate"),get("endDate"),get("gate"),getInt("inOutType"),get("carNumber"),get("cars"))));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
+
     @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void findRecordFromId(){
         try {
@@ -167,6 +188,11 @@ public class VisitorRecordController extends Controller {
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+
+
+    /**
+     * 访客审批
+     */
     //@AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
     public void visitReply(){
         VVisitorRecord visitorRecord=getBean(VVisitorRecord.class,"",true);
@@ -237,12 +263,32 @@ public class VisitorRecordController extends Controller {
     @Before(UserIdValidator.class)
     public void approvalCar(){
         try {
-            renderText(JSON.toJSONString(visitorRecordService.approvalCar(getLong("userId"),getLong("carId"),get("status"))));
+            renderText(JSON.toJSONString(visitorRecordService.approvalCar(getLong("userId"),getLong("carId"),get("status"),get("reason"))));
         }catch (Exception e){
             log.error("系统异常：",e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
         }
     }
+
+
+    /**
+     * 根据用户ID获取上级领导信息
+     */
+    @AuthCheckAnnotation(checkLogin = true,checkVerify = false, checkRequestLegal = true)
+    @Before(UserIdValidator.class)
+    public void getSuperior(){
+        try {
+            renderText(JSON.toJSONString(deptUserService.getSuperior(getLong("userId"))));
+        }catch (Exception e){
+            log.error("系统异常：",e);
+            renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
+        }
+    }
+
+
+
+
+
 
 
 }

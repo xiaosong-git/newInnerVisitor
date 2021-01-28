@@ -11,6 +11,8 @@ import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.MyRecordPage;
 import com.xiaosong.constant.TableList;
+import com.xiaosong.model.VDeptUser;
+
 import java.util.List;
 
 /**
@@ -33,6 +35,17 @@ public class DeptUserService extends MyBaseService {
         return records != null && !records.isEmpty()
                 ? ResultData.dataResult("success","获取公司成功",apiList(records))
                 : Result.unDataResult("success","暂无数据");
+    }
+
+
+    /**
+     * 获取上级领导
+     * @return
+     */
+    public List<VDeptUser> getSuperior(Long userId)
+    {
+        List<VDeptUser> list = VDeptUser.dao.find("select * from v_dept_user where deptId = (select deptId from v_dept_user where id = ?  ) and deptLeader =1",userId);
+        return list;
     }
 
 

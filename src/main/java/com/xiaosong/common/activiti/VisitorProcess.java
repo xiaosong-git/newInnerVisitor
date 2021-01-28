@@ -32,7 +32,11 @@ public class VisitorProcess {
         ProcessDefinition pd = rs.createProcessDefinitionQuery().deploymentId(deploy.getId()).singleResult();
         //启动流程服务
         RuntimeService runtimeService = engine.getRuntimeService();
-
+        Map<String, Object> map = new HashMap<>();
+        //用来判断当前流程是否通过，流程图中定义的判断条件  flag
+        map.put("userType", userType);
+        //map.put("assignee", assigneeId);
+        map.put("owner", userId);
         //启动当前流程
         ProcessInstance pi = runtimeService.startProcessInstanceById(pd.getId());
         processId = pi.getId();
@@ -42,12 +46,9 @@ public class VisitorProcess {
         TaskService taskService = engine.getTaskService();
         //当前流程的任务
         Task task = taskService.createTaskQuery().processInstanceId(processId).singleResult();
-        Map<String, Object> map = new HashMap<>();
-        //用来判断当前流程是否通过，流程图中定义的判断条件  flag
-        map.put("userType", userType);
-        task.setOwner(userId);
-        task.setAssignee(assigneeId);
+
         //完成当前节点任务，flag值用于进行判断
+        //task.setAssignee(assigneeId);
         taskService.complete(task.getId(), map);
         System.out.println("提交申请:任务id" + task.getId() + "____  流程实例ID:" + processId);
 
@@ -75,13 +76,31 @@ public class VisitorProcess {
             Map<String, Object> map1 = new HashMap<>();
             //用来判断当前流程是否通过，流程图中定义的判断条件  flag
             map1.put("flag", flag);
-            task1.setAssignee(userId);
+            map1.put("assignee", userId);
+            //task1.setAssignee(userId);
             //完成当前节点任务，flag值用于进行判断
             taskService.complete(task1.getId(), map1);
         }
         //查看是否还有下一级
         Task task2 = taskService.createTaskQuery().processInstanceId(processId).singleResult();
         return task2 == null ? flag : false;
+    }
+
+
+
+    /**
+     * 设置审批人
+     *
+     * @param processId 流程ID
+     * @param userId    审批人ID
+     */
+    public static void setAssignee(String processId, String userId) {
+        //部署一个流程
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        TaskService taskService = engine.getTaskService();
+        //获取第二个节点信息
+        Task task1 = taskService.createTaskQuery().processInstanceId(processId).singleResult();
+        task1.setAssignee(userId);
     }
 
 

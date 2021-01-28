@@ -21,6 +21,7 @@ public class SyncUserInfoTask extends  Thread {
     @Override
     public void run()
     {
+        SSOService.me.refreshToken();
         System.out.println("开始同步人员数据");
         int i=0;
         List<Record> list = Db.find("select a.*,d.code from "+ TableList.DEPT_USER + " a  left join v_dept d on deptId = d.id where currentStatus='normal' and IFNULL(a.isSync,'F')!= 'T'");
