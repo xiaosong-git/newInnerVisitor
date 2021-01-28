@@ -29,7 +29,7 @@ public class DeptService {
 	private AccessDao accessDao = AccessDao.me;
 	public Page<Record> findList(int currentPage,int pageSize,String deptName){
 		List<Object> params = new ArrayList<>();
-		String sql = "SELECT d.*,o.org_name,du.realName from v_dept d left join v_org o on d.org_id=o.id "+
+		String sql = "SELECT d.*,du.realName from v_dept d  "+
 					 "left join v_dept_user du on d.manage_user_id=du.id where 1=1";
 		if(StringUtils.isNotBlank(deptName))
 		{
@@ -48,8 +48,11 @@ public class DeptService {
 	}
 	
 	public boolean addDept(VDept dept,Long[] accessIds) {
-		String accessCode = accessDao.getByAccessIds(accessIds);
+		List<TblAccess> accesses = accessDao.getByAccessIds(accessIds);
+		String accessCode =accesses.stream().map(BaseTblAccess::getAccessCode).collect(Collectors.joining(","));
+		String accessName =accesses.stream().map(BaseTblAccess::getName).collect(Collectors.joining(","));
 		dept.setAccessCodes(accessCode);
+//		dept.setAccessName(accessName);
 		boolean save = dept.save();
 		if (accessIds != null && accessIds.length>0) {
 			String currentDateTime = DateUtil.now();

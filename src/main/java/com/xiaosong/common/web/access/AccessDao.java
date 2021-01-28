@@ -32,10 +32,10 @@ public class AccessDao {
      * @param accessIds
      * @return
      */
-    public  String getByAccessIds(Long[] accessIds) {
+    public  List<TblAccess> getByAccessIds(Long[] accessIds) {
         String collect = Arrays.stream(accessIds).map(Object::toString).collect(Collectors.joining(","));
-        List<TblAccess> accesses = TblAccess.dao.find("select access_code from tbl_access where id in ("+collect+") and status=1");
-        return accesses.stream().map(BaseTblAccess::getAccessCode).collect(Collectors.joining(","));
+        List<TblAccess> accesses = TblAccess.dao.find("select access_code,name from tbl_access where id in ("+collect+") and status=1");
+        return accesses ;
 
     }
 

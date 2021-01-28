@@ -5,6 +5,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VDept;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.RetUtil;
 
 import java.util.UUID;
@@ -42,8 +43,13 @@ public class DeptController extends Controller{
 		String floor = getPara("floor");
 		String manageName = getPara("manage_name");
 		String phone = getPara("phone");
+		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
+		if(first==null){
+			renderJson(RetUtil.fail("未找到管理员信息！"));
+		}
 		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
+		dept.setManageUserId(first.getId());
 		dept.setManageName(manageName);
 		dept.setPhone(phone);
 		dept.setDeptName(deptName);
