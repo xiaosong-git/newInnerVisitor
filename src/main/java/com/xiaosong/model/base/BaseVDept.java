@@ -147,4 +147,34 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 		return getStr("accessCodes");
 	}
 
+	/**
+	 * 管理员姓名
+	 */
+	public M setManageName(java.lang.String manageName) {
+		set("manage_name", manageName);
+		return (M)this;
+	}
+	
+	/**
+	 * 管理员姓名
+	 */
+	public java.lang.String getManageName() {
+		return getStr("manage_name");
+	}
+
+	/**
+	 * 管理员手机号
+	 */
+	public M setPhone(java.lang.String phone) {
+		set("phone", phone);
+		return (M)this;
+	}
+	
+	/**
+	 * 管理员手机号
+	 */
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
 }

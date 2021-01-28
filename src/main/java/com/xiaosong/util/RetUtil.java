@@ -17,9 +17,12 @@ public class RetUtil extends HashMap{
 	private static final String FAIL_CODE = "501";
 	private static final String SUCCESS_MSG = "操作成功";
 	private static final String FAIL_MSG = "操作失败";
-	
-	
-	
+	private static final Object DATA = "data";
+
+
+	public static RetUtil okData(Object data) {
+		return new RetUtil().setOkData(data);
+	}
 	public static RetUtil ok() {
 		return new RetUtil().setOk();
 	}
@@ -75,7 +78,17 @@ public class RetUtil extends HashMap{
 		super.put(MSG, SUCCESS_MSG);
 		return this;
 	}
-	
+	/**
+	 * 有data参数返回
+	 * @return
+	 */
+	public RetUtil setOkData(Object data) {
+		super.put(SUCCESS, true);
+		super.put(CODE, SUCCESS_CODE);
+		super.put(MSG, SUCCESS_MSG);
+		super.put(DATA, data);
+		return this;
+	}
 	/**
 	 * 有参返回成功
 	 * @param msg

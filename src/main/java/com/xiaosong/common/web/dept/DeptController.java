@@ -1,15 +1,13 @@
 package com.xiaosong.common.web.dept;
 
-import java.util.Arrays;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VDept;
 import com.xiaosong.util.RetUtil;
+
+import java.util.UUID;
 
 /** 
 * @author 作者 : xiaojf
@@ -42,8 +40,12 @@ public class DeptController extends Controller{
 		String deptName = getPara("dept_name");
 		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
+		String manageName = getPara("manage_name");
+		String phone = getPara("phone");
 		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
+		dept.setManageName(manageName);
+		dept.setPhone(phone);
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);
@@ -61,8 +63,12 @@ public class DeptController extends Controller{
 		String deptName = getPara("dept_name");
 		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
+		String manageName = getPara("manage_name");
+		String phone = getPara("phone");
 		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
+		dept.setManageName(manageName);
+		dept.setPhone(phone);
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);

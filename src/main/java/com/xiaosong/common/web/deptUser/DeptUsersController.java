@@ -79,6 +79,8 @@ public class DeptUsersController extends Controller{
 	}
 	
 	public void addDeptUser() throws Exception {
+		//todo 获取accessCodes 插入code
+		String accessCodes = getPara("accessCodes");
 		String realName = getPara("realName");
 		String userNo = getPara("userNo");
 		String sex = getPara("sex");
@@ -97,6 +99,7 @@ public class DeptUsersController extends Controller{
 		String [] postIds = getParaValues("userPost[]");
 		VDeptUser deptUser = getModel(VDeptUser.class);
 		deptUser.setRealName(realName);
+		deptUser.setAccessCodes(accessCodes);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
 		deptUser.setPhone(phone);
@@ -162,6 +165,7 @@ public class DeptUsersController extends Controller{
 	
 	public void editDeptUser() throws Exception{
 		long id = getLong("id");
+		String accessCodes = getPara("accessCodes");
 		String realName = getPara("realName");
 		String userNo = getPara("userNo");
 		String sex = getPara("sex");
@@ -179,6 +183,7 @@ public class DeptUsersController extends Controller{
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		VDeptUser deptUser = VDeptUser.dao.findById(id);
+		deptUser.setAccessCodes(accessCodes);
 		deptUser.setRealName(realName);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);

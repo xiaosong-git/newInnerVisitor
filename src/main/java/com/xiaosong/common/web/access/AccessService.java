@@ -19,6 +19,8 @@ import com.xiaosong.util.NumberUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 //import com.xiaosong.model.TblAccess;
 
 /**
@@ -60,19 +62,22 @@ public class AccessService {
     }
     public int bandOrgdeleteAccess(Long id, Long orgId,int status) {
 
-       return Db.update("update tbl_access set status=? where id=? and org_id=?",status, id, orgId);
+       return Db.update("update tbl_access set status=? where id=? ",status, id);
     }
     Page<TblAccess> getAccessList(int currentPage, int pageSize, Long orgId, String name, Integer status) {
         StringBuilder sql = new StringBuilder("  from tbl_access");
-        StringBuilder whereSql =new StringBuilder(" where org_id=?");
+        StringBuilder whereSql =new StringBuilder(" where status<>3 ");
         if(StringUtils.isNotBlank(name)) {
-            whereSql.append(" and name like CONCAT('%',").append(name).append(",'%')");
+            whereSql.append(" and name like CONCAT('%','").append(name).append("','%')");
         }
         if (status!=null){
             whereSql.append(" and status =").append(status);
         }
-        return TblAccess.dao.paginate(currentPage, pageSize, "select *", sql.append(whereSql).toString(), orgId);
+        return TblAccess.dao.paginate(currentPage, pageSize, "select *", sql.append(whereSql).toString());
     }
 
 
+    public List<TblAccess> getAccessDeptList(Long id) {
+     return TblAccess.dao.find("select a.* from tbl_access a left join tbl_access_dept d on a.id=d.access_id where d.dept_id=? and d.status =1", id);
+    }
 }

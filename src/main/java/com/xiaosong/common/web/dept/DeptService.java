@@ -29,7 +29,7 @@ public class DeptService {
 	private AccessDao accessDao = AccessDao.me;
 	public Page<Record> findList(int currentPage,int pageSize,String deptName){
 		List<Object> params = new ArrayList<>();
-		String sql = "SELECT d.*,o.org_name,du.realName from v_dept d left join v_org o on d.org_id=o.id, "+
+		String sql = "SELECT d.*,o.org_name,du.realName from v_dept d left join v_org o on d.org_id=o.id "+
 					 "left join v_dept_user du on d.manage_user_id=du.id where 1=1";
 		if(StringUtils.isNotBlank(deptName))
 		{

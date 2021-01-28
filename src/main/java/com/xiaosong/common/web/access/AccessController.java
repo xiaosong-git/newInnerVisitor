@@ -68,7 +68,21 @@ public class AccessController extends Controller {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
             Page<TblAccess> accessList = tblAccessService.getAccessList(currentPage, pageSize, getLong("orgId"), get("name"), getInt("status"));
-            renderJson(RetUtil.ok(accessList));
+            renderJson(RetUtil.okData(accessList));
+        }catch (Exception e){
+            log.error("错误信息：",e);
+            renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+        }
+    }
+
+    /**
+     * 根据部门查询门禁列表
+     */
+    public void getAccessDeptList( ){
+        try {
+
+            List<TblAccess> accessList = tblAccessService.getAccessDeptList(getLong("id"));
+            renderJson(RetUtil.okData(accessList));
         }catch (Exception e){
             log.error("错误信息：",e);
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
