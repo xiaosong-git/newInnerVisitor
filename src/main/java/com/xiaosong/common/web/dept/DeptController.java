@@ -41,7 +41,7 @@ public class DeptController extends Controller{
 		String deptName = getPara("dept_name");
 		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
-		String manageName = getPara("manage_name");
+		String manageName = getPara("realName");
 		String phone = getPara("phone");
 		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
 		if(first==null){
@@ -69,8 +69,12 @@ public class DeptController extends Controller{
 		String deptName = getPara("dept_name");
 		Long orgId = getLong("org_id");
 		String floor = getPara("floor");
-		String manageName = getPara("manage_name");
+		String manageName = getPara("realName");
 		String phone = getPara("phone");
+		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
+		if(first==null){
+			renderJson(RetUtil.fail("未找到管理员信息！"));
+		}
 		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
 		dept.setManageName(manageName);
