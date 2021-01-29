@@ -34,8 +34,13 @@ public class VisitCarService {
         return Db.update("update v_car set cStatus=? where id=? and cStatus = 'applyConfirm' ", cStatus, id);
     }
 
+    public int passVisitCar(Long id) {
+        return Db.update("update v_car set cStatus='applyPass' where id=? and cStatus = 'applySuccess' ", id);
+    }
+
     public RetUtil insertVisitCar(VCar vCar) {
-        vCar.setCStatus("applySuccess");
+        //直接放行
+        vCar.setCStatus("applyPass");
         vCar.setVisitDate(DateUtil.getCurDate());
         vCar.setVisitTime(DateUtil.getCurTime());
         vCar.setReplyDate(DateUtil.getCurDate());

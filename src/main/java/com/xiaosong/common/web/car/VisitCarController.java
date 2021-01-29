@@ -50,6 +50,22 @@ public class VisitCarController extends Controller {
     }
 
     /**
+     * 来访车辆记录放行
+     */
+    public void passVisitCar() {
+        try {
+            if (visitCarService.passVisitCar(getLong("id")) > 0) {
+                renderJson(RetUtil.ok());
+            } else {
+                renderJson(RetUtil.fail());
+            }
+        } catch (Exception e) {
+            log.error("错误信息：", e);
+            renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+        }
+    }
+
+    /**
      * 新增来访车辆记录
      */
     public void insertVisitCar(@JsonBody VCar vCar) {
