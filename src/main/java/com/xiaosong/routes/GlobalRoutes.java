@@ -25,6 +25,7 @@ import com.xiaosong.common.web.access.AccessController;
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.blackUser.BlackUserController;
 import com.xiaosong.common.web.car.CarController;
+import com.xiaosong.common.web.car.VisitCarController;
 import com.xiaosong.common.web.dept.DeptController;
 import com.xiaosong.common.web.deptUser.DeptUsersController;
 import com.xiaosong.common.web.inOut.InOutController;
@@ -114,6 +115,8 @@ public class GlobalRoutes extends Routes{
 
 		this.add(prefix+"/device", DeviceController.class);
 		this.add(prefix+"/inout", InoutController.class);
+		//来访车辆
+		this.add(webprefix+"/visitCar", VisitCarController.class);
 
 		this.add(prefix+"/machine", visitDeviceController.class);
 
