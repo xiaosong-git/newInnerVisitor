@@ -19,6 +19,7 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
 import com.xiaosong.bean.DeptUserBean;
+import com.xiaosong.bean.PeopleCheckBean;
 import com.xiaosong.common.api.userPost.UserPostService;
 import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
@@ -817,4 +818,20 @@ public class DeptUsersController extends Controller{
 			renderJson(RetUtil.fail());
 		}
 	}
+
+    /**
+     * CTID认证及重点人员核查列表
+     */
+    public void getPeopleCheckList() {
+        try {
+            int currentPage = getInt("currentPage");
+            int pageSize = getInt("pageSize");
+            Page<PeopleCheckBean> list = srv.getPeopleCheckList(currentPage, pageSize, getPara("name"), getPara("idNO"));
+            renderJson(RetUtil.ok(list));
+        } catch (Exception e) {
+            log.error("错误信息：", e);
+            renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+        }
+    }
+
 }
