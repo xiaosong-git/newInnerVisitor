@@ -21,17 +21,17 @@ public class VisitCarService {
         StringBuilder sql = new StringBuilder("  from v_car");
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if (StringUtils.isNotBlank(phone)) {
-            whereSql.append(" and phone like CONCAT('%',").append(phone).append(",'%')");
+            whereSql.append(" and phone like CONCAT('%','").append(phone).append("','%')");
         }
         if (StringUtils.isNotBlank(cStatus)) {
-            whereSql.append(" and cStatus =").append(cStatus);
+            whereSql.append(" and cStatus ='").append(cStatus).append("'");
         }
         whereSql.append(" order by id ");
         return VCar.dao.paginate(currentPage, pageSize, "select *", sql.append(whereSql).toString());
     }
 
     public int auditVisitCar(Long id, String cStatus) {
-        return Db.update("update v_car set cStatus=? where id=? and cStatus = applyConfirm ", cStatus, id);
+        return Db.update("update v_car set cStatus=? where id=? and cStatus = 'applyConfirm' ", cStatus, id);
     }
 
     public RetUtil insertVisitCar(VCar vCar) {

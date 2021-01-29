@@ -51,7 +51,7 @@ public class DeptController extends Controller{
 			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
 			return;
 		}
-		Long[] accessIds = getParaValuesToLong("accessIds");
+		Long[] accessIds = getParaValuesToLong("accessIds[]");
 		VDept dept = getModel(VDept.class);
 		dept.setManageUserId(first.getId());
 
@@ -79,7 +79,7 @@ public class DeptController extends Controller{
 			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
 			return;
 		}
-		Long[] accessIds = getParaValuesToLong("accessIds");
+		Long[] accessIds = getParaValuesToLong("accessIds[]");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
