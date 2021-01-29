@@ -25,7 +25,7 @@ public class VisitCarController extends Controller {
         try {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-            Page<VCar> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("getPara"), getPara("cStatus"));
+            Page<VCar> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("phone"), getPara("cStatus"));
             renderJson(RetUtil.okData(visitCarList));
         } catch (Exception e) {
             log.error("错误信息：", e);
