@@ -827,7 +827,33 @@ public class DeptUsersController extends Controller{
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
             Page<PeopleCheckBean> list = srv.getPeopleCheckList(currentPage, pageSize, getPara("name"), getPara("idNO"));
-            renderJson(RetUtil.ok(list));
+            renderJson(RetUtil.okData(list));
+        } catch (Exception e) {
+            log.error("错误信息：", e);
+            renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+        }
+    }
+
+    /**
+     * 人员核查
+     */
+    public void checkPeople() {
+        try {
+            String realName = getPara("realName");
+            String idNO = getPara("idNO");
+            String imgName = getPara("imgName");
+            String photoPath = File.separator + "user" + File.separator + "cache" + File.separator + imgName;
+            String cahceImgUrl = imgServerUrl + photoPath;
+            byte[] data = FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(cahceImgUrl), 40960L);
+            String photo = com.xiaosong.util.Base64.encode(data);
+            JSONObject photoResult = AuthUtil.auth(idNO, realName, photo);
+            //实人认证结果
+            if (!"00000".equals(photoResult.getString("return_code"))) {
+                JSONObject errorData = photoResult.getJSONObject("data");
+                System.out.println(photoResult.toJSONString());
+                renderJson(RetUtil.ok("核验失败，错误原因：" + errorData));
+            }
+            renderJson(RetUtil.ok("核验无误！"));
         } catch (Exception e) {
             log.error("错误信息：", e);
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));

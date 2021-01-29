@@ -16,6 +16,9 @@ public class BlackUserController extends Controller {
 
     private BlackUserService blackUserService = BlackUserService.me;
 
+    /**
+     * 添加黑名单
+    */
     public void addBlackUser(){
        String realName = getPara("realName");
        String idCard = getPara("idCard");
@@ -38,6 +41,10 @@ public class BlackUserController extends Controller {
        blackUser.save();
        renderJson(RetUtil.ok());
     }
+
+    /**
+     * 黑名单列表
+     */
     public void findBlackUsers(){
         String realName = getPara("realName");
         String idCard = getPara("idCard");
@@ -75,6 +82,10 @@ public class BlackUserController extends Controller {
         blackUser.update();
         renderJson(RetUtil.ok());
     }
+
+    /**
+     * 删除黑名单
+     */
     public void delBlackUsers(){
         int id = getInt("id");
         VBlackUser blackUser = VBlackUser.dao.findFirst("select * from v_black_user where id = ?",id);
