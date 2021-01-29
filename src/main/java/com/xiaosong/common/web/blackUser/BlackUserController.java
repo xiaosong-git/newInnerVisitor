@@ -19,15 +19,15 @@ public class BlackUserController extends Controller {
     public void addBlackUser(){
        String realName = getPara("realName");
        String idCard = getPara("idCard");
-       String level = getPara("level");
+//       String level = getPara("level");
        String userType = getPara("userType");
        VBlackUser blackUser = new VBlackUser();
-       if(realName == null || idCard ==null ||level == null){
+       if(realName == null || idCard ==null){
            renderJson(RetUtil.fail(500,"参数不完整"));
            return;
        }
        blackUser.setRealName(realName);
-       blackUser.setLevel(level);
+//       blackUser.setLevel(level);
        if(userType != null){
            blackUser.setUserType(userType);
        }
@@ -55,7 +55,7 @@ public class BlackUserController extends Controller {
                 record.set("idCard",idNO);
             }
         }
-        renderJson(RetUtil.ok(list));
+        renderJson(RetUtil.okData(list));
     }
 
     public void editBlackUsers(){

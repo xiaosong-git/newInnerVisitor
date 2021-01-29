@@ -3,10 +3,7 @@ package com.xiaosong.common.web.deptUser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -16,10 +13,13 @@ import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
 import com.jfinal.upload.UploadFile;
 import com.xiaosong.MainConfig;
+import com.xiaosong.bean.PeopleCheckBean;
+import com.xiaosong.model.VCar;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.HttpPostUploadUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 
 /** 
 * @author 作者 : xiaojf
@@ -217,6 +217,27 @@ public class DeptUserService {
 	}
 
 
-
-
+	public Page<PeopleCheckBean> getPeopleCheckList(int currentPage, int pageSize, String name, String idNO) {
+		StringBuilder sql = new StringBuilder("  from v_dept_user");
+		StringBuilder whereSql = new StringBuilder(" where 1=1 ");
+		//获取加密key
+		Record user_key = Db.findFirst("select * from v_user_key");
+		String key = user_key.getStr("workKey");
+		if (StringUtils.isNotBlank(name)) {
+			whereSql.append(" and realName like CONCAT('%',").append(name).append(",'%')");
+		}
+		if (StringUtils.isNotBlank(idNO)) {
+			whereSql.append(" and idNO =").append(DESUtil.decode(key, idNO));
+		}
+		whereSql.append(" order by id ");
+		Page<Record> recordPage = Db.paginate(currentPage, pageSize, "select *", sql.append(whereSql).toString());
+		List<PeopleCheckBean> list = new ArrayList<>();
+		for (Record record : recordPage.getList()) {
+			PeopleCheckBean bean = new PeopleCheckBean();
+			BeanUtils.copyProperties(record, bean);
+			bean.setIdNO(DESUtil.encode(key, record.getStr("idNO")));
+			list.add(bean);
+		}
+		return new Page<>(list, recordPage.getPageNumber(), recordPage.getPageSize(), recordPage.getTotalPage(), recordPage.getTotalRow());
+	}
 }

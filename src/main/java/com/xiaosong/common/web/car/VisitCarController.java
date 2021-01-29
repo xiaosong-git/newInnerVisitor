@@ -25,8 +25,8 @@ public class VisitCarController extends Controller {
         try {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-            Page<VCar> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, get("phone"), get("cStatus"));
-            renderJson(RetUtil.ok(visitCarList));
+            Page<VCar> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("getPara"), getPara("cStatus"));
+            renderJson(RetUtil.okData(visitCarList));
         } catch (Exception e) {
             log.error("错误信息：", e);
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
@@ -38,7 +38,7 @@ public class VisitCarController extends Controller {
      */
     public void auditVisitCar() {
         try {
-            if (visitCarService.auditVisitCar(getLong("id"), get("cStatus")) > 0) {
+            if (visitCarService.auditVisitCar(getLong("id"), getPara("cStatus")) > 0) {
                 renderJson(RetUtil.ok());
             } else {
                 renderJson(RetUtil.fail());
