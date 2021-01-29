@@ -23,7 +23,10 @@ public class DeptController extends Controller{
 		int currentPage = getInt("currentPage");
 		int pageSize = getInt("pageSize");
 		String deptName = get("deptName");
-		Page<Record> pagelist = srv.findList(currentPage,pageSize,deptName);
+		String realName = get("realName");
+		String phone = get("phone");
+		String accessName = get("accessName");
+		Page<Record> pagelist = srv.findList(currentPage,pageSize,deptName,realName,phone,accessName);
 		renderJson(pagelist);
 	}
 	
@@ -45,13 +48,13 @@ public class DeptController extends Controller{
 		String phone = getPara("phone");
 		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
 		if(first==null){
-			renderJson(RetUtil.fail("未找到管理员信息！"));
+			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
+			return;
 		}
 		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
 		dept.setManageUserId(first.getId());
-		dept.setManageName(manageName);
-		dept.setPhone(phone);
+
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);
@@ -73,12 +76,11 @@ public class DeptController extends Controller{
 		String phone = getPara("phone");
 		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
 		if(first==null){
-			renderJson(RetUtil.fail("未找到管理员信息！"));
+			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
+			return;
 		}
 		Long[] accessIds = getParaValuesToLong("accessIds");
 		VDept dept = getModel(VDept.class);
-		dept.setManageName(manageName);
-		dept.setPhone(phone);
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
 		dept.setFloor(floor);

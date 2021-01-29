@@ -64,7 +64,7 @@ public class AccessService {
 
        return Db.update("update tbl_access set status=? where id=? ",status, id);
     }
-    Page<TblAccess> getAccessList(int currentPage, int pageSize, Long orgId, String name, Integer status) {
+    List<TblAccess>  getAccessList(Long orgId, String name, Integer status) {
         StringBuilder sql = new StringBuilder("  from tbl_access");
         StringBuilder whereSql =new StringBuilder(" where status<>3 ");
         if(StringUtils.isNotBlank(name)) {
@@ -73,7 +73,8 @@ public class AccessService {
         if (status!=null){
             whereSql.append(" and status =").append(status);
         }
-        return TblAccess.dao.paginate(currentPage, pageSize, "select *", sql.append(whereSql).toString());
+        List<TblAccess> tblAccesses = TblAccess.dao.find("select *"+sql.append(whereSql).toString());
+        return tblAccesses;
     }
 
 

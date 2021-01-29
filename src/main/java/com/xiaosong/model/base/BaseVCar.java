@@ -85,7 +85,7 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 
 	/**
-	 * ״̬ applyConfirm:?????У?applySuccess:???ܷ??ʣ?applyFail:?ܾ????
+	 * ״̬ applyConfirm:待审核applySuccess:审核通过applyFail:失败 applyPass:已放行
 	 */
 	public M setCStatus(java.lang.String cStatus) {
 		set("cStatus", cStatus);
@@ -93,7 +93,7 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * ״̬ applyConfirm:?????У?applySuccess:???ܷ??ʣ?applyFail:?ܾ????
+	 * ״̬ applyConfirm:待审核applySuccess:审核通过applyFail:失败 applyPass:已放行
 	 */
 	public java.lang.String getCStatus() {
 		return getStr("cStatus");
@@ -229,7 +229,7 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 
 	/**
-	 * 出入类型
+	 * 出入类型 0 按次  1按时
 	 */
 	public M setInOutType(java.lang.Integer inOutType) {
 		set("inOutType", inOutType);
@@ -237,7 +237,7 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 	}
 	
 	/**
-	 * 出入类型
+	 * 出入类型 0 按次  1按时
 	 */
 	public java.lang.Integer getInOutType() {
 		return getInt("inOutType");

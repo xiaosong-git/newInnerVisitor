@@ -133,7 +133,7 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	}
 
 	/**
-	 * 通行权限 多个用|分割
+	 * 通行权限 多个用,分割
 	 */
 	public M setAccessCodes(java.lang.String accessCodes) {
 		set("accessCodes", accessCodes);
@@ -141,40 +141,25 @@ public abstract class BaseVDept<M extends BaseVDept<M>> extends Model<M> impleme
 	}
 	
 	/**
-	 * 通行权限 多个用|分割
+	 * 通行权限 多个用,分割
 	 */
 	public java.lang.String getAccessCodes() {
 		return getStr("accessCodes");
 	}
 
 	/**
-	 * 管理员姓名
+	 * 区域名
 	 */
-	public M setManageName(java.lang.String manageName) {
-		set("manage_name", manageName);
+	public M setAccessNames(java.lang.String accessNames) {
+		set("accessNames", accessNames);
 		return (M)this;
 	}
 	
 	/**
-	 * 管理员姓名
+	 * 区域名
 	 */
-	public java.lang.String getManageName() {
-		return getStr("manage_name");
-	}
-
-	/**
-	 * 管理员手机号
-	 */
-	public M setPhone(java.lang.String phone) {
-		set("phone", phone);
-		return (M)this;
-	}
-	
-	/**
-	 * 管理员手机号
-	 */
-	public java.lang.String getPhone() {
-		return getStr("phone");
+	public java.lang.String getAccessNames() {
+		return getStr("accessNames");
 	}
 
 }

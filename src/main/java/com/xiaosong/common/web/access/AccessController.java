@@ -65,9 +65,8 @@ public class AccessController extends Controller {
    }
     public void getAccessList( ){
         try {
-            int currentPage = getInt("currentPage");
-            int pageSize = getInt("pageSize");
-            Page<TblAccess> accessList = tblAccessService.getAccessList(currentPage, pageSize, getLong("orgId"), get("name"), getInt("status"));
+
+            List<TblAccess> accessList = tblAccessService.getAccessList(getLong("orgId"), get("name"), getInt("status"));
             renderJson(RetUtil.okData(accessList));
         }catch (Exception e){
             log.error("错误信息：",e);

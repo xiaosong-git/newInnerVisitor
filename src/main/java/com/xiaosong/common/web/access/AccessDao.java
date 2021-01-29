@@ -32,7 +32,7 @@ public class AccessDao {
      * @param accessIds
      * @return
      */
-    public  List<TblAccess> getByAccessIds(Long[] accessIds) {
+    public  List<TblAccess> getByAccessIds(Object[] accessIds) {
         String collect = Arrays.stream(accessIds).map(Object::toString).collect(Collectors.joining(","));
         List<TblAccess> accesses = TblAccess.dao.find("select access_code,name from tbl_access where id in ("+collect+") and status=1");
         return accesses ;
@@ -47,7 +47,7 @@ public class AccessDao {
      * @return
      */
     public int updateAccessOrgStatus(String intersection, Long deptId,int status) {
-        return  Db.update("update tbl_access_dept set status=? ,dept_id=?,update_time=now() where id in(" + intersection + ")",status, deptId);
+        return  Db.update("update tbl_access_dept set status=? ,update_time=now() where access_id in(" + intersection + ") and dept_id=?",status, deptId);
 
     }
 

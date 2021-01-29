@@ -1,6 +1,5 @@
 package com.xiaosong.util;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 
@@ -145,5 +144,40 @@ public class ExcelUtil {
         }
 
         return result;
+    }
+
+
+    public static HSSFCellStyle createCellStyle(HSSFWorkbook workbook, short hAlignment, short vAlignment,short color,String fontName,short fontHeight,boolean bold){
+        HSSFCellStyle cellStyle = workbook.createCellStyle();
+        HSSFFont fontStyle = workbook.createFont();
+        //水平对齐
+        cellStyle.setAlignment(hAlignment);
+        //垂直对齐
+        cellStyle.setVerticalAlignment(vAlignment);
+        //自动换行
+        cellStyle.setWrapText(true);
+        //单元格边框
+        cellStyle.setBorderTop(HSSFBorderFormatting.BORDER_THIN);
+        cellStyle.setBorderBottom(HSSFBorderFormatting.BORDER_THIN);
+        cellStyle.setBorderLeft(HSSFBorderFormatting.BORDER_THIN);
+        cellStyle.setBorderRight(HSSFBorderFormatting.BORDER_THIN);
+        //设置填充色
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setFillForegroundColor(color);
+        //字体样式
+        fontStyle.setFontName(fontName);
+        //字体大小
+        fontStyle.setFontHeightInPoints(fontHeight);
+        //字体粗细
+        fontStyle.setBold(bold);
+        //将字体赋值给单元格样式对象
+        cellStyle.setFont(fontStyle);
+        return cellStyle;
+    }
+
+    public static void createCell(HSSFRow row,HSSFCellStyle cellStyle,String value,int index){
+        HSSFCell cell = row.createCell(index);
+        cell.setCellStyle(cellStyle);
+        cell.setCellValue(value);
     }
 }

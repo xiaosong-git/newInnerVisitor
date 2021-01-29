@@ -47,7 +47,7 @@ public class DeptUserService {
 
 		StringBuilder sql = new StringBuilder();
 		List<Object> objects = new LinkedList<>();
-		sql.append("select * from (select u.*,d.dept_name from v_dept_user u left join v_dept d on u.deptId=d.id where 1=1 and currentStatus!='deleted' and  IFNULL(userType,'')!='visitor'");
+		sql.append("select * from (select u.*,d.dept_name,GROUP_CONCAT(a.name) accessNames from v_dept_user u left join tbl_access a on FIND_IN_SET(a.access_code,u.accessCodes) and a.status=1  left join v_dept d on u.deptId=d.id where  currentStatus!='deleted' and  IFNULL(userType,'')!='visitor' ");
 
 		if(realName!=null){
 			sql.append(" and u.realName like CONCAT('%',?,'%') ");
@@ -88,7 +88,7 @@ public class DeptUserService {
 
 
 
-		sql.append(" order by u.id desc) as a ");
+		sql.append("group By u.id order by u.id desc) as a ");
 
 		SqlPara sqlPara = new SqlPara();
 		sqlPara.setSql(sql.toString());

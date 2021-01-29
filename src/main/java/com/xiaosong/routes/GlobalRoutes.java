@@ -24,6 +24,7 @@ import com.xiaosong.common.web.Ad.AdController;
 import com.xiaosong.common.web.access.AccessController;
 import com.xiaosong.common.web.appMenu.AppMenuController;
 import com.xiaosong.common.web.blackUser.BlackUserController;
+import com.xiaosong.common.web.car.CarController;
 import com.xiaosong.common.web.dept.DeptController;
 import com.xiaosong.common.web.deptUser.DeptUsersController;
 import com.xiaosong.common.web.inOut.InOutController;
@@ -93,7 +94,7 @@ public class GlobalRoutes extends Routes{
 		this.add(webprefix+"/news", NewsController.class);
 		this.add(webprefix+"/ad", AdController.class);
 		this.add(webprefix+"/inOut", InOutController.class);//考勤
-
+		this.add(webprefix+"/car", CarController.class);
 		this.add(webprefix+"/blackUser", BlackUserController.class);
 		this.add(webprefix+"/params", ParamsController.class);
 		this.add(webprefix+"/access", AccessController.class);//区域
