@@ -839,6 +839,10 @@ public class DeptUsersController extends Controller{
      */
     public void checkPeople() {
         try {
+			if (StringUtils.isEmpty(getPara("realName")) || StringUtils.isEmpty(getPara("idNO")) || StringUtils.isEmpty(getPara("imgName"))) {
+				renderJson(RetUtil.fail("参数缺失！"));
+				return;
+			}
             String realName = getPara("realName");
             String idNO = getPara("idNO");
             String imgName = getPara("imgName");

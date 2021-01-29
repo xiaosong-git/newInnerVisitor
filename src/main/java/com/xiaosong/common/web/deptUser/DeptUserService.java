@@ -224,7 +224,7 @@ public class DeptUserService {
 		Record user_key = Db.findFirst("select * from v_user_key");
 		String key = user_key.getStr("workKey");
 		if (StringUtils.isNotBlank(name)) {
-			whereSql.append(" and realName like CONCAT('%',").append(name).append(",'%')");
+			whereSql.append(" and realName like CONCAT('%','").append(name).append("','%')");
 		}
 		if (StringUtils.isNotBlank(idNO)) {
 			whereSql.append(" and idNO = '").append(DESUtil.decode(key, idNO)).append("'");
@@ -234,8 +234,13 @@ public class DeptUserService {
 		List<PeopleCheckBean> list = new ArrayList<>();
 		for (Record record : recordPage.getList()) {
 			PeopleCheckBean bean = new PeopleCheckBean();
-			BeanUtils.copyProperties(record, bean);
-			bean.setIdNO(DESUtil.encode(key, record.getStr("idNO")));
+			bean.setId(record.getLong("id"));
+			bean.setRealName(record.getStr("realName"));
+			if(StringUtils.isNotEmpty(record.getStr("isAuth"))){
+				bean.setIsAuth(record.getStr("isAuth"));
+				bean.setAuthDate(record.getStr("authDate"));
+			}
+			bean.setIdNO(DESUtil.decode(key, record.getStr("idNO")));
 			list.add(bean);
 		}
 		return new Page<>(list, recordPage.getPageNumber(), recordPage.getPageSize(), recordPage.getTotalPage(), recordPage.getTotalRow());

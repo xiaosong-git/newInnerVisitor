@@ -33,7 +33,7 @@ public class VisitCarController extends Controller {
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
             for (VCar vCar : visitCarList.getList()) {
-                vCar.setIdNO(DESUtil.encode(user_key.getStr("workKey"), vCar.getStr("idNO")));
+                vCar.setIdNO(DESUtil.decode(user_key.getStr("workKey"), vCar.getStr("idNO")));
             }
             renderJson(RetUtil.okData(visitCarList));
         } catch (Exception e) {

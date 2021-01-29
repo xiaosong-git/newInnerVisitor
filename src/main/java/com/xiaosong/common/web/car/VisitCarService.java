@@ -55,7 +55,7 @@ public class VisitCarService {
         vCar.setIntervieweeId(vCar.getLong("replyUserId"));
         //获取加密key
         Record user_key = Db.findFirst("select * from v_user_key");
-        vCar.setIdNO(DESUtil.decode(user_key.getStr("workKey"), vCar.getStr("idNO")));
+        vCar.setIdNO(DESUtil.encode(user_key.getStr("workKey"), vCar.getStr("idNO")));
         boolean save = vCar.save();
         return save ? RetUtil.ok("新增成功") : RetUtil.fail("新增失败");
     }

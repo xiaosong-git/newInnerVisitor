@@ -19,8 +19,8 @@ public class PeopleCheckBean {
     /** 核查时间 */
     private String authDate;
 
-    /** 认证结果：T、F（目前默认F） */
-    private String isAuth;
+    /** 认证结果：T、F */
+    private String isAuth = "F";
 
     /** 是否重点关注：T、F（目前默认F） */
     private String isFocus = "F";

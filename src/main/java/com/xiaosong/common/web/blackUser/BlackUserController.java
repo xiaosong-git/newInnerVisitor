@@ -87,6 +87,10 @@ public class BlackUserController extends Controller {
      * 删除黑名单
      */
     public void delBlackUsers(){
+        if (getLong("id") == null) {
+            renderJson(RetUtil.fail("参数缺失！"));
+            return;
+        }
         int id = getInt("id");
         VBlackUser blackUser = VBlackUser.dao.findFirst("select * from v_black_user where id = ?",id);
         if(blackUser == null){
