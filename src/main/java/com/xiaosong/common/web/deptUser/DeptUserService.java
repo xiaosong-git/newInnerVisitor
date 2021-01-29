@@ -227,7 +227,7 @@ public class DeptUserService {
 			whereSql.append(" and realName like CONCAT('%',").append(name).append(",'%')");
 		}
 		if (StringUtils.isNotBlank(idNO)) {
-			whereSql.append(" and idNO =").append(DESUtil.decode(key, idNO));
+			whereSql.append(" and idNO = '").append(DESUtil.decode(key, idNO)).append("'");
 		}
 		whereSql.append(" order by id ");
 		Page<Record> recordPage = Db.paginate(currentPage, pageSize, "select *", sql.append(whereSql).toString());
