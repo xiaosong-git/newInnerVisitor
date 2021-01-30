@@ -66,7 +66,7 @@ public class VisitorRecordController extends Controller {
     public void carVisit() throws Exception {
 
         try {
-            renderText(JSON.toJSONString(visitorRecordService.carVisit(getLong("userId"), get("userName"), get("idNo"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"), get("carNumber"), getInt("num"), get("visitDept"), get("gate"), getInt("inOutType"))));
+            renderText(JSON.toJSONString(visitorRecordService.carVisit(getLong("userId"), get("userName"), get("idNo"), get("phone"), get("realName"), get("startDate"), get("endDate"), get("reason"), get("carNumber"), getInt("num"), get("visitDept"), get("gate"), getInt("inOutType"),get("entourages"))));
         } catch (Exception e) {
 
             log.error("系统异常：", e.getMessage());

@@ -14,10 +14,9 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.activiti.VisitorProcess;
 import com.xiaosong.common.api.base.MyBaseService;
-import com.xiaosong.common.api.car.CarService;
 import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.common.api.deptUser.DeptUserService;
-import com.xiaosong.common.api.userPost.UserPostConstant;
+import com.xiaosong.constant.UserPostConstant;
 import com.xiaosong.common.api.userPost.UserPostService;
 import com.xiaosong.common.api.websocket.*;
 import com.xiaosong.common.web.blackUser.BlackUserService;
@@ -31,7 +30,6 @@ import com.xiaosong.constant.MyPage;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
 import com.xiaosong.util.Base64;
-import org.activiti.engine.task.Task;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,6 +52,7 @@ public class VisitorRecordService extends MyBaseService {
     public static final VisitorRecordService me = new VisitorRecordService();
     Prop p = MainConfig.p;
     private BlackUserService blackUserService = BlackUserService.me;
+    private DeptUserService deptUserService = DeptUserService.me;
 
     /**
      * 根据 where 条件进行查询我的邀约，邀约我的，我的访问，访问我的判断
@@ -159,6 +158,13 @@ public class VisitorRecordService extends MyBaseService {
             Long userId = BaseUtil.objToLong(visitorRecord.get("userId"), null);
             String cstatus = BaseUtil.objToStr(visitorRecord.get("cstatus"), null);
             String answerContent = BaseUtil.objToStr(visitorRecord.get("answerContent"), "");
+
+            boolean hasCarAuth = UserPostService.me.checkPostAuth(userId, UserPostConstant.APPROVE_VISITOR_POST);
+            if(!hasCarAuth)
+            {
+                return ResultData.unDataResult("fail", "没有访客审批权限");
+            }
+
             //更新邀约信息
             if (id == null || userId == null || cstatus == null || vDeptUser ==null) {
                 return Result.unDataResult("fail", "缺少参数");
@@ -170,21 +176,22 @@ public class VisitorRecordService extends MyBaseService {
                 return Result.unDataResult("fail", "记录不存在");
             }
             boolean flag = "applySuccess".equals(cstatus);
-            boolean hasNext =VisitorProcess.approve(vVisitorRecord.getProcessId(),flag,assignee,vDeptUser.getDeptLeader());
+            boolean hasNext =VisitorProcess.approve(vVisitorRecord.getProcessId(),flag,assignee,deptUserService.getUserType(vDeptUser,0));
             boolean update = Db.tx(()->{
-                visitorRecord.setCstatus(hasNext?"applyConfirm":cstatus);
+                String status = hasNext?"applyConfirm":cstatus;
+                visitorRecord.setCstatus(status);
                 boolean result = visitorRecord.update();
-                //随行人员同时更新
-                List<VVisitorRecord> entourages = VVisitorRecord.dao.find("select * from "+TableList.VISITOR_RECORD+" where pid =?",visitorRecord.getId());
-                for(VVisitorRecord record : entourages)
-                {
-                    record.setReplyDate(replyDate);
-                    record.setIsReceive("F");
-                    record.setReplyTime(replyTime);
-                    record.setAnswerContent(answerContent);
-                    record.setCstatus(cstatus);
-                    record.update();
-                }
+//                //随行人员同时更新
+//                List<VVisitorRecord> entourages = VVisitorRecord.dao.find("select * from "+TableList.VISITOR_RECORD+" where pid =?",visitorRecord.getId());
+//                for(VVisitorRecord record : entourages)
+//                {
+//                    record.setReplyDate(replyDate);
+//                    record.setIsReceive("F");
+//                    record.setReplyTime(replyTime);
+//                    record.setAnswerContent(answerContent);
+//                    record.setCstatus(status);
+//                    record.update();
+//                }
                 return true;
             });
 
@@ -194,7 +201,7 @@ public class VisitorRecordService extends MyBaseService {
             }
             if (update) {
                 //返回回消息
-                Map<String, Object> visitorMap = Db.findById(TableList.VISITOR_RECORD, id).getColumns();
+    /*            Map<String, Object> visitorMap = Db.findById(TableList.VISITOR_RECORD, id).getColumns();
                 Long toUserId = BaseUtil.objToLong(visitorMap.get("visitorId"), null);
                 WebSocketEndPoint webSocketEndPoint = WebSocketMapUtil.get(String.valueOf(toUserId));
                 System.out.println("用户" + toUserId + "是否在线：" + webSocketEndPoint);
@@ -249,7 +256,12 @@ public class VisitorRecordService extends MyBaseService {
 //				            codeService.sendMsg(phone, 3, visitorResult, visitorBy, visitorDateTime, null);
 //			                }
 
-                }
+                }*/
+
+
+                //todo 推送消息
+
+
                 //websocket通知前端获取访客数量
                 WebSocketMonitor.me.getVisitorData();
                 WebSocketSyncData.me.sendVisitorData();
@@ -285,7 +297,7 @@ public class VisitorRecordService extends MyBaseService {
 
 
         //被访者
-        VDeptUser visitorBy = VDeptUser.dao.findFirst("select app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp,deptLeader from " + TableList.DEPT_USER + " " +
+        VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,deptLeader,app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp,deptLeader from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
@@ -367,7 +379,7 @@ public class VisitorRecordService extends MyBaseService {
             visitRecord.save();
 
             if(!"applyFail".equals(visitRecord.getCstatus())) {
-                String processId = VisitorProcess.createNewProcess(String.valueOf(userId), visitorBy.getDeptLeader(), String.valueOf(visitorId));
+                String processId = VisitorProcess.createNewProcess(String.valueOf(userId), deptUserService.getUserType(visitorBy,0), String.valueOf(visitorId));
                 visitRecord.setProcessId(processId);
                 visitRecord.update();
             }
@@ -416,6 +428,12 @@ public class VisitorRecordService extends MyBaseService {
                         record.setReplyUserId(0L);
                     }
                     record.save();
+                    if(!"applyFail".equals(record.getCstatus())) {
+                        String processId = VisitorProcess.createNewProcess(String.valueOf(vDeptUser.getId()), deptUserService.getUserType(visitorBy,0), String.valueOf(visitorId));
+                        record.setProcessId(processId);
+                        record.update();
+                    }
+
                 }
             }
             return true;
@@ -469,8 +487,7 @@ public class VisitorRecordService extends MyBaseService {
     /**
      * 车辆访问
      */
-    public Result carVisit(Long userId, String userName,String idNo,String phone, String realName, String startDate, String endDate, String reason,String carNumber,Integer num,String visitDept,String gate,Integer inOutType) throws Exception {
-
+    public Result carVisit(Long userId, String userName,String idNo,String phone, String realName, String startDate, String endDate, String reason,String carNumber,Integer num,String visitDept,String gate,Integer inOutType,String entourages) throws Exception {
 
 
 
@@ -489,7 +506,7 @@ public class VisitorRecordService extends MyBaseService {
         }
 
         //被访者
-        VDeptUser visitorBy = VDeptUser.dao.findFirst("select app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
+        VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,deptLeader,app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
@@ -552,6 +569,7 @@ public class VisitorRecordService extends MyBaseService {
             vCar.setGate(gate);
             vCar.setUserName(userName);
             vCar.setIdNO(idNo);
+            vCar.setEntourages(entourages);
             //判断访问者是否是黑名单人员
             VBlackUser blackUser =  blackUserService.findBalckUser(userName,idNo);
             if(blackUser != null){
@@ -561,15 +579,13 @@ public class VisitorRecordService extends MyBaseService {
                 vCar.setReplyUserId(0L);
                 return vCar.save();
             }
-            String processId = VisitorProcess.createNewProcess(String.valueOf(userId),visitorBy.getDeptLeader(),String.valueOf(visitorId));
+            String processId = VisitorProcess.createNewCarProcess(String.valueOf(userId),deptUserService.getUserType(visitorBy,1),String.valueOf(visitorId));
             vCar.setProcessId(processId);
             return vCar.save();
         });
 
         //记录访问记录
         if (result) {
-
-
             //todo userName
             CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, "");
             log.info(visitorByName + "：发送短信推送成功");
@@ -700,7 +716,7 @@ public class VisitorRecordService extends MyBaseService {
             return Result.unDataResult(ConsantCode.FAIL, "日期格式不正确!");
         }
 
-        boolean hasCarAuth = UserPostService.me.checkPostAuth(visitorId.longValue(), UserPostConstant.YAOYUE_POST);
+        boolean hasCarAuth = UserPostService.me.checkPostAuth(visitorId.longValue(), UserPostConstant.INVITE_VISITOR_POST);
         if(!hasCarAuth)
         {
             return ResultData.unDataResult("fail", "没有邀约权限");
@@ -877,7 +893,7 @@ public class VisitorRecordService extends MyBaseService {
             return Result.unDataResult(ConsantCode.FAIL, "日期格式不正确!");
         }
 
-        boolean hasCarAuth = UserPostService.me.checkPostAuth(visitorId.longValue(), UserPostConstant.YAOYUE_CAR_POST);
+        boolean hasCarAuth = UserPostService.me.checkPostAuth(visitorId.longValue(), UserPostConstant.INVITE_CAR_POST);
         if(!hasCarAuth)
         {
             return ResultData.unDataResult(ConsantCode.FAIL, "没有邀约权限");
@@ -1446,7 +1462,7 @@ public class VisitorRecordService extends MyBaseService {
             return ResultData.unDataResult("fail", "缺少参数");
         }
 
-        boolean hasCarAuth = UserPostService.me.checkPostAuth(userId, UserPostConstant.CAR_POST);
+        boolean hasCarAuth = UserPostService.me.checkPostAuth(userId, UserPostConstant.APPROVE_CAR_POST);
         if(!hasCarAuth)
         {
             return ResultData.unDataResult("fail", "没有车辆审批权限");
@@ -1478,12 +1494,22 @@ public class VisitorRecordService extends MyBaseService {
         pageNum = pageNum == null ? 1 : pageNum;
         pageSize = pageSize == null ? 10 : pageSize;
 
-        String sql = "select  * from v_car  where visitId = ? or intervieweeId=? order by visitDate desc ,visitTime desc";
+        String sql = "select au.realName approveName ,vu.idHandleImgUrl,vu.idNo,vu.realName visitorName,vu.addr visitorCmp,vu.phone visitorPhone,c.* from v_car c LEFT JOIN v_dept_user vu on visitId = vu.id\n" +
+                "LEFT JOIN v_dept_user au on approvalUserId = au.id  where visitId = ? or intervieweeId=? order by visitDate desc ,visitTime desc";
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql);
         sqlPara.addPara(userId);
         sqlPara.addPara(userId);
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
+        Record user_key = Db.findFirst("select * from v_user_key");
+        for(Record record : paginate.getList())
+        {
+            String entourages =record.get("entourages");
+            record.set("entourages",JSONArray.parse(entourages));
+            String idNo =record.get("idNo");
+            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+            record.set("idNo",idNo);
+        }
         MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());
         return ResultData.dataResult("success", "查看成功", myPage);
     }
@@ -1501,7 +1527,7 @@ public class VisitorRecordService extends MyBaseService {
             return ResultData.unDataResult("fail", "用户不存在");
         }
 
-        boolean hasCarAuth = UserPostService.me.checkPostAuth(userId, UserPostConstant.CAR_POST);
+        boolean hasCarAuth = UserPostService.me.checkPostAuth(userId, UserPostConstant.APPROVE_CAR_POST);
         if(!hasCarAuth)
         {
             return ResultData.unDataResult("fail", "没有车辆审批权限");
@@ -1514,7 +1540,7 @@ public class VisitorRecordService extends MyBaseService {
         }
 
         boolean flag = "applySuccess".equals(status);
-        boolean hasNext = VisitorProcess.approve(car.getProcessId(),flag,assignee,vDeptUser.getDeptLeader());
+        boolean hasNext = VisitorProcess.approveCar(car.getProcessId(),flag,assignee,deptUserService.getUserType(vDeptUser,1));
         car.setCStatus(hasNext?"applyConfirm":status);
         car.setApprovalDateTime(DateUtil.getSystemTime());
         car.setApprovalUserId(userId);
@@ -1606,7 +1632,7 @@ public class VisitorRecordService extends MyBaseService {
         pageSize = pageSize == null ? 10 : pageSize;
 
         StringBuilder sql = new StringBuilder();
-        sql.append("select u.idHandleImgUrl,vu.idHandleImgUrl visitorIdHandleImgUrl, v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,d.dept_name deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
+        sql.append("select  vu.idNO,u.idHandleImgUrl,vu.idHandleImgUrl visitorIdHandleImgUrl, v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,d.dept_name deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
         sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where v.userId = ?  or v.visitorId = ? order by visitDate desc, visitTime desc");
 
         SqlPara sqlPara = new SqlPara();
@@ -1614,6 +1640,15 @@ public class VisitorRecordService extends MyBaseService {
         sqlPara.addPara(userId);
         sqlPara.addPara(userId);
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
+
+        Record user_key = Db.findFirst("select * from v_user_key");
+        for(Record record : paginate.getList())
+        {
+            String idNo =record.get("idNO");
+            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+            record.set("idNo",idNo);
+        }
+
         MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());
         return ResultData.dataResult("success", "查看成功", myPage);
     }
@@ -1671,13 +1706,24 @@ public class VisitorRecordService extends MyBaseService {
         StringBuilder ret = new StringBuilder();
         joinIds(list,ret);
         StringBuilder sql = new StringBuilder();
-        sql.append("select  u.idHandleImgUrl,vu.idHandleImgUrl visitorIdHandleImgUrl,v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,d.dept_name deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
+        sql.append("select vu.idNO, u.idHandleImgUrl,vu.idHandleImgUrl visitorIdHandleImgUrl,v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,d.dept_name deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,  vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
         sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where v.processId in  "+ret.toString() +" order by visitDate desc, visitTime desc");
 
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql.toString());
 
+
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
+
+        Record user_key = Db.findFirst("select * from v_user_key");
+        for(Record record : paginate.getList())
+        {
+            String idNo =record.get("idNo");
+            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+            record.set("idNo",idNo);
+        }
+
+
         MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());
         return ResultData.dataResult("success", "查看成功", myPage);
     }
@@ -1703,11 +1749,23 @@ public class VisitorRecordService extends MyBaseService {
         StringBuilder ret = new StringBuilder();
         joinIds(list,ret);
 
-        String sql = "select  * from v_car where processId in  "+ret.toString()+" order by visitDate desc ,visitTime desc";
+        String sql = "select au.realName approveName ,vu.idHandleImgUrl,vu.idNo,vu.realName visitorName,vu.addr visitorCmp,vu.phone visitorPhone,c.* from v_car c LEFT JOIN v_dept_user vu on visitId = vu.id\n" +
+                "LEFT JOIN v_dept_user au on approvalUserId = au.id where processId in  "+ret.toString()+" order by visitDate desc ,visitTime desc";
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql.toString());
-
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
+
+        Record user_key = Db.findFirst("select * from v_user_key");
+
+        for(Record record : paginate.getList())
+        {
+            String entourages =record.get("entourages");
+            record.set("entourages",JSONArray.parse(entourages));
+            String idNo =record.get("idNo");
+            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+            record.set("idNo",idNo);
+        }
+
         MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());
         return ResultData.dataResult("success", "查看成功", myPage);
     }

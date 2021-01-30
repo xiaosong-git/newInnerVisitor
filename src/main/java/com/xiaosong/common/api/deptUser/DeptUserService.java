@@ -11,9 +11,11 @@ import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.MyRecordPage;
 import com.xiaosong.constant.TableList;
+import com.xiaosong.constant.UserPostConstant;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VUserPost;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +24,9 @@ import java.util.List;
  * @create: 2020-01-10 17:39
  **/
 public class DeptUserService extends MyBaseService {
+
+
+    public static final DeptUserService me = new DeptUserService();
 
     Log log=Log.getLog(DeptUserService.class);
     public Result findApplySuc(String userId) {
@@ -45,8 +50,46 @@ public class DeptUserService extends MyBaseService {
      */
     public List<VDeptUser> getSuperior(Long userId)
     {
-        List<VDeptUser> list = VDeptUser.dao.find("select * from v_dept_user where deptId = (select deptId from v_dept_user where id = ?  ) and deptLeader =1",userId);
+        List<VDeptUser> list = new ArrayList<>();
+
+        VDeptUser user = VDeptUser.dao.findById(userId);
+
+        if(user!=null) {
+            //如果是部门领导那么获去到经办岗信息
+            if(1==user.getDeptLeader())
+            {
+                list = VDeptUser.dao.find("select * from v_dept_user where id in (select userId from v_user_post where postId =?) ", UserPostConstant.MANAGE_CAR_POST);
+
+            }else {
+                list = VDeptUser.dao.find("select * from v_dept_user where deptId = ? and deptLeader =1", user.getDeptId());
+            }
+        }
         return list;
+    }
+
+
+    /**
+     *  获取人员类型，金卡 红卡 返回 1，蓝卡员工返回0，领导返回1, 经办岗返回2
+     * @param user
+     * @param type 获取类型，0:访客审核，1：车辆审核 需要返回经办岗 否则不需要
+     * @return
+     */
+    public int getUserType(VDeptUser user,int type)
+    {
+        int userType = 0;
+
+        if(user!=null) {
+            //先查询是否经办岗 如果是 直接返回
+            if(type ==1) {
+                VUserPost vUserPost = VUserPost.dao.findFirst("select * from  v_user_post where userId = ? and postId=?", user.getId(), UserPostConstant.MANAGE_CAR_POST);
+                if (vUserPost != null) {
+                    return  2;
+                }
+            }
+            userType = 1 == user.getDeptLeader() ? 1 : 0;
+
+        }
+        return userType;
     }
 
 

@@ -408,4 +408,13 @@ public abstract class BaseVCar<M extends BaseVCar<M>> extends Model<M> implement
 		return getStr("idNO");
 	}
 
+	public M setEntourages(java.lang.String entourages) {
+		set("entourages", entourages);
+		return (M)this;
+	}
+	
+	public java.lang.String getEntourages() {
+		return getStr("entourages");
+	}
+
 }

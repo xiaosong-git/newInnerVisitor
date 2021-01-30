@@ -438,11 +438,17 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 		return getStr("exp2");
 	}
 
+	/**
+	 * 认证日期
+	 */
 	public M setAuthDate(java.lang.String authDate) {
 		set("authDate", authDate);
 		return (M)this;
 	}
 	
+	/**
+	 * 认证日期
+	 */
 	public java.lang.String getAuthDate() {
 		return getStr("authDate");
 	}
@@ -565,7 +571,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 通行权限 多个用|分割
+	 * 通行权限 多个用,分割
 	 */
 	public M setAccessCodes(java.lang.String accessCodes) {
 		set("accessCodes", accessCodes);
@@ -573,7 +579,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * 通行权限 多个用|分割
+	 * 通行权限 多个用,分割
 	 */
 	public java.lang.String getAccessCodes() {
 		return getStr("accessCodes");
