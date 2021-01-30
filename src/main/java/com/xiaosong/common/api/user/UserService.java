@@ -18,14 +18,12 @@ import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
+import com.xiaosong.util.Base64;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @program: innerVisitor
@@ -83,10 +81,24 @@ public class UserService {
 
 
     //验证码登入
+    public Result loginByVerifyCode(String phone) throws Exception {
+        VDeptUser deptUser  = new VDeptUser();
+        deptUser.setPhone(phone);
+        deptUser.setToken(UUID.randomUUID().toString());
+        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
+        VDeptUser user = VDeptUser.dao.findFirst(para);
+        if (user == null) {
+            return Result.unDataResult(ConsantCode.FAIL, "用户不存在");
+        }
+
+        return UserUtil.me.loginSave(user, deptUser);
+    }
+
+
+    //验证码登入
     public Result loginByToken(VDeptUser deptUser, JSONObject userJSON) throws Exception {
 
         String phone = userJSON.getString("phone");
-
         if(StringUtils.isBlank(phone))
         {
             phone = userJSON.getString("username");

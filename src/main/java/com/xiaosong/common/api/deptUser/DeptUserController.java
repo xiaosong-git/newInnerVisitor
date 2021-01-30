@@ -10,7 +10,4 @@ import com.jfinal.log.Log;
  **/
 public class DeptUserController extends Controller {
         Log log =Log.getLog(DeptUserController.class);
-
-
-
 }

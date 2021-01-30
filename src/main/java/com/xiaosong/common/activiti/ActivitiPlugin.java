@@ -71,14 +71,14 @@ public class ActivitiPlugin implements IPlugin {
 		//开启流程引擎
 		System.out.println("启动流程引擎.......");
 
-		String pid = VisitorProcess.createNewProcess("1000",1,"1001");
-		VisitorProcess.approve(pid,true,"1001");
-
-		//部署一个流程
-		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
-		//任务服务
-		TaskService taskService = engine.getTaskService();
-		taskService.createTaskQuery().taskAssignee("1001").orderByTaskCreateTime().desc().list();
+//		String pid = VisitorProcess.createNewProcess("1000",1,"1001");
+//		VisitorProcess.approve(pid,true,"1001");
+//
+//		//部署一个流程
+//		ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+//		//任务服务
+//		TaskService taskService = engine.getTaskService();
+//		taskService.createTaskQuery().taskAssignee("1001").orderByTaskCreateTime().desc().list();
 
 		return isStarted;
 	}

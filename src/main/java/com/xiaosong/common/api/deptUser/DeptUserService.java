@@ -12,6 +12,7 @@ import com.xiaosong.compose.ResultData;
 import com.xiaosong.constant.MyRecordPage;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VDeptUser;
+import com.xiaosong.model.VUserPost;
 
 import java.util.List;
 
@@ -47,6 +48,18 @@ public class DeptUserService extends MyBaseService {
         List<VDeptUser> list = VDeptUser.dao.find("select * from v_dept_user where deptId = (select deptId from v_dept_user where id = ?  ) and deptLeader =1",userId);
         return list;
     }
+
+
+//
+//    List<VUserPost> list = VUserPost.dao.find("select * from v_user_post where userId = ?",user.getId());
+//         if(list!=null && list.size()>0) {
+//        Long[] userPosts = new Long[list.size()];
+//        for(int i = 0; i< list.size();i++)
+//        {
+//            userPosts[i] = list.get(i).getPostId();
+//        }
+//        users.put("userPost", userPosts);
+//    }
 
 
 }
