@@ -24,7 +24,7 @@ public class AccessDao {
     }
 
     public List<TblAccess> getAcessByDept(Long deptId) {
-        return TblAccess.dao.find("select a.id,access_code from tbl_access_dept d left join tbl_access a on a.id=d.access_id where d.dept_id=? and  a.status=1",deptId);
+        return TblAccess.dao.find("select a.id,access_code,name from tbl_access_dept d left join tbl_access a on a.id=d.access_id where d.dept_id=? and  a.status=1",deptId);
     }
 
     /**

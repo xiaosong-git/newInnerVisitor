@@ -60,9 +60,19 @@ public class AccessService {
             return update?RetUtil.ok("修改成功"):RetUtil.fail("修改失败");
         }
     }
-    public int bandOrgdeleteAccess(Long id, Long orgId,int status) {
+    public boolean bandOrgdeleteAccess(Long id, Long orgId,int status) {
+        boolean update = Db.tx(()->{
+            int update2 = Db.update("update tbl_access set status=? where id=? ", status, id);
+            int update1 = Db.update("update tbl_access_dept set status =? where access_id=? ", status, id);
+            if (update2>0&&update1>0){
+                return true;
+            }else {
+                return false;
+            }
+        });
 
-       return Db.update("update tbl_access set status=? where id=? ",status, id);
+
+        return update;
     }
     List<TblAccess>  getAccessList(Long orgId, String name, Integer status) {
         StringBuilder sql = new StringBuilder("  from tbl_access");
@@ -73,8 +83,7 @@ public class AccessService {
         if (status!=null){
             whereSql.append(" and status =").append(status);
         }
-        List<TblAccess> tblAccesses = TblAccess.dao.find("select *"+sql.append(whereSql).toString());
-        return tblAccesses;
+        return TblAccess.dao.find("select *"+sql.append(whereSql).toString());
     }
 
 

@@ -41,8 +41,11 @@ public class DeptController extends Controller{
 	}
 	
 	public void addDept() throws Exception {
-		String deptName = getPara("dept_name");
+		String deptName = getPara("deptName");
 		Long orgId = getLong("org_id");
+		if (orgId==null){
+			orgId=1L;
+		}
 		String floor = getPara("floor");
 		String manageName = getPara("realName");
 		String phone = getPara("phone");
@@ -69,8 +72,11 @@ public class DeptController extends Controller{
 	
 	public void editDept() {
 		long id = getLong("id");
-		String deptName = getPara("dept_name");
+		String deptName = getPara("deptName");
 		Long orgId = getLong("org_id");
+		if (orgId==null){
+			orgId=1L;
+		}
 		String floor = getPara("floor");
 		String manageName = getPara("realName");
 		String phone = getPara("phone");

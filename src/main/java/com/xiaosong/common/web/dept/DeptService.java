@@ -57,15 +57,15 @@ public class DeptService {
 	}
 	
 	public boolean addDept(VDept dept,Long[] accessIds) {
-		List<TblAccess> accesses = accessDao.getByAccessIds(accessIds);
-		String accessCode =accesses.stream().map(BaseTblAccess::getAccessCode).collect(Collectors.joining(","));
-		String accessName =accesses.stream().map(BaseTblAccess::getName).collect(Collectors.joining(","));
-		dept.setAccessCodes(accessCode);
-		dept.setAccessNames(accessName);
-		boolean save = dept.save();
+		boolean isSuc = true;
 		if (accessIds != null && accessIds.length>0) {
 			String currentDateTime = DateUtil.now();
-
+			List<TblAccess> accesses = accessDao.getByAccessIds(accessIds);
+			String accessCode =accesses.stream().map(BaseTblAccess::getAccessCode).collect(Collectors.joining(","));
+			String accessName =accesses.stream().map(BaseTblAccess::getName).collect(Collectors.joining(","));
+			dept.setAccessCodes(accessCode);
+			dept.setAccessNames(accessName);
+			boolean save = dept.save();
 			List<TblAccessDept> tblAccessOrgs = new ArrayList<>();
 			for (Long accessId : accessIds) {
 				tblAccessOrgs.add(new TblAccessDept()
@@ -74,11 +74,20 @@ public class DeptService {
 						.setCreateTime(currentDateTime)
 						.setAccessId(accessId));
 			}
+
 			int[] batch = Db.batch("insert into tbl_access_dept(access_id,dept_id,create_time,status) values(?,?,?,?)", "access_id,dept_id,create_time,status", tblAccessOrgs, 500);
-			if (batch[0]>0&&save){
+			if (batch[0]>0){
+				isSuc=true;
+			}else{
+				isSuc=false;
+			}
+			if (isSuc&&save){
 				return true;
 			}
 		}
+
+
+
 		return false;
 	}
 	
@@ -118,9 +127,13 @@ public class DeptService {
 
 		//批量插入
 		if (tblAccessOrgs.size() > 0) {
+
 			Object[] objects = tblAccessesLong.toArray();
-			List<TblAccess> byAccessIds = accessDao.getByAccessIds(objects);
-			tblaccessCollect.addAll(byAccessIds);
+			if (objects.length>0) {
+				List<TblAccess> byAccessIds = accessDao.getByAccessIds(objects);
+				tblaccessCollect.addAll(byAccessIds);
+			}
+
 			Db.batch("insert into tbl_access_dept(access_id,dept_id,create_time,status) values(?,?,?,?)", "access_id,dept_id,create_time,status", tblAccessOrgs, 500);
 		}
 		if (tblaccessCollect.size()>0){

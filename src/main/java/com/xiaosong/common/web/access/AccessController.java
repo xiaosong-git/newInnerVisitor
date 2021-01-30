@@ -12,7 +12,6 @@ package com.xiaosong.common.web.access;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
-import com.jfinal.plugin.activerecord.Page;
 import com.xiaosong.interceptor.jsonbody.JsonBody;
 import com.xiaosong.model.TblAccess;
 import com.xiaosong.util.RetUtil;
@@ -50,7 +49,7 @@ public class AccessController extends Controller {
    public void  bandOrgdeleteAccess(){
        try {
 
-           if (tblAccessService.bandOrgdeleteAccess(getLong("id"),getLong("orgId"),getInt("status"))>0){
+           if (tblAccessService.bandOrgdeleteAccess(getLong("id"),getLong("orgId"),getInt("status"))){
                renderJson(RetUtil.ok());
            }else {
                renderJson(RetUtil.fail());
@@ -79,7 +78,6 @@ public class AccessController extends Controller {
      */
     public void getAccessDeptList( ){
         try {
-
             List<TblAccess> accessList = tblAccessService.getAccessDeptList(getLong("id"));
             renderJson(RetUtil.okData(accessList));
         }catch (Exception e){
