@@ -5,6 +5,7 @@ package com.xiaosong.bean;
  * @Date: 2021/1/29 9:35
  * @Description: CTID人员核查列表
 */
+
 public class PeopleCheckBean {
 
     /** 用户id */
@@ -24,7 +25,8 @@ public class PeopleCheckBean {
 
     /** 是否重点关注：T、F（目前默认F） */
     private String isFocus = "F";
-
+    /** 是否重点关注：T、F（目前默认F） */
+    private String isBlack = "1";
     public Long getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class PeopleCheckBean {
 
     public void setIsFocus(String isFocus) {
         this.isFocus = isFocus;
+    }
+
+    public String getIsBlack() {
+        return isBlack;
+    }
+
+    public void setIsBlack(String isBlack) {
+        this.isBlack = isBlack;
     }
 }

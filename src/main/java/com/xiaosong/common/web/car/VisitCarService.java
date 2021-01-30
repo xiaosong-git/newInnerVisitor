@@ -5,6 +5,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VCar;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.DateUtil;
 import com.xiaosong.util.RetUtil;
@@ -51,12 +52,26 @@ public class VisitCarService {
         vCar.setReplyDate(DateUtil.getCurDate());
         vCar.setReplyTime(DateUtil.getCurTime());
         vCar.setRecordType(Constant.INVITE);
-        //受访人为创建记录的人员
-        vCar.setIntervieweeId(vCar.getLong("replyUserId"));
-        //获取加密key
-        Record user_key = Db.findFirst("select * from v_user_key");
-        vCar.setIdNO(DESUtil.encode(user_key.getStr("workKey"), vCar.getStr("idNO")));
+
+
+
         boolean save = vCar.save();
         return save ? RetUtil.ok("新增成功") : RetUtil.fail("新增失败");
+    }
+
+    public Page passVisitCarReport(int currentPage, int pageSize, String startDate, String endDate, Long deptId, String gate) {
+        StringBuilder sql = new StringBuilder("  from v_car c left join v_dept_user  u on c.intervieweeId=u.id  left join v_dept d on d.id=u.deptId");
+        StringBuilder whereSql = new StringBuilder(" where c.cStatus='applyPass' and d.id is not null ");
+        if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
+            whereSql.append(" and c.visitDate between'").append(startDate).append("' and '").append(endDate).append("' ");
+        }if (StringUtils.isNotBlank(gate)) {
+            whereSql.append(" and gate like CONCAT('%','").append(gate).append("','%')");
+        }
+        if (deptId!=null) {
+            whereSql.append(" and deptId =").append(deptId);
+        }
+        whereSql.append(" group by d.id,d.dept_name,gate ");
+        return Db.paginate(currentPage, pageSize, "select c.visitDate,d.dept_name,gate,count(*) carNum", sql.append(whereSql).toString());
+
     }
 }

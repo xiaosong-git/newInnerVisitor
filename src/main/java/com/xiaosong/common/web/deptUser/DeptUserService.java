@@ -218,19 +218,19 @@ public class DeptUserService {
 
 
 	public Page<PeopleCheckBean> getPeopleCheckList(int currentPage, int pageSize, String name, String idNO) {
-		StringBuilder sql = new StringBuilder("  from v_dept_user");
+		StringBuilder sql = new StringBuilder("  from v_dept_user u left join  v_black_user bu on u.realName=bu.realName and u.idNo=bu.idCard ");
 		StringBuilder whereSql = new StringBuilder(" where 1=1 ");
 		//获取加密key
 		Record user_key = Db.findFirst("select * from v_user_key");
 		String key = user_key.getStr("workKey");
 		if (StringUtils.isNotBlank(name)) {
-			whereSql.append(" and realName like CONCAT('%','").append(name).append("','%')");
+			whereSql.append(" and u.realName like CONCAT('%','").append(name).append("','%')");
 		}
 		if (StringUtils.isNotBlank(idNO)) {
-			whereSql.append(" and idNO = '").append(DESUtil.decode(key, idNO)).append("'");
+			whereSql.append(" and idNO = '").append(DESUtil.encode(key, idNO)).append("'");
 		}
 		whereSql.append(" order by id ");
-		Page<Record> recordPage = Db.paginate(currentPage, pageSize, "select *", sql.append(whereSql).toString());
+		Page<Record> recordPage = Db.paginate(currentPage, pageSize, "select u.*,ISNULL(bu.id)  isBlack", sql.append(whereSql).toString());
 		List<PeopleCheckBean> list = new ArrayList<>();
 		for (Record record : recordPage.getList()) {
 			PeopleCheckBean bean = new PeopleCheckBean();
@@ -241,6 +241,7 @@ public class DeptUserService {
 				bean.setAuthDate(record.getStr("authDate"));
 			}
 			bean.setIdNO(DESUtil.decode(key, record.getStr("idNO")));
+			bean.setIsBlack(record.getStr("isBlack"));
 			list.add(bean);
 		}
 		return new Page<>(list, recordPage.getPageNumber(), recordPage.getPageSize(), recordPage.getTotalPage(), recordPage.getTotalRow());
