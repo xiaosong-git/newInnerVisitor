@@ -114,13 +114,13 @@ public class VisitCarController extends Controller {
                 }
                 VCar car=new VCar();
                 //查询访客用户
-                VDeptUser visitor = VDeptUser.dao.findFirst("select id from v_dept_user where realName=?  and phone =? ", vCar.getUserName(), vCar.getPhone());
+                VDeptUser visitor = VDeptUser.dao.findFirst("select * from v_dept_user where realName=?  and phone =? ", vCar.getUserName(), vCar.getPhone());
                 if (visitor==null||visitor._getAttrNames().length<1){
                     visitor=new VDeptUser();
                     //获取加密key
                     Record user_key = Db.findFirst("select * from v_user_key");
                     String idNO = DESUtil.encode(user_key.getStr("workKey"), vCar.getIdNO());
-                    vCar.setIdNO(idNO);
+
                     visitor.setIdNO(idNO).setRealName(vCar.getUserName()).setPhone(vCar.getPhone()).setUserType("visitor").setCreateDate(DateUtil.now()).setStatus("applySuc")
                     .setCurrentStatus("normal");
                     boolean save = visitor.save();
