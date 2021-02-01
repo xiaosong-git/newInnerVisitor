@@ -2,10 +2,12 @@ package com.xiaosong.common.web.car;
 
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.common.web.inOut.InOutController;
 import com.xiaosong.constant.Constant;
+import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.DateUtil;
 import com.xiaosong.util.ExcelUtil;
 import com.xiaosong.util.RetUtil;
@@ -36,7 +38,11 @@ public class CarController extends Controller {
             int pageNum = getInt("pageNum");
             int pageSize = getInt("pageSize");
             Page<Record> pagelist = srv.findList(userName,visitName,plate,startTime,endTime,visitDept,pageNum,pageSize);
-            renderJson(RetUtil.ok(pagelist));
+            Record user_key = Db.findFirst("select * from v_user_key");
+            for (Record record : pagelist.getList()) {
+                record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+            }
+            renderJson(RetUtil.okData(pagelist));
         }catch (Exception e){
             log.error("错误信息：", e);
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
@@ -56,7 +62,10 @@ public class CarController extends Controller {
             List<Record> downReportList = srv.downReport(userName,visitName,plate,startTime,endTime,visitDept);
 
             if (downReportList != null && downReportList.size() > 0){
-
+                Record user_key = Db.findFirst("select * from v_user_key");
+                for (Record record : downReportList) {
+                    record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+                }
                 String systemTimeFourteen = DateUtil.getSystemTimeFourteen();
                 String[] fields = {"来访人姓名","受访人","车牌号","来访总人数","来访人员身份证","审核人员","审核时间","审核结果"};
                 List<String> fieldsList = Arrays.asList(fields);
