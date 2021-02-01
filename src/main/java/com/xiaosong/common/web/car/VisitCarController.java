@@ -8,12 +8,24 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.bean.dto.VisitCarAddDto;
+import com.xiaosong.constant.Constant;
 import com.xiaosong.interceptor.jsonbody.JsonBody;
 import com.xiaosong.model.VCar;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
+import com.xiaosong.util.ExcelUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.util.CellRangeAddress;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author: gx
@@ -150,6 +162,91 @@ public class VisitCarController extends Controller {
         } catch (Exception e) {
             log.error("错误信息：", e);
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+        }
+    }
+
+    public void downReport(){
+        OutputStream os = null;
+        try {
+            //获取列表
+            List<Record> passCarList = visitCarService.downReport(get("startDate"), get("endDate"), get("visitDept"), get("gate"));
+
+            if (passCarList != null && passCarList.size() > 0){
+
+                String systemTimeFourteen = com.xiaosong.util.DateUtil.getSystemTimeFourteen();
+                String[] fields = {"日期","被访者部门","通行入口","放行车辆总数"};
+                List<String> fieldsList = Arrays.asList(fields);
+
+                HSSFWorkbook workbook = new HSSFWorkbook();
+                HSSFSheet sheet = workbook.createSheet("车辆放行报表");
+
+                //设置单元格行高，列宽
+                sheet.setDefaultRowHeightInPoints(18);
+                sheet.setDefaultColumnWidth(20);
+
+                //标题
+                HSSFRow rowTitle = sheet.createRow(0);
+                HSSFCell cell = rowTitle.createCell(0);
+                cell.setCellValue("车辆放行报表");
+                sheet.addMergedRegion( new CellRangeAddress(0,0,0,fields.length-1));
+                //设置表标题样式
+                HSSFCellStyle cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_CENTER, HSSFCellStyle.ALIGN_CENTER, HSSFColor.SKY_BLUE.index, "新宋体", (short) 12, true);
+                cell.setCellStyle(cellStyle);
+                //创建字段栏目
+                cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_CENTER, HSSFCellStyle.ALIGN_CENTER, HSSFColor.YELLOW.index, "新宋体", (short) 12, true);
+                HSSFRow rowFiled = sheet.createRow(1);
+                for (int i = 0; i < fieldsList.size(); i++){
+                    ExcelUtil.createCell(rowFiled,cellStyle,fieldsList.get(i),i);
+                }
+
+                HSSFRow row;
+                int index = 2;
+                cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_LEFT, HSSFCellStyle.ALIGN_CENTER, HSSFColor.WHITE.index, "新宋体", (short) 12, false);
+                for (Record record : passCarList) {
+                    row = sheet.createRow(index);
+                    //日期
+                    ExcelUtil.createCell(row,cellStyle,record.get("visitDate"),0);
+                    //被访者部门
+                    ExcelUtil.createCell(row,cellStyle,record.get("visitDept"),1);
+                    //通行车辆入口
+                    ExcelUtil.createCell(row,cellStyle,record.get("gate"),2);
+                    //放行车辆总数
+                    ExcelUtil.createCell(row,cellStyle,record.get("carNum").toString(),3);
+
+                    index++;
+                }
+                String fileName = String.format("车辆放行报表_%s.xls",systemTimeFourteen);
+                String fileNameUrl = Constant.BASE_DOWNLOAD_PATH;
+//                String fileNameUrl = "E:/newInnerVisitor/download/temp";
+                File exportFile = new File(fileNameUrl);
+                File file = new File(exportFile,fileName);
+                if(!exportFile.exists()){
+                    exportFile.mkdirs();
+                    if (!file.exists()){
+                        file.createNewFile();
+                    }
+                }else {
+                    if (!file.exists()){
+                        file.createNewFile();
+                    }
+                }
+                os = new FileOutputStream(file);
+                workbook.write(os);
+                os.flush();
+                os.close();
+                renderFile(file);
+            }
+        }catch (Exception e){
+            log.error("错误信息：", e);
+            renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+        }finally {
+            if (os != null){
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ import com.xiaosong.util.DateUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -33,7 +34,12 @@ public class VisitCarService {
             whereSql.append(" and cStatus ='").append(cStatus).append("'");
         }if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
             whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s')  between '").append(startDate).append("' and '").append(endDate).append("'");
-        }if (StringUtils.isNotBlank(visitDept)){
+        }else if (StringUtils.isNotBlank(startDate)&&StringUtils.isBlank(endDate)){
+            whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s') >'").append(startDate).append("' ");
+        }else if(StringUtils.isBlank(startDate)&&StringUtils.isNotBlank(endDate)){
+            whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s') <'").append(endDate).append("' ");
+        }
+        if (StringUtils.isNotBlank(visitDept)){
             whereSql.append(" and visitDept like concat('%','").append(visitDept).append("','%')");
         }
 
@@ -85,10 +91,14 @@ public class VisitCarService {
     }
 
     public Page passVisitCarReport(int currentPage, int pageSize, String startDate, String endDate, String visitDept, String gate) {
-        StringBuilder sql = new StringBuilder("  from v_car c left join v_dept_user  u on c.intervieweeId=u.id  left join v_dept d on d.id=u.deptId");
-        StringBuilder whereSql = new StringBuilder(" where c.cStatus='applyPass' and d.id is not null ");
+        StringBuilder sql = new StringBuilder("  from v_car c left join v_dept_user  u on c.intervieweeId=u.id  ");
+        StringBuilder whereSql = new StringBuilder(" where c.cStatus='applyPass' and visitDept is not null ");
         if (StringUtils.isNotBlank(startDate) && StringUtils.isNotBlank(endDate)) {
             whereSql.append(" and c.visitDate between'").append(startDate).append("' and '").append(endDate).append("' ");
+        } else if (StringUtils.isNotBlank(startDate)&&StringUtils.isBlank(endDate)){
+            whereSql.append(" and c.visitDate >'").append(startDate).append("' ");
+        }else if(StringUtils.isBlank(startDate)&&StringUtils.isNotBlank(endDate)){
+            whereSql.append(" and c.visitDate <'").append(endDate).append("' ");
         }
         if (StringUtils.isNotBlank(gate)) {
             whereSql.append(" and gate like CONCAT('%','").append(gate).append("','%')");
@@ -96,8 +106,27 @@ public class VisitCarService {
         if (StringUtils.isNotBlank(visitDept)){
             whereSql.append(" and visitDept like concat('%','").append(visitDept).append("','%')");
         }
-        whereSql.append(" group by d.id,d.dept_name,gate ");
-        return Db.paginate(currentPage, pageSize, "select c.visitDate,d.dept_name,gate,count(*) carNum", sql.append(whereSql).toString());
+        whereSql.append(" group by visitDept,gate ");
+        return Db.paginate(currentPage, pageSize, "select c.visitDate,visitDept,gate,count(*) carNum", sql.append(whereSql).toString());
 
+    }
+
+    public List<Record> downReport(String startDate, String endDate, String visitDept, String gate){
+        StringBuilder sql = new StringBuilder("select c.visitDate,visitDept,gate,count(*) carNum from v_car c left join v_dept_user  u on c.intervieweeId=u.id ");
+        StringBuilder whereSql = new StringBuilder(" where c.cStatus='applyPass' and visitDept is not null ");
+        if (StringUtils.isNotBlank(startDate) && StringUtils.isNotBlank(endDate)) {
+            whereSql.append(" and c.visitDate between'").append(startDate).append("' and '").append(endDate).append("' ");
+        } else if (StringUtils.isNotBlank(startDate)&&StringUtils.isBlank(endDate)){
+            whereSql.append(" and c.visitDate >'").append(startDate).append("' ");
+        }else if(StringUtils.isBlank(startDate)&&StringUtils.isNotBlank(endDate)){
+            whereSql.append(" and c.visitDate <'").append(endDate).append("' ");
+        }if (StringUtils.isNotBlank(gate)) {
+            whereSql.append(" and gate like CONCAT('%','").append(gate).append("','%')");
+        }
+        if (StringUtils.isNotBlank(visitDept)){
+            whereSql.append(" and visitDept like concat('%','").append(visitDept).append("','%')");
+        }
+        whereSql.append(" group by visitDept,gate ");
+        return Db.find(sql.append(whereSql).toString());
     }
 }
