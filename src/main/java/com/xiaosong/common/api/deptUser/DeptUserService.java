@@ -1,19 +1,16 @@
 package com.xiaosong.common.api.deptUser;
 
-import com.jfinal.aop.Inject;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.common.api.base.MyBaseService;
-import com.xiaosong.common.api.foreign.ForeignService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
-import com.xiaosong.constant.MyRecordPage;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.constant.UserPostConstant;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VUserPost;
+import com.xiaosong.util.DateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +52,10 @@ public class DeptUserService extends MyBaseService {
         VDeptUser user = VDeptUser.dao.findById(userId);
 
         if(user!=null) {
-            //如果是部门领导那么获去到经办岗信息
+            //如果是部门领导那么获去到当前部门的经办岗信息
             if(1==user.getDeptLeader())
             {
-                list = VDeptUser.dao.find("select * from v_dept_user where id in (select userId from v_user_post where postId =?) ", UserPostConstant.MANAGE_CAR_POST);
+                list = VDeptUser.dao.find("select * from v_dept_user where id in (select userId from v_user_post where postId =?) and deptId=?", UserPostConstant.MANAGE_CAR_POST,user.getDeptId());
 
             }else {
                 list = VDeptUser.dao.find("select * from v_dept_user where deptId = ? and deptLeader =1", user.getDeptId());
@@ -79,30 +76,67 @@ public class DeptUserService extends MyBaseService {
         int userType = 0;
 
         if(user!=null) {
-            //先查询是否经办岗 如果是 直接返回
+            //车辆审批类型，先查询是否经办岗 如果是 直接返回2
             if(type ==1) {
                 VUserPost vUserPost = VUserPost.dao.findFirst("select * from  v_user_post where userId = ? and postId=?", user.getId(), UserPostConstant.MANAGE_CAR_POST);
                 if (vUserPost != null) {
                     return  2;
                 }
-            }
-            userType = 1 == user.getDeptLeader() ? 1 : 0;
+                userType = 1== user.getDeptLeader() ? 1 : 0;
+            }else{
+                 //如果是金卡或者红卡，默认返回领导标识
+                if(user.getCardType()!=null && (1==user.getCardType() || 2==user.getCardType()))
+                {
+                    userType =1;
+                }
+                //蓝卡如果是员工，那么去他的上级领导审批
+                else if(user.getCardType()!=null && 3==user.getCardType() )
+                {
+                    int deptLeader = user.getDeptLeader() ==null?0:user.getDeptLeader();
+                    userType = 1 == deptLeader ? 1 : 0;
+                }
+                //米色卡和绿卡没有审批权限
+                else {
 
+                    userType = 0;
+                }
+            }
         }
         return userType;
     }
 
 
-//
-//    List<VUserPost> list = VUserPost.dao.find("select * from v_user_post where userId = ?",user.getId());
-//         if(list!=null && list.size()>0) {
-//        Long[] userPosts = new Long[list.size()];
-//        for(int i = 0; i< list.size();i++)
-//        {
-//            userPosts[i] = list.get(i).getPostId();
-//        }
-//        users.put("userPost", userPosts);
-//    }
+    public VDeptUser createVisitor(String phone,String realName) throws Exception
+    {
+        String sql = "select * from " + TableList.DEPT_USER + " " +
+                "where currentStatus='normal' and phone='" + phone + "'";
+//        //被邀者==访问者
+        VDeptUser invitor = VDeptUser.dao.findFirst(sql);
+
+        if (invitor == null) {
+            // todo 如果用户不存在,创建一个新用户
+            //return Result.unDataResult("fail", "用户不存在");
+            invitor = new VDeptUser();
+            invitor.setCurrentStatus("normal");
+            invitor.setIsAuth("F");
+            invitor.setPhone(phone);
+            invitor.setRealName(realName);
+            invitor.setCreateDate(DateUtil.getSystemTime());
+            invitor.setStatus("applySuc");
+            invitor.setUserType("visitor");
+            invitor.save();
+        }
+        else
+        {
+            if(!invitor.getRealName().equals(realName))
+            {
+                throw new Exception("手机号或者姓名错误");
+            }
+        }
+        return invitor;
+
+    }
+
 
 
 }

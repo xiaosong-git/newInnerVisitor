@@ -11,7 +11,6 @@ public class UserPostConstant {
     public final static Long APPROVE_VISITOR_POST = 3L;
     //车辆审批岗
     public final static Long APPROVE_CAR_POST = 4L;
-
     //经办岗
     public final static Long MANAGE_CAR_POST = 5L;
 

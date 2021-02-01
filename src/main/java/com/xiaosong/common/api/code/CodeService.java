@@ -95,4 +95,18 @@ public class CodeService {
             YunPainSmsUtil.sendMsg(content, phone);
         }
     }
+
+
+    //推送消息
+    public void pushMsg(VDeptUser vDeptUser, String content) {
+        if(vDeptUser ==null)
+        {
+            return;
+        }
+        boolean single = GTNotification.Single(vDeptUser.getRegistrationId(),vDeptUser.getAppType(), content);
+        //推送失败发送短信验证
+        if(!single) {
+            YunPainSmsUtil.sendMsg(content, vDeptUser.getPhone());
+        }
+    }
 }

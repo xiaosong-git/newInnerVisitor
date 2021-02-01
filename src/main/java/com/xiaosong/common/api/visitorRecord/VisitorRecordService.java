@@ -14,6 +14,7 @@ import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.activiti.VisitorProcess;
 import com.xiaosong.common.api.base.MyBaseService;
+import com.xiaosong.common.api.code.CodeMsg;
 import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.common.api.deptUser.DeptUserService;
 import com.xiaosong.constant.UserPostConstant;
@@ -127,7 +128,8 @@ public class VisitorRecordService extends MyBaseService {
                     if ("applySuccess".equals(cstatus)) {
                         visitorResult = "审核成功";
                     }
-                    CodeService.me.pushMsg(toUser, 3, visitorResult, realName, startDate, null);
+                CodeService.me.pushMsg(toUser, CodeMsg.MSG_VISITOR_PASS);
+                    //CodeService.me.pushMsg(toUser, 3, visitorResult, realName, startDate, null);
                 log.info("发送个推推送成功设备号{}", deviceToken);
                 WebSocketSyncData.me.sendVisitorData();
 //              }
@@ -297,7 +299,7 @@ public class VisitorRecordService extends MyBaseService {
 
 
         //被访者
-        VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,deptLeader,app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp,deptLeader from " + TableList.DEPT_USER + " " +
+        VDeptUser visitorBy = VDeptUser.dao.findFirst("select * from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
@@ -393,18 +395,13 @@ public class VisitorRecordService extends MyBaseService {
                     String name = jsonUser.getString("name");
                     String userPhone = jsonUser.getString("phone");
                     //判断随行人员是否注册过
-                    VDeptUser vDeptUser =   VDeptUser.dao.findFirst("select * from "+TableList.DEPT_USER+" where currentStatus='normal' and phone=?",userPhone);
-                    if(vDeptUser == null)
+                    VDeptUser vDeptUser =null;
+                    try {
+                        vDeptUser = deptUserService.createVisitor(userPhone, name);
+                    }
+                    catch (Exception ex)
                     {
-                        vDeptUser = new VDeptUser();
-                        vDeptUser.setCurrentStatus("normal");
-                        vDeptUser.setIsAuth("F");
-                        vDeptUser.setPhone(userPhone);
-                        vDeptUser.setRealName(name);
-                        vDeptUser.setCreateDate(DateUtil.getSystemTime());
-                        vDeptUser.setStatus("applySuc");
-                        vDeptUser.setUserType("visitor");
-                        vDeptUser.save();
+                        continue;
                     }
                     entourageList.add(vDeptUser);
                     VVisitorRecord record = new VVisitorRecord();
@@ -456,7 +453,8 @@ public class VisitorRecordService extends MyBaseService {
 //				isYmSuc = shortMessageService.YMNotification(deviceToken, deviceType, notification_title, msg_content, isOnlineApp);
                 log.info("发送个推成功{}", visitorByName);
                 //if (!single) {
-                    CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, userName);
+                    CodeService.me.pushMsg(visitorBy, CodeMsg.MSG_STAFF_APPROVE);
+                    /*CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, userName);
                     //发送随行人员短信
                     for(VDeptUser vDeptUser : entourageList)
                     {
@@ -466,7 +464,7 @@ public class VisitorRecordService extends MyBaseService {
                         }else {
                             CodeService.me.pushMsg(vDeptUser, YunPainSmsUtil.MSG_TYPE_ENTOURAGE_NOAUTH, null, null, startDate, userName);
                         }
-                    }
+                    }*/
                     log.info(visitorByName + "：发送短信推送成功");
                // }
             }
@@ -506,7 +504,7 @@ public class VisitorRecordService extends MyBaseService {
         }
 
         //被访者
-        VDeptUser visitorBy = VDeptUser.dao.findFirst("select id,deptLeader,app_type,registration_id,id,deptId,realName,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
+        VDeptUser visitorBy = VDeptUser.dao.findFirst("select * from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
@@ -587,7 +585,8 @@ public class VisitorRecordService extends MyBaseService {
         //记录访问记录
         if (result) {
             //todo userName
-            CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, "");
+            CodeService.me.pushMsg(visitorBy, CodeMsg.MSG_CAR_APPROVE);
+            //CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, "");
             log.info(visitorByName + "：发送短信推送成功");
             return Result.unDataResult("success", "申请成功");
         } else {
@@ -721,32 +720,14 @@ public class VisitorRecordService extends MyBaseService {
         {
             return ResultData.unDataResult("fail", "没有邀约权限");
         }
-
-//        SqlPara para = Db.getSqlPara("deptUser.findByPhone", phone);//根据手机查找用户
-////        //如果用户不存在
-//        VDeptUser user = VDeptUser.dao.findFirst(para);
-        String sql = "select app_type,registration_id,id,deptId companyId,realName,idNO,isAuth,deviceToken,deviceType,isOnlineApp from " + TableList.DEPT_USER + " " +
-                "where currentStatus='normal' and phone='" + phone + "'";
-//        //被邀者==访问者
-        VDeptUser invitor = VDeptUser.dao.findFirst(sql);
-
-            if (invitor == null) {
-                // todo 如果用户不存在,创建一个新用户
-                //return Result.unDataResult("fail", "用户不存在");
-                invitor = new VDeptUser();
-                invitor.setCurrentStatus("normal");
-                invitor.setIsAuth("F");
-                invitor.setPhone(phone);
-                invitor.setRealName(realName);
-                invitor.setCreateDate(DateUtil.getSystemTime());
-                invitor.setStatus("applySuc");
-                invitor.setUserType("visitor");
-                invitor.save();
-            }
-            if(!invitor.getRealName().equals(realName))
+            VDeptUser invitor =null;
+            try {
+               invitor = deptUserService.createVisitor(phone, realName);
+            }catch (Exception ex)
             {
-                return Result.unDataResult("fail", "手机号或者姓名错误");
+                return Result.unDataResult("fail", ex.getMessage());
             }
+
             String invitorName = BaseUtil.objToStr(invitor.getRealName(), "");
             String invitorIdNO = BaseUtil.objToStr(invitor.getIdNO(), "");
 //        //被邀者==访问者id
@@ -755,19 +736,8 @@ public class VisitorRecordService extends MyBaseService {
                 return Result.unDataResult("fail", "请不要对自己发起邀约！");
             }
 //        // 查询登入者/邀约者姓名
-            sql = "select * from " + TableList.DEPT_USER + " where id=" + visitorId;
+            String sql = "select * from " + TableList.DEPT_USER + " where id=" + visitorId;
             Record visitor = Db.findFirst(sql);
-            String visitorName = BaseUtil.objToStr(visitor.get("realName"), "");
-/*//
-//        //登入者公司信息 地址等等
-            String companySql = "select c.addr,c.dept_name companyName, o.org_code,o.org_name from " + TableList.DEPT + " c left join " + TableList.ORG + " o on " +
-                    "o.id=c.org_id " +
-                    "where c.id=" + companyId;
-            System.out.println(companySql);
-            Record company = Db.findFirst(companySql);
-            String addr = BaseUtil.objToStr(company.get("addr"), "");
-            String orgCode = BaseUtil.objToStr(company.get("org_code"), "");
-            String orgName = BaseUtil.objToStr(company.get("org_name"), "");*/
 
             final List<VDeptUser> entourageList = new ArrayList<>();
             boolean result = Db.tx(()->{
@@ -800,18 +770,13 @@ public class VisitorRecordService extends MyBaseService {
                         String name = jsonUser.getString("name");
                         String userPhone = jsonUser.getString("phone");
                         //判断随行人员是否注册过
-                        VDeptUser vDeptUser =   VDeptUser.dao.findFirst("select * from "+TableList.DEPT_USER+" where currentStatus='normal' and phone=?",userPhone);
-                        if(vDeptUser == null)
+                        VDeptUser vDeptUser =null;
+                        try {
+                            vDeptUser = deptUserService.createVisitor(userPhone, name);
+                        }
+                        catch (Exception ex)
                         {
-                            vDeptUser = new VDeptUser();
-                            vDeptUser.setCurrentStatus("normal");
-                            vDeptUser.setIsAuth("F");
-                            vDeptUser.setPhone(userPhone);
-                            vDeptUser.setRealName(name);
-                            vDeptUser.setCreateDate(DateUtil.getSystemTime());
-                            vDeptUser.setStatus("applySuc");
-                            vDeptUser.setUserType("visitor");
-                            vDeptUser.save();
+                           continue;
                         }
                         entourageList.add(vDeptUser);
                         VVisitorRecord record = new VVisitorRecord();
@@ -838,20 +803,18 @@ public class VisitorRecordService extends MyBaseService {
             if (result) {
                 //发送到 websocket
                 WebSocketVisitor.me.sendReceiveVisitMsg(invitorIdNO,invitorName,startDate,endDate,"applyConfirm");
-                //String encode = Base64.encode(BaseUtil.objToStr(visitRecord.get("id"),"").getBytes("UTF-8"));
-                //String url = p.get("URL") + encode;
-               // YunPainSmsUtil.sendSmsCode("", phone, 6, addr, orgName, endDate, realName, startDate, visitorName);
-                CodeService.me.pushMsg(invitor.getRegistrationId(),invitor.getAppType(),phone, YunPainSmsUtil.MSG_TYPE_INVITE, "", "", endDate, realName, startDate, visitorName);
-
+                //CodeService.me.pushMsg(invitor.getRegistrationId(),invitor.getAppType(),phone, YunPainSmsUtil.MSG_TYPE_INVITE, "", "", endDate, realName, startDate, visitorName);
+                CodeService.me.pushMsg(invitor, CodeMsg.MSG_VISITOR_PASS);
                 //发送随行人员短信
                 for(VDeptUser vDeptUser : entourageList)
                 {
-                    if("T".equals(vDeptUser.getIsAuth()))
+                    CodeService.me.pushMsg(vDeptUser, CodeMsg.MSG_VISITOR_PASS);
+             /*       if("T".equals(vDeptUser.getIsAuth()))
                     {
                         CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_AUTH,null,null, null, null, startDate, visitorName);
                     }else {
                         CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_NOAUTH,null,null,  null, null, startDate, visitorName);
-                    }
+                    }*/
                 }
                 //websocket通知前端获取访客数量
                 WebSocketMonitor.me.getVisitorData();
@@ -877,7 +840,6 @@ public class VisitorRecordService extends MyBaseService {
         if (visitorId == null || StringUtils.isEmpty(cars)) {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
         }
-
 
         VDeptUser visitor = VDeptUser.dao.findById(visitorId);
         if (visitor == null) {
@@ -911,6 +873,14 @@ public class VisitorRecordService extends MyBaseService {
                     String userPhone = jsonUser.getString("phone");
                     String idNo = jsonUser.getString("idNo");
                     String carNumber = jsonUser.getString("carNumber");
+                    VDeptUser vDeptUser =null;
+                    try {
+                        vDeptUser = deptUserService.createVisitor(userPhone, name);
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
+                    }
                     VCar vCar = new VCar();
                     vCar.setIntervieweeId(visitorId);
                     vCar.setCStatus("applySuccess");
@@ -928,6 +898,7 @@ public class VisitorRecordService extends MyBaseService {
                     vCar.setUserName(name);
                     vCar.setVisitName(visitor.getRealName());
                     vCar.setIdNO(idNo);
+                    vCar.setVisitId(vDeptUser.getId());
                     vCar.save();
                 }
             return true;
@@ -937,12 +908,13 @@ public class VisitorRecordService extends MyBaseService {
             //发送随行人员短信
             for(VDeptUser vDeptUser : entourageList)
             {
-                if("T".equals(vDeptUser.getIsAuth()))
+                CodeService.me.pushMsg(vDeptUser, CodeMsg.MSG_VISITOR_PASS);
+/*                if("T".equals(vDeptUser.getIsAuth()))
                 {
                     //CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_AUTH,null,null, null, null, startDate, visitorName);
                 }else {
                     //CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_NOAUTH,null,null,  null, null, startDate, visitorName);
-                }
+                }*/
             }
             //websocket通知前端获取访客数量
             WebSocketMonitor.me.getVisitorData();
