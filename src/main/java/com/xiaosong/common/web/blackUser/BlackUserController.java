@@ -4,9 +4,12 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.template.stat.ast.If;
 import com.xiaosong.model.VBlackUser;
+import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.RetUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,13 +23,35 @@ public class BlackUserController extends Controller {
      * 添加黑名单
     */
     public void addBlackUser(){
-       String realName = getPara("realName");
-       String idCard = getPara("idCard");
+        Long id = getLong("id");
+        String realName = getPara("realName");
+        String idCard = getPara("idCard");
+        Record record = Db.findFirst("select * from v_user_key");
+        if (id!=null){
+            VDeptUser first = VDeptUser.dao.findFirst("select idNO,realName from v_dept_user where id=?",id);
+            VBlackUser blackUser = new VBlackUser();
+            blackUser.setRealName(first.getRealName());
+            if (StringUtils.isBlank(first.getIdNO())){
+                if ( idCard ==null){
+                    renderJson(RetUtil.fail("该用户没有身份证！"));
+                    return ;
+                }
+                String idNo = DESUtil.encode(record.getStr("workKey"), idCard);
+                first.setIdNO(idNo);
+            }
+            blackUser.setIdCard(first.getIdNO());
+            blackUser.setCreateDate(getDate());
+            blackUser.save();
+            renderJson(RetUtil.ok());
+            return ;
+        }
+
 //       String level = getPara("level");
        String userType = getPara("userType");
        VBlackUser blackUser = new VBlackUser();
        if(realName == null || idCard ==null){
-           renderJson(RetUtil.fail(500,"参数不完整"));
+
+           renderJson(RetUtil.fail("参数不完整"));
            return;
        }
        blackUser.setRealName(realName);
@@ -34,9 +59,14 @@ public class BlackUserController extends Controller {
        if(userType != null){
            blackUser.setUserType(userType);
        }
-       Record record = Db.findFirst("select * from v_user_key");
        String idNo = DESUtil.encode(record.getStr("workKey"), idCard);
-       blackUser.setIdCard(idNo);
+        Long aLong = Db.queryLong(("select id from v_black_user where realName=? and idCard=?"), realName, idNo);
+        if(aLong!=null){
+            renderJson(RetUtil.fail("用户已存在于黑名单"));
+
+            return;
+        }
+        blackUser.setIdCard(idNo);
        blackUser.setCreateDate(getDate());
        blackUser.save();
        renderJson(RetUtil.ok());

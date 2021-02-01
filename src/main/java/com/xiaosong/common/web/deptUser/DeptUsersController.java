@@ -95,6 +95,8 @@ public class DeptUsersController extends Controller{
 		String cardNO = getPara("cardNO");
 		String strActiveDate =getPara("activeDate");
 		String strExpiryDate =getPara("expiryDate");
+		Integer cardType = getInt("cardType");
+		Integer deptLeader = getInt("deptLeader");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		String [] postIds = getParaValues("userPost[]");
@@ -102,6 +104,8 @@ public class DeptUsersController extends Controller{
 		deptUser.setRealName(realName);
 		deptUser.setAccessCodes(accessCodes);
 		deptUser.setCreateDate(createtime);
+		deptUser.setCardType(cardType);
+		deptUser.setDeptLeader(deptLeader);
 		deptUser.setSex(sex);
 		deptUser.setPhone(phone);
 		deptUser.setUserNo(userNo);
@@ -186,6 +190,11 @@ public class DeptUsersController extends Controller{
 		VDeptUser deptUser = VDeptUser.dao.findById(id);
 		deptUser.setAccessCodes(accessCodes);
 		deptUser.setRealName(realName);
+		Integer cardType = getInt("cardType");
+		Integer deptLeader = getInt("deptLeader");
+		deptUser.setCardType(cardType);
+
+		deptUser.setDeptLeader(deptLeader);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
 		deptUser.setPhone(phone);
@@ -839,9 +848,12 @@ public class DeptUsersController extends Controller{
      */
     public void checkPeople() {
         try {
-			if (StringUtils.isEmpty(getPara("realName")) || StringUtils.isEmpty(getPara("idNO")) || StringUtils.isEmpty(getPara("imgName"))) {
+			if (StringUtils.isEmpty(getPara("realName")) || StringUtils.isEmpty(getPara("idNO")) ) {
 				renderJson(RetUtil.fail("参数缺失！"));
 				return;
+			}
+			if(StringUtils.isEmpty(getPara("imgName"))){
+				renderJson(RetUtil.fail("请先上传图片！"));
 			}
             String realName = getPara("realName");
             String idNO = getPara("idNO");
@@ -850,9 +862,9 @@ public class DeptUsersController extends Controller{
             String cahceImgUrl = imgServerUrl + photoPath;
             byte[] data = FilesUtils.compressUnderSize(FilesUtils.getImageFromNetByUrl(cahceImgUrl), 40960L);
             String photo = com.xiaosong.util.Base64.encode(data);
-            JSONObject photoResult = AuthUtil.auth(idNO, realName, photo);
+            JSONObject photoResult = AuthUtil.authResult(idNO, realName, photo);
             //实人认证结果
-            if (!"00000".equals(photoResult.getString("return_code"))) {
+            if ("00000".equals(photoResult.getString("return_code"))) {
                 JSONObject errorData = photoResult.getJSONObject("data");
                 System.out.println(photoResult.toJSONString());
                 renderJson(RetUtil.ok("核验失败，错误原因：" + errorData));

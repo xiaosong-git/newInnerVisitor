@@ -59,6 +59,9 @@ public class AuthUtil {
             result.put("return_code","00000");
             return result;
         }
+        return authResult( idNO, realName, idHandleImgUrl);
+    }
+    public static JSONObject authResult(String idNO, String realName, String idHandleImgUrl) throws Exception {
 
         String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
         JSONObject itemJSONObj =new JSONObject();
@@ -73,7 +76,6 @@ public class AuthUtil {
         itemJSONObj.put("userName", userName);
         itemJSONObj.put("certNo", certNo);
         itemJSONObj.put("imgData", idHandleImgUrl );
-
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
@@ -87,10 +89,10 @@ public class AuthUtil {
         JSONObject returnObject = new JSONObject();
         try {
             response = client.newCall(request).execute();
-             string = response.body().string();
+            string = response.body().string();
             // 解密响应数据
             returnObject= JSONObject.parseObject(string);
-          return returnObject;
+            return returnObject;
         } catch (IOException e) {
             e.printStackTrace();
             returnObject.put("msg","系统错误");
