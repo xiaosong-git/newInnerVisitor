@@ -1,5 +1,6 @@
 package com.xiaosong.common.web.car;
 
+import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
@@ -32,12 +33,13 @@ public class VisitCarController extends Controller {
         try {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-            Page<VCar> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"), getPara("cStatus"));
+            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"), getPara("cStatus"));
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
-            for (VCar vCar : visitCarList.getList()) {
-                vCar.setIdNO(DESUtil.decode(user_key.getStr("workKey"), vCar.getStr("idNO")));
+            for (Record record : visitCarList.getList()) {
+                record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
             }
+
             renderJson(RetUtil.okData(visitCarList));
         } catch (Exception e) {
             log.error("错误信息：", e);
@@ -72,16 +74,13 @@ public class VisitCarController extends Controller {
             if (getLong("id") == null) {
                 renderJson(RetUtil.fail("参数缺失！"));
             }
-            if (visitCarService.passVisitCar(getLong("id")) > 0) {
-                renderJson(RetUtil.ok());
-            } else {
-                renderJson(RetUtil.fail());
-            }
+            renderJson(visitCarService.passVisitCar(getLong("id")));
         } catch (Exception e) {
             log.error("错误信息：", e);
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
         }
     }
+
     /**
      * 来访车辆记录放行统计
      */
@@ -102,43 +101,46 @@ public class VisitCarController extends Controller {
      */
     public void insertVisitCar(@JsonBody VisitCarAddDto vCar) {
         try {
-            if (vCar == null  ||
+            if (vCar == null ||
                     StringUtils.isEmpty(vCar.getPlate()) || StringUtils.isEmpty(vCar.getUserName()) || StringUtils.isEmpty(vCar.getIdNO()) ||
-                    StringUtils.isEmpty(vCar.getStartDate()) || StringUtils.isEmpty(vCar.getEndDate()) || vCar.getReplyUserId()==null|| StringUtils.isEmpty(vCar.getPhone())) {
+                    StringUtils.isEmpty(vCar.getStartDate()) || StringUtils.isEmpty(vCar.getGate()) || vCar.getEndDate()==null || vCar.getReplyUserId() == null || StringUtils.isEmpty(vCar.getPhone())) {
                 renderJson(RetUtil.fail("参数缺失！"));
             } else {
-                VDeptUser manage = VDeptUser.dao.findFirst("select du.* from v_sys_user su left join v_dept_user du on su.tel=du.phone where du.userType='staff' and du.currentStatus='normal' and su.id=?", vCar.getReplyUserId());
-                if (manage==null||manage._getAttrNames().length<1){
-                    renderJson ( RetUtil.fail("未找到登入人的员工信息！"));
+                Record manage = Db.findFirst("select du.*,d.dept_name from v_sys_user su left join v_dept_user du on su.tel=du.phone left join v_dept d on du.deptId=d.id where du.userType='staff' and du.currentStatus='normal' and su.id=?", vCar.getReplyUserId());
+                if (manage == null || manage.getColumns().isEmpty()) {
+                    renderJson(RetUtil.fail("未找到登入人的员工信息！"));
                     return;
                 }
-                VCar car=new VCar();
+                VCar car = new VCar();
                 //查询访客用户
                 VDeptUser visitor = VDeptUser.dao.findFirst("select * from v_dept_user where realName=?  and phone =? ", vCar.getUserName(), vCar.getPhone());
-                if (visitor==null||visitor._getAttrNames().length<1){
-                    visitor=new VDeptUser();
+                if (visitor == null || visitor._getAttrNames().length < 1) {
+                    visitor = new VDeptUser();
                     //获取加密key
                     Record user_key = Db.findFirst("select * from v_user_key");
                     String idNO = DESUtil.encode(user_key.getStr("workKey"), vCar.getIdNO());
 
                     visitor.setIdNO(idNO).setRealName(vCar.getUserName()).setPhone(vCar.getPhone()).setUserType("visitor").setCreateDate(DateUtil.now()).setStatus("applySuc")
-                    .setCurrentStatus("normal");
+                            .setCurrentStatus("normal");
                     boolean save = visitor.save();
                 }
-                if (manage.getDeptId()!=null){
-                    car.setVisitDept(manage.getDeptId().toString());
-                }
+
+                car.setVisitDept(manage.getStr("dept_name"));
+                DateTime parse = DateUtil.parse(vCar.getStartDate());
+                DateTime dateTime = DateUtil.offsetHour(parse, vCar.getEndDate());
+                String endDate = DateUtil.format(dateTime, "yyyy-MM-dd HH:mm:ss");
                 car.setPlate(vCar.getPlate())
                         .setUserName(vCar.getUserName())
+                        .setInOutType(vCar.getInOutType())
                         .setVisitId(visitor.getId())
-                        .setVisitName(manage.getRealName())
-                        .setVisitPhone(manage.getPhone())
+                        .setVisitName(manage.getStr("realName"))
+                        .setVisitPhone(manage.getStr("phone"))
                         .setIdNO(visitor.getIdNO())
-                        .setReplyUserId(manage.getId())
-                        .setIntervieweeId(manage.getId())
+                        .setReplyUserId(manage.getLong("id"))
+                        .setIntervieweeId(manage.getLong("id"))
                         .setStartDate(vCar.getStartDate())
-                        .setEndDate(vCar.getEndDate());
-
+                        .setGate(vCar.getGate())
+                        .setEndDate(endDate);
                 renderJson(visitCarService.insertVisitCar(car));
             }
         } catch (Exception e) {

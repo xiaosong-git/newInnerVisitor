@@ -51,7 +51,7 @@ public class SysUserController extends Controller{
 		user.setRoleId(roleId);
 		user.setCreatetime(createtime);
 		user.setTrueName(trueName);
-		user.setParentId(BigInteger.valueOf(userId));
+		user.setParentId(userId);
 		if(srv.findUser(username)) {
 			boolean bool = srv.addSysUser(user);
 			if(bool) {
@@ -65,7 +65,7 @@ public class SysUserController extends Controller{
 //				}
 				renderJson(RetUtil.ok());
 			}else {
-				renderJson(RetUtil.fail());
+				renderJson(RetUtil.fail("用户名已存在"));
 			}
 		}else {
 			renderJson(RetUtil.fail());

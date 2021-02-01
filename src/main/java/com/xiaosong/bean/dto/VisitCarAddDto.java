@@ -17,12 +17,19 @@ public class VisitCarAddDto {
     private Long replyUserId;
     //访问开始时间
     private String startDate;
+    //时长
+    private Integer endDate;
     //访问结束时间
-    private String endDate;
+    private Integer inOutType;
 
     //访客手机号
     private String phone;
-
+    //访客手机号
+    private String gate; //访客手机号
+    //原因
+    private String reason="无";
+    //原因
+    private Integer num=0;
 
 
 
@@ -60,14 +67,6 @@ public class VisitCarAddDto {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -82,5 +81,46 @@ public class VisitCarAddDto {
 
     public void setReplyUserId(Long replyUserId) {
         this.replyUserId = replyUserId;
+    }
+
+    public String getGate() {
+        return gate;
+    }
+
+    public void setGate(String gate) {
+        this.gate = gate;
+    }
+
+
+    public Integer getInOutType() {
+        return inOutType;
+    }
+
+    public void setInOutType(Integer inOutType) {
+        this.inOutType = inOutType;
+    }
+
+    public Integer getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Integer endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 }

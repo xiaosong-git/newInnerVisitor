@@ -498,11 +498,17 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 		return getStr("isSync");
 	}
 
+	/**
+	 * staff  visitor
+	 */
 	public M setUserType(java.lang.String userType) {
 		set("userType", userType);
 		return (M)this;
 	}
 	
+	/**
+	 * staff  visitor
+	 */
 	public java.lang.String getUserType() {
 		return getStr("userType");
 	}
@@ -556,7 +562,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 
 	/**
-	 * 卡牌类型 1：金卡 2：红卡 3：蓝卡
+	 * 卡牌类型 1：金卡 2：红卡 3：蓝卡 4:米色卡 5: 绿卡
 	 */
 	public M setCardType(java.lang.Integer cardType) {
 		set("cardType", cardType);
@@ -564,7 +570,7 @@ public abstract class BaseVDeptUser<M extends BaseVDeptUser<M>> extends Model<M>
 	}
 	
 	/**
-	 * 卡牌类型 1：金卡 2：红卡 3：蓝卡
+	 * 卡牌类型 1：金卡 2：红卡 3：蓝卡 4:米色卡 5: 绿卡
 	 */
 	public java.lang.Integer getCardType() {
 		return getInt("cardType");
