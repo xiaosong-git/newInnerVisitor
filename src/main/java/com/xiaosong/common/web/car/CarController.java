@@ -14,10 +14,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Date;
@@ -39,7 +36,7 @@ public class CarController extends Controller {
             int pageNum = getInt("pageNum");
             int pageSize = getInt("pageSize");
             Page<Record> pagelist = srv.findList(userName,visitName,plate,startTime,endTime,visitDept,pageNum,pageSize);
-            renderJson(RetUtil.okData(pagelist));
+            renderJson(RetUtil.ok(pagelist));
         }catch (Exception e){
             log.error("错误信息：", e);
             renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
@@ -144,31 +141,7 @@ public class CarController extends Controller {
         }
     }
 
-    public static void main(String[] args){
-        String systemTimeFourteen = DateUtil.getSystemTimeFourteen();
-        String fileName = String.format("车辆大数据报表_%s.xls",systemTimeFourteen);
-        String fileNameUrl = "E:/newInnerVisitor/download/temp";
-        File file = new File(fileNameUrl);
-        File file1 = new File(file,fileName);
-        if (!file.exists()){
-            file.mkdirs();
-            System.out.println("目录创建成功");
-            if (!file1.exists()){
-                try {
-                    file1.createNewFile();
-                    System.out.println("文件创建成功");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }else {
-            try {
-                file1.createNewFile();
-                System.out.println("文件创建成功");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+    public static void main(String[] args) throws IOException {
+       new File("D:/java/hello");
     }
 }

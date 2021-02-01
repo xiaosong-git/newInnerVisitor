@@ -23,7 +23,7 @@ public class VisitCarService {
 
     public static final VisitCarService me = new VisitCarService();
 
-    public Page<Record> getVisitCarList(int currentPage, int pageSize, String plate, String cStatus) {
+    public Page<Record> getVisitCarList(int currentPage, int pageSize, String plate, String cStatus, String startDate, String endDate, String visitDept) {
         StringBuilder sql = new StringBuilder("  from v_car c left join v_dept_user du on c.replyUserId=du.id  ");
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if (StringUtils.isNotBlank(plate)) {
@@ -31,7 +31,12 @@ public class VisitCarService {
         }
         if (StringUtils.isNotBlank(cStatus)) {
             whereSql.append(" and cStatus ='").append(cStatus).append("'");
+        }if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
+            whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s')  between '").append(startDate).append("' and '").append(endDate).append("'");
+        }if (StringUtils.isNotBlank(visitDept)){
+            whereSql.append(" and visitDept like concat('%','").append(visitDept).append("','%')");
         }
+
         whereSql.append(" order by visitDate desc,visitTime desc ");
         return Db.paginate(currentPage, pageSize, "select c.*,du.realName replyUserName", sql.append(whereSql).toString());
     }
@@ -39,7 +44,7 @@ public class VisitCarService {
     public int auditVisitCar(Long userId, Long id, String cStatus) {
         String replyDate = DateUtil.getCurDate();
         String replyTime = DateUtil.getCurTime();
-        return Db.update("update v_car set cStatus=?, replyUserId=?, replyDate=?, replyTime=? where id=? and cStatus = 'applyConfirm' ",
+        return Db.update("update v_car set cStatus=?, replyUserId=?, replyDate=?, replyTime=? where id=?  ",
                 cStatus, userId, replyDate, replyTime, id);
     }
 
@@ -54,7 +59,7 @@ public class VisitCarService {
             Long intervieweeId = vCar.getLong("intervieweeId");
             VDeptUser deptUser = VDeptUser.dao.findFirst("select * from v_dept_user where id=?", intervieweeId);
             if (deptUser!=null&&deptUser._getAttrNames().length>0){
-                CodeService.me.pushMsg(deptUser, 5, null, null, vCar.getStr("startDate"), vCar.getStr("userName"));
+                CodeService.me.pushMsg(deptUser, 5, null, null, vCar.getStartDate(), vCar.getUserName());
             }
         }
         int update = Db.update("update v_car set cStatus='applyPass' where id=? and cStatus = 'applySuccess' ", id);
@@ -79,7 +84,7 @@ public class VisitCarService {
         return save ? RetUtil.ok("新增成功") : RetUtil.fail("新增失败");
     }
 
-    public Page passVisitCarReport(int currentPage, int pageSize, String startDate, String endDate, Long deptId, String gate) {
+    public Page passVisitCarReport(int currentPage, int pageSize, String startDate, String endDate, String visitDept, String gate) {
         StringBuilder sql = new StringBuilder("  from v_car c left join v_dept_user  u on c.intervieweeId=u.id  left join v_dept d on d.id=u.deptId");
         StringBuilder whereSql = new StringBuilder(" where c.cStatus='applyPass' and d.id is not null ");
         if (StringUtils.isNotBlank(startDate) && StringUtils.isNotBlank(endDate)) {
@@ -88,8 +93,8 @@ public class VisitCarService {
         if (StringUtils.isNotBlank(gate)) {
             whereSql.append(" and gate like CONCAT('%','").append(gate).append("','%')");
         }
-        if (deptId != null) {
-            whereSql.append(" and deptId =").append(deptId);
+        if (StringUtils.isNotBlank(visitDept)){
+            whereSql.append(" and visitDept like concat('%','").append(visitDept).append("','%')");
         }
         whereSql.append(" group by d.id,d.dept_name,gate ");
         return Db.paginate(currentPage, pageSize, "select c.visitDate,d.dept_name,gate,count(*) carNum", sql.append(whereSql).toString());

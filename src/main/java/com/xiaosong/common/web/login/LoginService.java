@@ -2,6 +2,7 @@ package com.xiaosong.common.web.login;
 
 import java.util.List;
 
+import cn.hutool.core.date.DateUtil;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.model.VSysUser;
 
@@ -23,6 +24,8 @@ public class LoginService {
 						.setPassword(vDeptUser.getSysPwd())
 						.setRoleId(1L)
                         .setUsername(vDeptUser.getPhone())
+                        .setCreatetime(DateUtil.now())
+                        .setIsSync("F")
 				.setParentId(1L);
                  sysUser.save();
             }

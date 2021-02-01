@@ -33,7 +33,11 @@ public class VisitCarController extends Controller {
         try {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"), getPara("cStatus"));
+            String startDate = get("startDate");
+            String endDate = get("endDate");
+            String visitDept = get("visitDept");
+
+            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"), getPara("cStatus"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
             for (Record record : visitCarList.getList()) {
@@ -88,7 +92,7 @@ public class VisitCarController extends Controller {
         try {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-            Page page = visitCarService.passVisitCarReport(currentPage, pageSize, get("startDate"), get("endDate"), getLong("deptId"), get("gate"));
+            Page page = visitCarService.passVisitCarReport(currentPage, pageSize, get("startDate"), get("endDate"), get("visitDept"), get("gate"));
             renderJson(RetUtil.okData(page));
         } catch (Exception e) {
             log.error("错误信息：", e);
