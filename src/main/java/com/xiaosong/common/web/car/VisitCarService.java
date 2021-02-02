@@ -111,22 +111,26 @@ public class VisitCarService {
 
     }
 
-    public List<Record> downReport(String startDate, String endDate, String visitDept, String gate){
-        StringBuilder sql = new StringBuilder("select c.visitDate,visitDept,gate,count(*) carNum from v_car c left join v_dept_user  u on c.intervieweeId=u.id ");
-        StringBuilder whereSql = new StringBuilder(" where c.cStatus='applyPass' and visitDept is not null ");
-        if (StringUtils.isNotBlank(startDate) && StringUtils.isNotBlank(endDate)) {
-            whereSql.append(" and c.visitDate between'").append(startDate).append("' and '").append(endDate).append("' ");
-        } else if (StringUtils.isNotBlank(startDate)&&StringUtils.isBlank(endDate)){
-            whereSql.append(" and c.visitDate >'").append(startDate).append("' ");
+    public List<Record> downReport(String plate, String cStatus, String startDate, String endDate, String visitDept){
+        StringBuilder sql = new StringBuilder("select c.*,du.realName replyUserName from v_car c left join v_dept_user du on c.replyUserId=du.id  ");
+        StringBuilder whereSql = new StringBuilder(" where 1=1 ");
+        if (StringUtils.isNotBlank(plate)) {
+            whereSql.append(" and plate ='").append(plate).append("'");
+        }
+        if (StringUtils.isNotBlank(cStatus)) {
+            whereSql.append(" and cStatus ='").append(cStatus).append("'");
+        }if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
+            whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s')  between '").append(startDate).append("' and '").append(endDate).append("'");
+        }else if (StringUtils.isNotBlank(startDate)&&StringUtils.isBlank(endDate)){
+            whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s') >'").append(startDate).append("' ");
         }else if(StringUtils.isBlank(startDate)&&StringUtils.isNotBlank(endDate)){
-            whereSql.append(" and c.visitDate <'").append(endDate).append("' ");
-        }if (StringUtils.isNotBlank(gate)) {
-            whereSql.append(" and gate like CONCAT('%','").append(gate).append("','%')");
+            whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s') <'").append(endDate).append("' ");
         }
         if (StringUtils.isNotBlank(visitDept)){
             whereSql.append(" and visitDept like concat('%','").append(visitDept).append("','%')");
         }
-        whereSql.append(" group by visitDept,gate ");
+
+        whereSql.append(" order by visitDate desc,visitTime desc ");
         return Db.find(sql.append(whereSql).toString());
     }
 }

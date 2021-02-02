@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,227 +20,79 @@ public class VisitorService {
 
 	public static final	VisitorService me = new VisitorService();
 
-	public Page<Record> findList(String realName, String visitorName,String stratTime,String endTime,String cStatus,String trueName,int currentPage, int pageSize){
-		StringBuilder strWhere =new StringBuilder("where 1=1");
-		List<Object> params = new ArrayList();
-         String sqls ="  select su.true_name,su.username sys_name, du1.idNO,case cstatus when 'applyConfirm' then '等待审核' when 'applySuccess' then '审核通过' when 'applyFail' then '拒绝访问' end as cstatusName,cstatus ,CONCAT(visitDate,\" \",visitTime) visitDateTime, du1.realName userName,du1.phone userPhone,startDate,endDate,CONCAT(DATE_FORMAT(startDate,'%H:%m'),'~',DATE_FORMAT(endDate,'%H:%m')) as visitTimePeriod,du2.realName visitorName,du2.phone visitorPhone   from v_visitor_record  v left join v_dept_user  du1 on v.userId = du1.id LEFT JOIN v_dept_user du2 on v.visitorId =du2.id left join v_sys_user su on v.createUser = su.id ";
+	public Page<Record> findList(String userName, String visitName, String startTime, String endTime, String visitDept, int pageNum, int pageSize){
+		StringBuilder sql = new StringBuilder();
 
-		if(realName!=null &&realName!="") {
-			params.add(realName);
-			strWhere.append(" and du1.realName like CONCAT('%',?,'%') ");
+		List<Object> objects = new LinkedList<>();
+
+		sql.append("from v_visitor_record  v left join v_dept_user  du1 on v.userId = du1.id LEFT JOIN v_dept_user du2 on v.visitorId =du2.id left join v_dept_user du3 on v.replyUserId = du3.id " +
+				"left join (select a.userName,CONCAT(a.scanDate,' ',a.inTime) inTime,a.scanDate,a.idCard,id.extra2 inGate,CONCAT(a.scanDate,' ',b.outTime) outTime,od.extra2 outGate from (select id,userName,scanDate,inOrOut,idCard,min(scanTime) inTime,deviceIp from v_d_inout where inOrOut='in' GROUP BY idCard,scanDate,inOrOut)a left join (select id,userName,scanDate,inOrOut,idCard,max(scanTime) outTime,deviceIp from v_d_inout where inOrOut='out' GROUP BY idCard,scanDate,inOrOut) b on a.scanDate=b.scanDate and a.idCard=b.idCard " +
+				" left join v_device id on id.ip=a.deviceIp left join v_device od on od.ip=b.deviceIp  " +
+				" ) c on du1.idNO=c.idCard and c.scanDate=v.visitDate where v.id is not null ");
+
+		if (userName != null) {
+			sql.append("and du1.realName like concat('%',?,'%') ");
+			objects.add(userName);
 		}
 
-		if(!StringUtils.isBlank(visitorName)) {
-			params.add(visitorName);
-			strWhere.append(" and du2.realName like CONCAT('%',?,'%') ");
+		if (visitName != null) {
+			sql.append("and du2.realName like concat('%',?,'%') ");
+			objects.add(visitName);
 		}
 
-		if(!StringUtils.isBlank(stratTime))
-		{
-			params.add(stratTime);
-			strWhere.append(" and CONCAT(visitDate,' ',visitTime) >=?");
+		if (startTime != null && endTime != null) {
+			sql.append("and v.startDate between ? and ? ");
+			objects.add(startTime);
+			objects.add(endTime);
 		}
 
-		if(!StringUtils.isBlank(endTime))
-		{
-			params.add(endTime);
-			strWhere.append(" and CONCAT(visitDate,' ',visitTime) <=?");
+		if (visitDept != null) {
+			sql.append("and v.visitDept like concat('%',?,'%') ");
+			objects.add(visitDept);
 		}
 
-		if(!StringUtils.isBlank(cStatus))
-		{
-			params.add(cStatus);
-			strWhere.append(" and  cstatus =?");
-		}
+		sql.append(" order by v.id desc");
 
-
-		if(!StringUtils.isBlank(trueName))
-		{
-			params.add(trueName);
-			strWhere.append(" and  su.true_name =?");
-		}
-
-		Page<Record> pageList = Db.paginate(currentPage, pageSize, "select *", "from ("+sqls+strWhere.toString()+" order by v.id desc ) as d",params.toArray());
-
-		List<Record> list = pageList.getList();
-
-		if(list!=null && list.size()>0) {
-			String strStartTime ="";
-			String strEndTime ="";
-			List<String> idNOList = new ArrayList<>();
-			for (Record record : list) {
-				String idNO = record.getStr("idNO");
-				if(StringUtils.isBlank(idNO))
-				{
-					continue;
-				}
-				if (!idNOList.contains(idNO)) {
-					idNOList.add(idNO);
-				}
-				String startDate = record.getStr("startDate");
-				String endDate = record.getStr("endDate");
-				if (StringUtils.isBlank(strStartTime) || strStartTime.compareTo(startDate) > 0) {
-					strStartTime = startDate;
-				}
-				if (StringUtils.isBlank(endDate) || strEndTime.compareTo(endDate) < 0) {
-					strEndTime = endDate;
-				}
-
-			}
-
-			strStartTime = strStartTime.substring(0, 10);
-			strEndTime = strEndTime.substring(0, 10);
-
-		  	String strIdNOs =String.join("','",idNOList);
-			String sql = "select * from v_d_inout i where i.idCard in ('"+strIdNOs+"')  and  scanDate >=? and scanDate<=?  ";
-			List<Record> inoutList = Db.find(sql,strStartTime,strEndTime);
-
-
-
-			for (Record record : list) {
-
-				String idNO = record.getStr("idNO");
-				if(StringUtils.isBlank(idNO))
-				{
-					continue;
-				}
-
-
-				String startDate = record.getStr("startDate").substring(11,16);
-				String endDate = record.getStr("endDate").substring(11,16);
-
-				List<Record> list2 = inoutList.stream().filter(x->idNO.equals(x.getStr("idCard")) && x.getStr("scanTime").compareTo(startDate)>=0 && x.getStr("scanTime").compareTo(endDate)<=0).collect(Collectors.toList());
-
-				System.out.println("idNO:"+list2.size());
-
-				Record inTimeRecord =  list2.stream().filter(x->"in".equals(x.getStr("inOrOut"))).min(Comparator.comparing(i->i.getStr("scanTime"))).orElse(null);
-				Record outTimeRecord =  list2.stream().filter(x->"out".equals(x.getStr("inOrOut"))).max(Comparator.comparing(i->i.getStr("scanTime"))).orElse(null);
-				String inTime ="";
-				String outTime ="";
-				if(inTimeRecord!=null)
-				{
-					 inTime = inTimeRecord.getStr("scanTime");
-				}
-				record.set("inTime",inTime);
-
-				if(outTimeRecord!=null)
-				{
-					outTime = outTimeRecord.getStr("scanTime");
-				}
-				record.set("outTime",outTime);
-			}
-
-
-		}
-		return pageList;
-
+		return Db.paginate(pageNum,pageSize,"select du1.realName userName,du2.realName visitName, v.visitDept,concat(v.visitDate,' ',v.visitTime) applyTime,v.startDate visitTime,(case cstatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end) cstatus,du3.realName replyName,concat(v.replyDate,' ',v.replyTime) replyTime,c.inTime,c.inGate,c.outTime,c.outGate ",sql.toString(),objects.toArray());
 	}
 
 
 
-	public List<Record> findList(String realName, String visitorName,String stratTime,String endTime,String cStatus,String trueName) {
-		StringBuilder strWhere = new StringBuilder("where 1=1");
-		List<Object> params = new ArrayList();
+	public List<Record> downReport(String userName, String visitName, String startTime, String endTime, String visitDept) {
+		StringBuilder sql = new StringBuilder();
 
+		List<Object> objects = new LinkedList<>();
 
-		String sqls ="  select su.true_name,su.username sys_name, du1.idNO,case cstatus when 'applyConfirm' then '等待审核' when 'applySuccess' then '审核通过' when 'applyFail' then '拒绝访问' end as cstatusName,cstatus ,CONCAT(visitDate,\" \",visitTime) visitDateTime, du1.realName userName,du1.phone userPhone,startDate,endDate,CONCAT(DATE_FORMAT(startDate,'%H:%m'),'~',DATE_FORMAT(endDate,'%H:%m')) as visitTimePeriod,du2.realName visitorName,du2.phone visitorPhone   from v_visitor_record  v left join v_dept_user  du1 on v.userId = du1.id LEFT JOIN v_dept_user du2 on v.visitorId =du2.id left join v_sys_user su on v.createUser = su.id ";
+		sql.append("select du1.realName userName,du2.realName visitName, v.visitDept,concat(v.visitDate,' ',v.visitTime) applyTime,v.startDate visitTime,(case cstatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end) cstatus,du3.realName replyName,concat(v.replyDate,' ',v.replyTime) replyTime,c.inTime,c.inGate,c.outTime,c.outGate " +
+		"from v_visitor_record  v left join v_dept_user  du1 on v.userId = du1.id LEFT JOIN v_dept_user du2 on v.visitorId =du2.id left join v_dept_user du3 on v.replyUserId = du3.id " +
+		"left join (select a.userName,CONCAT(a.scanDate,' ',a.inTime) inTime,a.scanDate,a.idCard,id.extra2 inGate,CONCAT(a.scanDate,' ',b.outTime) outTime,od.extra2 outGate from (select id,userName,scanDate,inOrOut,idCard,min(scanTime) inTime,deviceIp from v_d_inout where inOrOut='in' GROUP BY idCard,scanDate,inOrOut)a left join (select id,userName,scanDate,inOrOut,idCard,max(scanTime) outTime,deviceIp from v_d_inout where inOrOut='out' GROUP BY idCard,scanDate,inOrOut) b on a.scanDate=b.scanDate and a.idCard=b.idCard " +
+		" left join v_device id on id.ip=a.deviceIp left join v_device od on od.ip=b.deviceIp  " +
+		" ) c on du1.idNO=c.idCard and c.scanDate=v.visitDate where v.id is not null ");
 
-		if (realName != null && realName != "") {
-			params.add(realName);
-			strWhere.append(" and du1.realName like CONCAT('%',?,'%') ");
+		if (userName != null) {
+			sql.append("and du1.realName like concat('%',?,'%') ");
+			objects.add(userName);
 		}
 
-		if (!StringUtils.isBlank(visitorName)) {
-			params.add(visitorName);
-			strWhere.append(" and du2.realName like CONCAT('%',?,'%') ");
+		if (visitName != null) {
+			sql.append("and du2.realName like concat('%',?,'%') ");
+			objects.add(visitName);
 		}
 
-		if (!StringUtils.isBlank(stratTime)) {
-			params.add(stratTime);
-			strWhere.append(" and CONCAT(visitDate,' ',visitTime) >=?");
+		if (startTime != null && endTime != null) {
+			sql.append("and v.startDate between ? and ? ");
+			objects.add(startTime);
+			objects.add(endTime);
 		}
 
-		if (!StringUtils.isBlank(endTime)) {
-			params.add(endTime);
-			strWhere.append(" and CONCAT(visitDate,' ',visitTime) <=?");
+		if (visitDept != null) {
+			sql.append("and v.visitDept like concat('%',?,'%') ");
+			objects.add(visitDept);
 		}
 
-		if (!StringUtils.isBlank(cStatus)) {
-			params.add(cStatus);
-			strWhere.append(" and  cstatus =?");
-		}
+		sql.append(" order by v.id desc");
 
-		if(!StringUtils.isBlank(trueName))
-		{
-			params.add(trueName);
-			strWhere.append(" and  su.true_name =?");
-		}
-
-
-		List<Record> list = Db.find("select * from (" + sqls + strWhere.toString() + ") as d", params.toArray());
-
-
-		if (list != null && list.size() > 0) {
-			String strStartTime = "";
-			String strEndTime = "";
-			List<String> idNOList = new ArrayList<>();
-			for (Record record : list) {
-				String idNO = record.getStr("idNO");
-				if (StringUtils.isBlank(idNO)) {
-					continue;
-				}
-				if (!idNOList.contains(idNO)) {
-					idNOList.add(idNO);
-				}
-				String startDate = record.getStr("startDate");
-				String endDate = record.getStr("endDate");
-				if (StringUtils.isBlank(strStartTime) || strStartTime.compareTo(startDate) > 0) {
-					strStartTime = startDate;
-				}
-				if (StringUtils.isBlank(endDate) || strEndTime.compareTo(endDate) < 0) {
-					strEndTime = endDate;
-				}
-
-			}
-
-			strStartTime = strStartTime.substring(0, 10);
-			strEndTime = strEndTime.substring(0, 10);
-
-			String strIdNOs = String.join("','", idNOList);
-			String sql = "select * from v_d_inout i where i.idCard in ('" + strIdNOs + "')  and  scanDate >=? and scanDate<=?  ";
-			List<Record> inoutList = Db.find(sql, strStartTime, strEndTime);
-
-
-			for (Record record : list) {
-
-				String idNO = record.getStr("idNO");
-				if (StringUtils.isBlank(idNO)) {
-					continue;
-				}
-				String startDate = record.getStr("startDate").substring(11, 16);
-				String endDate = record.getStr("endDate").substring(11, 16);
-
-				List<Record> list2 = inoutList.stream().filter(x -> idNO.equals(x.getStr("idCard")) && x.getStr("scanTime").compareTo(startDate) >= 0 && x.getStr("scanTime").compareTo(endDate) <= 0).collect(Collectors.toList());
-
-				System.out.println("idNO:" + list2.size());
-
-				Record inTimeRecord = list2.stream().filter(x -> "in".equals(x.getStr("inOrOut"))).min(Comparator.comparing(i -> i.getStr("scanTime"))).orElse(null);
-				Record outTimeRecord = list2.stream().filter(x -> "out".equals(x.getStr("inOrOut"))).max(Comparator.comparing(i -> i.getStr("scanTime"))).orElse(null);
-				String inTime = "";
-				String outTime = "";
-				if (inTimeRecord != null) {
-					inTime = inTimeRecord.getStr("scanTime");
-				}
-				record.set("inTime", inTime);
-
-				if (outTimeRecord != null) {
-					outTime = outTimeRecord.getStr("scanTime");
-				}
-				record.set("outTime", outTime);
-			}
-
-		}
-		return list;
+		return Db.find(sql.toString(),objects.toArray());
 	}
 
 }

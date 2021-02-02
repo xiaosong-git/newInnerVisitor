@@ -81,7 +81,7 @@ public class CarController extends Controller {
                 HSSFRow rowTitle = sheet.createRow(0);
                 HSSFCell cell = rowTitle.createCell(0);
                 cell.setCellValue("车辆大数据报表");
-                sheet.addMergedRegion( new CellRangeAddress(0,0,0,7));
+                sheet.addMergedRegion( new CellRangeAddress(0,0,0,fields.length -1));
                 //设置表标题样式
                 HSSFCellStyle cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_CENTER, HSSFCellStyle.ALIGN_CENTER, HSSFColor.SKY_BLUE.index, "新宋体", (short) 12, true);
                 cell.setCellStyle(cellStyle);

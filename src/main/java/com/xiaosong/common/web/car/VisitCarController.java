@@ -168,17 +168,25 @@ public class VisitCarController extends Controller {
     public void downReport(){
         OutputStream os = null;
         try {
-            //获取列表
-            List<Record> passCarList = visitCarService.downReport(get("startDate"), get("endDate"), get("visitDept"), get("gate"));
+            String startDate = get("startDate");
+            String endDate = get("endDate");
+            String visitDept = get("visitDept");
 
-            if (passCarList != null && passCarList.size() > 0){
+            List<Record> visitCarList = visitCarService.downReport(getPara("plate"), getPara("cStatus"),startDate,endDate,visitDept);
+            //获取加密key
+            Record user_key = Db.findFirst("select * from v_user_key");
+            for (Record record : visitCarList) {
+                record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+            }
+
+            if (visitCarList != null && visitCarList.size() > 0){
 
                 String systemTimeFourteen = com.xiaosong.util.DateUtil.getSystemTimeFourteen();
                 String[] fields = {"日期","被访者部门","通行入口","放行车辆总数"};
                 List<String> fieldsList = Arrays.asList(fields);
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
-                HSSFSheet sheet = workbook.createSheet("车辆放行报表");
+                HSSFSheet sheet = workbook.createSheet("来访车辆管理报表");
 
                 //设置单元格行高，列宽
                 sheet.setDefaultRowHeightInPoints(18);
@@ -187,7 +195,7 @@ public class VisitCarController extends Controller {
                 //标题
                 HSSFRow rowTitle = sheet.createRow(0);
                 HSSFCell cell = rowTitle.createCell(0);
-                cell.setCellValue("车辆放行报表");
+                cell.setCellValue("来访车辆管理报表");
                 sheet.addMergedRegion( new CellRangeAddress(0,0,0,fields.length-1));
                 //设置表标题样式
                 HSSFCellStyle cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_CENTER, HSSFCellStyle.ALIGN_CENTER, HSSFColor.SKY_BLUE.index, "新宋体", (short) 12, true);
@@ -202,7 +210,7 @@ public class VisitCarController extends Controller {
                 HSSFRow row;
                 int index = 2;
                 cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_LEFT, HSSFCellStyle.ALIGN_CENTER, HSSFColor.WHITE.index, "新宋体", (short) 12, false);
-                for (Record record : passCarList) {
+                for (Record record : visitCarList) {
                     row = sheet.createRow(index);
                     //日期
                     ExcelUtil.createCell(row,cellStyle,record.get("visitDate"),0);
@@ -215,7 +223,7 @@ public class VisitCarController extends Controller {
 
                     index++;
                 }
-                String fileName = String.format("车辆放行报表_%s.xls",systemTimeFourteen);
+                String fileName = String.format("来访车辆管理报表_%s.xls",systemTimeFourteen);
                 String fileNameUrl = Constant.BASE_DOWNLOAD_PATH;
 //                String fileNameUrl = "E:/newInnerVisitor/download/temp";
                 File exportFile = new File(fileNameUrl);
