@@ -224,4 +224,30 @@ public class VisitorProcess {
     }
 
 
+    /**
+     * 根据流程号获取所有审批人。
+     * @param pid 流程号
+     * @return 获取所有审批人
+     */
+    public static List<String> getAllAssignee(String pid) {
+
+        //部署一个流程
+        ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
+        //任务服务
+        HistoryService historyService = engine.getHistoryService();
+
+        List<HistoricTaskInstance> taskList  = historyService.createHistoricTaskInstanceQuery()
+                .processInstanceId(pid)
+                .finished()
+                .list();
+        List<String> ids =new ArrayList<>();
+
+        for(HistoricTaskInstance task : taskList)
+        {
+            ids.add(task.getAssignee());
+        }
+        return ids;
+    }
+
+
 }

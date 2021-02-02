@@ -53,7 +53,7 @@ public class DeptUserService extends MyBaseService {
 
         if(user!=null) {
             //如果是部门领导那么获去到当前部门的经办岗信息
-            if(1==user.getDeptLeader())
+            if(user.getDeptLeader()!=null && 1==user.getDeptLeader())
             {
                 list = VDeptUser.dao.find("select * from v_dept_user where id in (select userId from v_user_post where postId =?) and deptId=?", UserPostConstant.MANAGE_CAR_POST,user.getDeptId());
 
@@ -78,11 +78,13 @@ public class DeptUserService extends MyBaseService {
         if(user!=null) {
             //车辆审批类型，先查询是否经办岗 如果是 直接返回2
             if(type ==1) {
+                int deptLeader = user.getDeptLeader()==null?0:user.getDeptLeader();
+
                 VUserPost vUserPost = VUserPost.dao.findFirst("select * from  v_user_post where userId = ? and postId=?", user.getId(), UserPostConstant.MANAGE_CAR_POST);
                 if (vUserPost != null) {
                     return  2;
                 }
-                userType = 1== user.getDeptLeader() ? 1 : 0;
+                userType = deptLeader;
             }else{
                  //如果是金卡或者红卡，默认返回领导标识
                 if(user.getCardType()!=null && (1==user.getCardType() || 2==user.getCardType()))
@@ -97,7 +99,6 @@ public class DeptUserService extends MyBaseService {
                 }
                 //米色卡和绿卡没有审批权限
                 else {
-
                     userType = 0;
                 }
             }

@@ -301,6 +301,15 @@ public class VisitorRecordService extends MyBaseService {
         //被访者
         VDeptUser visitorBy = VDeptUser.dao.findFirst("select * from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
+
+
+        boolean hasAuth = UserPostService.me.checkPostAuth(visitorBy.getId(), UserPostConstant.APPROVE_VISITOR_POST);
+        if(!hasAuth)
+        {
+            return ResultData.unDataResult("fail", "被访者没有审核访客权限");
+        }
+
+
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
         if (visitUser == null) {
@@ -485,9 +494,7 @@ public class VisitorRecordService extends MyBaseService {
     /**
      * 车辆访问
      */
-    public Result carVisit(Long userId, String userName,String idNo,String phone, String realName, String startDate, String endDate, String reason,String carNumber,Integer num,String visitDept,String gate,Integer inOutType,String entourages) throws Exception {
-
-
+    public Result carVisit(Long userId, String name,String idcard,String phone, String realName, String startDate, String endDate, String reason,String carNumber,Integer num,String visitDept,String gate,Integer inOutType,String entourages) throws Exception {
 
         if ( userId == null || phone == null || realName == null||startDate == null || endDate ==null||visitDept==null) {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
@@ -506,6 +513,14 @@ public class VisitorRecordService extends MyBaseService {
         //被访者
         VDeptUser visitorBy = VDeptUser.dao.findFirst("select * from " + TableList.DEPT_USER + " " +
                 "where currentStatus ='normal' and userType !='visitor' and phone=?", phone);
+
+
+        boolean hasAuth = UserPostService.me.checkPostAuth(visitorBy.getId(), UserPostConstant.APPROVE_CAR_POST);
+        if(!hasAuth)
+        {
+            return ResultData.unDataResult("fail", "被访者没有审核车辆权限");
+        }
+
         //访者
         VDeptUser visitUser = VDeptUser.dao.findById(userId);
         if (visitUser == null) {
@@ -547,7 +562,10 @@ public class VisitorRecordService extends MyBaseService {
        // String userName = userInfo.getStr("realName");
         //String idNO = userInfo.getStr("idNO");
 
+
+
         boolean result = Db.tx(()->{
+
             VCar vCar = new VCar();
             vCar.setVisitId( userId);
             vCar.setIntervieweeId(visitorId);
@@ -565,11 +583,11 @@ public class VisitorRecordService extends MyBaseService {
             vCar.setInOutType(inOutType);
             vCar.setNum(num);
             vCar.setGate(gate);
-            vCar.setUserName(userName);
-            vCar.setIdNO(idNo);
+            vCar.setUserName(visitUser.getRealName());
+            vCar.setIdNO(visitUser.getIdNO());
             vCar.setEntourages(entourages);
             //判断访问者是否是黑名单人员
-            VBlackUser blackUser =  blackUserService.findBalckUser(userName,idNo);
+            VBlackUser blackUser =  blackUserService.findBalckUser(visitUser.getRealName(),visitUser.getIdNO());
             if(blackUser != null){
                 vCar.setCStatus("applyFail");
                 vCar.setReplyDate(DateUtil.getCurDate());
@@ -841,8 +859,8 @@ public class VisitorRecordService extends MyBaseService {
             return Result.unDataResult(ConsantCode.FAIL, "缺少用户参数!");
         }
 
-        VDeptUser visitor = VDeptUser.dao.findById(visitorId);
-        if (visitor == null) {
+        VDeptUser visitorBy = VDeptUser.dao.findById(visitorId);
+        if (visitorBy == null) {
             return Result.unDataResult(ConsantCode.FAIL, "未找到用户信息!");
         }
         try{
@@ -866,6 +884,8 @@ public class VisitorRecordService extends MyBaseService {
         boolean result = Db.tx(()->{
 
                 JSONArray jsonArray = JSONArray.parseArray(cars);
+                Record user_key = Db.findFirst("select * from v_user_key");
+
                 for(int i=0;i<jsonArray.size();i++)
                 {
                     JSONObject jsonUser = jsonArray.getJSONObject(i);
@@ -873,6 +893,8 @@ public class VisitorRecordService extends MyBaseService {
                     String userPhone = jsonUser.getString("phone");
                     String idNo = jsonUser.getString("idNo");
                     String carNumber = jsonUser.getString("carNumber");
+                    idNo = DESUtil.encode(user_key.getStr("workKey"), idNo);
+
                     VDeptUser vDeptUser =null;
                     try {
                         vDeptUser = deptUserService.createVisitor(userPhone, name);
@@ -883,7 +905,7 @@ public class VisitorRecordService extends MyBaseService {
                     }
                     VCar vCar = new VCar();
                     vCar.setIntervieweeId(visitorId);
-                    vCar.setCStatus("applySuccess");
+                    vCar.setCStatus("applyConfirm");
                     vCar.setVisitDate(DateUtil.getCurDate());
                     vCar.setVisitTime(DateUtil.getCurTime());
                     vCar.setReason(reason);
@@ -896,10 +918,13 @@ public class VisitorRecordService extends MyBaseService {
                     vCar.setNum(1);
                     vCar.setGate(gate);
                     vCar.setUserName(name);
-                    vCar.setVisitName(visitor.getRealName());
+                    vCar.setVisitName(visitorBy.getRealName());
                     vCar.setIdNO(idNo);
                     vCar.setVisitId(vDeptUser.getId());
+                    String processId = VisitorProcess.createNewCarProcess(String.valueOf(vDeptUser.getId()),deptUserService.getUserType(visitorBy,1),String.valueOf(visitorId));
+                    vCar.setProcessId(processId);
                     vCar.save();
+
                 }
             return true;
         });
@@ -1466,8 +1491,8 @@ public class VisitorRecordService extends MyBaseService {
         pageNum = pageNum == null ? 1 : pageNum;
         pageSize = pageSize == null ? 10 : pageSize;
 
-        String sql = "select au.realName approveName ,vu.idHandleImgUrl,vu.idNo,vu.realName visitorName,vu.addr visitorCmp,vu.phone visitorPhone,c.* from v_car c LEFT JOIN v_dept_user vu on visitId = vu.id\n" +
-                "LEFT JOIN v_dept_user au on approvalUserId = au.id  where visitId = ? or intervieweeId=? order by visitDate desc ,visitTime desc";
+        String sql = "select su.addr,au.realName approveName ,vu.idHandleImgUrl,vu.idNo,vu.realName visitorName,vu.addr visitorCmp,vu.phone visitorPhone,c.* from v_car c LEFT JOIN v_dept_user vu on visitId = vu.id\n" +
+                " LEFT JOIN v_dept_user au on approvalUserId = au.id  LEFT JOIN v_dept_user su on intervieweeId = su.id   where visitId = ? or intervieweeId=? order by visitDate desc ,visitTime desc";
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql);
         sqlPara.addPara(userId);
@@ -1604,7 +1629,7 @@ public class VisitorRecordService extends MyBaseService {
         pageSize = pageSize == null ? 10 : pageSize;
 
         StringBuilder sql = new StringBuilder();
-        sql.append("select  vu.idNO,u.idHandleImgUrl,vu.idHandleImgUrl visitorIdHandleImgUrl, v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,d.dept_name deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
+        sql.append("select  vu.idNo,REPLACE(vu.idHandleImgUrl,'\\\\','/') idHandleImgUrl,REPLACE(u.idHandleImgUrl,'\\\\','/') staffIdHandleImgUrl, v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,CONCAT(d.dept_name,'   ',u.addr) deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
         sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where v.userId = ?  or v.visitorId = ? order by visitDate desc, visitTime desc");
 
         SqlPara sqlPara = new SqlPara();
@@ -1616,7 +1641,7 @@ public class VisitorRecordService extends MyBaseService {
         Record user_key = Db.findFirst("select * from v_user_key");
         for(Record record : paginate.getList())
         {
-            String idNo =record.get("idNO");
+            String idNo =record.get("idNo");
             idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
             record.set("idNo",idNo);
         }
@@ -1678,7 +1703,7 @@ public class VisitorRecordService extends MyBaseService {
         StringBuilder ret = new StringBuilder();
         joinIds(list,ret);
         StringBuilder sql = new StringBuilder();
-        sql.append("select vu.idNO, u.idHandleImgUrl,vu.idHandleImgUrl visitorIdHandleImgUrl,v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,d.dept_name deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,  vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
+        sql.append("select vu.idNo, REPLACE(vu.idHandleImgUrl,'\\\\','/') idHandleImgUrl,REPLACE(u.idHandleImgUrl,'\\\\','/') staffIdHandleImgUrl,v.userId visitorId,v.id recordId, vu.isAuth isAuth,v.recordType recordType,u.addr address,visitorid as staffId,u.realName as realName,u.phone,u.sex,v.startDate,CONCAT(d.dept_name,'   ',u.addr) deptName,v.endDate ,v.reason,v.cstatus,v.plate visitorPlate,  vu.addr visitorCmp,vu.phone visitorPhone,vu.realName visitorName,vu.sex visitorSex ");
         sql.append(" from v_visitor_record v LEFT JOIN v_dept_user u on  u.id = v.visitorId LEFT JOIN v_dept_user vu on v.userId = vu.id left join v_dept d on u.deptId  = d.id  where v.processId in  "+ret.toString() +" order by visitDate desc, visitTime desc");
 
         SqlPara sqlPara = new SqlPara();
@@ -1721,7 +1746,7 @@ public class VisitorRecordService extends MyBaseService {
         StringBuilder ret = new StringBuilder();
         joinIds(list,ret);
 
-        String sql = "select au.realName approveName ,vu.idHandleImgUrl,vu.idNo,vu.realName visitorName,vu.addr visitorCmp,vu.phone visitorPhone,c.* from v_car c LEFT JOIN v_dept_user vu on visitId = vu.id\n" +
+        String sql = "select au.realName approveName ,REPLACE(vu.idHandleImgUrl,'\\\\','/')  idHandleImgUrl,vu.idNo,vu.realName visitorName,vu.addr visitorCmp,vu.phone visitorPhone,c.* from v_car c LEFT JOIN v_dept_user vu on visitId = vu.id\n" +
                 "LEFT JOIN v_dept_user au on approvalUserId = au.id where processId in  "+ret.toString()+" order by visitDate desc ,visitTime desc";
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql.toString());
