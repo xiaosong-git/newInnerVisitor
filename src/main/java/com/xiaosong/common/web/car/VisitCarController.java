@@ -89,6 +89,7 @@ public class VisitCarController extends Controller {
         try {
             if (getLong("id") == null) {
                 renderJson(RetUtil.fail("参数缺失！"));
+                return;
             }
             renderJson(visitCarService.passVisitCar(getLong("id")));
         } catch (Exception e) {
