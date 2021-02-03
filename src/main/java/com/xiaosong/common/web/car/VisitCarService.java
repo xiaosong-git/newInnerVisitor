@@ -44,7 +44,7 @@ public class VisitCarService {
         }
 
         whereSql.append(" order by visitDate desc,visitTime desc ");
-        return Db.paginate(currentPage, pageSize, "select userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime", sql.append(whereSql).toString());
+        return Db.paginate(currentPage, pageSize, "select userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime,c.cStatus", sql.append(whereSql).toString());
     }
 
     public int auditVisitCar(Long userId, Long id, String cStatus) {
