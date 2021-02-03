@@ -41,13 +41,13 @@ public class InOutController extends Controller {
         try {
             String userName = getPara("userName");
             String userType = getPara("userType");
-            String startDate = getPara("startDate");
-            String endDate = getPara("endDate");
+            String startTime = getPara("startTime");
+            String endTime = getPara("endTime");
             String deptName = getPara("deptName");
             String inOrOut = getPara("inOrOut");
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-            Page<Record> pagelist = srv.findList(userName,userType,deptName,startDate,endDate,inOrOut,currentPage,pageSize);
+            Page<Record> pagelist = srv.findList(userName,userType,deptName,startTime,endTime,inOrOut,currentPage,pageSize);
 
             Record user_key = Db.findFirst("select * from v_user_key");
 
@@ -70,12 +70,12 @@ public class InOutController extends Controller {
         try {
             String userName = getPara("userName");
             String userType = getPara("userType");
-            String startDate = getPara("startDate");
-            String endDate = getPara("endDate");
+            String startTime = getPara("startTime");
+            String endTime = getPara("endTime");
             String deptName = getPara("deptName");
             String inOrOut = getPara("inOrOut");
             //获取列表
-            List<Record> downReportList = srv.downReport(userName,userType,deptName,startDate,endDate,inOrOut);
+            List<Record> downReportList = srv.downReport(userName,userType,deptName,startTime,endTime,inOrOut);
 
             if (downReportList != null && downReportList.size() > 0){
                 Record user_key = Db.findFirst("select * from v_user_key");

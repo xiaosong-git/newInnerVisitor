@@ -67,7 +67,7 @@ public class CarController extends Controller {
                     record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
                 }
                 String systemTimeFourteen = DateUtil.getSystemTimeFourteen();
-                String[] fields = {"来访人姓名","受访人","车牌号","来访总人数","来访人员身份证","审核人员","审核时间","审核结果"};
+                String[] fields = {"来访人姓名","受访人","受访人单位","车牌号","来访总人数","来访人员身份证","审核人员","审核时间","审核结果"};
                 List<String> fieldsList = Arrays.asList(fields);
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
@@ -101,18 +101,20 @@ public class CarController extends Controller {
                     ExcelUtil.createCell(row,cellStyle,record.get("userName"),0);
                     //受访人
                     ExcelUtil.createCell(row,cellStyle,record.get("visitName"),1);
+                    //受访人单位
+                    ExcelUtil.createCell(row,cellStyle,record.get("visitDept"),2);
                     //车牌号
-                    ExcelUtil.createCell(row,cellStyle,record.get("plate"),2);
+                    ExcelUtil.createCell(row,cellStyle,record.get("plate"),3);
                     //来访总人数
-                    ExcelUtil.createCell(row,cellStyle,record.get("num").toString(),3);
+                    ExcelUtil.createCell(row,cellStyle,record.get("num").toString(),4);
                     //来访人员身份证
-                    ExcelUtil.createCell(row,cellStyle,record.get("idNO"),4);
+                    ExcelUtil.createCell(row,cellStyle,record.get("idNO"),5);
                     //审核人员
-                    ExcelUtil.createCell(row,cellStyle,record.get("realName"),5);
+                    ExcelUtil.createCell(row,cellStyle,record.get("realName"),6);
                     //审核时间
-                    ExcelUtil.createCell(row,cellStyle,record.get("replayDate"),6);
+                    ExcelUtil.createCell(row,cellStyle,record.get("replayDate"),7);
                     //审核结果
-                    ExcelUtil.createCell(row,cellStyle,record.get("cStatus"),7);
+                    ExcelUtil.createCell(row,cellStyle,record.get("cStatus"),8);
                     index++;
                 }
                 String fileName = String.format("车辆大数据报表_%s.xls",systemTimeFourteen);
