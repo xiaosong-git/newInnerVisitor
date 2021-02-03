@@ -181,6 +181,8 @@ public class VisitorRecordService extends MyBaseService {
             boolean hasNext =VisitorProcess.approve(vVisitorRecord.getProcessId(),flag,assignee,deptUserService.getUserType(vDeptUser,0));
             boolean update = Db.tx(()->{
                 String status = hasNext?"applyConfirm":cstatus;
+                visitorRecord.setReplyDate(replyDate).setReplyTime(replyTime).setIsReceive("F");
+                visitorRecord.setReplyUserId(userId);
                 visitorRecord.setCstatus(status);
                 boolean result = visitorRecord.update();
 //                //随行人员同时更新
@@ -194,7 +196,7 @@ public class VisitorRecordService extends MyBaseService {
 //                    record.setCstatus(status);
 //                    record.update();
 //                }
-                return true;
+                return result;
             });
 
             String apply = "同意";
@@ -1536,21 +1538,33 @@ public class VisitorRecordService extends MyBaseService {
             return ResultData.unDataResult("fail", "没有找到该记录");
         }
 
+        int userType = deptUserService.getUserType(vDeptUser,1);
         boolean flag = "applySuccess".equals(status);
-        boolean hasNext = VisitorProcess.approveCar(car.getProcessId(),flag,assignee,deptUserService.getUserType(vDeptUser,1));
+        boolean hasNext = VisitorProcess.approveCar(car.getProcessId(),flag,assignee,userType);
         car.setCStatus(hasNext?"applyConfirm":status);
+
+        car.setReplyDate(DateUtil.getCurDate());
+        car.setReplyTime(DateUtil.getCurTime());
+        car.setReplyUserId(userId);
         car.setApprovalDateTime(DateUtil.getSystemTime());
         car.setApprovalUserId(userId);
         car.setReason(reason);
         boolean result = car.update();
         if(result) {
-            return ResultData.dataResult("success", "审批成功",hasNext);
+            HashMap<String,Object> resultMap = new HashMap<>();
+            boolean isManage = false;
+            //还需要审核的时候，获取到当前人员类型，如果是领导，那么返回type 给前端，让前端跳转到经办岗页面
+            resultMap.put("hasNext",hasNext);
+            if(hasNext && userType == 1)
+            {
+                    isManage =true;
+            }
+            resultMap.put("isManage",isManage);
+            return ResultData.dataResult("success", "审批成功",resultMap);
         }else{
             return ResultData.unDataResult("fail", "审批失败");
         }
     }
-
-
 
 
 
