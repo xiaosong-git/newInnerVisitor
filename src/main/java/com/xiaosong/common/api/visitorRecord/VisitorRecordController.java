@@ -274,7 +274,8 @@ public class VisitorRecordController extends Controller {
     @Before(UserIdValidator.class)
     public void approvalCar() {
         try {
-            renderText(JSON.toJSONString(visitorRecordService.approvalCar(getLong("userId"), getLong("carId"), get("status"), get("reason"),get("assignee"))));
+
+            renderText(JSON.toJSONString(visitorRecordService.approvalCar(getLong("userId"), get("status"), get("reason"),get("assignee"),get("carIds"))));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));

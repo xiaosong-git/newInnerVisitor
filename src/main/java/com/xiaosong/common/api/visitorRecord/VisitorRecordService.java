@@ -865,88 +865,104 @@ public class VisitorRecordService extends MyBaseService {
         if (visitorBy == null) {
             return Result.unDataResult(ConsantCode.FAIL, "未找到用户信息!");
         }
-        try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             sdf.parse(startDate);
             sdf.parse(endDate);
-        }
-        catch (ParseException ex)
-        {
+        } catch (ParseException ex) {
             return Result.unDataResult(ConsantCode.FAIL, "日期格式不正确!");
         }
 
         boolean hasCarAuth = UserPostService.me.checkPostAuth(visitorId.longValue(), UserPostConstant.INVITE_CAR_POST);
-        if(!hasCarAuth)
-        {
+        if (!hasCarAuth) {
             return ResultData.unDataResult(ConsantCode.FAIL, "没有邀约权限");
         }
 
+        VDept vDept = VDept.dao.findById(visitorBy.getDeptId());
 
-        final List<VDeptUser> entourageList = new ArrayList<>();
-        boolean result = Db.tx(()->{
+        boolean hasNext = false;
+        boolean result = false;
+        int userType = deptUserService.getUserType(visitorBy, 1);
+        JSONArray jsonArray = JSONArray.parseArray(cars);
+        Record user_key = Db.findFirst("select * from v_user_key");
 
-                JSONArray jsonArray = JSONArray.parseArray(cars);
-                Record user_key = Db.findFirst("select * from v_user_key");
+        List<Long> carIds = new ArrayList<>();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonUser = jsonArray.getJSONObject(i);
+            String name = jsonUser.getString("name");
+            String userPhone = jsonUser.getString("phone");
+            String idNo = jsonUser.getString("idNo");
+            String carNumber = jsonUser.getString("carNumber");
+            idNo = DESUtil.encode(user_key.getStr("workKey"), idNo);
 
-                for(int i=0;i<jsonArray.size();i++)
-                {
-                    JSONObject jsonUser = jsonArray.getJSONObject(i);
-                    String name = jsonUser.getString("name");
-                    String userPhone = jsonUser.getString("phone");
-                    String idNo = jsonUser.getString("idNo");
-                    String carNumber = jsonUser.getString("carNumber");
-                    idNo = DESUtil.encode(user_key.getStr("workKey"), idNo);
+            VDeptUser vDeptUser = null;
+            try {
+                vDeptUser = deptUserService.createVisitor(userPhone, name);
+            } catch (Exception ex) {
+                return Result.unDataResult("fail", ex.getMessage());
+            }
+            VCar vCar = new VCar();
+            vCar.setIntervieweeId(visitorId);
+            vCar.setCStatus("applyConfirm");
+            vCar.setVisitDate(DateUtil.getCurDate());
+            vCar.setVisitTime(DateUtil.getCurTime());
+            vCar.setReason(reason);
+            vCar.setStartDate(startDate);
+            vCar.setEndDate(endDate);
+            vCar.setRecordType(2);
+            vCar.setPlate(carNumber);
+            vCar.setVisitPhone(userPhone);
+            vCar.setInOutType(inOutType);
+            vCar.setNum(1);
+            vCar.setGate(gate);
+            vCar.setUserName(name);
+            vCar.setVisitName(visitorBy.getRealName());
+            vCar.setIdNO(idNo);
+            vCar.setVisitId(vDeptUser.getId());
+            String processId = VisitorProcess.createNewCarProcess(String.valueOf(vDeptUser.getId()), deptUserService.getUserType(visitorBy, 1), String.valueOf(visitorId));
+            vCar.setProcessId(processId);
+            if(vDept!=null)
+            {
+                vCar.setVisitDept(vDept.getDeptName());
+            }
 
-                    VDeptUser vDeptUser =null;
-                    try {
-                        vDeptUser = deptUserService.createVisitor(userPhone, name);
-                    }
-                    catch (Exception ex)
-                    {
-                        continue;
-                    }
-                    VCar vCar = new VCar();
-                    vCar.setIntervieweeId(visitorId);
-                    vCar.setCStatus("applyConfirm");
-                    vCar.setVisitDate(DateUtil.getCurDate());
-                    vCar.setVisitTime(DateUtil.getCurTime());
-                    vCar.setReason(reason);
-                    vCar.setStartDate( startDate);
-                    vCar.setEndDate(endDate);
-                    vCar.setRecordType(2);
-                    vCar.setPlate(carNumber);
-                    vCar.setVisitPhone(userPhone);
-                    vCar.setInOutType(inOutType);
-                    vCar.setNum(1);
-                    vCar.setGate(gate);
-                    vCar.setUserName(name);
-                    vCar.setVisitName(visitorBy.getRealName());
-                    vCar.setIdNO(idNo);
-                    vCar.setVisitId(vDeptUser.getId());
-                    String processId = VisitorProcess.createNewCarProcess(String.valueOf(vDeptUser.getId()),deptUserService.getUserType(visitorBy,1),String.valueOf(visitorId));
-                    vCar.setProcessId(processId);
-                    vCar.save();
+            boolean flag = true;
+            hasNext = VisitorProcess.approveCar(processId, flag, null, userType);
+            vCar.setCStatus(hasNext ? "applyConfirm" : "applySuccess");
+            result = vCar.save();
+            carIds.add(vCar.getId());
+        }
 
-                }
-            return true;
-        });
 
         if (result) {
-            //发送随行人员短信
-            for(VDeptUser vDeptUser : entourageList)
-            {
-                CodeService.me.pushMsg(vDeptUser, CodeMsg.MSG_VISITOR_PASS);
-/*                if("T".equals(vDeptUser.getIsAuth()))
-                {
-                    //CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_AUTH,null,null, null, null, startDate, visitorName);
-                }else {
-                    //CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_NOAUTH,null,null,  null, null, startDate, visitorName);
-                }*/
+//            //发送随行人员短信
+//            for(VDeptUser vDeptUser : entourageList)
+//            {
+//
+//                if("T".equals(vDeptUser.getIsAuth()))
+//                {
+//                    CodeService.me.pushMsg(vDeptUser, CodeMsg.MSG_VISITOR_PASS);
+//                    //CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_AUTH,null,null, null, null, startDate, visitorName);
+//                }else {
+//                    CodeService.me.pushMsg(vDeptUser.getRegistrationId(),vDeptUser.getAppType(),vDeptUser.getPhone(), YunPainSmsUtil.MSG_TYPE_ENTOURAGE_NOAUTH,null,null,  null, null, startDate, visitorBy.getRealName());
+//                }
+//            }
+
+
+            HashMap<String, Object> resultMap = new HashMap<>();
+            boolean isManage = false;
+            //还需要审核的时候，获取到当前人员类型，如果是领导，那么返回type 给前端，让前端跳转到经办岗页面
+            resultMap.put("hasNext", hasNext);
+            if (hasNext && userType == 1) {
+                isManage = true;
             }
+            resultMap.put("isManage", isManage);
+            resultMap.put("carIds",carIds);
+
             //websocket通知前端获取访客数量
             WebSocketMonitor.me.getVisitorData();
             WebSocketSyncData.me.sendVisitorData();
-            return Result.unDataResult("success", "邀约成功");
+            return ResultData.dataResult("success", "邀约成功",resultMap);
         } else {
             return Result.unDataResult("fail", "邀约失败");
         }
@@ -1098,63 +1114,9 @@ public class VisitorRecordService extends MyBaseService {
         }
     }
     //推送
-/*
-    public void visitPush(Map<String, Object> visitorRecord, Map<String, Object> userUser, Map<String, Object> visitorUser, Map<String, Object> saveMap, JSONObject msg, String visitorResult, Map<String, String> wxMap) throws Exception {
-        log.info("visitPush");
-        String toUserId = BaseUtil.objToStr(visitorRecord.get("userId"), "0");
-        String viType = BaseUtil.objToStr(visitorRecord.get("vitype"), "");
-        String startDate = BaseUtil.objToStr(visitorRecord.get("startDate"), "");
-        String deviceToken = BaseUtil.objToStr(userUser.get("deviceToken"), "");
-//		String isOnlineApp = BaseUtil.objToStr(userUser.get("isOnlineApp"), "");
-        String phone = BaseUtil.objToStr(userUser.get("phone"), "");
-        String visitorBy = BaseUtil.objToStr(visitorUser.get("realName"), "");
-        //发送访问者websocket聊天框
-        WebSocketEndPoint webSocketEndPoint = WebSocketMapUtil.get(toUserId);
-        if ("A".equals(viType)) {
-            //用户在线，调用发送接口
-            if (webSocketEndPoint != null) {
-                for (Map.Entry<String, Object> entry : visitorRecord.entrySet()) {
-                    if (entry.getValue() == null) {
-                        visitorRecord.put(entry.getKey(), "无");
-                    }
-                    msg.put(entry.getKey(), entry.getValue());
-                }
-                webSocketEndPoint.getSession().getAsyncRemote().sendText(msg.toJSONString());
-                saveMap.put("isReceive", "T");
-                Db.update(TableList.VISITOR_RECORD, saveMap);
-            } else {
-                boolean single = false;
-                //不在线发送推送给用户
-                String notification_title = "访客-访问提醒";
-                String msg_content = "【朋悦比邻】您好，您有一条预约访客申请已回复，请进入app查看!";
-                String isOnlineApp = BaseUtil.objToStr(userUser.get("isOnlineApp"), "F");
 
-//个推
-              //  single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
-//				shortMessageService.YMNotification(deviceToken,deviceType,notification_title,msg_content,isOnlineApp);
-                //个推不在线，短信推送
-                if (!single || "F".equals(isOnlineApp)) {
-                    CodeService.me.sendMsg(phone, 3, visitorResult, visitorBy, startDate, null);
-                }
-            }
-            //推送微信
-        } else if ("C".equals(viType)) {
 
-            if (wxMap.get("wxOpenId") == null || "".equals(wxMap.get("wxOpenId"))) {
-                //短信推送
-                CodeService.me.sendMsg(phone, 3, visitorResult, visitorBy, startDate, null);
-            } else {
-                //审核结果发送给访问者微信公众号
-                log.info("wxUrl=" + MainConfig.p.get("wxUrl"));
-                String s = HttpClientUtil.sendPost(MainConfig.p.get("wxUrl"), wxMap, "application/x-www-form-urlencoded");
-                //如果微信推送失败，则切换短信推送
-            }
-            //其他情况，短信推送
-        } else {
-            CodeService.me.sendMsg(phone, 3, visitorResult, visitorBy, startDate, null);
-        }
-    }
-*/
+
 
     public Result visitMyCompany(String userId, Integer pageNum, Integer pageSize) throws Exception {
         VDeptUser user = VDeptUser.dao.findById(userId);
@@ -1516,8 +1478,8 @@ public class VisitorRecordService extends MyBaseService {
 
 
     //审批车辆
-    public Result approvalCar(Long userId,Long carId,String status,String reason,String assignee) {
-        if (userId == null || carId ==null || status ==null) {
+    public Result approvalCar(Long userId,String status,String reason,String assignee,String carIds) {
+        if (userId == null || carIds ==null || status ==null) {
             return ResultData.unDataResult("fail", "缺少参数");
         }
 
@@ -1531,39 +1493,44 @@ public class VisitorRecordService extends MyBaseService {
         {
             return ResultData.unDataResult("fail", "没有车辆审批权限");
         }
+        boolean result = false;
+        boolean hasNext = false;
+        int userType = deptUserService.getUserType(vDeptUser, 1);
+        JSONArray carList = JSONArray.parseArray(carIds);
+        for(Object carId : carList) {
 
-        VCar car  =   VCar.dao.findById(carId);
-        if(car==null)
-        {
-            return ResultData.unDataResult("fail", "没有找到该记录");
+            VCar car = VCar.dao.findById(carId);
+            if (car == null) {
+                return ResultData.unDataResult("fail", "没有找到该记录");
+            }
+
+            boolean flag = "applySuccess".equals(status);
+            hasNext = VisitorProcess.approveCar(car.getProcessId(), flag, assignee, userType);
+            car.setCStatus(hasNext ? "applyConfirm" : status);
+
+            car.setReplyDate(DateUtil.getCurDate());
+            car.setReplyTime(DateUtil.getCurTime());
+            car.setReplyUserId(userId);
+            car.setApprovalDateTime(DateUtil.getSystemTime());
+            car.setApprovalUserId(userId);
+            car.setReason(reason);
+            result = car.update();
         }
 
-        int userType = deptUserService.getUserType(vDeptUser,1);
-        boolean flag = "applySuccess".equals(status);
-        boolean hasNext = VisitorProcess.approveCar(car.getProcessId(),flag,assignee,userType);
-        car.setCStatus(hasNext?"applyConfirm":status);
-
-        car.setReplyDate(DateUtil.getCurDate());
-        car.setReplyTime(DateUtil.getCurTime());
-        car.setReplyUserId(userId);
-        car.setApprovalDateTime(DateUtil.getSystemTime());
-        car.setApprovalUserId(userId);
-        car.setReason(reason);
-        boolean result = car.update();
-        if(result) {
-            HashMap<String,Object> resultMap = new HashMap<>();
+        if (result) {
+            HashMap<String, Object> resultMap = new HashMap<>();
             boolean isManage = false;
             //还需要审核的时候，获取到当前人员类型，如果是领导，那么返回type 给前端，让前端跳转到经办岗页面
-            resultMap.put("hasNext",hasNext);
-            if(hasNext && userType == 1)
-            {
-                    isManage =true;
+            resultMap.put("hasNext", hasNext);
+            if (hasNext && userType == 1) {
+                isManage = true;
             }
-            resultMap.put("isManage",isManage);
-            return ResultData.dataResult("success", "审批成功",resultMap);
-        }else{
+            resultMap.put("isManage", isManage);
+            return ResultData.dataResult("success", "审批成功", resultMap);
+        } else {
             return ResultData.unDataResult("fail", "审批失败");
         }
+
     }
 
 
