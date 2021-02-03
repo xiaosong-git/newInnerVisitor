@@ -42,8 +42,12 @@ public class VisitCarService {
         if (StringUtils.isNotBlank(visitDept)){
             whereSql.append(" and visitDept like concat('%','").append(visitDept).append("','%')");
         }
+//        if ("applyPass".equals(cStatus)){
+//            whereSql.append(" order by replyDate desc,replyTime desc ");
+//        }else {
+            whereSql.append(" order by visitDate desc,visitTime desc ");
+//        }
 
-        whereSql.append(" order by visitDate desc,visitTime desc ");
         return Db.paginate(currentPage, pageSize, "select c.id,userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime,c.cStatus", sql.append(whereSql).toString());
     }
 
