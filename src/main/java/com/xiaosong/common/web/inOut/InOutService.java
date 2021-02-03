@@ -12,13 +12,13 @@ public class InOutService {
 
     public static final InOutService me = new InOutService();
 
-    public Page<Record> findList(String userName,String userType,String inOrOut,String startDate, String endDate ,int currentPage, int pageSize){
+    public Page<Record> findList(String userName,String userType,String deptName,String startDate, String endDate ,String inOrOut,int currentPage, int pageSize){
 
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
-        sql.append(" from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName where 1=1");
+        sql.append(" from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName left join v_dept d on b.deptId = d.id where 1=1 ");
         if(userName!=null){
-            sql.append(" and userName = ?");
+            sql.append(" and a.userName like concat('%',?,'%')");
             objects.add(userName);
         }
         if(userType != null){
@@ -26,28 +26,35 @@ public class InOutService {
             objects.add(userType);
         }
 
-        if(inOrOut != null){
-            sql.append(" and inOrOut = ?");
-            objects.add(inOrOut);
+        if(deptName != null){
+            sql.append(" and d.dept_name like concat('%',?,'%')");
+            objects.add(deptName);
         }
         if(startDate != null){
-            sql.append(" and scanDate >= ?");
+            sql.append(" and a.scanDate >= ?");
             objects.add(startDate);
         }
+
         if(endDate != null){
-            sql.append(" and scanDate <= ?");
+            sql.append(" and a.scanDate <= ?");
             objects.add(endDate);
         }
-        sql.append(" order by id desc");
-        return Db.paginate(currentPage, pageSize, "select a.*,b.phone,b.cardNO,b.idNO,b.deptId ", sql.toString(),objects.toArray());
+
+        if(inOrOut != null){
+            sql.append(" and a.inOrOut = ?");
+            objects.add(inOrOut);
+        }
+
+        sql.append(" order by a.id desc");
+        return Db.paginate(currentPage, pageSize, "select scanDate,scanTime,a.userName,(case a.userType when 'staff' then '员工' when 'visitor' then '访客' end) userType,idNO,d.dept_name deptName,(case inOrOut when 'in' then '进' when 'out' then '出' end ) inOrOut,(case a.deviceType when 'FACE' then '人脸通行' when 'QRCODE' then '二维码通行' end) deviceType ", sql.toString(),objects.toArray());
     }
 
-    public List<Record> downReport(String userName,String userType,String inOrOut,String startDate, String endDate){
+    public List<Record> downReport(String userName,String userType,String deptName,String startDate, String endDate,String inOrOut){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
-        sql.append("select a.*,b.phone,b.cardNO,b.idNO,b.deptId from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName where 1=1");
+        sql.append("select scanDate,scanTime,a.userName,(case a.userType when 'staff' then '员工' when 'visitor' then '访客' end) userType,idNO,d.dept_name deptName,(case inOrOut when 'in' then '进' when 'out' then '出' end ) inOrOut,(case a.deviceType when 'FACE' then '人脸通行' when 'QRCODE' then '二维码通行' end) deviceType from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName left join v_dept d on b.deptId = d.id where 1=1 ");
         if(userName!=null){
-            sql.append(" and userName = ?");
+            sql.append(" and a.userName like concat('%',?,'%')");
             objects.add(userName);
         }
         if(userType != null){
@@ -55,23 +62,25 @@ public class InOutService {
             objects.add(userType);
         }
 
-        if(inOrOut != null){
-            sql.append(" and inOrOut = ?");
-            objects.add(inOrOut);
+        if(deptName != null){
+            sql.append(" and d.dept_name like concat('%',?,'%')");
+            objects.add(deptName);
         }
         if(startDate != null){
-            sql.append(" and scanDate >= ?");
+            sql.append(" and a.scanDate >= ?");
             objects.add(startDate);
         }
         if(endDate != null){
-            sql.append(" and scanDate <= ?");
+            sql.append(" and a.scanDate <= ?");
             objects.add(endDate);
         }
-        sql.append(" order by id desc");
 
-        List<Record> pagelist = Db.find(sql.toString(),objects.toArray());
-
-        return pagelist;
+        if(inOrOut != null){
+            sql.append(" and a.inOrOut = ?");
+            objects.add(inOrOut);
+        }
+        sql.append(" order by a.id desc");
+        return Db.find(sql.toString(),objects.toArray());
     }
 
 }

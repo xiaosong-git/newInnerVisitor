@@ -55,7 +55,7 @@ public class CarService {
 
         List<Object> objects = new LinkedList<>();
 
-        sql.append("select userName,visitName,plate,ifnull(c.num,0),c.idNO,u.realName,concat(replyDate,' ',replyTime) replayDate,(case cStatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end)cStatus,visitDept from v_car c left join v_dept_user u on u.id = c.replyUserId where c.id is not null ");
+        sql.append("select userName,visitName,plate,ifnull(c.num,0) num,c.idNO,u.realName,concat(replyDate,' ',replyTime) replayDate,(case cStatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end)cStatus,visitDept from v_car c left join v_dept_user u on u.id = c.replyUserId where c.id is not null ");
 
         if (userName != null) {
             sql.append("and userName like concat('%',?,'%') ");
