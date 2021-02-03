@@ -49,7 +49,7 @@ public class VisitCarController extends Controller {
             String endDate = get("endDate");
             String visitDept = get("visitDept");
 
-            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"), getPara("cStatus"),startDate,endDate,visitDept);
+            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
             for (Record record : visitCarList.getList()) {
@@ -172,21 +172,21 @@ public class VisitCarController extends Controller {
             String endDate = get("endDate");
             String visitDept = get("visitDept");
 
-            List<Record> visitCarList = visitCarService.downReport(getPara("plate"), getPara("cStatus"),startDate,endDate,visitDept);
+            List<Record> visitCarList = visitCarService.downReport(getPara("plate"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
             for (Record record : visitCarList) {
-                record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+                record.set("idNo", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo")));
             }
 
             if (visitCarList != null && visitCarList.size() > 0){
 
                 String systemTimeFourteen = com.xiaosong.util.DateUtil.getSystemTimeFourteen();
-                String[] fields = {"日期","被访者部门","通行入口","放行车辆总数"};
+                String[] fields = {"姓名","身份证号","被访人/邀约人姓名","被访人/邀约人单位","访问时间","车牌号","通行方式","出入口","经办人","审核时间"};
                 List<String> fieldsList = Arrays.asList(fields);
 
                 HSSFWorkbook workbook = new HSSFWorkbook();
-                HSSFSheet sheet = workbook.createSheet("来访车辆管理报表");
+                HSSFSheet sheet = workbook.createSheet("来访车辆放行报表");
 
                 //设置单元格行高，列宽
                 sheet.setDefaultRowHeightInPoints(18);
@@ -195,7 +195,7 @@ public class VisitCarController extends Controller {
                 //标题
                 HSSFRow rowTitle = sheet.createRow(0);
                 HSSFCell cell = rowTitle.createCell(0);
-                cell.setCellValue("来访车辆管理报表");
+                cell.setCellValue("来访车辆放行报表");
                 sheet.addMergedRegion( new CellRangeAddress(0,0,0,fields.length-1));
                 //设置表标题样式
                 HSSFCellStyle cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_CENTER, HSSFCellStyle.ALIGN_CENTER, HSSFColor.SKY_BLUE.index, "新宋体", (short) 12, true);
@@ -212,18 +212,29 @@ public class VisitCarController extends Controller {
                 cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_LEFT, HSSFCellStyle.ALIGN_CENTER, HSSFColor.WHITE.index, "新宋体", (short) 12, false);
                 for (Record record : visitCarList) {
                     row = sheet.createRow(index);
-                    //日期
-                    ExcelUtil.createCell(row,cellStyle,record.get("visitDate"),0);
-                    //被访者部门
-                    ExcelUtil.createCell(row,cellStyle,record.get("visitDept"),1);
-                    //通行车辆入口
-                    ExcelUtil.createCell(row,cellStyle,record.get("gate"),2);
-                    //放行车辆总数
-                    ExcelUtil.createCell(row,cellStyle,record.get("carNum").toString(),3);
-
+                    //姓名
+                    ExcelUtil.createCell(row,cellStyle,record.get("userName"),0);
+                    //身份证号
+                    ExcelUtil.createCell(row,cellStyle,record.get("idNo"),1);
+                    //被访人/邀约人姓名
+                    ExcelUtil.createCell(row,cellStyle,record.get("visitName"),2);
+                    //被访人/邀约人单位
+                    ExcelUtil.createCell(row,cellStyle,record.get("deptName"),3);
+                    //访问时间
+                    ExcelUtil.createCell(row,cellStyle,record.get("visitTime"),4);
+                    //车牌号
+                    ExcelUtil.createCell(row,cellStyle,record.get("plate"),5);
+                    //通行方式
+                    ExcelUtil.createCell(row,cellStyle,record.get("inOutType"),6);
+                    //出入口
+                    ExcelUtil.createCell(row,cellStyle,record.get("gate").toString(),7);
+                    //经办人
+                    ExcelUtil.createCell(row,cellStyle,record.get("replyUserName"),8);
+                    //审核时间
+                    ExcelUtil.createCell(row,cellStyle,record.get("replyTime"),9);
                     index++;
                 }
-                String fileName = String.format("来访车辆管理报表_%s.xls",systemTimeFourteen);
+                String fileName = String.format("来访车辆放行报表_%s.xls",systemTimeFourteen);
                 String fileNameUrl = Constant.BASE_DOWNLOAD_PATH;
                 File exportFile = new File(fileNameUrl);
                 File file = new File(exportFile,fileName);
