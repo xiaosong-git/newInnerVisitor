@@ -112,7 +112,7 @@ public class VisitCarService {
     }
 
     public List<Record> downReport(String plate, String cStatus, String startDate, String endDate, String visitDept){
-        StringBuilder sql = new StringBuilder("select userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime from v_car c left join v_dept_user du on c.replyUserId=du.id left join v_dept d on du.deptId = d.id  ");
+        StringBuilder sql = new StringBuilder("select  userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime from v_car c left join v_dept_user du on c.replyUserId=du.id left join v_dept d on du.deptId = d.id  ");
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if (StringUtils.isNotBlank(plate)) {
             whereSql.append(" and plate ='").append(plate).append("'");
