@@ -49,11 +49,11 @@ public class VisitCarController extends Controller {
             String endDate = get("endDate");
             String visitDept = get("visitDept");
 
-            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"),startDate,endDate,visitDept);
+            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"),getPara("cStatus"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
             for (Record record : visitCarList.getList()) {
-                record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+                record.set("idNo", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo")));
             }
 
             renderJson(RetUtil.okData(visitCarList));
@@ -172,7 +172,7 @@ public class VisitCarController extends Controller {
             String endDate = get("endDate");
             String visitDept = get("visitDept");
 
-            List<Record> visitCarList = visitCarService.downReport(getPara("plate"),startDate,endDate,visitDept);
+            List<Record> visitCarList = visitCarService.downReport(getPara("plate"),getPara("cStatus"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
             for (Record record : visitCarList) {

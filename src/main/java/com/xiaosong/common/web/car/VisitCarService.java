@@ -24,13 +24,15 @@ public class VisitCarService {
 
     public static final VisitCarService me = new VisitCarService();
 
-    public Page<Record> getVisitCarList(int currentPage, int pageSize, String plate, String startDate, String endDate, String visitDept) {
+    public Page<Record> getVisitCarList(int currentPage, int pageSize, String plate, String cStatus, String startDate, String endDate, String visitDept) {
         StringBuilder sql = new StringBuilder("  from v_car c left join v_dept_user du on c.replyUserId=du.id left join v_dept d on du.deptId = d.id  ");
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if (StringUtils.isNotBlank(plate)) {
             whereSql.append(" and plate ='").append(plate).append("'");
         }
-        if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
+        if (StringUtils.isNotBlank(cStatus)) {
+            whereSql.append(" and cStatus ='").append(cStatus).append("'");
+        }if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
             whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s')  between '").append(startDate).append("' and '").append(endDate).append("'");
         }else if (StringUtils.isNotBlank(startDate)&&StringUtils.isBlank(endDate)){
             whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s') >'").append(startDate).append("' ");
@@ -42,7 +44,7 @@ public class VisitCarService {
         }
 
         whereSql.append(" order by visitDate desc,visitTime desc ");
-        return Db.paginate(currentPage, pageSize, "select userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime,c.cStatus", sql.append(whereSql).toString());
+        return Db.paginate(currentPage, pageSize, "select userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime", sql.append(whereSql).toString());
     }
 
     public int auditVisitCar(Long userId, Long id, String cStatus) {
@@ -68,7 +70,7 @@ public class VisitCarService {
         }
         int update = Db.update("update v_car set cStatus='applyPass' where id=? and cStatus = 'applySuccess' ", id);
         if (update>0){
-           return RetUtil.ok();
+            return RetUtil.ok();
         }
         return RetUtil.fail();
     }
@@ -109,13 +111,15 @@ public class VisitCarService {
 
     }
 
-    public List<Record> downReport(String plate, String startDate, String endDate, String visitDept){
+    public List<Record> downReport(String plate, String cStatus, String startDate, String endDate, String visitDept){
         StringBuilder sql = new StringBuilder("select userName,c.idNo,visitName,dept_name deptName,concat(visitDate,'',visitTime) visitTime,plate,(case inOutType when 0 then '按次' when 1 then '按时' end) inOutType,gate,du.realName replyUserName,concat(replyDate,' ',replyTime) replyTime from v_car c left join v_dept_user du on c.replyUserId=du.id left join v_dept d on du.deptId = d.id  ");
         StringBuilder whereSql = new StringBuilder(" where 1=1 ");
         if (StringUtils.isNotBlank(plate)) {
             whereSql.append(" and plate ='").append(plate).append("'");
         }
-        if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
+        if (StringUtils.isNotBlank(cStatus)) {
+            whereSql.append(" and cStatus ='").append(cStatus).append("'");
+        }if (StringUtils.isNotBlank(startDate)&&StringUtils.isNotBlank(endDate)) {
             whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s')  between '").append(startDate).append("' and '").append(endDate).append("'");
         }else if (StringUtils.isNotBlank(startDate)&&StringUtils.isBlank(endDate)){
             whereSql.append(" and DATE_FORMAT(CONCAT(visitDate,\" \",visitTime),'%Y-%m-%d %H:%i:%s') >'").append(startDate).append("' ");
@@ -127,6 +131,6 @@ public class VisitCarService {
         }
 
         whereSql.append(" order by visitDate desc,visitTime desc ");
-        return Db.find(sql.append(whereSql).toString());
+        return Db.find( sql.append(whereSql).toString());
     }
 }
