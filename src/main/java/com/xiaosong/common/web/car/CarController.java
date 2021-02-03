@@ -119,7 +119,6 @@ public class CarController extends Controller {
                 }
                 String fileName = String.format("车辆大数据报表_%s.xls",systemTimeFourteen);
                 String fileNameUrl = Constant.BASE_DOWNLOAD_PATH;
-//                String fileNameUrl = "E:/newInnerVisitor/download/temp";
                 File exportFile = new File(fileNameUrl);
                 File file = new File(exportFile,fileName);
                 if(!exportFile.exists()){

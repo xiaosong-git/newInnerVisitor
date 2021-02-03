@@ -130,8 +130,7 @@ public class VisitorsController extends Controller{
 					index++;
 				}
 				String fileName = String.format("访客大数据报表_%s.xls",systemTimeFourteen);
-//				String fileNameUrl = Constant.BASE_DOWNLOAD_PATH;
-                String fileNameUrl = "E:/newInnerVisitor/download/temp";
+				String fileNameUrl = Constant.BASE_DOWNLOAD_PATH;
 				File exportFile = new File(fileNameUrl);
 				File file = new File(exportFile,fileName);
 				if(!exportFile.exists()){
