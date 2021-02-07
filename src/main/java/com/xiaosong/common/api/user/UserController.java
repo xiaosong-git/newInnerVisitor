@@ -47,16 +47,16 @@ public class UserController  extends Controller {
                 return;
             }else if(token!=null) {
 
-                renderText(JSON.toJSONString(userService.loginByVerifyCode(token)));
+                //renderText(JSON.toJSONString(userService.loginByVerifyCode(token)));
                 //根据token获取用信息
-              /*  String userInfo =srv.getUserInfoSync(token);
+                String userInfo =srv.getUserInfoSync(token);
                 JSONObject userJSON = JSONObject.parseObject(userInfo);
                 if (userJSON != null) {
                     Result result =  userService.loginByToken(deptUser, userJSON);
                     renderText(JSON.toJSONString(result));
                 } else {
                    throw new Exception("无效的token:"+token);
-                }*/
+                }
             }
             else {
                 renderText(JSON.toJSONString(userService.login(deptUser,get("sysPwd"),getInt("style"))) );

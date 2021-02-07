@@ -3,6 +3,7 @@ package com.xiaosong.common.web.car;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.xiaosong.common.api.code.CodeMsg;
 import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VCar;
@@ -54,8 +55,16 @@ public class VisitCarService {
     public int auditVisitCar(Long userId, Long id, String cStatus) {
         String replyDate = DateUtil.getCurDate();
         String replyTime = DateUtil.getCurTime();
-        return Db.update("update v_car set cStatus=?, replyUserId=?, replyDate=?, replyTime=? where id=?  ",
+        int result= Db.update("update v_car set cStatus=?, replyUserId=?, replyDate=?, replyTime=? where id=?  ",
                 cStatus, userId, replyDate, replyTime, id);
+        VCar vCar = VCar.dao.findById(id);
+        if(vCar!=null) {
+            VDeptUser deptUser = VDeptUser.dao.findFirst("select * from v_dept_user where id=?", vCar.getVisitId());
+            if (deptUser != null && deptUser._getAttrNames().length > 0) {
+                CodeService.me.pushMsg(deptUser, CodeMsg.MSG_CAR_NOPASS);
+            }
+        }
+        return result;
     }
 
     public RetUtil passVisitCar(Long id) {
@@ -66,10 +75,10 @@ public class VisitCarService {
             }else if (!"applySuccess".equals(vCar.getStr("cStatus"))){
                 return RetUtil.fail("未审核，请审核后放行！");
             }
-            Long intervieweeId = vCar.getLong("intervieweeId");
-            VDeptUser deptUser = VDeptUser.dao.findFirst("select * from v_dept_user where id=?", intervieweeId);
+
+            VDeptUser deptUser = VDeptUser.dao.findFirst("select * from v_dept_user where id=?", vCar.getVisitId());
             if (deptUser!=null&&deptUser._getAttrNames().length>0){
-                CodeService.me.pushMsg(deptUser, 5, null, null, vCar.getStartDate(), vCar.getUserName());
+                CodeService.me.pushMsg(deptUser, CodeMsg.MSG_CAR_PASS);
             }
         }
         int update = Db.update("update v_car set cStatus='applyPass' where id=? and cStatus = 'applySuccess' ", id);

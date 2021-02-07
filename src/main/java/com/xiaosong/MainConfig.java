@@ -193,11 +193,13 @@ public class MainConfig extends JFinalConfig {
 			me.add(redisPlugin).add(db1).add(db2).add(db3);
 		}
 
+		ActivitiPlugin ap = new ActivitiPlugin();
+		me.add(ap);
+
 		Cron4jPlugin cron4jPlugin = new Cron4jPlugin("cron-config.txt","cron4j");
 		me.add(cron4jPlugin);
 
-		ActivitiPlugin ap = new ActivitiPlugin();
-		me.add(ap);
+
 
 	}
 	

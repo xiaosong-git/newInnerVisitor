@@ -185,6 +185,23 @@ public class VisitorRecordService extends MyBaseService {
                 visitorRecord.setReplyUserId(userId);
                 visitorRecord.setCstatus(status);
                 boolean result = visitorRecord.update();
+
+                if(hasNext && StringUtils.isNotEmpty(assignee))
+                {
+                    VDeptUser assigneeUser = VDeptUser.dao.findById(assignee);
+                    CodeService.me.pushMsg(assigneeUser, CodeMsg.MSG_CAR_APPROVE);
+                }
+                else if(!hasNext)
+                {
+                    VDeptUser visitor = VDeptUser.dao.findById(vVisitorRecord.getUserId());
+                    String content = CodeMsg.MSG_VISITOR_NOPASS;
+                    if("applySuccess".equals(status)){
+                        content =  CodeMsg.MSG_VISITOR_PASS;
+                    }
+                    CodeService.me.pushMsg(visitor, content);
+                }
+
+
 //                //随行人员同时更新
 //                List<VVisitorRecord> entourages = VVisitorRecord.dao.find("select * from "+TableList.VISITOR_RECORD+" where pid =?",visitorRecord.getId());
 //                for(VVisitorRecord record : entourages)
@@ -457,7 +474,8 @@ public class VisitorRecordService extends MyBaseService {
             WebSocketVisitor.me.sendReceiveVisitMsg(visitUser.getIdNO(),visitUser.getRealName(),startDate,endDate,"applyConfirm");
 
             if ("F".equals(isOnlineApp)) {
-                CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, userName);
+                CodeService.me.pushMsg(visitorBy, CodeMsg.MSG_STAFF_APPROVE);
+                //CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, userName);
                 log.info(visitorByName + "：发送短信推送成功");
             } else {
                // boolean single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
@@ -1515,6 +1533,11 @@ public class VisitorRecordService extends MyBaseService {
             car.setApprovalUserId(userId);
             car.setReason(reason);
             result = car.update();
+            if("applyFail".equals(status))
+            {
+                VDeptUser visitor = VDeptUser.dao.findById(car.getVisitId());
+                CodeService.me.pushMsg(visitor, CodeMsg.MSG_CAR_APPROVE_NOPASS);
+            }
         }
 
         if (result) {
@@ -1526,6 +1549,12 @@ public class VisitorRecordService extends MyBaseService {
                 isManage = true;
             }
             resultMap.put("isManage", isManage);
+
+            if(hasNext && StringUtils.isNotEmpty(assignee))
+            {
+                VDeptUser assigneeUser = VDeptUser.dao.findById(assignee);
+                CodeService.me.pushMsg(assigneeUser, CodeMsg.MSG_CAR_APPROVE);
+            }
             return ResultData.dataResult("success", "审批成功", resultMap);
         } else {
             return ResultData.unDataResult("fail", "审批失败");
@@ -1795,3 +1824,6 @@ public class VisitorRecordService extends MyBaseService {
 
 
 }
+
+
+
