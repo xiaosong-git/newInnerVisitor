@@ -45,4 +45,22 @@ public abstract class BaseVTemp<M extends BaseVTemp<M>> extends Model<M> impleme
 		return getStr("phone");
 	}
 
+	public M setCardType(java.lang.String cardType) {
+		set("cardType", cardType);
+		return (M)this;
+	}
+	
+	public java.lang.String getCardType() {
+		return getStr("cardType");
+	}
+
+	public M setCreateTime(java.lang.String createTime) {
+		set("createTime", createTime);
+		return (M)this;
+	}
+	
+	public java.lang.String getCreateTime() {
+		return getStr("createTime");
+	}
+
 }

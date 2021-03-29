@@ -475,7 +475,7 @@ public class VisitorRecordService extends MyBaseService {
 
             if ("F".equals(isOnlineApp)) {
                 CodeService.me.pushMsg(visitorBy, CodeMsg.MSG_STAFF_APPROVE);
-                //CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, userName);
+//                CodeService.me.pushMsg(visitorBy, 5, null, null, startDate, userName);
                 log.info(visitorByName + "：发送短信推送成功");
             } else {
                // boolean single = GTNotification.Single(deviceToken, phone, notification_title, msg_content, msg_content);
