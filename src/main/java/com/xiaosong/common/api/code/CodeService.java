@@ -1,8 +1,11 @@
 package com.xiaosong.common.api.code;
 
+import com.jfinal.log.Log;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaosong.common.api.deptUser.DeptUserService;
 import com.xiaosong.compose.Result;
 import com.xiaosong.model.TblSms;
+import com.xiaosong.model.TblSmsTemplate;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
@@ -18,7 +21,7 @@ import java.util.Date;
  **/
 public class CodeService {
     public static final CodeService me = new CodeService();
-
+    Log log=Log.getLog(CodeService.class);
     //验证验证码
     public Boolean verifyCode(String phone, String code, Integer type) {
         if (
@@ -87,8 +90,10 @@ public class CodeService {
     public void pushMsg(String registrationId, String appType, String phone, String content) {
         boolean single = GTNotification.Single(registrationId, appType, content);
         //推送失败发送短信验证
+        //todo 改为从数据库获取模板
         if (!single) {
             YunPainSmsUtil.sendMsg(content, phone);
+            //            sendMsg(vDeptUser.getPhone(),sign);
         }
     }
 
@@ -100,11 +105,38 @@ public class CodeService {
         }
         boolean single = GTNotification.Single(vDeptUser.getRegistrationId(), vDeptUser.getAppType(), content);
         //推送失败发送短信验证
+        //todo 改为从数据库获取模板
+
         if (!single) {
             YunPainSmsUtil.sendMsg(content, vDeptUser.getPhone());
+//            sendMsg(vDeptUser.getPhone(),sign);
         }
     }
-
+    public void sendMsg(String phone,String sign)  {
+        String smsType = ParamService.me.findValueByName("smsType");
+        String sendMsg = null;
+        TblSmsTemplate smsTemplate = TblSmsTemplate.dao.findFirst("select * from tbl_sms_template where sign=?", sign);
+        if ("1".equals(smsType) ) {
+            sendMsg = YunPainSmsUtil.sendMsg(smsTemplate.getContent(), phone);
+        } else {
+            try {
+                sendMsg = AliSMS.sendMsg(smsTemplate.getCode(), phone);
+            } catch (Exception e) {
+                log.error("发送阿里短信报错：",e);
+            }
+        }
+        TblSms tblSms = new TblSms();
+        tblSms.setUser("jx")
+                .setContent(CodeMsg.MSG_VISITOR_PASS)
+                .setDate(DateUtil.getCurDate())
+                .setTime(DateUtil.getCurTime())
+                .setType(Integer.parseInt(smsType));
+        if ("0000".equals(sendMsg)) {
+            tblSms.setStatus(0).save();
+        }else{
+            tblSms.setStatus(1).save();
+        }
+    }
     public Object testCode(String phone) throws Exception {
         String smsType = ParamService.me.findValueByName("smsType");
         String sendMsg;
@@ -115,7 +147,7 @@ public class CodeService {
         }
         if ("0000".equals(sendMsg)) {
             TblSms tblSms = new TblSms();
-            boolean js= tblSms.setUser("江西")
+            boolean js= tblSms.setUser("jx")
                     .setContent(CodeMsg.MSG_VISITOR_PASS)
                     .setDate(DateUtil.getCurDate())
                     .setTime(DateUtil.getCurTime())

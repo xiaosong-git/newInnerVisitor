@@ -37,36 +37,45 @@ public final class AliSMS {
 
         client = new Client(config);
     }
+
     private Client getClient() throws Exception {
         if (client == null) {
             setClient();
         }
         return client;
     }
-
-    public static String sendMsg(String content,String mobile) throws Exception {
-
-        String templateCode = CodeMsg.MAP.get(content);
+    //有参数
+    public static String sendMsg(String templateCode, String mobile,String templateParam) throws Exception {
         SendSmsRequest sendSmsRequest = new SendSmsRequest()
-                .setPhoneNumbers(mobile)
                 .setSignName("朋悦比邻")
+                .setPhoneNumbers(mobile)
+                .setTemplateCode(templateCode)
+                .setTemplateParam(templateParam);
+        return returnMsg(sendSmsRequest);
+    }
+    //无参数
+    public static String sendMsg(String templateCode, String mobile) throws Exception {
+        SendSmsRequest sendSmsRequest = new SendSmsRequest()
+                .setSignName("朋悦比邻")
+                .setPhoneNumbers(mobile)
                 .setTemplateCode(templateCode);
+        return returnMsg(sendSmsRequest);
+    }
+    public static String returnMsg(SendSmsRequest sendSmsRequest) throws Exception {
         AliSMS instance = AliSMS.getInstance();
-
         Client client = instance.getClient();
         SendSmsResponse sendSmsResponse = client.sendSms(sendSmsRequest);
         String code = sendSmsResponse.body.code;
         System.out.println(new Gson().toJson(sendSmsResponse));
-        if ("ok".equals(code)){
+        if ("ok".equals(code)) {
             return "0000";
-        }  else{
+        } else {
 
             return "9999";
         }
     }
-
     public static void main(String[] args_) throws Exception {
-        sendMsg(" 您有一条人员访客通行申请待审核，请及时处理！","18150797748");
+        sendMsg("SMS_213742612", "18150797748");
 //        java.util.List<String> args = java.util.Arrays.asList(args_);
 //        AliSMS instance = AliSMS.getInstance();
 //
