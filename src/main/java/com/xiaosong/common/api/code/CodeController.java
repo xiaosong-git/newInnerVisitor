@@ -35,6 +35,18 @@ public class CodeController extends Controller {
         renderText(JSON.toJSONString(codeService.sendMsg(phone,type,null,null,null,null), SerializerFeature.WriteNullStringAsEmpty));
     }
 
+    public  void testCode(){
 
+        String phone = get("phone");
+        if (phone==null){
+            phone= getAttrForStr("phone");
+        }
+
+        try {
+            renderText(JSON.toJSONString(codeService.testCode(phone), SerializerFeature.WriteNullStringAsEmpty));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

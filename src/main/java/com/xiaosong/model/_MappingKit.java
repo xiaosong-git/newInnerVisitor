@@ -18,6 +18,8 @@ public class _MappingKit {
 	public static void mapping(ActiveRecordPlugin arp) {
 		arp.addMapping("tbl_access", "id", TblAccess.class);
 		arp.addMapping("tbl_access_dept", "id", TblAccessDept.class);
+		arp.addMapping("tbl_sms", "id", TblSms.class);
+		arp.addMapping("tbl_sms_template", "id", TblSmsTemplate.class);
 		arp.addMapping("v_ad_banner", "id", VAdBanner.class);
 		arp.addMapping("v_app_checkindate", "id", VAppCheckindate.class);
 		arp.addMapping("v_app_checkintime", "id", VAppCheckintime.class);
