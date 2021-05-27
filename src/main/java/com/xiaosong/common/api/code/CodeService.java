@@ -99,14 +99,19 @@ public class CodeService {
 
     //推送消息
     public void pushMsg(VDeptUser vDeptUser, String content) {
-        if(vDeptUser ==null)
+
+        try {
+            if (vDeptUser == null) {
+                return;
+            }
+            boolean single = GTNotification.Single(vDeptUser.getRegistrationId(), vDeptUser.getAppType(), content);
+            //推送失败发送短信验证
+            if (!single) {
+                YunPainSmsUtil.sendMsg(content, vDeptUser.getPhone());
+            }
+        }catch (Exception ex)
         {
-            return;
-        }
-        boolean single = GTNotification.Single(vDeptUser.getRegistrationId(),vDeptUser.getAppType(), content);
-        //推送失败发送短信验证
-        if(!single) {
-            YunPainSmsUtil.sendMsg(content, vDeptUser.getPhone());
+            ex.fillInStackTrace();
         }
     }
 }

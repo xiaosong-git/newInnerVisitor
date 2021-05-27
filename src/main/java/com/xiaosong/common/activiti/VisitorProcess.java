@@ -99,7 +99,7 @@ public class VisitorProcess {
      * @param flag      审批结果
      * @param userId    审批人ID
      */
-    public static boolean approve(String processId, boolean flag, String userId,Integer userType) {
+    public static boolean approve(String processId, boolean flag, String assignee,Integer userType,String userId) {
 
         userType = userType==null?0:userType;
         //部署一个流程
@@ -113,10 +113,10 @@ public class VisitorProcess {
             Map<String, Object> map1 = new HashMap<>();
             //用来判断当前流程是否通过，流程图中定义的判断条件  flag
             map1.put("flag", flag);
-            map1.put("assignee", userId);
+            map1.put("assignee", assignee);
             map1.put("userType",userType);
             //完成当前节点任务，flag值用于进行判断,如果委托人为空那么就是还没有指定，任务未完成
-            if(userId!=null || !flag || userType ==1) {
+            if((assignee!=null || !flag || userType ==1 )&&(userId.equals(task1.getAssignee()))) {
                 taskService.complete(task1.getId(), map1);
             }
         }
@@ -133,8 +133,9 @@ public class VisitorProcess {
      * @param processId 流程ID
      * @param flag      审批结果
      * @param userId    审批人ID
+     *                  assignee 委托人
      */
-    public static boolean approveCar(String processId, boolean flag, String userId,Integer userType) {
+    public static boolean approveCar(String processId, boolean flag, String assignee,Integer userType,String userId) {
         userType = userType==null?0:userType;
         //部署一个流程
         ProcessEngine engine = ProcessEngines.getDefaultProcessEngine();
@@ -147,10 +148,10 @@ public class VisitorProcess {
             Map<String, Object> map1 = new HashMap<>();
             //用来判断当前流程是否通过，流程图中定义的判断条件  flag
             map1.put("flag", flag);
-            map1.put("assignee", userId);
+            map1.put("assignee", assignee);
             map1.put("userType",userType);
             //完成当前节点任务，flag值用于进行判断,如果委托人为空那么就是还没有指定，任务未完成
-            if(userId!=null || !flag || userType ==2) {
+            if((assignee!=null || !flag || userType ==2) &&(userId.equals(task1.getAssignee()))){
                 taskService.complete(task1.getId(), map1);
             }
         }

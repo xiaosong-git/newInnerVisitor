@@ -47,8 +47,8 @@ public class UserController  extends Controller {
                 return;
             }else if(token!=null) {
 
-                //renderText(JSON.toJSONString(userService.loginByVerifyCode(token)));
-                //根据token获取用信息
+//                renderText(JSON.toJSONString(userService.loginByVerifyCode(token)));
+//                根据token获取用信息
                 String userInfo =srv.getUserInfoSync(token);
                 JSONObject userJSON = JSONObject.parseObject(userInfo);
                 if (userJSON != null) {

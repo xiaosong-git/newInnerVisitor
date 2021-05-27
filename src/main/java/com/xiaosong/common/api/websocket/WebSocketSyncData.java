@@ -167,7 +167,7 @@ public class WebSocketSyncData {
             }
             WebSocketSyncData item = webSocketSet.get(k);
             try {
-                String sql ="select  b.dept_name,b.addr,a.isAuth,a.activeDate,a.expiryDate,a.id,a.realName,a.idHandleImgUrl,a.idNO,floor,org_code,org_name,currentStatus,cardNO,userType from v_dept_user a left join v_dept  b on a.deptId = b.id LEFT join v_org c on b.org_id = c.id left join v_sync d on a.id = d.relationId and d.type='staff' and d.pospCode ='"+k+"'  where IFNULL(userType,'') ='staff'  and IFNULL(d.isReceive,'')!= 'T'";
+                String sql ="select  b.dept_name,if(IFNULL(a.addr,b.addr)='',b.addr,a.addr) addr,a.isAuth,a.activeDate,a.expiryDate,a.id,a.realName,a.idHandleImgUrl,a.idNO,floor,org_code,org_name,currentStatus,cardNO,userType from v_dept_user a left join v_dept  b on a.deptId = b.id LEFT join v_org c on b.org_id = c.id left join v_sync d on a.id = d.relationId and d.type='staff' and d.pospCode ='"+k+"'  where IFNULL(userType,'') ='staff'  and IFNULL(d.isReceive,'')!= 'T'";
                 SqlPara sqlPara = new SqlPara();
                 sqlPara.setSql(sql);
                 Page<Record> pageList =   Db.paginate(1,5,sqlPara);

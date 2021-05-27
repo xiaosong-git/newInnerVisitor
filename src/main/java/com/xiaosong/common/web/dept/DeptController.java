@@ -49,14 +49,14 @@ public class DeptController extends Controller{
 		String floor = getPara("floor");
 		String manageName = getPara("realName");
 		String phone = getPara("phone");
-		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
-		if(first==null){
-			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
-			return;
-		}
+//		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
+//		if(first==null){
+//			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
+//			return;
+//		}
 		Long[] accessIds = getParaValuesToLong("accessIds[]");
 		VDept dept = getModel(VDept.class);
-		dept.setManageUserId(first.getId());
+		//dept.setManageUserId(first.getId());
 
 		dept.setDeptName(deptName);
 		dept.setOrgId(orgId);
@@ -80,11 +80,11 @@ public class DeptController extends Controller{
 		String floor = getPara("floor");
 		String manageName = getPara("realName");
 		String phone = getPara("phone");
-		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
-		if(first==null){
-			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
-			return;
-		}
+//		VDeptUser first = VDeptUser.dao.findFirst("select * from v_dept_user where realName=? and phone=? ", manageName, phone);
+//		if(first==null){
+//			renderJson(RetUtil.fail("该部门管理员不存在！请输入正确的姓名与手机号"));
+//			return;
+//		}
 		Long[] accessIds = getParaValuesToLong("accessIds[]");
 		VDept dept = getModel(VDept.class);
 		dept.setDeptName(deptName);

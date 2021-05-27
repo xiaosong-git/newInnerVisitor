@@ -11,6 +11,7 @@ import com.xiaosong.common.web.appMenu.AppMenuService;
 import com.xiaosong.common.web.sysConfig.SysConfigController;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.ErrorCodeDef;
+import com.xiaosong.model.VDept;
 import com.xiaosong.util.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +49,27 @@ public class VisitorsController extends Controller{
 			int pageNum = getInt("pageNum");
 			int pageSize = getInt("pageSize");
 			Page<Record> pagelist = srv.findList(userName, visitName, startTime, endTime, visitDept,pageNum,pageSize);
+
+			List<VDept> depts = VDept.dao.findAll();
+
+			for (Record record : pagelist.getList()) {
+
+				Long deptId = record.getLong("deptId");
+
+				if(deptId!=null)
+				{
+					for(VDept vDept : depts) {
+						if (deptId.equals(vDept.getId()))
+						{
+							record.set("visitDept",vDept.getDeptName());
+							break;
+						}
+					}
+				}
+
+			}
+
+
 			renderJson(RetUtil.okData(pagelist));
 		} catch (Exception e) {
 			log.error("错误信息：", e);

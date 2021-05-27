@@ -26,28 +26,16 @@ public class AuthUtil {
      //   JSONArray jsonArray  = result.getJSONArray("data");
 
         //System.out.print(result.toJSONString());
-        //JSONObject result2 = fk2("500382198510163172","祖映兵");
-       //System.out.print(result2.toJSONString());
+        JSONObject result2 = fk2("500382198510163173","祖映兵");
+        System.out.print(result2.toJSONString());
 
 
-
-//       String idcard = "FC268D412AAE08E79D6F99258BCEE426565D31147CEF894B";
+//        JSONObject result2 = yhk("350128198901124018","陈乃亮","6226631704274118","15005089512");
+//        System.out.print(result2.toJSONString());
+//
+//       String idcard = "F39A27843EB5426502F323BD0F85D51BB878422DD6D94DE6";
 //        String idNo = DESUtil.decode("iB4drRzSrC", idcard);
 //        System.out.print(idNo);
-
-        String data= "2021-01-01 11:11:22";
-        String startDate = data.substring(11,16);
-        System.out.print(startDate);
-        try{
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            sdf.parse(data);
-        }
-        catch (ParseException ex)
-        {
-            System.out.print("日期格式不正确!");
-        }
-
     }
 
     public static JSONObject auth(String idNO, String realName, String idHandleImgUrl) throws Exception {
@@ -291,6 +279,53 @@ public class AuthUtil {
         Request request = new Request.Builder()
                 //.url("http://127.0.0.1:8882/wisdom-new/entrance/pub")
                 .url("http://47.99.209.40:8082/wisdom/entrance/pub")
+                .method("POST", body1)
+                .addHeader("Content-Type", "application/json;charset=utf-8")
+                .build();
+        Response response = null;
+        JSONObject returnObject = new JSONObject();
+        try {
+            response = client.newCall(request).execute();
+            string = response.body().string();
+            // 解密响应数据
+            returnObject= JSONObject.parseObject(string);
+            return returnObject;
+        } catch (IOException e) {
+            e.printStackTrace();
+            returnObject.put("msg","系统错误");
+            returnObject.put("code","-1");
+            return returnObject;
+        }
+    }
+
+
+    public static JSONObject yhk(String idNO, String realName,String card,String mobile) throws Exception {
+        String key="9dd72e1a4c5c4db29fe9f47e40e34e7e";
+        String custid ="1000000014";
+        String productcode ="000013";
+
+        String string= String.valueOf(System.currentTimeMillis())+new Random().nextInt(10);
+        JSONObject itemJSONObj =new JSONObject();
+        itemJSONObj.put("custid", custid);//账号
+        itemJSONObj.put("productcode", productcode);//业务编码
+        itemJSONObj.put("serialno", string);//流水号
+
+        StringBuilder sb=new StringBuilder();
+        sb.append(custid).append(productcode).append(string).append(key);
+        String newSign = MD5Util.MD5Encode(sb.toString(),"UTF-8");
+
+        itemJSONObj.put("mac", newSign);//随机状态码   --验证签名  商户号+订单号+时间+产品编码+秘钥
+        itemJSONObj.put("idname", realName);
+        itemJSONObj.put("idcard", idNO);
+        itemJSONObj.put("bankcard",card);
+        itemJSONObj.put("mobile",mobile);
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body1 = RequestBody.create(mediaType, JSON.toJSONString(itemJSONObj));
+        Request request = new Request.Builder()
+                //.url("http://127.0.0.1:8882/wisdom-new/entrance/pub")
+                .url("http://t.pyblkj.cn:8082/wisdom/entrance/pub")
                 .method("POST", body1)
                 .addHeader("Content-Type", "application/json;charset=utf-8")
                 .build();

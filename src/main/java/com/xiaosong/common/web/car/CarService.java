@@ -16,7 +16,7 @@ public class CarService {
 
         List<Object> objects = new LinkedList<>();
 
-        sql.append("from v_car c left join v_dept_user u on u.id = c.replyUserId where c.id is not null ");
+        sql.append("from v_car c   left join v_dept_user ru on ru.id = c.replyUserId left join v_dept_user u on u.id = c.approvalUserId left join v_dept_user vu on vu.id =c.visitId where c.id is not null ");
 
         if (userName != null) {
             sql.append("and userName like concat('%',?,'%') ");
@@ -47,7 +47,7 @@ public class CarService {
 
         sql.append(" order by c.id desc");
 
-        return Db.paginate(pageNum,pageSize,"select userName,visitName,plate,c.num,c.idNO,u.realName,concat(replyDate,' ',replyTime) replayDate,(case cStatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end)cStatus,visitDept ",sql.toString(),objects.toArray());
+        return Db.paginate(pageNum,pageSize,"select c.entourages,vu.phone,userName,visitName,plate,c.num,c.idNO,u.realName,ru.realName replyUser,concat(replyDate,' ',replyTime) replayDate,(case cStatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' when 'applyPass' then '已放行' end)cStatus,visitDept ",sql.toString(),objects.toArray());
     }
 
     public List<Record> downReport(String userName, String visitName, String plate, String startTime, String endTime, String visitDept) {
@@ -55,7 +55,7 @@ public class CarService {
 
         List<Object> objects = new LinkedList<>();
 
-        sql.append("select userName,visitName,plate,ifnull(c.num,0) num,c.idNO,u.realName,concat(replyDate,' ',replyTime) replayDate,(case cStatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end)cStatus,visitDept from v_car c left join v_dept_user u on u.id = c.replyUserId where c.id is not null ");
+        sql.append("select  c.entourages,vu.phone,userName,visitName,plate,ifnull(c.num,0) num,c.idNO,u.realName,ru.realName replyUser,concat(replyDate,' ',replyTime) replayDate,(case cStatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问'  when 'applyPass' then '已放行' end)cStatus,visitDept from v_car c left join v_dept_user ru on ru.id = c.replyUserId left join v_dept_user u on u.id = c.approvalUserId   left join v_dept_user vu on vu.id = c.visitId where c.id is not null ");
 
         if (userName != null) {
             sql.append("and userName like concat('%',?,'%') ");

@@ -52,46 +52,46 @@ public class YunPainSmsUtil {
 
     public static Integer MSG_TYPE_WELCOME = 1;//其他
 
-    public static String CHECK_CODE_WELCOME = "【朋悦比邻】欢迎使用，您的手机验证码是code。本条信息无需回复";
+    public static String CHECK_CODE_WELCOME = "欢迎使用，您的手机验证码是code。本条信息无需回复";
 
     public static Integer MSG_TYPE_LIMIT = 2;//输入密码多次错误
 
-    public static String CHECK_CODE_LIMIT = "【朋悦比邻】尊敬的用户，由于date您账号为phone连续limit次错误输入登录密码，请确认是否为本人操作。";
+    public static String CHECK_CODE_LIMIT = "尊敬的用户，由于date您账号为phone连续limit次错误输入登录密码，请确认是否为本人操作。";
 
     public static Integer MSG_TYPE_VISITORBY = 3;//访客
 
-    public static String CHECK_CODE_VISITORBY = "【朋悦比邻】您好，您有一条预约访客申请已审核，审核结果：visitorResult，被访者:visitorBy,访问时间:visitorDateTime";
+    public static String CHECK_CODE_VISITORBY = "您好，您有一条预约访客申请已审核，审核结果：visitorResult，被访者:visitorBy,访问时间:visitorDateTime";
 
     public static Integer MSG_TYPE_VISITOR = 4;//审核
 
-    public static String CHECK_CODE_VISITOR = "【朋悦比邻】您好，您有一条预约访客需审核，访问者:visitor1，被访者:visitorBy,访问时间:visitorDateTime";
+    public static String CHECK_CODE_VISITOR = "您好，您有一条预约访客需审核，访问者:visitor1，被访者:visitorBy,访问时间:visitorDateTime";
 
     public static Integer MSG_TYPE_VERIFY = 5;//被访者
 
-    public static String CHECK_CODE_VERIFY = "【朋悦比邻】您好，您有一条预约访客需审核，访问者:visitor1,访问时间:visitorDateTime，请尽快到江西机关事务APP完成审核";
+    public static String CHECK_CODE_VERIFY = "您好，您有一条预约访客需审核，访问者:visitor1,访问时间:visitorDateTime，请尽快到江西机关事务APP完成审核";
 
     public static Integer MSG_TYPE_INVITE = 6;//邀请
 
-    public static String CHECK_CODE_INVITE = "【朋悦比邻】visitorBy，您好，accName请您于visitorDateTime —— endDateTime到:companyAddr进行访谈\n";
+    public static String CHECK_CODE_INVITE = "visitorBy，您好，accName请您于visitorDateTime —— endDateTime到:companyAddr进行访谈\n";
 
     public static Integer MSG_TYPE_VISITORBY_QRCODE = 7;//访客
 
-    public static String CHECK_CODE_VISITORBY_QRCODE = "【朋悦比邻】您好，您有一条访客预约申请已审核，被访者:#visitorBy#,访问时间:#visitorDateTime#，审核结果：#visitorResult#，请您在访问时间内进出";
+    public static String CHECK_CODE_VISITORBY_QRCODE = "您好，您有一条访客预约申请已审核，被访者:#visitorBy#,访问时间:#visitorDateTime#，审核结果：#visitorResult#，请您在访问时间内进出";
 
 
     public static Integer MSG_TYPE_ENTOURAGE_NOAUTH = 8;//随行人员
 
-    public static String CHECK_CODE_ENTOURAGE_NOAUTH  = "【朋悦比邻】您好，您有一条访客随行预约记录，访问者:visitor1,访问时间:visitorDateTime,请尽快到江西机关事务APP，完成实人认证";
+    public static String CHECK_CODE_ENTOURAGE_NOAUTH  = "您好，您有一条访客随行预约记录，访问者:visitor1,访问时间:visitorDateTime,请尽快到江西机关事务APP，完成实人认证";
 
 
     public static Integer MSG_TYPE_ENTOURAGE_AUTH =9;//随行人员
 
-    public static String CHECK_CODE_ENTOURAGE_AUTH  = "【朋悦比邻】您好，您有一条访客随行预约记录，访问者:visitor1,访问时间:visitorDateTime";
+    public static String CHECK_CODE_ENTOURAGE_AUTH  = "您好，您有一条访客随行预约记录，访问者:visitor1,访问时间:visitorDateTime";
 
 
     public static Integer MSG_DEVICE_ERROR =10;//随行人员
 
-    public static String CHECK_CODE_DEVICE_ERROR  = "【朋悦比邻】以下设备#errorDevices#有异常，请及时查看";
+    public static String CHECK_CODE_DEVICE_ERROR  = "以下设备#errorDevices#有异常，请及时查看";
 
 
 
@@ -162,7 +162,7 @@ public class YunPainSmsUtil {
             msg= msg.replace("visitor1", visitor);
             content= msg.replace("visitorDateTime", visitorDateTime);
         }else if(MSG_TYPE_INVITE==type){
-//            "【朋悦比邻】visitorBy，您好，companyName的accName邀请您于visitorDateTime —— endDateTime到:companyAddr进行访谈，同意请点击：#url\n";
+//            "visitorBy，您好，companyName的accName邀请您于visitorDateTime —— endDateTime到:companyAddr进行访谈，同意请点击：#url\n";
 
             msg = CHECK_CODE_INVITE;
             msg= msg.replace("accName", visitor);
@@ -386,7 +386,7 @@ public class YunPainSmsUtil {
 
 //         Map<String, String> params = new HashMap<String, String>();
 //         params.put("apikey", "3f053c1807c71729fbc4574b7eaef5e0");
-//         String CHECK_CODE_VERIFY = "【朋悦比邻】您好，您有一条预约访客需审核，访问者:visitor1,访问时间:visitorDateTime";
+//         String CHECK_CODE_VERIFY = "您好，您有一条预约访客需审核，访问者:visitor1,访问时间:visitorDateTime";
 //         String msg = CHECK_CODE_VERIFY;
 //         msg= msg.replace("visitor1", "123456");
 //         String content= msg.replace("visitorDateTime", "2019-11-12");

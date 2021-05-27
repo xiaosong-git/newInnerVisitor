@@ -53,9 +53,9 @@ public class VisitorService {
 
 		sql.append(" order by v.id desc");
 
-		return Db.paginate(pageNum,pageSize,"select du1.realName userName,du2.realName visitName, v.visitDept,concat(v.visitDate,' ',v.visitTime) applyTime,v.startDate visitTime,(case cstatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end) cstatus,du3.realName replyName,concat(v.replyDate,' ',v.replyTime) replyTime,c.inTime,c.inGate,c.outTime,c.outGate ",sql.toString(),objects.toArray());
+		return Db.paginate(pageNum,pageSize,"select du1.phone,du1.realName userName,du2.realName visitName,du2.deptId, IFNULL(v.visitDept,du2.addr) visitDept,concat(v.visitDate,' ',v.visitTime) applyTime,v.startDate visitTime,(case cstatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end) cstatus,(case vitype when '0' then 'APP' when '1' then '自助机' when '2' then '自助机'  when '3' then '访客机' when '4' then '访客机' when 'A' then 'APP' when 'F' then 'APP' end) vitype,du3.realName replyName,concat(v.replyDate,' ',v.replyTime) replyTime,c.inTime,c.inGate,c.outTime,c.outGate ",sql.toString(),objects.toArray());
 	}
-
+//申请方式0：手机申请；1：二代证自助预约；2：无证自助预约；3：二代证人工预约；4：无证人工预约
 
 
 	public List<Record> downReport(String userName, String visitName, String startTime, String endTime, String visitDept) {
@@ -63,7 +63,7 @@ public class VisitorService {
 
 		List<Object> objects = new LinkedList<>();
 
-		sql.append("select du1.realName userName,du2.realName visitName, v.visitDept,concat(v.visitDate,' ',v.visitTime) applyTime,v.startDate visitTime,(case cstatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end) cstatus,du3.realName replyName,concat(v.replyDate,' ',v.replyTime) replyTime,c.inTime,c.inGate,c.outTime,c.outGate " +
+		sql.append("select du2.deptId,du1.phone,du1.realName userName,du2.realName visitName, IFNULL(v.visitDept,du2.addr) visitDept,concat(v.visitDate,' ',v.visitTime) applyTime,v.startDate visitTime,(case cstatus when 'applyConfirm' then '申请中' when 'applySuccess' then '接受访问' when 'applyFail' then '拒绝访问' end) cstatus,(case vitype when '0' then 'APP' when '1' then '自助机' when '2' then '自助机'  when '3' then '访客机' when '4' then '访客机' when 'A' then 'APP' when 'F' then 'APP' end) vitype,du3.realName replyName,concat(v.replyDate,' ',v.replyTime) replyTime,c.inTime,c.inGate,c.outTime,c.outGate " +
 		"from v_visitor_record  v left join v_dept_user  du1 on v.userId = du1.id LEFT JOIN v_dept_user du2 on v.visitorId =du2.id left join v_dept_user du3 on v.replyUserId = du3.id " +
 		"left join (select a.userName,CONCAT(a.scanDate,' ',a.inTime) inTime,a.scanDate,a.idCard,id.extra2 inGate,CONCAT(a.scanDate,' ',b.outTime) outTime,od.extra2 outGate from (select id,userName,scanDate,inOrOut,idCard,min(scanTime) inTime,deviceIp from v_d_inout where inOrOut='in' GROUP BY idCard,scanDate,inOrOut)a left join (select id,userName,scanDate,inOrOut,idCard,max(scanTime) outTime,deviceIp from v_d_inout where inOrOut='out' GROUP BY idCard,scanDate,inOrOut) b on a.scanDate=b.scanDate and a.idCard=b.idCard " +
 		" left join v_device id on id.ip=a.deviceIp left join v_device od on od.ip=b.deviceIp  " +

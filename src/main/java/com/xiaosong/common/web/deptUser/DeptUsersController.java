@@ -100,6 +100,7 @@ public class DeptUsersController extends Controller{
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String createtime = df.format(new Date());
 		String [] postIds = getParaValues("userPost[]");
+
 		VDeptUser deptUser = getModel(VDeptUser.class);
 		deptUser.setRealName(realName);
 		deptUser.setAccessCodes(accessCodes);

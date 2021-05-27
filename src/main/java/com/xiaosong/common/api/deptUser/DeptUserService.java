@@ -117,21 +117,26 @@ public class DeptUserService extends MyBaseService {
         if (invitor == null) {
             // todo 如果用户不存在,创建一个新用户
             //return Result.unDataResult("fail", "用户不存在");
-            invitor = new VDeptUser();
-            invitor.setCurrentStatus("normal");
-            invitor.setIsAuth("F");
-            invitor.setPhone(phone);
-            invitor.setRealName(realName);
-            invitor.setCreateDate(DateUtil.getSystemTime());
-            invitor.setStatus("applySuc");
-            invitor.setUserType("visitor");
-            invitor.save();
+//            invitor = new VDeptUser();
+//            invitor.setCurrentStatus("normal");
+//            invitor.setIsAuth("F");
+//            invitor.setPhone(phone);
+//            invitor.setRealName(realName);
+//            invitor.setCreateDate(DateUtil.getSystemTime());
+//            invitor.setStatus("applySuc");
+//            invitor.setUserType("visitor");
+//            invitor.save();
+            throw new Exception("用户不存在");
         }
         else
         {
+
             if(!invitor.getRealName().equals(realName))
             {
                 throw new Exception("手机号或者姓名错误");
+            }else if(!"T".equals(invitor.getIsAuth()))
+            {
+                throw new Exception("用户"+invitor.getRealName()+"未实人认证");
             }
         }
         return invitor;

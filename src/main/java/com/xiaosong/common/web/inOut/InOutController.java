@@ -50,10 +50,28 @@ public class InOutController extends Controller {
             Page<Record> pagelist = srv.findList(userName,userType,deptName,startTime,endTime,inOrOut,currentPage,pageSize);
 
             Record user_key = Db.findFirst("select * from v_user_key");
+            List<VDevice> devices =DeviceService.me.findAll();
 
             for (Record record : pagelist.getList()) {
                 record.set("idNO",DESUtil.decode(user_key.getStr("workKey"),record.getStr("idNO")));
+
+                String deviceIp = record.getStr("deviceIp");
+
+                if(StringUtils.isNotBlank(deviceIp))
+                {
+                    for(VDevice vDevice : devices) {
+                        if (deviceIp.equals(vDevice.getIp()))
+                        {
+                            record.set("gate",vDevice.getExtra2());
+                            break;
+                        }
+                    }
+                }
+
             }
+
+
+
 
             renderJson(RetUtil.okData(pagelist));
         } catch (Exception e) {

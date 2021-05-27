@@ -43,13 +43,13 @@ public class InOutService {
         }
 
         sql.append(" order by a.id desc");
-        return Db.paginate(currentPage, pageSize, "select scanDate,scanTime,a.userName,(case a.userType when 'staff' then '员工' when 'visitor' then '访客' end) userType,idNO,d.dept_name deptName,(case inOrOut when 'in' then '进' when 'out' then '出' end ) inOrOut,(case a.deviceType when 'FACE' then '人脸通行' when 'QRCODE' then '二维码通行' end) deviceType ", sql.toString(),objects.toArray());
+        return Db.paginate(currentPage, pageSize, "select deviceIp,scanDate,scanTime,a.userName,b.phone,(case a.userType when 'staff' then '员工' when 'visitor' then '访客' end) userType,idNO,d.dept_name deptName,(case inOrOut when 'in' then '进' when 'out' then '出' end ) inOrOut,(case a.deviceType when 'FACE' then '人脸通行' when 'RFID' then '刷卡通行' when 'QRCODE' then '二维码通行' end) deviceType ", sql.toString(),objects.toArray());
     }
 
     public List<Record> downReport(String userName,String userType,String deptName,String startTime, String endTime,String inOrOut){
         StringBuilder sql = new StringBuilder();
         List<Object> objects = new LinkedList<>();
-        sql.append("select scanDate,scanTime,a.userName,(case a.userType when 'staff' then '员工' when 'visitor' then '访客' end) userType,idNO,d.dept_name deptName,(case inOrOut when 'in' then '进' when 'out' then '出' end ) inOrOut,(case a.deviceType when 'FACE' then '人脸通行' when 'QRCODE' then '二维码通行' end) deviceType from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName left join v_dept d on b.deptId = d.id where 1=1 ");
+        sql.append("select scanDate,scanTime,a.userName,b.phone,(case a.userType when 'staff' then '员工' when 'visitor' then '访客' end) userType,idNO,d.dept_name deptName,(case inOrOut when 'in' then '进' when 'out' then '出' end ) inOrOut,(case a.deviceType when 'FACE' then '人脸通行' when 'RFID' then '刷卡通行' when 'QRCODE' then '二维码通行' end) deviceType from v_d_inout a left join v_dept_user b on a.idCard = b.idNO and a.userName = b.realName left join v_dept d on b.deptId = d.id where 1=1 ");
         if(userName!=null){
             sql.append(" and a.userName like concat('%',?,'%')");
             objects.add(userName);
