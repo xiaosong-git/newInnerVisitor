@@ -15,21 +15,21 @@ public class LoginService {
 	public static final	LoginService me = new LoginService();
 	public VSysUser checkLoginUser(String userName, String passWord) {
 		VSysUser sysUser = VSysUser.dao.findFirst("select * from v_sys_user where (username='" + userName + "') and password='" + passWord + "'");
-		if (sysUser==null||sysUser._getAttrNames().length==0){
-			VDeptUser vDeptUser = VDeptUser.dao.findFirst("select realName,sysPwd,phone,idNO from v_dept_user where phone=? and sysPwd=?",userName,passWord);
-			if (vDeptUser!=null&&vDeptUser._getAttrNames().length>0){
-				sysUser=new VSysUser();
-				sysUser.setTrueName(vDeptUser.getRealName())
-						.setTel(vDeptUser.getPhone())
-						.setPassword(vDeptUser.getSysPwd())
-						.setRoleId(1L)
-                        .setUsername(vDeptUser.getPhone())
-                        .setCreatetime(DateUtil.now())
-                        .setIsSync("F")
-				.setParentId(1L);
-                 sysUser.save();
-            }
-		}
+//		if (sysUser==null||sysUser._getAttrNames().length==0){
+//			VDeptUser vDeptUser = VDeptUser.dao.findFirst("select realName,sysPwd,phone,idNO from v_dept_user where phone=? and sysPwd=?",userName,passWord);
+//			if (vDeptUser!=null&&vDeptUser._getAttrNames().length>0){
+//				sysUser=new VSysUser();
+//				sysUser.setTrueName(vDeptUser.getRealName())
+//						.setTel(vDeptUser.getPhone())
+//						.setPassword(vDeptUser.getSysPwd())
+//						.setRoleId(1L)
+//                        .setUsername(vDeptUser.getPhone())
+//                        .setCreatetime(DateUtil.now())
+//                        .setIsSync("F")
+//				.setParentId(1L);
+//                 sysUser.save();
+//            }
+//		}
 
 		return sysUser;
 	}
@@ -47,6 +47,7 @@ public class LoginService {
 		VSysUser user = new VSysUser();
 		user.setId(id);
 		user.setPassword(passWord);
+		user.setExtra3(com.xiaosong.util.DateUtil.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
 		return user.update();
 	}
 	

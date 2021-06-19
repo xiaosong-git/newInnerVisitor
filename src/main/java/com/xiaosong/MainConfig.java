@@ -158,7 +158,7 @@ public class MainConfig extends JFinalConfig {
 //		druidPlugin.addFilter(new MyDruidFilter());
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		arp.setShowSql(false);
+		arp.setShowSql(true);
 //		arp.setShowSql(Constant.DEV_MODE);
 		arp.setDialect(new MysqlDialect());
 		//		arp.setBaseSqlTemplatePath(PathKit.getRootClassPath());//该方法会把资源目录定义到test-class目录下

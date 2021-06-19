@@ -9,9 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
+import com.jfinal.log.Log;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaosong.common.api.user.UserUtil;
+import com.xiaosong.common.web.access.AccessController;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VSysUser;
+import com.xiaosong.util.IPUtil;
+import org.apache.log4j.Logger;
 
 /**
  * 登录session过滤器
@@ -21,6 +26,7 @@ import com.xiaosong.model.VSysUser;
 
 public class LoginInterceptor implements Interceptor {
 
+	Logger logger = Logger.getLogger(LoginInterceptor.class);
 	public void intercept(Invocation inv) {
 		//跨域请求
 		HttpServletResponse response = inv.getController().getResponse();
@@ -33,8 +39,15 @@ public class LoginInterceptor implements Interceptor {
 		/*
 		 * if(s.contains("visitor/web/login")) { inv.invoke(); }
 		 */
+		try {
+			String ipAddress = IPUtil.getIp(con.getRequest());
+			logger.info("IP:"+ipAddress+"请求"+s);
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
 		 if(s.contains("visitor/web")) {
-
 			 HttpServletRequest request=con.getRequest();
 			 String token = request.getParameter("token");
 			 String userId = request.getParameter("userId");

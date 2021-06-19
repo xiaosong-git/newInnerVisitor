@@ -70,18 +70,34 @@ public class LoginController extends Controller{
 		Long id = getLong("userId");
 		String oldPwd = getPara("oldPwd");
 		String newPwd = getPara("newPwd");
-		oldPwd = MD5Util.MD5(oldPwd);
-		newPwd = MD5Util.MD5(newPwd);
-		List<VSysUser> sysuser = srv.checkPwd(id, oldPwd);
-		if(sysuser!=null&&sysuser.size()>0) {
-			if(srv.editPwd(id, newPwd)) {
-				renderJson(RetUtil.ok());
-			}else {
+
+		String str = "^^(?![a-zA-z]+$)(?!\\d+$)(?![!@#$%^&*_-]+$)(?![a-zA-z\\d]+$)(?![a-zA-z!@#$%^&*_-]+$)(?![\\d!@#$%^&*_-]+$)[a-zA-Z\\d!@#$%^&*_-]+$";
+
+		if(newPwd.matches(str)) {
+
+
+			oldPwd = MD5Util.MD5(oldPwd);
+			newPwd = MD5Util.MD5(newPwd);
+			List<VSysUser> sysuser = srv.checkPwd(id, oldPwd);
+			if (sysuser != null && sysuser.size() > 0) {
+				if (srv.editPwd(id, newPwd)) {
+					renderJson(RetUtil.ok());
+				} else {
+					renderJson(RetUtil.fail());
+				}
+			} else {
 				renderJson(RetUtil.fail());
 			}
 		}else {
-			renderJson(RetUtil.fail());
+			renderJson(RetUtil.fail("密码必须包含数字、字母、特殊符号"));
 		}
 		
 	}
+
+
+
+
+
+
+
 }

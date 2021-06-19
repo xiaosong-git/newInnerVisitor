@@ -32,9 +32,10 @@ public class InOutService {
         }
 
         if(startTime != null && endTime != null){
-            sql.append(" and a.scanDate between ? and ?");
-            objects.add(startTime);
-            objects.add(endTime);
+
+            sql.append(" and concat( a.scanDate,' ',a.scanTime) between ? and ?");
+            objects.add(startTime.replace("+"," "));
+            objects.add(endTime.replace("+"," "));
         }
 
         if(inOrOut != null){
@@ -64,7 +65,7 @@ public class InOutService {
             objects.add(deptName);
         }
         if(startTime != null && endTime != null){
-            sql.append(" and a.scanDate between ? and ?");
+            sql.append(" and  concat( a.scanDate,' ',a.scanTime) between ? and ?");
             objects.add(startTime);
             objects.add(endTime);
         }
