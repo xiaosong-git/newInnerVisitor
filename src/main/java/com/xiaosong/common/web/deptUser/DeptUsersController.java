@@ -62,8 +62,9 @@ public class DeptUsersController extends Controller{
 		for(Record record : recordList)
 		{
 			String idNo =record.get("idNO");
-			idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
-
+			boolean isAdmin=IdCardUtil.isAdmin(getHeader("userId"));
+			//根据登入角色进行脱敏
+			idNo = IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin);
 			List<VUserPost> list = VUserPost.dao.find("select * from v_user_post where userId = ?",record.getLong("id"));
 			Long[] userPosts = null;
 			if(list!=null && list.size()>0) {
@@ -508,6 +509,7 @@ public class DeptUsersController extends Controller{
 						sysnService.setStaffIsReceiveF(user.getId());
                         sucList.add(user.getId());
 						suc_picnum++;*/
+						//无需根据登入角色进行脱敏
 						String idNo = DESUtil.decode(record.getStr("workKey"), user.getIdNO());
 						String photo = com.xiaosong.util.Base64.encode(FilesUtils.compressUnderSize(FilesUtils.getPhoto(picture.getAbsolutePath()), 40960L));
 						JSONObject photoResult = AuthUtil.auth(idNo,user.getRealName(),photo);
@@ -694,10 +696,12 @@ public class DeptUsersController extends Controller{
 
 		List<Record> recordList = srv.findRecordList(realName,dept,idHandleImgUrl,phone,cardNo,idCard);
 		Record user_key = Db.findFirst("select * from v_user_key");
+		boolean isAdmin=IdCardUtil.isAdmin(getHeader("userId"));
 		for(Record record : recordList)
 		{
+			// 根据登入角色进行脱敏
 			String idNo =record.get("idNO");
-			idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+			idNo = IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin);
 			record.set("idNO",idNo);
 		}
 		List outputList = new ArrayList<>();
@@ -836,7 +840,8 @@ public class DeptUsersController extends Controller{
         try {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-            Page<PeopleCheckBean> list = srv.getPeopleCheckList(currentPage, pageSize, getPara("name"), getPara("idNO"));
+			boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+            Page<PeopleCheckBean> list = srv.getPeopleCheckList(currentPage, pageSize, getPara("name"), getPara("idNO"),isAdmin);
             renderJson(RetUtil.okData(list));
         } catch (Exception e) {
             log.error("错误信息：", e);

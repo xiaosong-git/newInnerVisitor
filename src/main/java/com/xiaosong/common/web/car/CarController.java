@@ -7,10 +7,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.common.web.inOut.InOutController;
 import com.xiaosong.constant.Constant;
-import com.xiaosong.util.DESUtil;
-import com.xiaosong.util.DateUtil;
-import com.xiaosong.util.ExcelUtil;
-import com.xiaosong.util.RetUtil;
+import com.xiaosong.util.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -39,8 +36,10 @@ public class CarController extends Controller {
             int pageSize = getInt("pageSize");
             Page<Record> pagelist = srv.findList(userName,visitName,plate,startTime,endTime,visitDept,pageNum,pageSize);
             Record user_key = Db.findFirst("select * from v_user_key");
+            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
             for (Record record : pagelist.getList()) {
-                record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+                //根据登入角色进行脱敏
+                record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
             }
             renderJson(RetUtil.okData(pagelist));
         }catch (Exception e){
@@ -60,11 +59,12 @@ public class CarController extends Controller {
             String visitDept = getPara("visitDept");
             //获取列表
             List<Record> downReportList = srv.downReport(userName,visitName,plate,startTime,endTime,visitDept);
-
+            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
             if (downReportList != null && downReportList.size() > 0){
                 Record user_key = Db.findFirst("select * from v_user_key");
                 for (Record record : downReportList) {
-                    record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+                    // 根据登入角色进行脱敏
+                    record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
                 }
                 String systemTimeFourteen = DateUtil.getSystemTimeFourteen();
                 String[] fields = {"来访人姓名","受访人","受访人单位","车牌号","来访总人数","来访人员身份证","审核人员","审核时间","审核结果"};

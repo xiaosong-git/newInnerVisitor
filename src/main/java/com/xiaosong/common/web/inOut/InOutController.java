@@ -5,18 +5,10 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
-import com.xiaosong.bean.InOutBean;
-import com.xiaosong.bean.VisitorsBean;
-import com.xiaosong.common.web.dept.DeptService;
 import com.xiaosong.common.web.device.DeviceService;
 import com.xiaosong.constant.Constant;
-import com.xiaosong.constant.ErrorCodeDef;
 import com.xiaosong.model.VDevice;
-import com.xiaosong.util.DESUtil;
-import com.xiaosong.util.DateUtil;
-import com.xiaosong.util.ExcelUtil;
-import com.xiaosong.util.RetUtil;
-import org.apache.commons.io.FileUtils;
+import com.xiaosong.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -27,7 +19,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -51,12 +42,11 @@ public class InOutController extends Controller {
 
             Record user_key = Db.findFirst("select * from v_user_key");
             List<VDevice> devices =DeviceService.me.findAll();
-
+            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
             for (Record record : pagelist.getList()) {
-                record.set("idNO",DESUtil.decode(user_key.getStr("workKey"),record.getStr("idNO")));
-
+                //根据登入角色进行脱敏
+                record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
                 String deviceIp = record.getStr("deviceIp");
-
                 if(StringUtils.isNotBlank(deviceIp))
                 {
                     for(VDevice vDevice : devices) {
@@ -94,11 +84,12 @@ public class InOutController extends Controller {
             String inOrOut = getPara("inOrOut");
             //获取列表
             List<Record> downReportList = srv.downReport(userName,userType,deptName,startTime,endTime,inOrOut);
-
+            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
             if (downReportList != null && downReportList.size() > 0){
                 Record user_key = Db.findFirst("select * from v_user_key");
                 for (Record record : downReportList) {
-                    record.set("idNO", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")));
+                    //根据登入角色进行脱敏
+                    record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
                 }
                 String systemTimeFourteen = DateUtil.getSystemTimeFourteen();
                 String[] fields = {"日期","时间","姓名","人员类型","身份证号","所在单位","进出类型","通行方式"};

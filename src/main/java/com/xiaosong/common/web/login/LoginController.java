@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.hutool.core.date.DateUtil;
 import com.jfinal.aop.Clear;
+import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model.VSysUser;
@@ -27,7 +29,8 @@ public class LoginController extends Controller{
 	
 	private Log log = Log.getLog(LoginController.class);
 	public LoginService srv = LoginService.me;
-	
+	@Inject
+	CodeService codeService ;
 	public void userlogin() throws Throwable {
 		//跨域请求
 		HttpServletResponse response = getResponse();
@@ -42,6 +45,7 @@ public class LoginController extends Controller{
 		passWord = MD5Util.MD5(passWord);
 		VSysUser user = srv.checkLoginUser(userName, passWord);
 		if(user!=null) {
+
 			//todo app用户登入登入
 			user.setToken(token);
 			user.setLogintime(DateUtil.now());
@@ -94,6 +98,17 @@ public class LoginController extends Controller{
 		
 	}
 
+	/**
+	 * 短信登入验证，除管理员外都需要验证短信
+	 */
+	public void loginSms(){
+		Boolean aBoolean = codeService.verifyCode(get("phone"), get("code"), getInt("type"));
+		if (aBoolean){
+			renderJson(RetUtil.ok().success());
+		}else{
+			renderJson(RetUtil.fail("验证码错误！"));
+		}
+	}
 
 
 

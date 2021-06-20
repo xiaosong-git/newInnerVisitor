@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.core.date.DateUtil;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.aop.Invocation;
 import com.jfinal.core.Controller;
@@ -16,6 +17,7 @@ import com.xiaosong.common.web.access.AccessController;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VSysUser;
 import com.xiaosong.util.IPUtil;
+import com.xiaosong.util.RetUtil;
 import org.apache.log4j.Logger;
 
 /**
@@ -27,6 +29,7 @@ import org.apache.log4j.Logger;
 public class LoginInterceptor implements Interceptor {
 
 	Logger logger = Logger.getLogger(LoginInterceptor.class);
+	@Override
 	public void intercept(Invocation inv) {
 		//跨域请求
 		HttpServletResponse response = inv.getController().getResponse();
@@ -41,7 +44,7 @@ public class LoginInterceptor implements Interceptor {
 		 */
 		try {
 			String ipAddress = IPUtil.getIp(con.getRequest());
-			logger.info("IP:"+ipAddress+"请求"+s);
+			logger.info("时间："+ DateUtil.now() +",IP:"+ipAddress+"请求"+s);
 		}
 		catch (Exception ex)
 		{
@@ -49,24 +52,18 @@ public class LoginInterceptor implements Interceptor {
 		}
 		 if(s.contains("visitor/web")) {
 			 HttpServletRequest request=con.getRequest();
-			 String token = request.getParameter("token");
-			 String userId = request.getParameter("userId");
+			 String token = request.getHeader("token");
+			 String userId = request.getHeader("userId");
 			 VSysUser user=CacheKit.get(Constant.SYS_ACCOUNT, userId);
+
 			 if(user!=null) {
 				 if(user.getToken().equals(token)) {
 					 inv.invoke();
 				 }else {
-					 map.put("result", "overLogin");
-					 con.renderJson(map);
-					 //con.redirect("127.0.0.1:8088/#/login");
-					 return;
+					 con.renderJson(RetUtil.fail("登入过期"));
 				 }
 			 }else {
-				 inv.invoke();
-				 map.put("result", "loginOut");
-/*				 con.renderJson(map);
-				 //con.redirect("127.0.0.1:8088/#/login");
-				 return ;*/
+				 con.renderJson(RetUtil.fail("未登入"));
 			 }
 		 }else {
 			 inv.invoke();

@@ -1,4 +1,7 @@
 package com.xiaosong.util;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaosong.constant.Constant;
+import com.xiaosong.model.VSysUser;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -19,4 +22,27 @@ public class IdCardUtil {
         return idNumber;
     }
 
+    /**
+     * 根据角色脱敏数据
+     * @param idNumber
+     * @return
+     */
+    public static String desensitizedDesIdNumber(String idNumber,boolean isSuperAdmin){
+        if (!isSuperAdmin){
+            return desensitizedIdNumber(idNumber);
+        }
+        return idNumber;
+    }
+    /**
+     * 判断是否超级管理员权限
+     * @param
+     * @return
+     */
+    public static boolean  isAdmin(String userId){
+        VSysUser user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
+       if (user.getRoleId()==1L){
+           return true;
+       }
+        return false;
+    }
 }

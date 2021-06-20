@@ -8,6 +8,7 @@ import com.jfinal.template.stat.ast.If;
 import com.xiaosong.model.VBlackUser;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
+import com.xiaosong.util.IdCardUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -86,10 +87,11 @@ public class BlackUserController extends Controller {
             idCard = DESUtil.encode(keyRecord.getStr("workKey"), idCard);
         }
         Page<Record> list = blackUserService.findList(currentPage,pageSize,realName,idCard,level);
+        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
         for(Record record :list.getList()){
             if(record.get("idCard") != null){
-                String idNO = DESUtil.decode(keyRecord.getStr("workKey"), record.get("idCard"));
-                record.set("idCard",idNO);
+                // 根据登入角色进行脱敏
+                record.set("idCard", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(keyRecord.getStr("workKey"), record.get("idCard")),isAdmin));
             }
         }
         renderJson(RetUtil.okData(list));

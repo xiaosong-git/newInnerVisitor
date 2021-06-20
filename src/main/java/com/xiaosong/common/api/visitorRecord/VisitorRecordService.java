@@ -11,6 +11,7 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.plugin.activerecord.SqlPara;
+import com.jfinal.plugin.ehcache.CacheKit;
 import com.xiaosong.MainConfig;
 import com.xiaosong.common.activiti.VisitorProcess;
 import com.xiaosong.common.api.base.MyBaseService;
@@ -1511,7 +1512,7 @@ public class VisitorRecordService extends MyBaseService {
 
 
     //查询我的审批的车辆
-    public Result findMyCarList(Long userId,Integer pageNum, Integer pageSize) {
+    public Result findMyCarList(Long userId, String id, Integer pageNum, Integer pageSize) {
         if (userId == null) {
             return ResultData.unDataResult("fail", "缺少参数");
         }
@@ -1523,15 +1524,17 @@ public class VisitorRecordService extends MyBaseService {
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql);
         sqlPara.addPara(userId);
-        sqlPara.addPara(userId);
+
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
         Record user_key = Db.findFirst("select * from v_user_key");
+       boolean isAdmin=IdCardUtil.isAdmin(id);
         for(Record record : paginate.getList())
         {
             String entourages =record.get("entourages");
             record.set("entourages",JSONArray.parse(entourages));
             String idNo =record.get("idNo");
-            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
+            // 根据登入角色进行脱敏
+            idNo = IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin);
             record.set("idNo",idNo);
         }
         MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());
@@ -1685,7 +1688,7 @@ public class VisitorRecordService extends MyBaseService {
 
 
     //查询我的访问申请列表
-    public Result findMyVisitList(Long userId,Integer pageNum, Integer pageSize) {
+    public Result findMyVisitList(Long userId, boolean isAdmin, Integer pageNum, Integer pageSize) {
         if (userId == null) {
             return ResultData.unDataResult("fail", "缺少参数");
         }
@@ -1703,11 +1706,12 @@ public class VisitorRecordService extends MyBaseService {
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
 
         Record user_key = Db.findFirst("select * from v_user_key");
+
         for(Record record : paginate.getList())
         {
             String idNo =record.get("idNo");
-            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
-            record.set("idNo",idNo);
+            //根据登入角色进行脱敏
+            record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin));
         }
 
         MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());
@@ -1746,12 +1750,13 @@ public class VisitorRecordService extends MyBaseService {
     /**
      *
      * @param userId
+     * @param isAdmin
      * @param pageNum
      * @param pageSize
      * @param type 0 未办 1 已办
      * @return
      */
-    public Result findMyApproveVisitList(Long userId,Integer pageNum,Integer pageSize,Integer type) {
+    public Result findMyApproveVisitList(Long userId, boolean isAdmin, Integer pageNum, Integer pageSize, Integer type) {
         if (userId == null) {
             return ResultData.unDataResult("fail", "缺少参数");
         }
@@ -1780,8 +1785,8 @@ public class VisitorRecordService extends MyBaseService {
         for(Record record : paginate.getList())
         {
             String idNo =record.get("idNo");
-            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
-            record.set("idNo",idNo);
+            //根据登入角色进行脱敏
+            record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin));
         }
 
 
@@ -1792,7 +1797,7 @@ public class VisitorRecordService extends MyBaseService {
 
 
     //查询我的车辆审批列表
-    public Result findMyApproveCarList(Long userId,Integer pageNum, Integer pageSize,Integer type) {
+    public Result findMyApproveCarList(Long userId, boolean isAdmin, Integer pageNum, Integer pageSize, Integer type) {
         if (userId == null) {
             return ResultData.unDataResult("fail", "缺少参数");
         }
@@ -1823,8 +1828,8 @@ public class VisitorRecordService extends MyBaseService {
             String entourages =record.get("entourages");
             record.set("entourages",JSONArray.parse(entourages));
             String idNo =record.get("idNo");
-            idNo = DESUtil.decode(user_key.getStr("workKey"), idNo);
-            record.set("idNo",idNo);
+            //todo 根据登入角色进行脱敏
+            record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin));
         }
 
         MyPage<VVisitorRecord> myPage = new MyPage(apiList(paginate.getList()), pageNum, pageSize, paginate.getTotalPage(), paginate.getTotalRow());

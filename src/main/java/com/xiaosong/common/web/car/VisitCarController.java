@@ -14,6 +14,7 @@ import com.xiaosong.model.VCar;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.ExcelUtil;
+import com.xiaosong.util.IdCardUtil;
 import com.xiaosong.util.RetUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
@@ -52,8 +53,10 @@ public class VisitCarController extends Controller {
             Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"),getPara("cStatus"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
+            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
             for (Record record : visitCarList.getList()) {
-                record.set("idNo", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo")));
+                // 根据登入角色进行脱敏
+                record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
             }
 
             renderJson(RetUtil.okData(visitCarList));
@@ -176,8 +179,10 @@ public class VisitCarController extends Controller {
             List<Record> visitCarList = visitCarService.downReport(getPara("plate"),getPara("cStatus"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
+            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
             for (Record record : visitCarList) {
-                record.set("idNo", DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo")));
+                //根据登入角色进行脱敏
+                record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo")),isAdmin));
             }
 
             if (visitCarList != null && visitCarList.size() > 0){

@@ -18,6 +18,7 @@ import com.xiaosong.model.VCar;
 import com.xiaosong.model.VDeptUser;
 import com.xiaosong.util.DESUtil;
 import com.xiaosong.util.HttpPostUploadUtil;
+import com.xiaosong.util.IdCardUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -217,7 +218,7 @@ public class DeptUserService {
 	}
 
 
-	public Page<PeopleCheckBean> getPeopleCheckList(int currentPage, int pageSize, String name, String idNO) {
+	public Page<PeopleCheckBean> getPeopleCheckList(int currentPage, int pageSize, String name, String idNO, boolean isAdmin) {
 		StringBuilder sql = new StringBuilder("  from v_dept_user u left join  v_black_user bu on u.realName=bu.realName and u.idNo=bu.idCard ");
 		StringBuilder whereSql = new StringBuilder(" where 1=1 ");
 		//获取加密key
@@ -240,7 +241,8 @@ public class DeptUserService {
 				bean.setIsAuth(record.getStr("isAuth"));
 				bean.setAuthDate(record.getStr("authDate"));
 			}
-			bean.setIdNO(DESUtil.decode(key, record.getStr("idNO")));
+			//todo 根据登入角色进行脱敏
+			bean.setIdNO(IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(key, record.getStr("idNO")), isAdmin));
 			bean.setIsBlack(record.getStr("isBlack"));
 			list.add(bean);
 		}

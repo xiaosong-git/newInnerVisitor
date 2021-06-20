@@ -25,10 +25,17 @@ import java.util.Date;
 public class CodeService {
     public static final CodeService me = new CodeService();
     Log log=Log.getLog(CodeService.class);
-    //验证验证码
+
+    /**
+     * 对比验证码
+     * @param phone 手机号
+     * @param code 验证码
+     * @param type 1 对比成功后删除code，2 对比成功后不删除code
+     * @return
+     */
     public Boolean verifyCode(String phone, String code, Integer type) {
         if (
-//                Constant.DEV_MODE &&
+                Constant.DEV_MODE &&
                         "222333".equals(code)) {
             return true;
         }

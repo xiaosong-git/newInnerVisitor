@@ -17,6 +17,7 @@ import com.xiaosong.interceptor.apiInterceptor.AuthCheckAnnotation;
 import com.xiaosong.model.VOutVisitor;
 import com.xiaosong.model.VVisitorRecord;
 import com.xiaosong.util.ConsantCode;
+import com.xiaosong.util.IdCardUtil;
 import com.xiaosong.validate.user.UserIdValidator;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
@@ -319,7 +320,7 @@ public class VisitorRecordController extends Controller {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
         try {
-            renderText(JSON.toJSONString(visitorRecordService.findMyCarList(getLong("userId"), pageNum, pageSize)));
+            renderText(JSON.toJSONString(visitorRecordService.findMyCarList(getLong("userId"),getHeader("userId"), pageNum, pageSize)));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
@@ -332,8 +333,9 @@ public class VisitorRecordController extends Controller {
     public void findMyVisitList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
+        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
         try {
-            renderText(JSON.toJSONString(visitorRecordService.findMyVisitList(getLong("userId"), pageNum, pageSize)));
+            renderText(JSON.toJSONString(visitorRecordService.findMyVisitList(getLong("userId"),isAdmin, pageNum, pageSize)));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
@@ -346,8 +348,9 @@ public class VisitorRecordController extends Controller {
     public void findMyApproveVisitList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
+        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
         try {
-            renderText(JSON.toJSONString(visitorRecordService.findMyApproveVisitList(getLong("userId"), pageNum, pageSize, getInt("type"))));
+            renderText(JSON.toJSONString(visitorRecordService.findMyApproveVisitList(getLong("userId"),isAdmin, pageNum, pageSize, getInt("type"))));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
@@ -360,8 +363,9 @@ public class VisitorRecordController extends Controller {
     public void findMyApproveCarList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
+        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
         try {
-            renderText(JSON.toJSONString(visitorRecordService.findMyApproveCarList(getLong("userId"), pageNum, pageSize, getInt("type"))));
+            renderText(JSON.toJSONString(visitorRecordService.findMyApproveCarList(getLong("userId"), isAdmin,pageNum, pageSize, getInt("type"))));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
