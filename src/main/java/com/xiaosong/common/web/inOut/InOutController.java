@@ -42,7 +42,11 @@ public class InOutController extends Controller {
 
             Record user_key = Db.findFirst("select * from v_user_key");
             List<VDevice> devices =DeviceService.me.findAll();
-            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+           String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
             for (Record record : pagelist.getList()) {
                 //根据登入角色进行脱敏
                 record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
@@ -84,7 +88,11 @@ public class InOutController extends Controller {
             String inOrOut = getPara("inOrOut");
             //获取列表
             List<Record> downReportList = srv.downReport(userName,userType,deptName,startTime,endTime,inOrOut);
-            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+           String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
             if (downReportList != null && downReportList.size() > 0){
                 Record user_key = Db.findFirst("select * from v_user_key");
                 for (Record record : downReportList) {

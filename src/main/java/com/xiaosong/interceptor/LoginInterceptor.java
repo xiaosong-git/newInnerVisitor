@@ -16,8 +16,10 @@ import com.xiaosong.common.api.user.UserUtil;
 import com.xiaosong.common.web.access.AccessController;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VSysUser;
+import com.xiaosong.model.vo.UserVo;
 import com.xiaosong.util.IPUtil;
 import com.xiaosong.util.RetUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -53,17 +55,24 @@ public class LoginInterceptor implements Interceptor {
 		 if(s.contains("visitor/web")) {
 			 HttpServletRequest request=con.getRequest();
 			 String token = request.getHeader("token");
+			 if (StringUtils.isEmpty(token)){
+				 token=request.getParameter("token");
+			 }
 			 String userId = request.getHeader("userId");
-			 VSysUser user=CacheKit.get(Constant.SYS_ACCOUNT, userId);
+			 if (StringUtils.isEmpty(userId)){
+				 userId=request.getParameter("userId");
+			 }
+			 UserVo user=CacheKit.get(Constant.SYS_ACCOUNT, userId);
 
 			 if(user!=null) {
+				 logger.info("管理平台用户："+user.getUsername());
 				 if(user.getToken().equals(token)) {
 					 inv.invoke();
 				 }else {
 					 con.renderJson(RetUtil.fail("登入过期"));
 				 }
 			 }else {
-				 con.renderJson(RetUtil.fail("未登入"));
+				 con.renderJson(RetUtil.fail("重复登入"));
 			 }
 		 }else {
 			 inv.invoke();

@@ -12,17 +12,14 @@ import com.xiaosong.common.api.websocket.WebSocketMonitor;
 import com.xiaosong.common.api.websocket.WebSocketSyncData;
 import com.xiaosong.compose.Result;
 import com.xiaosong.compose.ResultData;
-import com.xiaosong.common.api.password.PasswordService;
-import com.xiaosong.constant.Status;
+import com.xiaosong.constant.Constant;
 import com.xiaosong.constant.TableList;
 import com.xiaosong.model.VDeptUser;
-import com.xiaosong.param.ParamService;
 import com.xiaosong.util.*;
 import com.xiaosong.util.Base64;
 import org.apache.commons.lang3.StringUtils;
 
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -72,7 +69,7 @@ public class UserService {
         /**
          * 2,验证短信验证码
          */
-        if (CodeService.me.verifyCode(deptUser.getPhone(), code, 1)) {
+        if (CodeService.me.verifyCode(deptUser.getPhone(), code, 1, Constant.SYS_CODE)) {
             return UserUtil.me.loginSave(user, deptUser);
         } else {
             return Result.unDataResult(ConsantCode.FAIL, "验证码输入错误，请重新输入!");
@@ -300,7 +297,7 @@ public class UserService {
             return Result.unDataResult("fail", "手机号未注册");
         }
 //        String sql = "select * from " + TableList.DEPT_USER + " where phone =?";
-        boolean flag = CodeService.me.verifyCode(phone, code, 1);
+        boolean flag = CodeService.me.verifyCode(phone, code, 1, Constant.SYS_CODE);
         if (!flag) {
             return Result.unDataResult("fail", "验证码错误");
         }
@@ -339,7 +336,7 @@ public class UserService {
     }
 
     public Result updatePhone(Object userId, String code, String phone) {
-        boolean flag = CodeService.me.verifyCode(phone,code,1);
+        boolean flag = CodeService.me.verifyCode(phone,code,1, Constant.SYS_CODE);
         if(!flag){
             return Result.unDataResult("fail","验证码错误");
         }

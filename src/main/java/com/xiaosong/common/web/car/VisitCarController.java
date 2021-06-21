@@ -53,7 +53,11 @@ public class VisitCarController extends Controller {
             Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"),getPara("cStatus"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
-            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+           String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
             for (Record record : visitCarList.getList()) {
                 // 根据登入角色进行脱敏
                 record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
@@ -179,7 +183,11 @@ public class VisitCarController extends Controller {
             List<Record> visitCarList = visitCarService.downReport(getPara("plate"),getPara("cStatus"),startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
-            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+           String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
             for (Record record : visitCarList) {
                 //根据登入角色进行脱敏
                 record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo")),isAdmin));

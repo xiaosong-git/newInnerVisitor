@@ -2,9 +2,6 @@ package com.xiaosong.common.api.code;
 
 import com.jfinal.log.Log;
 import com.jfinal.plugin.ehcache.CacheKit;
-import com.jfinal.plugin.redis.Cache;
-import com.jfinal.plugin.redis.Redis;
-import com.xiaosong.cache.MyCache;
 import com.xiaosong.compose.Result;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.model.TblSms;
@@ -31,30 +28,31 @@ public class CodeService {
      * @param phone 手机号
      * @param code 验证码
      * @param type 1 对比成功后删除code，2 对比成功后不删除code
+     * @param sysCodeminute
      * @return
      */
-    public Boolean verifyCode(String phone, String code, Integer type) {
+    public Boolean verifyCode(String phone, String code, Integer type, String cacheType) {
         if (
                 Constant.DEV_MODE &&
                         "222333".equals(code)) {
             return true;
         }
 //        CacheKit.put("CODE", phone,code);
-        String cacheCode = CacheKit.get("CODE", phone);
+        String cacheCode = CacheKit.get(cacheType, phone);
 
         //比对
         if (code.equals(cacheCode)) {
             if (type==2){
                 return true;
             }
-            CacheKit.remove("CODE",phone);
+            CacheKit.remove(cacheType,phone);
             return true;
         }
         //比对错误就删除
         return false;
     }
     //发送云片网短信
-    public Result sendMsg(String phone, Integer type, String visitorResult, String visitorBy, String visitorDateTime, String visitor) {
+    public Object sendMsg(String phone, Integer type, String visitorResult, String visitorBy, String visitorDateTime, String visitor,String codeType) {
         String code = NumberUtil.getRandomCode(6);
         String limit = ParamService.me.findValueByName("maxErrorInputSyspwdLimit");
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -64,8 +62,8 @@ public class CodeService {
 //        Object ok = CacheKit.get("CODE", phone);
         if ("0000".equals(state)) {
             //插入redis缓存别名为“db1”库的信息
-             CacheKit.put("CODE", phone,code);//1800s
-             Object ok = CacheKit.get("CODE", phone);
+             CacheKit.put(codeType, phone,code);//1800s
+             Object ok = CacheKit.get(codeType, phone);
 
             return ok!=null?Result.success():Result.fail();
         } else {

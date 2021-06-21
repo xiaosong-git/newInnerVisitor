@@ -73,7 +73,7 @@ public class SysAuthService {
 		
 	}
 	public List<Record> getUserAuth(Long roleId) {
-		List<VUserAuth> list = VUserAuth.dao.find("SELECT b.* from v_user_role_auth a LEFT JOIN v_user_auth b on a.auth_id=b.id where a.role_id="+roleId+" ORDER BY b.id");
+		List<VUserAuth> list = VUserAuth.dao.find("SELECT b.* from v_user_role_auth a LEFT JOIN v_user_auth b on a.auth_id=b.id where a.role_id="+roleId+" and b.id is not null  ORDER BY b.id");
 		List<Record> menustree = new ArrayList<Record>() ;
 		for(VUserAuth userauth : list) {
 			Record record = new Record();

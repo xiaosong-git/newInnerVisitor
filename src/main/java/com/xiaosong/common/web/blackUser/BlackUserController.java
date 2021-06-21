@@ -87,7 +87,11 @@ public class BlackUserController extends Controller {
             idCard = DESUtil.encode(keyRecord.getStr("workKey"), idCard);
         }
         Page<Record> list = blackUserService.findList(currentPage,pageSize,realName,idCard,level);
-        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+        String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
         for(Record record :list.getList()){
             if(record.get("idCard") != null){
                 // 根据登入角色进行脱敏

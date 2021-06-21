@@ -59,10 +59,14 @@ public class DeptUsersController extends Controller{
 		Page<Record> pagelist = srv.findList(realName,dept,idHandleImgUrl,phone,cardNo,idCard,currentPage,pageSize);
 		List<Record> recordList = pagelist.getList();
 		Record user_key = Db.findFirst("select * from v_user_key");
+		String userId = getHeader("userId");
+		if (StringUtils.isEmpty(userId)) {
+			userId = get("userId");
+		}
+		boolean isAdmin= IdCardUtil.isAdmin(userId);
 		for(Record record : recordList)
 		{
 			String idNo =record.get("idNO");
-			boolean isAdmin=IdCardUtil.isAdmin(getHeader("userId"));
 			//根据登入角色进行脱敏
 			idNo = IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin);
 			List<VUserPost> list = VUserPost.dao.find("select * from v_user_post where userId = ?",record.getLong("id"));
@@ -109,10 +113,15 @@ public class DeptUsersController extends Controller{
 		deptUser.setCardType(cardType);
 		deptUser.setDeptLeader(deptLeader);
 		deptUser.setSex(sex);
-		deptUser.setPhone(phone);
+		if (StringUtils.isNotEmpty(phone)){
+			deptUser.setPhone(phone);
+		}
+		if (StringUtils.isNotEmpty(idNO)){
+			deptUser.setIdNO(idNO);
+		}
 		deptUser.setUserNo(userNo);
 		deptUser.setDeptId(deptId);
-		deptUser.setIdNO(idNO);
+
 		deptUser.setIntime(intime);
 		deptUser.setAddr(addr);
 		deptUser.setRemark(remark);
@@ -199,10 +208,17 @@ public class DeptUsersController extends Controller{
 		deptUser.setDeptLeader(deptLeader);
 		deptUser.setCreateDate(createtime);
 		deptUser.setSex(sex);
-		deptUser.setPhone(phone);
+
 		deptUser.setUserNo(userNo);
 		deptUser.setDeptId(deptId);
-		deptUser.setIdNO(idNO);
+		if (StringUtils.isNotEmpty(phone)){
+			deptUser.setPhone(phone);
+		}
+		if (StringUtils.isNotEmpty(idNO)){
+			deptUser.setIdNO(idNO);
+		}else{
+			deptUser.remove("idNO");
+		}
 		deptUser.setIntime(intime);
 		deptUser.setAddr(addr);
 		deptUser.setRemark(remark);
@@ -696,7 +712,11 @@ public class DeptUsersController extends Controller{
 
 		List<Record> recordList = srv.findRecordList(realName,dept,idHandleImgUrl,phone,cardNo,idCard);
 		Record user_key = Db.findFirst("select * from v_user_key");
-		boolean isAdmin=IdCardUtil.isAdmin(getHeader("userId"));
+		String userId = getHeader("userId");
+		if (StringUtils.isEmpty(userId)) {
+			userId = get("userId");
+		}
+		boolean isAdmin= IdCardUtil.isAdmin(userId);
 		for(Record record : recordList)
 		{
 			// 根据登入角色进行脱敏
@@ -840,7 +860,11 @@ public class DeptUsersController extends Controller{
         try {
             int currentPage = getInt("currentPage");
             int pageSize = getInt("pageSize");
-			boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+			String userId = getHeader("userId");
+			if (StringUtils.isEmpty(userId)) {
+				userId = get("userId");
+			}
+			boolean isAdmin= IdCardUtil.isAdmin(userId);
             Page<PeopleCheckBean> list = srv.getPeopleCheckList(currentPage, pageSize, getPara("name"), getPara("idNO"),isAdmin);
             renderJson(RetUtil.okData(list));
         } catch (Exception e) {

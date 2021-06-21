@@ -2,6 +2,7 @@ package com.xiaosong.util;
 import com.jfinal.plugin.ehcache.CacheKit;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VSysUser;
+import com.xiaosong.model.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,8 +40,8 @@ public class IdCardUtil {
      * @return
      */
     public static boolean  isAdmin(String userId){
-        VSysUser user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
-       if (user.getRoleId()==1L){
+        UserVo user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
+       if (user.getUserRole()==1L){
            return true;
        }
         return false;

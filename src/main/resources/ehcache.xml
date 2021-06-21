@@ -59,6 +59,15 @@
            overflowToDisk="false"
            diskPersistent="true"
     />
+    <!-- 1分钟验证码缓存 -->
+    <cache name="CODEMINUTE"
+           maxEntriesLocalHeap="2000"
+           eternal="false"
+           timeToIdleSeconds="0"
+           timeToLiveSeconds="60"
+           overflowToDisk="false"
+           diskPersistent="true"
+    />
     <!-- 秘钥缓存 -->
     <cache name="KEY"
            maxEntriesLocalHeap="500"

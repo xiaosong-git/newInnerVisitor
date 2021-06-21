@@ -27,12 +27,16 @@ public class Constant {
 	/**
 	 * 账号密码管理session 放入缓存session中
 	 */
-	public final static String SYS_ACCOUNT = "SYS_ACCOUNT";
+	public final static String SYS_ACCOUNT = "SYS_ACCOUNT";/**
+	 * 账号密码管理session 放入缓存session中
+	 */
+	public final static String SYS_CODEMINUTE = "CODEMINUTE";
+	public final static String SYS_CODE = "CODE";
 	/**
 	 * 权限缓存也放入session
 	 */
 	public final static String SYS_ROLE_MENU = "SYS_ROLE_MENU";
-	
+
 	/**
 	 * 字典表缓存key
 	 */

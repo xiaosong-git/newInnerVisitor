@@ -8,6 +8,7 @@ import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.common.web.inOut.InOutController;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.util.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -36,7 +37,11 @@ public class CarController extends Controller {
             int pageSize = getInt("pageSize");
             Page<Record> pagelist = srv.findList(userName,visitName,plate,startTime,endTime,visitDept,pageNum,pageSize);
             Record user_key = Db.findFirst("select * from v_user_key");
-            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+            String userId = getHeader("userId");
+            if (StringUtils.isEmpty(userId)) {
+                userId = get("userId");
+            }
+            boolean isAdmin= IdCardUtil.isAdmin(userId);
             for (Record record : pagelist.getList()) {
                 //根据登入角色进行脱敏
                 record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
@@ -59,7 +64,11 @@ public class CarController extends Controller {
             String visitDept = getPara("visitDept");
             //获取列表
             List<Record> downReportList = srv.downReport(userName,visitName,plate,startTime,endTime,visitDept);
-            boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+           String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
             if (downReportList != null && downReportList.size() > 0){
                 Record user_key = Db.findFirst("select * from v_user_key");
                 for (Record record : downReportList) {

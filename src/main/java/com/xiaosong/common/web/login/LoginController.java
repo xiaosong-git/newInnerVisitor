@@ -16,8 +16,11 @@ import com.xiaosong.common.api.code.CodeService;
 import com.xiaosong.constant.Constant;
 import com.xiaosong.interceptor.LoginInterceptor;
 import com.xiaosong.model.VSysUser;
+import com.xiaosong.model.vo.UserVo;
 import com.xiaosong.util.MD5Util;
 import com.xiaosong.util.RetUtil;
+
+import static com.xiaosong.constant.Constant.SYS_CODEMINUTE;
 
 /** 
 * @author 作者 : xiaojf
@@ -50,17 +53,22 @@ public class LoginController extends Controller{
 			user.setToken(token);
 			user.setLogintime(DateUtil.now());
 			user.update();
-			map.put("token", token);
-			map.put("result", "success");
-			map.put("username", userName);
-			map.put("userRole", user.getRoleId());
-			map.put("userId", user.getId().toString());
-			map.put("resultMSG", "登录成功");
-			CacheKit.put(Constant.SYS_ACCOUNT, user.getId().toString(), user);
-			renderJson(map);
+			UserVo userVo= UserVo.builder()
+					.token(token).username(userName)
+					.tel(user.getTel())
+					.userId(user.getId())
+					.userRole(user.getRoleId()).build();
+//			map.put("token", token);
+//			map.put("result", "success");
+//			map.put("username", userName);
+//			map.put("userRole", user.getRoleId());
+//			map.put("userId", user.getId().toString());
+//
+//			map.put("resultMSG", "登录成功");
+			CacheKit.put(Constant.SYS_ACCOUNT, user.getId().toString(), userVo);
+			renderJson(RetUtil.okData(userVo));
 		}else {
-			map.put("resultMSG", "登录失败，用户名或者密码不正确");
-			renderJson(map);
+			renderJson(RetUtil.fail("账号或密码错误！"));
 		}
 		
 		
@@ -102,9 +110,16 @@ public class LoginController extends Controller{
 	 * 短信登入验证，除管理员外都需要验证短信
 	 */
 	public void loginSms(){
-		Boolean aBoolean = codeService.verifyCode(get("phone"), get("code"), getInt("type"));
+		String userId = get("userId");
+
+		UserVo user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
+		if (user==null) {
+			renderJson(RetUtil.fail("用户未进行账号密码登入！，请重新登入"));
+			return;
+		}
+		Boolean aBoolean = codeService.verifyCode(user.getTel(), get("code"), 1 ,SYS_CODEMINUTE);
 		if (aBoolean){
-			renderJson(RetUtil.ok().success());
+			renderJson(RetUtil.ok());
 		}else{
 			renderJson(RetUtil.fail("验证码错误！"));
 		}

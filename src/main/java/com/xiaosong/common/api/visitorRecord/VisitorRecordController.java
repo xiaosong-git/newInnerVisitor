@@ -23,6 +23,7 @@ import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.ProcessEngines;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -333,7 +334,11 @@ public class VisitorRecordController extends Controller {
     public void findMyVisitList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
-        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+       String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
         try {
             renderText(JSON.toJSONString(visitorRecordService.findMyVisitList(getLong("userId"),isAdmin, pageNum, pageSize)));
         } catch (Exception e) {
@@ -348,7 +353,11 @@ public class VisitorRecordController extends Controller {
     public void findMyApproveVisitList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
-        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+       String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
         try {
             renderText(JSON.toJSONString(visitorRecordService.findMyApproveVisitList(getLong("userId"),isAdmin, pageNum, pageSize, getInt("type"))));
         } catch (Exception e) {
@@ -363,7 +372,11 @@ public class VisitorRecordController extends Controller {
     public void findMyApproveCarList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
-        boolean isAdmin= IdCardUtil.isAdmin(getHeader("userId"));
+       String userId = getHeader("userId");
+        if (StringUtils.isEmpty(userId)) {
+            userId = get("userId");
+        }
+        boolean isAdmin= IdCardUtil.isAdmin(userId);
         try {
             renderText(JSON.toJSONString(visitorRecordService.findMyApproveCarList(getLong("userId"), isAdmin,pageNum, pageSize, getInt("type"))));
         } catch (Exception e) {
