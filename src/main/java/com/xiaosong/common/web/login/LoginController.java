@@ -113,6 +113,10 @@ public class LoginController extends Controller{
 	 * 短信登入验证，除管理员外都需要验证短信
 	 */
 	public void loginSms(){
+		HttpServletResponse response = getResponse();
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");//有些会把token放到header里,加在这里
+		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		String userId = get("userId");
 
 		UserVo user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
