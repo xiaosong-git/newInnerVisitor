@@ -6,11 +6,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.druid.util.StringUtils;
 import com.jfinal.core.Controller;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.plugin.ehcache.CacheKit;
+import com.xiaosong.constant.Constant;
 import com.xiaosong.model.VUserAuth;
+import com.xiaosong.model.vo.UserVo;
 import com.xiaosong.util.RetUtil;
 
 /** 
@@ -108,8 +112,12 @@ public class SysAuthController extends Controller{
 	 * 用户登录后获取菜单列表
 	 */
 	public void loginMenu() {
-		Long id = getLong("userRole");
-		List<Record> pagelist = srv.getUserAuth(id);
+		String userId = getHeader("userId");
+		if (StringUtils.isEmpty(userId)){
+			userId=get("userId");
+		}
+		UserVo user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
+		List<Record> pagelist = srv.getUserAuth(user.getUserRole());
 		renderJson(pagelist);
 	}
 }
