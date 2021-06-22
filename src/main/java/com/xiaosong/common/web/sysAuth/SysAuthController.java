@@ -112,12 +112,15 @@ public class SysAuthController extends Controller{
 	 * 用户登录后获取菜单列表
 	 */
 	public void loginMenu() {
-		String userId = getHeader("userId");
-		if (StringUtils.isEmpty(userId)){
-			userId=get("userId");
-		}
-		UserVo user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
-		List<Record> pagelist = srv.getUserAuth(user.getUserRole());
+//		String userId = getHeader("userId");
+//		if (StringUtils.isEmpty(userId)){
+//			userId=get("userId");
+//		}
+//		UserVo user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
+//		List<Record> pagelist = srv.getUserAuth(user.getUserRole());
+		Long id = getLong("userRole");
+		List<Record> pagelist = srv.getUserAuth(id);
+
 		renderJson(pagelist);
 	}
 }
