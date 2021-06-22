@@ -1,9 +1,6 @@
 package com.xiaosong.common.web.deptUser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -31,15 +28,17 @@ import com.xiaosong.util.*;
 import com.xiaosong.util.DateUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.xiaosong.constant.Constant;
 
-/** 
+/**
 * @author 作者 : xiaojf
-* @Date 创建时间：2020年1月14日 下午8:27:07 
-* 类说明 
+* @Date 创建时间：2020年1月14日 下午8:27:07
+* 类说明
 */
 public class DeptUsersController extends Controller{
 	private Log log = Log.getLog(DeptUsersController.class);
@@ -83,7 +82,7 @@ public class DeptUsersController extends Controller{
 		}
 		renderJson(pagelist);
 	}
-	
+
 	public void addDeptUser() throws Exception {
 		//todo 获取accessCodes 插入code
 		String accessCodes = getPara("accessCodes");
@@ -178,7 +177,7 @@ public class DeptUsersController extends Controller{
 			renderJson(RetUtil.fail());
 		}
 	}
-	
+
 	public void editDeptUser() throws Exception{
 		long id = getLong("id");
 		String accessCodes = getPara("accessCodes");
@@ -270,7 +269,7 @@ public class DeptUsersController extends Controller{
 		}
 
 	}
-	
+
 	public void delDeptUser() {
 		Long id = getLong("id");
 		VDeptUser user = VDeptUser.dao.findById(id);
@@ -287,7 +286,7 @@ public class DeptUsersController extends Controller{
 			renderJson(RetUtil.fail());
 		}
 	}
-	
+
 	public void uploadUser() {
 		boolean bool = srv.uploadDeptUser(getFile("file"));
 		if(bool) {
@@ -703,73 +702,115 @@ public class DeptUsersController extends Controller{
 
 
 	public void download() {
-		String realName = getPara("realName");
-		String dept = getPara("dept");
-		String idHandleImgUrl = getPara("idHandleImgUrl");
-        String phone = getPara("phone");
-        String cardNo = getPara("cardNo");
-        String idCard = getPara("idCard");
 
-		List<Record> recordList = srv.findRecordList(realName,dept,idHandleImgUrl,phone,cardNo,idCard);
-		Record user_key = Db.findFirst("select * from v_user_key");
-		String userId = getHeader("userId");
-		if (StringUtils.isEmpty(userId)) {
-			userId = get("userId");
-		}
-		boolean isAdmin= IdCardUtil.isAdmin(userId);
-		for(Record record : recordList)
-		{
-			// 根据登入角色进行脱敏
-			String idNo =record.get("idNO");
-			idNo = IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), idNo),isAdmin);
-			record.set("idNO",idNo);
-		}
-		List outputList = new ArrayList<>();
-		if (recordList != null && recordList.size() > 0) {
-			// 生成文件并返回
-			for (int i = 0; i < recordList.size(); i++) {
-				Record record = recordList.get(i);
-				DeptUserBean sd = new DeptUserBean();
-				sd.setName(record.getStr("realName"));
-				sd.setActiveDate(record.getStr("activeDate"));
-				sd.setAddress(record.getStr("address"));
-				sd.setCardNO(record.getStr("cardNO"));
-				sd.setDeptName(record.getStr("dept_name"));
-				sd.setExpiryDate(record.getStr("expiryDate"));
-				sd.setIntime(record.getStr("intime"));
-				sd.setPhone(record.getStr("phone"));
-				sd.setSex("1".equals(record.getStr("sex")) ? "男" : "女");
-				sd.setRemark(record.getStr("remark"));
-				sd.setIdNO(record.getStr("idNO"));
-				sd.setUserNO(record.getStr("userNo"));
-				outputList.add(sd);
-			}
-		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String date = format.format(new Date());
-		String exportName = date + "_员工报表.xls";
-		String exportPath = Constant.BASE_DOWNLOAD_PATH;
-		File exportFile = new File(exportPath + "/" + exportName);
-		if(exportFile.exists()){
-			exportFile.delete();
-			try {
-				exportFile.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		String[] title = {  "姓名", "部门", "卡号","工号","身份证","性别","入职时间","联系电话","住址","备注","卡激活时间","卡过期时间"};
-		byte[] data = ExcelUtil.export("人员报表", title, outputList,false);
+		OutputStream os = null;
 		try {
-			FileUtils.writeByteArrayToFile(exportFile, data, true);
-		} catch (IOException e) {
-			e.printStackTrace();
+			String realName = getPara("realName");
+			String dept = getPara("dept");
+			String idHandleImgUrl = getPara("idHandleImgUrl");
+			String phone = getPara("phone");
+			String cardNo = getPara("cardNo");
+			String idCard = getPara("idCard");
+			//获取列表
+			List<Record> downReportList = srv.findRecordList(realName,dept,idHandleImgUrl,phone,cardNo,idCard);
+            String userId = getHeader("userId");
+            if (StringUtils.isEmpty(userId)) {
+                userId = get("userId");
+            }
+
+            boolean isAdmin= IdCardUtil.isAdmin(userId);
+			if (downReportList != null && downReportList.size() > 0){
+				Record user_key = Db.findFirst("select * from v_user_key");
+				for (Record record : downReportList) {
+					//根据登入角色进行脱敏
+					record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
+				}
+				String systemTimeFourteen = DateUtil.getSystemTimeFourteen();
+				String[] fields = {"工号","姓名","卡号","身份证号","联系电话","性别","所属单位","通行区域","入职时间"};
+				List<String> fieldsList = Arrays.asList(fields);
+
+				HSSFWorkbook workbook = new HSSFWorkbook();
+				HSSFSheet sheet = workbook.createSheet("员工信息数据");
+
+				//设置单元格行高，列宽
+				sheet.setDefaultRowHeightInPoints(18);
+				sheet.setDefaultColumnWidth(20);
+
+				//标题
+				HSSFRow rowTitle = sheet.createRow(0);
+				HSSFCell cell = rowTitle.createCell(0);
+				cell.setCellValue("员工信息数据");
+				sheet.addMergedRegion( new CellRangeAddress(0,0,0,fields.length -1));
+				//设置表标题样式
+				HSSFCellStyle cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_CENTER, HSSFCellStyle.ALIGN_CENTER, HSSFColor.SKY_BLUE.index, "新宋体", (short) 12, true);
+				cell.setCellStyle(cellStyle);
+				//创建字段栏目
+				cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_CENTER, HSSFCellStyle.ALIGN_CENTER, HSSFColor.YELLOW.index, "新宋体", (short) 12, true);
+				HSSFRow rowFiled = sheet.createRow(1);
+				for (int i = 0; i < fieldsList.size(); i++){
+					ExcelUtil.createCell(rowFiled,cellStyle,fieldsList.get(i),i);
+				}
+
+				HSSFRow row;
+				int index = 2;
+				cellStyle = ExcelUtil.createCellStyle(workbook, HSSFCellStyle.ALIGN_LEFT, HSSFCellStyle.ALIGN_CENTER, HSSFColor.WHITE.index, "新宋体", (short) 12, false);
+				for (Record record : downReportList) {
+					row = sheet.createRow(index);
+					//工号
+					ExcelUtil.createCell(row,cellStyle,record.get("userNo"),0);
+					//姓名
+					ExcelUtil.createCell(row,cellStyle,record.get("realName"),1);
+					//卡号
+					ExcelUtil.createCell(row,cellStyle,record.get("cardNO"),2);
+					//身份证号
+					ExcelUtil.createCell(row,cellStyle,record.get("idNO"),3);
+					//联系电话
+					ExcelUtil.createCell(row,cellStyle,record.get("phone"),4);
+					//性别
+					ExcelUtil.createCell(row,cellStyle,record.get("sex"),5);
+					//所属单位
+					ExcelUtil.createCell(row,cellStyle,record.get("dept_name"),6);
+					//通行区域
+					ExcelUtil.createCell(row,cellStyle,record.get("accessNames"),7);
+                    //入职时间
+                    ExcelUtil.createCell(row,cellStyle,record.get("intime"),8);
+					index++;
+				}
+				String fileName = String.format("员工信息数据报表_%s.xls",systemTimeFourteen);
+				String fileNameUrl = Constant.BASE_DOWNLOAD_PATH;
+				File exportFile = new File(fileNameUrl);
+				File file = new File(exportFile,fileName);
+				if(!exportFile.exists()){
+					exportFile.mkdirs();
+					if (!file.exists()){
+						file.createNewFile();
+					}
+				}else {
+					if (!file.exists()){
+						file.createNewFile();
+					}
+				}
+				os = new FileOutputStream(file);
+				workbook.write(os);
+				os.flush();
+				os.close();
+				renderFile(file);
+			}
+		}catch (Exception e){
+			log.error("错误信息：", e);
+			renderJson(RetUtil.fail(e.getCause().getLocalizedMessage()));
+		}finally {
+			if (os != null){
+				try {
+					os.close();
+				} catch (IOException e) {
+					log.error(e.getMessage(), e);
+				}
+			}
 		}
-		renderFile(exportFile);
+
+
 	}
-
-
 	public void batchUpdateTime() {
 
 		String strActiveDate =getPara("activeDate");
