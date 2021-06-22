@@ -47,6 +47,7 @@ public class LoginService {
 		VSysUser user = new VSysUser();
 		user.setId(id);
 		user.setPassword(passWord);
+		user.setExtra1("F");
 		user.setExtra3(com.xiaosong.util.DateUtil.getCurrentDateTime("yyyy-MM-dd HH:mm:ss"));
 		return user.update();
 	}

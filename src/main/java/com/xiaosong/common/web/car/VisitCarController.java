@@ -60,7 +60,10 @@ public class VisitCarController extends Controller {
         boolean isAdmin= IdCardUtil.isAdmin(userId);
             for (Record record : visitCarList.getList()) {
                 // 根据登入角色进行脱敏
-                record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
+//                System.out.println(record);
+                String decode = DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo"));
+//                log.info(decode);
+                record.set("idNo", IdCardUtil.desensitizedDesIdNumber(decode,isAdmin));
             }
 
             renderJson(RetUtil.okData(visitCarList));

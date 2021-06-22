@@ -57,7 +57,10 @@ public class LoginController extends Controller{
 					.token(token).username(userName)
 					.tel(user.getTel())
 					.userId(user.getId())
-					.userRole(user.getRoleId()).build();
+					.userRole(user.getRoleId())
+					.initialization(user.getExtra1())
+					.build();
+
 //			map.put("token", token);
 //			map.put("result", "success");
 //			map.put("username", userName);

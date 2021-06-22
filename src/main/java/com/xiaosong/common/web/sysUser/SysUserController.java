@@ -5,6 +5,7 @@ import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.xiaosong.model.VSysUser;
+import com.xiaosong.util.IdCardUtil;
 import com.xiaosong.util.MD5Util;
 import com.xiaosong.util.RetUtil;
 
@@ -52,6 +53,7 @@ public class SysUserController extends Controller{
 		user.setCreatetime(createtime);
 		user.setTrueName(trueName);
 		user.setParentId(userId);
+		user.setExtra1("T");
 		if(srv.findUser(username)) {
 			boolean bool = srv.addSysUser(user);
 			if(bool) {
@@ -114,6 +116,27 @@ public class SysUserController extends Controller{
 			renderJson(RetUtil.ok());
 		}else {
 			renderJson(RetUtil.fail());
+		}
+	}
+	/**
+	 * @Author: cwf
+	 * @Date: 2021/6/22 10:34
+	 * @Description:       初始化密码
+	*/
+	public void initialization(){
+		Long id = getLong("id");
+		boolean is = IdCardUtil.isAdmin(getHeader("userId"));
+		//如果是超级管理员 则可以重置密码
+		if (is) {
+			VSysUser user =new VSysUser().setId(id).setExtra1("T").setPassword("670b14728ad9902aecba32e22fa4f6bd");
+			boolean bool = srv.editSysUser(user);
+			if (bool){
+				renderJson(RetUtil.ok());
+			}else {
+				renderJson(RetUtil.fail());
+			}
+		}else {
+			renderJson(RetUtil.fail("非超级管理员！无权操作"));
 		}
 	}
 }

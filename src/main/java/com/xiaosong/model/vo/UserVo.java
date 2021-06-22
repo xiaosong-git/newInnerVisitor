@@ -23,6 +23,9 @@ public class UserVo implements Serializable{
     private Long userRole;
     private Long userId;
     private String tel;
+    //** 是否初始值
+    @Builder.Default
+    private String initialization="F";
     //是否验证码登入
     @Builder.Default
     private boolean codeLogin=false;

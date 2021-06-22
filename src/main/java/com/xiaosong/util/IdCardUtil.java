@@ -19,6 +19,9 @@ public class IdCardUtil {
             if (idNumber.length() == 18){
                 idNumber = idNumber.replaceAll("(\\w{6})\\w*(\\w{3})", "$1*********$2");
             }
+            else {
+                idNumber = idNumber.replaceAll("(\\w{6})\\w*(\\w{3})", "$1********$2");
+            }
         }
         return idNumber;
     }
