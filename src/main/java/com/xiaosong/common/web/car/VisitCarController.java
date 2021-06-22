@@ -195,7 +195,7 @@ public class VisitCarController extends Controller {
                 Record user_key = Db.findFirst("select * from v_user_key");
                 for (Record record : visitCarList) {
                     //根据登入角色进行脱敏
-                    record.set("idNO", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNO")),isAdmin));
+                    record.set("idNo", IdCardUtil.desensitizedDesIdNumber(DESUtil.decode(user_key.getStr("workKey"), record.getStr("idNo")),isAdmin));
                 }
                 String systemTimeFourteen = com.xiaosong.util.DateUtil.getSystemTimeFourteen();
                 String[] fields = {"姓名","身份证号","被访人/邀约人姓名","被访人/邀约人单位","访问时间","车牌号","通行方式","出入口","经办人","审核时间"};
