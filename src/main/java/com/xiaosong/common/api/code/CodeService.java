@@ -28,7 +28,7 @@ public class CodeService {
      * @param phone 手机号
      * @param code 验证码
      * @param type 1 对比成功后删除code，2 对比成功后不删除code
-     * @param sysCodeminute
+     * @param
      * @return
      */
     public Boolean verifyCode(String phone, String code, Integer type, String cacheType) {
@@ -39,13 +39,15 @@ public class CodeService {
         }
 //        CacheKit.put("CODE", phone,code);
         String cacheCode = CacheKit.get(cacheType, phone);
-
+        log.info("缓存中的code:{},传入的code:{}",cacheCode,code);
+        log.info("对比成功？{}",code.equals(cacheCode));
         //比对
         if (code.equals(cacheCode)) {
+
             if (type==2){
                 return true;
             }
-            CacheKit.remove(cacheType,phone);
+//            CacheKit.remove(cacheType,phone);
             return true;
         }
         //比对错误就删除
@@ -64,7 +66,7 @@ public class CodeService {
             //插入redis缓存别名为“db1”库的信息
              CacheKit.put(codeType, phone,code);//1800s
              Object ok = CacheKit.get(codeType, phone);
-
+            log.info("存储验证码成功！{},{} ",codeType,ok);
             return ok!=null?Result.success():Result.fail();
         } else {
             return Result.unDataResult("fail", state);

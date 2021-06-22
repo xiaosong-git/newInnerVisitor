@@ -25,10 +25,10 @@ public class CodeController extends Controller {
     Logger logger = LoggerFactory.getLogger(CodeController.class);
 
     //    //测试接口
-//    public void index(){
-//        codeService.verifyCode(get("phone"),get("code"),getInt("type"));
-//        renderText("haha");
-//    }
+    public void index(){
+        codeService.verifyCode(get("phone"),get("code"),getInt("type"),Constant.SYS_CODEMINUTE);
+        renderText("haha");
+    }
     public void sendCode() {
 
         String phone = get("phone");

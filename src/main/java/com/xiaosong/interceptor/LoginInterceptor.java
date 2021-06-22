@@ -37,9 +37,12 @@ public class LoginInterceptor implements Interceptor {
 		HttpServletResponse response = inv.getController().getResponse();
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,userId,token");//有些会把token放到header里,加在这里
-		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE");
 		Controller con = inv.getController();
+
 		String s = inv.getActionKey();
+//		String method = con.getRequest().getMethod();
+//		if ("OPTIONS".equals(method)){ return;}
 		Map<String, String> map = new HashMap<String, String>();
 		/*
 		 * if(s.contains("visitor/web/login")) { inv.invoke(); }
