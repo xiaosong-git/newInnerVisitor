@@ -38,7 +38,7 @@ public class LoginController extends Controller{
 		//跨域请求
 		HttpServletResponse response = getResponse();
 		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");//有些会把token放到header里,加在这里
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,userId,token");//有些会把token放到header里,加在这里
 		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		String token = UUID.randomUUID().toString();
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -80,7 +80,7 @@ public class LoginController extends Controller{
 	public void editPwd() throws Exception {
 		HttpServletResponse response = getResponse();
 		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");//有些会把token放到header里,加在这里
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,userId,token");//有些会把token放到header里,加在这里
 		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		Long id = getLong("userId");
 		String oldPwd = getPara("oldPwd");
@@ -115,7 +115,7 @@ public class LoginController extends Controller{
 	public void loginSms(){
 		HttpServletResponse response = getResponse();
 		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");//有些会把token放到header里,加在这里
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,userId,token");//有些会把token放到header里,加在这里
 		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		String userId = get("userId");
 
@@ -131,10 +131,4 @@ public class LoginController extends Controller{
 			renderJson(RetUtil.fail("验证码错误！"));
 		}
 	}
-
-
-
-
-
-
 }

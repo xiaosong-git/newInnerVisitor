@@ -36,7 +36,7 @@ public class LoginInterceptor implements Interceptor {
 		//跨域请求
 		HttpServletResponse response = inv.getController().getResponse();
 		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");//有些会把token放到header里,加在这里
+		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,userId,token");//有些会把token放到header里,加在这里
 		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		Controller con = inv.getController();
 		String s = inv.getActionKey();
