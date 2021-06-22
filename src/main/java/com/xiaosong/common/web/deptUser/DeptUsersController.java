@@ -767,7 +767,13 @@ public class DeptUsersController extends Controller{
 					//联系电话
 					ExcelUtil.createCell(row,cellStyle,record.get("phone"),4);
 					//性别
-					ExcelUtil.createCell(row,cellStyle,record.get("sex"),5);
+					String sex;
+					if ("1".equals(record.get("sex"))){
+						sex = "男";
+					}else {
+						sex = "女";
+					}
+					ExcelUtil.createCell(row,cellStyle,sex,5);
 					//所属单位
 					ExcelUtil.createCell(row,cellStyle,record.get("dept_name"),6);
 					//通行区域
