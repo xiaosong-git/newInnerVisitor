@@ -19,6 +19,7 @@ import com.xiaosong.model.VSysUser;
 import com.xiaosong.model.vo.UserVo;
 import com.xiaosong.util.IPUtil;
 import com.xiaosong.util.RetUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -27,7 +28,7 @@ import org.apache.log4j.Logger;
  * @author Administrator
  *
  */
-
+@Slf4j
 public class LoginInterceptor implements Interceptor {
 
 	Logger logger = Logger.getLogger(LoginInterceptor.class);
@@ -58,13 +59,16 @@ public class LoginInterceptor implements Interceptor {
 		 if(s.contains("visitor/web")) {
 			 HttpServletRequest request=con.getRequest();
 			 String token = request.getHeader("token");
+
 			 if (StringUtils.isEmpty(token)){
 				 token=request.getParameter("token");
 			 }
+
 			 String userId = request.getHeader("userId");
 			 if (StringUtils.isEmpty(userId)){
 				 userId=request.getParameter("userId");
 			 }
+			 logger.info("headToken:"+token+",userId:"+userId);
 			 UserVo user=CacheKit.get(Constant.SYS_ACCOUNT, userId);
 
 			 if(user!=null) {

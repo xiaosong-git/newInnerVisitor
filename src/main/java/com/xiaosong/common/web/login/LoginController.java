@@ -1,11 +1,5 @@
 package com.xiaosong.common.web.login;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import javax.servlet.http.HttpServletResponse;
-
 import cn.hutool.core.date.DateUtil;
 import com.jfinal.aop.Clear;
 import com.jfinal.aop.Inject;
@@ -19,6 +13,11 @@ import com.xiaosong.model.VSysUser;
 import com.xiaosong.model.vo.UserVo;
 import com.xiaosong.util.MD5Util;
 import com.xiaosong.util.RetUtil;
+import com.xiaosong.util.SqlInjectionUtil;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.UUID;
 
 import static com.xiaosong.constant.Constant.SYS_CODEMINUTE;
 
@@ -34,6 +33,7 @@ public class LoginController extends Controller{
 	public LoginService srv = LoginService.me;
 	@Inject
 	CodeService codeService ;
+
 	public void userlogin() throws Throwable {
 		//跨域请求
 		HttpServletResponse response = getResponse();
@@ -41,15 +41,22 @@ public class LoginController extends Controller{
 		response.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With,userId,token");//有些会把token放到header里,加在这里
 		response.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
 		String token = UUID.randomUUID().toString();
-		Map<String, Object> map = new HashMap<String, Object>();
+//		Map<String, Object> map = new HashMap<String, Object>();
 		//getResponse().addHeader("Access-Control-Allow-Origin", "*");
+//		HttpServletRequest request = getRequest();
 		String userName = getPara("username");
 		String passWord = getPara("password");
+		boolean valid = SqlInjectionUtil.isSqlValid(userName);
+//		boolean pvalid = isValid(passWord);
+		if (!valid){
+			renderJson(RetUtil.fail("非法字符！"));
+			return;
+		}
 		passWord = MD5Util.MD5(passWord);
 		VSysUser user = srv.checkLoginUser(userName, passWord);
 		if(user!=null) {
 
-			//todo app用户登入登入
+			//todo app用户登入
 			user.setToken(token);
 			user.setLogintime(DateUtil.now());
 			user.update();
@@ -131,4 +138,5 @@ public class LoginController extends Controller{
 			renderJson(RetUtil.fail("验证码错误！"));
 		}
 	}
+
 }
