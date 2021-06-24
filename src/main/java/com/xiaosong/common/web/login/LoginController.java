@@ -47,7 +47,6 @@ public class LoginController extends Controller{
 		String userName = getPara("username");
 		String passWord = getPara("password");
 		boolean valid = SqlInjectionUtil.isSqlValid(userName);
-//		boolean pvalid = isValid(passWord);
 		if (!valid){
 			renderJson(RetUtil.fail("非法字符！"));
 			return;

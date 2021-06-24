@@ -12,10 +12,7 @@ import com.xiaosong.constant.Constant;
 import com.xiaosong.interceptor.jsonbody.JsonBody;
 import com.xiaosong.model.VCar;
 import com.xiaosong.model.VDeptUser;
-import com.xiaosong.util.DESUtil;
-import com.xiaosong.util.ExcelUtil;
-import com.xiaosong.util.IdCardUtil;
-import com.xiaosong.util.RetUtil;
+import com.xiaosong.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -50,7 +47,14 @@ public class VisitCarController extends Controller {
             String endDate = get("endDate");
             String visitDept = get("visitDept");
 
-            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, getPara("plate"),getPara("cStatus"),startDate,endDate,visitDept);
+            String plate = getPara("plate");
+            String cStatus = getPara("cStatus");
+            boolean valid = SqlInjectionUtil.isSqlValid(plate)&&SqlInjectionUtil.isSqlValid(cStatus);
+            if (!valid){
+                renderJson(RetUtil.fail("非法字符！"));
+                return;
+            }
+            Page<Record> visitCarList = visitCarService.getVisitCarList(currentPage, pageSize, plate, cStatus,startDate,endDate,visitDept);
             //获取加密key
             Record user_key = Db.findFirst("select * from v_user_key");
            String userId = getHeader("userId");
