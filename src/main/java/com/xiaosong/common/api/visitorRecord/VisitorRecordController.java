@@ -334,13 +334,8 @@ public class VisitorRecordController extends Controller {
     public void findMyVisitList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
-       String userId = getHeader("userId");
-        if (StringUtils.isEmpty(userId)) {
-            userId = get("userId");
-        }
-        boolean isAdmin= IdCardUtil.isAdmin(userId);
         try {
-            renderText(JSON.toJSONString(visitorRecordService.findMyVisitList(getLong("userId"),isAdmin, pageNum, pageSize)));
+            renderText(JSON.toJSONString(visitorRecordService.findMyVisitList(getLong("userId"), pageNum, pageSize)));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
@@ -353,13 +348,8 @@ public class VisitorRecordController extends Controller {
     public void findMyApproveVisitList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
-       String userId = getHeader("userId");
-        if (StringUtils.isEmpty(userId)) {
-            userId = get("userId");
-        }
-        boolean isAdmin= IdCardUtil.isAdmin(userId);
         try {
-            renderText(JSON.toJSONString(visitorRecordService.findMyApproveVisitList(getLong("userId"),isAdmin, pageNum, pageSize, getInt("type"))));
+            renderText(JSON.toJSONString(visitorRecordService.findMyApproveVisitList(getLong("userId"),pageNum, pageSize, getInt("type"))));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));
@@ -372,13 +362,9 @@ public class VisitorRecordController extends Controller {
     public void findMyApproveCarList() {
         Integer pageNum = getAttrForInt("pageNum");
         Integer pageSize = getAttrForInt("pageSize");
-       String userId = getHeader("userId");
-        if (StringUtils.isEmpty(userId)) {
-            userId = get("userId");
-        }
-        boolean isAdmin= IdCardUtil.isAdmin(userId);
+
         try {
-            renderText(JSON.toJSONString(visitorRecordService.findMyApproveCarList(getLong("userId"), isAdmin,pageNum, pageSize, getInt("type"))));
+            renderText(JSON.toJSONString(visitorRecordService.findMyApproveCarList(getLong("userId"), pageNum, pageSize, getInt("type"))));
         } catch (Exception e) {
             log.error("系统异常：", e);
             renderText(JSON.toJSONString(Result.unDataResult(ConsantCode.FAIL, "系统异常")));

@@ -2,6 +2,8 @@ package com.xiaosong.util;
 
 import cn.hutool.crypto.SecureUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -152,6 +154,9 @@ public class SqlInjectionUtil {
      * @param str ep: "or 1=1"
      */
     public static boolean isSqlValid(String str) {
+        if (StringUtils.isEmpty(str)||StringUtils.isBlank(str)){
+            return true;
+        }
         Matcher matcher = sqlPattern.matcher(str);
         if (matcher.find()) {
             //获取非法字符：or

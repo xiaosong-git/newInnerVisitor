@@ -5,6 +5,8 @@ import com.xiaosong.model.VSysUser;
 import com.xiaosong.model.vo.UserVo;
 import org.apache.commons.lang3.StringUtils;
 
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Created by CNL on 2020/8/10.
  */
@@ -43,10 +45,14 @@ public class IdCardUtil {
      * @return
      */
     public static boolean  isAdmin(String userId){
-        UserVo user= CacheKit.get(Constant.SYS_ACCOUNT, userId);
-       if (user.getUserRole()==1L){
-           return true;
-       }
-        return false;
+        try {
+            UserVo user = CacheKit.get(Constant.SYS_ACCOUNT, userId);
+            if (user.getUserRole() == 1L) {
+                return true;
+            }
+            return false;
+        }catch(Exception e){
+            return false;
+        }
     }
 }
