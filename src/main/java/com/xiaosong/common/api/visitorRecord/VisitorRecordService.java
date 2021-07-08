@@ -1524,6 +1524,7 @@ public class VisitorRecordService extends MyBaseService {
         SqlPara sqlPara = new SqlPara();
         sqlPara.setSql(sql);
         sqlPara.addPara(userId);
+        sqlPara.addPara(userId);
 
         Page<Record> paginate = Db.paginate(pageNum, pageSize, sqlPara);
         Record user_key = Db.findFirst("select * from v_user_key");
